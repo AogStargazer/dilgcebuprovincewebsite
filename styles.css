@@ -1,0 +1,76 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Whitehella';
+    src: url('Whitehella.otf') format('opentype');
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+img {
+    max-width: 20%;
+    height: auto;
+}
+
+.coming-soon {
+    font-family: "Whitehella", cursive;
+    font-size: 2.5rem;
+    color: #333;
+    margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .coming-soon {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .coming-soon {
+        font-size: 1.5rem;
+    }
+    
+    .logo-container {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 1rem;
+    }
+    
+    img {
+        max-width: 30%;
+    }
+}
