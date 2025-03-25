@@ -176,6 +176,15 @@ img {
     transform: translateY(0);
 }
 
+/* New rule for nested dropdown menus */
+.has-dropdown ul.dropdown-menu li.has-dropdown:hover > ul.dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0.05s; /* Optional: maintain transition delay */
+    z-index: 110;
+}
+
 .dropdown-menu li {
     border-bottom: 1px solid #f0f0f0;
 }
@@ -195,6 +204,36 @@ img {
 .dropdown-menu a:hover {
     background-color: #f5f5f5;
     color: #0056b3;
+    padding-left: 18px;
+}
+
+/* Nested dropdown menu for LGU's (Cebu) with auto-scrolling */
+.main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu {
+    max-height: 300px; /* Adjust the value as needed */
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    border-left: 3px solid #0056b3;
+    z-index: 110;
+}
+
+/* Custom scrollbar for nested dropdowns */
+.main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }
 
 /* Custom font for PANGATUNGDANAN menu item */
@@ -205,24 +244,26 @@ a[href="index.html?p=1853.html"] {
 
 /* Dropdown indicator styles */
 .main-menu > li.has-dropdown > a::after {
-    content: "▼";
+    content: "\25BC"; /* Unicode down triangle */
     display: inline-block;
     margin-left: 5px;
-    font-size: 10px;
-    transition: transform 0.3s ease;
+    font-size: 9px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     vertical-align: middle;
+    opacity: 0.7;
 }
 
 .main-menu > li.has-dropdown > a .dropdown-indicator {
     display: inline-block;
     margin-left: 5px;
     font-size: 12px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .has-dropdown:hover > a .dropdown-indicator,
 .has-dropdown:hover > a::after {
     transform: rotate(180deg);
+    opacity: 1;
 }
 
 /* Mobile Menu Toggle */
@@ -301,17 +342,22 @@ a[href="index.html?p=1853.html"] {
         box-shadow: none;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease;
+        transition: max-height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        border-radius: 0;
     }
     
     .has-dropdown.open .dropdown-menu {
         max-height: 500px;
         overflow-y: auto;
+        border-left: 3px solid #0056b3;
+        background-color: #f9f9f9;
     }
     
     .has-dropdown.open > a .dropdown-indicator,
     .has-dropdown.open > a::after {
         transform: rotate(180deg);
+        opacity: 1;
+        color: #0056b3;
     }
     
     .dropdown-menu a {
