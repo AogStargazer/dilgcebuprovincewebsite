@@ -323,19 +323,227 @@ WebFont.load({
 		</div>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-a628aca elementor-arrows-position-inside elementor-pagination-position-outside elementor-widget elementor-widget-image-carousel" data-id="a628aca" data-element_type="widget" data-settings="{&quot;slides_to_show&quot;:&quot;1&quot;,&quot;navigation&quot;:&quot;both&quot;,&quot;autoplay&quot;:&quot;yes&quot;,&quot;pause_on_hover&quot;:&quot;yes&quot;,&quot;pause_on_interaction&quot;:&quot;yes&quot;,&quot;autoplay_speed&quot;:5000,&quot;infinite&quot;:&quot;yes&quot;,&quot;effect&quot;:&quot;slide&quot;,&quot;speed&quot;:500}" data-widget_type="image-carousel.default">
+				<div class="elementor-element elementor-element-a628aca elementor-widget elementor-widget-html" data-id="a628aca" data-element_type="widget" data-widget_type="html.default">
 				<div class="elementor-widget-container">
-							<div class="elementor-image-carousel-wrapper swiper" role="region" aria-roledescription="carousel" aria-label="Image Carousel" dir="ltr">
-			<div class="elementor-image-carousel swiper-wrapper" aria-live="off">
-								<div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/05/428623101_724924373158107_5015204433994975437_n-768x512.jpg" alt="428623101_724924373158107_5015204433994975437_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="2 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/04/439196962_759128249737993_5436842552755993087_n-1-768x432.jpg" alt="439196962_759128249737993_5436842552755993087_n (1)" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="3 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/05/439987051_758226476494563_2215866345966744011_n-768x413.jpg" alt="439987051_758226476494563_2215866345966744011_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="4 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/05/439849204_758226419827902_7498324489845946909_n-768x421.jpg" alt="439849204_758226419827902_7498324489845946909_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="5 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/04/439857988_758226496494561_7341533290458226390_n-768x432.jpg" alt="439857988_758226496494561_7341533290458226390_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="6 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/01/416881938_754219150074721_108304372449500786_n-768x512.jpg" alt="416881938_754219150074721_108304372449500786_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="7 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/01/420136011_762064029290233_4604730722315501631_n-768x576.jpg" alt="420136011_762064029290233_4604730722315501631_n" /></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="8 of 8"><figure class="swiper-slide-inner"><img decoding="async" class="swiper-slide-image" src="wp-content/uploads/2024/01/416877000_754221513407818_8392635095286380480_n-768x512.jpg" alt="416877000_754221513407818_8392635095286380480_n" /></figure></div>			</div>
-												<div class="elementor-swiper-button elementor-swiper-button-prev" role="button" tabindex="0">
-						<i aria-hidden="true" class="eicon-chevron-left"></i>					</div>
-					<div class="elementor-swiper-button elementor-swiper-button-next" role="button" tabindex="0">
-						<i aria-hidden="true" class="eicon-chevron-right"></i>					</div>
-				
-									<div class="swiper-pagination"></div>
-									</div>
+					<!-- Main Page Image Slider - Images should be placed in ./images/mainpagealbum/ folder -->
+					<style>
+						.main-slider-container {
+							width: 100%;
+							max-width: 1200px;
+							margin: 0 auto;
+							position: relative;
+							overflow: hidden;
+							border-radius: 8px;
+							box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+						}
+						
+						.main-slider {
+							display: flex;
+							transition: transform 0.5s ease;
+							height: 500px;
+						}
+						
+						.main-slide {
+							min-width: 100%;
+							height: 100%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							position: relative;
+						}
+						
+						.main-slide img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+						
+						.slider-nav {
+							position: absolute;
+							top: 50%;
+							transform: translateY(-50%);
+							width: 50px;
+							height: 50px;
+							background: rgba(0,0,0,0.5);
+							color: white;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							border-radius: 50%;
+							cursor: pointer;
+							font-size: 24px;
+							z-index: 10;
+							transition: background 0.3s;
+						}
+						
+						.slider-nav:hover {
+							background: rgba(0,0,0,0.8);
+						}
+						
+						.prev-slide {
+							left: 20px;
+						}
+						
+						.next-slide {
+							right: 20px;
+						}
+						
+						.slider-pagination {
+							position: absolute;
+							bottom: 20px;
+							left: 50%;
+							transform: translateX(-50%);
+							display: flex;
+							gap: 10px;
+						}
+						
+						.pagination-dot {
+							width: 12px;
+							height: 12px;
+							border-radius: 50%;
+							background: rgba(255,255,255,0.5);
+							cursor: pointer;
+							transition: background 0.3s;
+						}
+						
+						.pagination-dot.active {
+							background: white;
+						}
+						
+						.slider-note {
+							text-align: center;
+							margin-top: 10px;
+							font-style: italic;
+							color: #666;
+							font-size: 14px;
+						}
+					</style>
+					
+					<div style="height: 32px;"></div>
+					<div class="main-slider-container">
+						<div class="main-slider" id="mainPageSlider">
+							<!-- Updated slider with 11 images from mainpagealbum folder (1.jpg to 11.jpg) -->
+							<div class="main-slide">
+								<img src="images/mainpagealbum/1.jpg" alt="DILG Cebu Province Image 1">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/2.jpg" alt="DILG Cebu Province Image 2">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/3.jpg" alt="DILG Cebu Province Image 3">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/4.jpg" alt="DILG Cebu Province Image 4">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/5.jpg" alt="DILG Cebu Province Image 5">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/6.jpg" alt="DILG Cebu Province Image 6">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/7.jpg" alt="DILG Cebu Province Image 7">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/8.jpg" alt="DILG Cebu Province Image 8">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/9.jpg" alt="DILG Cebu Province Image 9">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/10.jpg" alt="DILG Cebu Province Image 10">
+							</div>
+							<div class="main-slide">
+								<img src="images/mainpagealbum/11.jpg" alt="DILG Cebu Province Image 11">
+							</div>
 						</div>
+						
+						<div class="slider-nav prev-slide">&#10094;</div>
+						<div class="slider-nav next-slide">&#10095;</div>
+						
+						<div class="slider-pagination" id="sliderPagination"></div>
+					</div>
+					
+					<div class="slider-note"></div>
+					
+					<script>
+						document.addEventListener('DOMContentLoaded', function() {
+							const slider = document.getElementById('mainPageSlider');
+							const slides = document.querySelectorAll('.main-slide');
+							const prevBtn = document.querySelector('.prev-slide');
+							const nextBtn = document.querySelector('.next-slide');
+							const pagination = document.getElementById('sliderPagination');
+							
+							let currentSlide = 0;
+							const slideCount = slides.length;
+							
+							// Create pagination dots
+							for (let i = 0; i < slideCount; i++) {
+								const dot = document.createElement('div');
+								dot.classList.add('pagination-dot');
+								if (i === 0) dot.classList.add('active');
+								dot.addEventListener('click', () => goToSlide(i));
+								pagination.appendChild(dot);
+							}
+							
+							// Update pagination
+							function updatePagination() {
+								const dots = document.querySelectorAll('.pagination-dot');
+								dots.forEach((dot, index) => {
+									if (index === currentSlide) {
+										dot.classList.add('active');
+									} else {
+										dot.classList.remove('active');
+									}
+								});
+							}
+							
+							// Go to specific slide
+							function goToSlide(index) {
+								currentSlide = index;
+								slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+								updatePagination();
+							}
+							
+							// Next slide
+							function nextSlide() {
+								currentSlide = (currentSlide + 1) % slideCount;
+								goToSlide(currentSlide);
+							}
+							
+							// Previous slide
+							function prevSlide() {
+								currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+								goToSlide(currentSlide);
+							}
+							
+							// Event listeners
+							prevBtn.addEventListener('click', prevSlide);
+							nextBtn.addEventListener('click', nextSlide);
+							
+							// Auto slide
+							let interval = setInterval(nextSlide, 5000);
+							
+							// Pause on hover
+							slider.parentElement.addEventListener('mouseenter', () => {
+								clearInterval(interval);
+							});
+							
+							slider.parentElement.addEventListener('mouseleave', () => {
+								interval = setInterval(nextSlide, 5000);
+							});
+							
+							// Handle keyboard navigation
+							document.addEventListener('keydown', (e) => {
+								if (e.key === 'ArrowLeft') {
+									prevSlide();
+								} else if (e.key === 'ArrowRight') {
+									nextSlide();
+								}
+							});
+						});
+					</script>
+				</div>
 				</div>
 				<div class="elementor-element elementor-element-32388a3 elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="32388a3" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">

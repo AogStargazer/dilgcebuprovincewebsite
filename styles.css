@@ -517,6 +517,142 @@ body:not(.landing-page) .container {
     }
 }
 
+/* Main Page Slider Styles */
+.main-slider-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    /* Added to ensure container is centered on page */
+    display: flex;
+    justify-content: center;
+}
+
+.main-slider {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 500px;
+    /* Ensures proper alignment of all 11 slider images */
+    align-items: center;
+}
+
+.main-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.main-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: none;
+    /* Ensures images maintain aspect ratio while filling the container */
+    object-position: center;
+}
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.slider-nav:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.prev-slide {
+    left: 20px;
+}
+
+.next-slide {
+    right: 20px;
+}
+
+.slider-pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.pagination-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.pagination-dot.active {
+    background: white;
+}
+
+.slider-note {
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive Slider Adjustments */
+@media screen and (max-width: 992px) {
+    .main-slider {
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-slider {
+        height: 300px;
+    }
+    
+    .slider-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-slider {
+        height: 200px;
+    }
+    
+    .slider-nav {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .pagination-dot {
+        width: 8px;
+        height: 8px;
+    }
+}
+
 /* LGU's Menu Grid Styles */
 /* 
  * The LGU menu should be organized as follows:

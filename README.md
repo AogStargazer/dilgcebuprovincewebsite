@@ -22,7 +22,8 @@ dilgcebuprovincewebsite-1/
 ├── images/                 # Image files
 │   ├── logo.png            # DILG Cebu Province Logo
 │   ├── lgrc.png            # LGRC Logo
-│   └── Cebu_Capitol_Compund.png  # Background image
+│   ├── Cebu_Capitol_Compund.png  # Background image
+│   └── mainpagealbum/      # Folder for main page image slider
 └── README.md               # This file
 ```
 
@@ -33,6 +34,15 @@ The main `styles.css` file is located at the repository root for optimal compati
 ## Background Image
 
 Ensure the file `Cebu_Capitol_Compund.png` is placed in both the `./images/` and `./main/image/` directories for proper background rendering in both local and GitHub Pages environments.
+
+## Image Slider
+
+The main page features a centered, large image slider that displays images from the `./images/mainpagealbum/` directory. To add or update images in the slider:
+
+1. Create the `mainpagealbum` folder inside the `images` directory if it doesn't exist
+2. Place your slider images in this folder
+3. The slider will automatically display all images from this location
+4. For best results, use landscape-oriented images with consistent dimensions
 
 ## Font Usage
 
