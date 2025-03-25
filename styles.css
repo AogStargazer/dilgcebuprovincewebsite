@@ -7,12 +7,14 @@
 
 @font-face {
     font-family: 'EuphoriaScript';
-    src: url('main/fonts/EuphoriaScript-Regular.ttf') format('truetype');
+    src: url('assets/fonts/EuphoriaScript-Regular.ttf') format('truetype');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'Whitehella';
-    src: url('Whitehella.otf') format('opentype');
+    src: url('assets/fonts/Whitehella.otf') format('opentype');
+    font-display: swap;
 }
 
 body {
@@ -316,6 +318,7 @@ a[href="index.html?p=1853.html"] {
 body {
     padding-top: 80px;
     display: block;
+    padding-bottom: 60px; /* Add space for footer */
 }
 
 /* Override container styles for pages with navigation */
@@ -328,4 +331,168 @@ body:not(.landing-page) .container {
 .jupiterx-navbar-brand-img {
     width: 80%;
     height: auto;
+}
+
+/* Footer Styles */
+.jupiterx-footer {
+    background-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 30px;
+}
+
+.jupiterx-footer-widgets {
+    padding: 20px 0;
+}
+
+/* Footer Menu Styles */
+.jupiterx-footer-menu {
+    border-top: 1px solid #f0f0f0;
+    padding: 20px 0;
+}
+
+.footer-navigation {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-navigation .main-menu {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+}
+
+.footer-navigation .main-menu > li {
+    position: relative;
+    margin: 0 10px;
+}
+
+.footer-navigation .main-menu > li > a {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-navigation .main-menu > li > a:hover {
+    color: #0056b3;
+}
+
+/* Footer Dropdown Menu Styles */
+.footer-navigation .dropdown-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    min-width: 200px;
+    background-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+    list-style: none;
+}
+
+.footer-navigation .has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.footer-navigation .dropdown-menu li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.footer-navigation .dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+.footer-navigation .dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.footer-navigation .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: #0056b3;
+}
+
+/* Footer Dropdown indicator styles */
+.footer-navigation .main-menu > li.has-dropdown > a::after {
+    content: "▲";
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+}
+
+.footer-navigation .has-dropdown:hover > a::after {
+    transform: rotate(180deg);
+}
+
+/* Copyright Section */
+.jupiterx-subfooter {
+    background-color: #f8f8f8;
+    padding: 15px 0;
+    text-align: center;
+    border-top: 1px solid #eaeaea;
+}
+
+.jupiterx-subfooter-copyright {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Responsive Footer */
+@media screen and (max-width: 768px) {
+    .footer-navigation .main-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-navigation .main-menu > li {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .footer-navigation .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        width: 100%;
+    }
+    
+    .footer-navigation .has-dropdown.open .dropdown-menu {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    
+    .footer-navigation .dropdown-menu a {
+        padding-left: 30px;
+    }
+    
+    .jupiterx-footer-widgets .row {
+        flex-direction: column;
+    }
+    
+    .jupiterx-footer-widgets .col-md-3 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
