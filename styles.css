@@ -7,10 +7,31 @@
     background-repeat: no-repeat;
 }
 
-.main-page {
-    background: url('./main/images/Cebu_Capitol_Compound.png') no-repeat center center fixed;
+.root-page {
+    background: url('./images/Cebu_Capitol_Compound.png') no-repeat center center fixed;
     background-size: cover;
     background-attachment: fixed;
+}
+
+.main-page {
+    background: url('images/Cebu_Capitol_Compound.png') no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Add dark mode support using prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+    .root-page {
+        background: url('./images/Cebu_Capitol_Compound_Night.png') no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    
+    .main-page {
+        background: url('images/Cebu_Capitol_Compound_Night.png') no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+    }
 }
 
 /* Reset default browser styles */

@@ -36,7 +36,9 @@ The main `styles.css` file is located at the repository root for optimal compati
 
 ## Background Images
 
-The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM). For proper functionality, ensure the following files are placed in their respective directories:
+The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM). 
+
+**IMPORTANT:** These background images are **required** for the website to function properly. If you're experiencing missing backgrounds, please ensure the following files are placed in their respective directories:
 
 1. For the landing page (root-page):
    - `Cebu_Capitol_Compound.png` (daytime) in the `./images/` directory
@@ -46,7 +48,7 @@ The website features dynamic background images that change based on the time of 
    - `Cebu_Capitol_Compound.png` (daytime) in the `./main/images/` directory
    - `Cebu_Capitol_Compound_Night.png` (nighttime) in the `./main/images/` directory
 
-**Note:** The filenames are case-sensitive and must match exactly as shown above. The background-switcher.js script automatically detects the time and switches between these images.
+**Note:** The filenames are case-sensitive and must match exactly as shown above. The background-switcher.js script automatically detects the time and switches between these images. If these directories don't exist, you'll need to create them manually.
 
 ## Image Slider
 
