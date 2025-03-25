@@ -11,7 +11,9 @@ dilgcebuprovincewebsite-1/
 ├── index.html              # Landing page
 ├── styles.css              # Main CSS file (at repository root)
 ├── main/                   # Main website content
-│   └── index.html          # Main website homepage
+│   ├── index.html          # Main website homepage
+│   └── image/              # Images for main section
+│       └── Cebu_Capitol_Compund.png  # Background image
 ├── assets/                 # Asset files
 │   ├── fonts/              # Custom fonts
 │   │   ├── EuphoriaScript-Regular.ttf
@@ -19,13 +21,18 @@ dilgcebuprovincewebsite-1/
 │   └── js/                 # JavaScript files
 ├── images/                 # Image files
 │   ├── logo.png            # DILG Cebu Province Logo
-│   └── lgrc.png            # LGRC Logo
+│   ├── lgrc.png            # LGRC Logo
+│   └── Cebu_Capitol_Compund.png  # Background image
 └── README.md               # This file
 ```
 
 ## CSS Structure
 
 The main `styles.css` file is located at the repository root for optimal compatibility with GitHub Pages. This ensures that styles are properly applied regardless of which page is being viewed.
+
+## Background Image
+
+Ensure the file `Cebu_Capitol_Compund.png` is placed in both the `./images/` and `./main/image/` directories for proper background rendering in both local and GitHub Pages environments.
 
 ## Font Usage
 
