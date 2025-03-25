@@ -43,7 +43,8 @@ function isDaytime() {
  */
 function updateBackgroundBasedOnTime() {
     // Determine if it's daytime or nighttime
-    const daytime = isDaytime();
+    function updateBackgroundBasedOnTime() {
+        const daytime = isDaytime();
     
     // Select all elements with the specified classes
     const rootPageElements = document.querySelectorAll('.root-page');
@@ -51,23 +52,24 @@ function updateBackgroundBasedOnTime() {
     
     // Set the appropriate background image paths based on time of day
     const rootBackgroundImage = daytime 
-        ? './images/Cebu_Capitol_Compund.png' 
-        : './images/Cebu_Capitol_Compund_Night.png';
+        ? './images/Cebu_Capitol_Compound.png' 
+        : './images/Cebu_Capitol_Compound_Night.png';
     
     const mainBackgroundImage = daytime 
-        ? './main/images/Cebu_Capitol_Compund.png' 
-        : './main/images/Cebu_Capitol_Compund_Night.png';
+        ? './main/images/Cebu_Capitol_Compound.png' 
+        : './main/images/Cebu_Capitol_Compound_Night.png';
     
-    // Update the background image for root-page elements
-    rootPageElements.forEach(element => {
-        element.style.backgroundImage = `url('${rootBackgroundImage}')`;
+    // Add cache-busting query parameter to prevent caching issues
+    const timestamp = `?v=${Date.now()}`;
+
+    // Apply background images
+    document.querySelectorAll('.root-page').forEach(element => {
+        element.style.backgroundImage = `url('${rootBackgroundImage + timestamp}')`;
     });
-    
-    // Update the background image for main-page elements
-    mainPageElements.forEach(element => {
-        element.style.backgroundImage = `url('${mainBackgroundImage}')`;
+
+    document.querySelectorAll('.main-page').forEach(element => {
+        element.style.backgroundImage = `url('${mainBackgroundImage + timestamp}')`;
     });
-    
-    // Log the time and background change (for debugging purposes)
-    console.log(`Background updated at ${new Date().toLocaleTimeString()}: ${daytime ? 'Daytime' : 'Nighttime'} mode`);
+
+    console.log(`Background updated: ${daytime ? 'Daytime' : 'Nighttime'} mode.`);
 }

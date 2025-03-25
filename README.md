@@ -12,17 +12,20 @@ dilgcebuprovincewebsite-1/
 ├── styles.css              # Main CSS file (at repository root)
 ├── main/                   # Main website content
 │   ├── index.html          # Main website homepage
-│   └── image/              # Images for main section
-│       └── Cebu_Capitol_Compund.png  # Background image
+│   └── images/             # Images for main section
+│       ├── Cebu_Capitol_Compound.png       # Daytime background image
+│       └── Cebu_Capitol_Compound_Night.png # Nighttime background image
 ├── assets/                 # Asset files
 │   ├── fonts/              # Custom fonts
 │   │   ├── EuphoriaScript-Regular.ttf
 │   │   └── Whitehella.otf
 │   └── js/                 # JavaScript files
+│       └── background-switcher.js  # Script for day/night background switching
 ├── images/                 # Image files
 │   ├── logo.png            # DILG Cebu Province Logo
 │   ├── lgrc.png            # LGRC Logo
-│   ├── Cebu_Capitol_Compund.png  # Background image
+│   ├── Cebu_Capitol_Compound.png       # Daytime background image
+│   ├── Cebu_Capitol_Compound_Night.png # Nighttime background image
 │   └── mainpagealbum/      # Folder for main page image slider
 └── README.md               # This file
 ```
@@ -31,9 +34,19 @@ dilgcebuprovincewebsite-1/
 
 The main `styles.css` file is located at the repository root for optimal compatibility with GitHub Pages. This ensures that styles are properly applied regardless of which page is being viewed.
 
-## Background Image
+## Background Images
 
-Ensure the file `Cebu_Capitol_Compund.png` is placed in both the `./images/` and `./main/image/` directories for proper background rendering in both local and GitHub Pages environments.
+The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM). For proper functionality, ensure the following files are placed in their respective directories:
+
+1. For the landing page (root-page):
+   - `Cebu_Capitol_Compound.png` (daytime) in the `./images/` directory
+   - `Cebu_Capitol_Compound_Night.png` (nighttime) in the `./images/` directory
+
+2. For the main website (main-page):
+   - `Cebu_Capitol_Compound.png` (daytime) in the `./main/images/` directory
+   - `Cebu_Capitol_Compound_Night.png` (nighttime) in the `./main/images/` directory
+
+**Note:** The filenames are case-sensitive and must match exactly as shown above. The background-switcher.js script automatically detects the time and switches between these images.
 
 ## Image Slider
 
@@ -68,6 +81,8 @@ To deploy this website on GitHub Pages:
 3. **Path Configuration**:
    - The site uses both absolute paths (starting with `/`) and relative paths (starting with `./`) for CSS and assets to ensure compatibility with GitHub Pages.
    - The main CSS file should remain at the repository root.
+   - **Important:** Make sure all background images are placed in their correct directories as specified in the "Background Images" section above. The relative paths (`./images/` and `./main/images/`) are critical for proper rendering on GitHub Pages.
+   - Double-check that all filenames match exactly, including capitalization (e.g., `Cebu_Capitol_Compound.png`, not `cebu_capitol_compound.png` or `Cebu_Capitol_Compund.png`).
 
 4. **Testing**:
    - After deployment, verify all pages render correctly
