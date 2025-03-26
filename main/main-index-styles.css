@@ -1,0 +1,87 @@
+/* main-index-styles.css: Specific styles for main/index.html to override global container styles and use CSS Grid layout for the logo and text block */
+
+/* Use a selector with higher specificity than the global .container style */
+body.home .container.grid-layout {
+  display: flex !important; /* Use flexbox for better control */
+  flex-direction: row; /* Ensure horizontal alignment */
+  align-items: center !important; /* Vertically center items */
+  gap: 15px !important; /* Reduce excessive spacing */
+  width: 100% !important;
+  justify-content: center; /* Ensures both elements stay centered together */
+}
+
+body.home .container.grid-layout .logo {
+  width: 200px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  flex-shrink: 0; /* Prevents logo from shrinking */
+}
+
+body.home .container.grid-layout .text-content {
+  max-width: 600px;
+  flex-grow: 1; /* Allow text content to take remaining space */
+}
+
+body.home .container.grid-layout .heading {
+  color: rgb(14, 98, 134);
+  font-size: 1.55rem; /* Increased from 1.25rem */
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+body.home .container.grid-layout .paragraph {
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Helvetica, sans-serif;
+  font-size: 1.05rem; /* Increased from default size */
+  line-height: 1.6; /* Improves readability */
+  text-align: left;
+}
+
+body.home .container.grid-layout .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body.home .container.grid-layout .elementor-button {
+  background-color: #0e6286; /* Matching heading color */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  font-weight: bold;
+}
+
+body.home .container.grid-layout .elementor-button:hover {
+  background-color: #094861; /* Darker on hover */
+}
+
+
+/* Ensure the Learn More button fits the text properly */
+body.home .container.grid-layout .learn-more-container {
+  margin-top: 15px; /* Add some space between paragraph and button */
+}
+
+body.home .container.grid-layout .learn-more-container .elementor-button {
+  background-color: #0e6286; /* Match heading color */
+  color: white;
+  padding: 8px 16px; /* Adjust padding for a compact button */
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  display: inline-block; /* Prevents full width */
+  font-weight: bold;
+  text-align: center;
+  width: auto; /* Ensure button width adjusts to text */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+body.home .container.grid-layout .learn-more-container .elementor-button:hover {
+  background-color: #094861; /* Darker on hover */
+}
