@@ -92,6 +92,30 @@
         color: #666;
         font-size: 14px;
       }
+      /* Mobile responsiveness for slider */
+      @media (max-width: 768px) {
+        /* Adjust slider container and slider height on mobile */
+        .main-slider {
+          height: 250px; /* Reduced height for mobile screens */
+        }
+        
+        /* Adjust slider navigation buttons for a better touch experience */
+        .slider-nav {
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+        
+        /* Adjust pagination dots position for better visibility */
+        .slider-pagination {
+          bottom: 10px;
+        }
+        
+        .pagination-dot {
+          width: 10px;
+          height: 10px;
+        }
+      }
       /* Consolidated Image Row CSS */
       .image-row {
         display: flex;
