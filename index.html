@@ -5,90 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DILG Cebu Province</title>
     <link rel="icon" href="https://cebuprovincedilg.duckdns.org/main/favicon.ico" type="image/x-icon" />
-    <!-- Using root-relative path for better compatibility with GitHub Pages -->
-    <link rel="stylesheet" href="/styles.css">
-    <!-- Fallback to relative path if not at root -->
     <link rel="stylesheet" href="./styles.css">
-    
-    <!-- Mobile-specific styles -->
-    <style>
-        /* Mobile Styling - Common */
-        @media screen and (max-width: 768px) {
-            .container {
-                padding: 15px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .logo-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .logo-container img {
-                max-width: 80%;
-                height: auto;
-                margin: 10px 0;
-            }
-            
-            .coming-soon {
-                font-size: 1.5rem;
-                margin-top: 20px;
-            }
-            
-            .coming-soon a {
-                padding: 10px 15px;
-            }
-        }
-        
-        /* Mobile Styling - Portrait */
-        @media screen and (max-width: 768px) and (orientation: portrait) {
-            .root-page {
-                padding: 10px;
-            }
-            
-            .logo-container img {
-                max-width: 90%;
-            }
-            
-            .coming-soon {
-                margin-top: 30px;
-            }
-        }
-        
-        /* Mobile Styling - Landscape */
-        @media screen and (max-width: 768px) and (orientation: landscape) {
-            .root-page {
-                padding: 5px;
-            }
-            
-            .logo-container {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .logo-container img {
-                max-width: 40%;
-                margin: 0 10px;
-            }
-            
-            .coming-soon {
-                margin-top: 10px;
-            }
-        }
-    </style>
 </head>
 <body class="root-page">
-    <!-- Main navigation removed - this page serves as a gateway to the main site -->
-    <div class="container">
-        <div class="logo-container">
-            <!-- Using relative paths for images that work both locally and on GitHub Pages -->
-            <img src="./images/logo.png" alt="DILG Cebu Province Logo">
-            <img src="./images/lgrc.png" alt="LGRC Logo">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img src="./images/logo.png" alt="DILG Cebu Province Logo">
+                <img src="./images/lgrc.png" alt="LGRC Logo">
+            </div>
+            <h1 class="coming-soon"><a href="main/index.html">Coming Soon!</a></h1>
         </div>
-        <p class="coming-soon"><a href="main/index.html">Coming Soon!</a></p>
-    </div>
-    <!-- JavaScript for menu functionality removed as it's no longer needed -->
-    <script src="assets/js/background-switcher.js"></script>
+    </header>
+    <script src="./assets/js/background-switcher.js"></script>
+    <script>
+        // Ensure DOM is fully loaded before loading scroll restoration script
+        document.addEventListener('DOMContentLoaded', function() {
+          // Create and load the scroll restoration script
+          const scrollScript = document.createElement('script');
+          scrollScript.src = "../assets/js/scroll-restoration.js";
+          scrollScript.async = false; // Ensure script executes in order
+          document.body.appendChild(scrollScript);
+        });
+      </script>
 </body>
 </html>
