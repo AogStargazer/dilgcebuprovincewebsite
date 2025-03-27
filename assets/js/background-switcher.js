@@ -1,15 +1,25 @@
 /**
  * background-switcher.js
  * Dynamically changes background images based on the time in the Philippines.
+ * This script handles both the landing page and main site pages by detecting
+ * the appropriate image path based on page location.
  */
 
 // Base paths for background images based on page location
-const ROOT_IMAGES_PATH = './images/';
-const MAIN_IMAGES_PATH = '../images/';
+const ROOT_IMAGES_PATH = './images/';  // For landing/root page
+const MAIN_IMAGES_PATH = '../images/'; // For inner pages
+
+// Image filenames
+const DAYTIME_IMAGE = 'Cebu_Capitol_Compound.png';
+const NIGHTTIME_IMAGE = 'Cebu_Capitol_Compound_Night.png';
 
 // Execute when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    updateBackgroundBasedOnTime();
+    try {
+        updateBackgroundBasedOnTime();
+    } catch (error) {
+        console.error('Error updating background:', error);
+    }
 });
 
 /**
@@ -17,9 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
  * @returns {number} The current hour (0-23)
  */
 function getCurrentPhilippinesHour() {
-    const now = new Date();
-    const philippinesTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
-    return philippinesTime.getHours();
+    try {
+        const now = new Date();
+        const philippinesTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+        return philippinesTime.getHours();
+    } catch (error) {
+        console.error('Error getting Philippines time:', error);
+        // Fallback to local time if timezone conversion fails
+        return new Date().getHours();
+    }
 }
 
 /**
@@ -34,28 +50,38 @@ function isDaytime() {
 
 /**
  * Updates the background images based on time of day
+ * Uses a cache-busting timestamp to ensure fresh images are loaded
+ * when the time of day changes (prevents browser caching issues)
  */
 function updateBackgroundBasedOnTime() {
-    const daytime = isDaytime();
-    const timestamp = `?v=${Date.now()}`;
-
+    const isDaytimeNow = isDaytime();
+    // Cache-busting parameter to force browser to reload images when they change
+    const cacheParam = `?v=${Date.now()}`;
+    
+    // Find all elements that need background updates
     document.querySelectorAll('.root-page, .main-page').forEach(element => {
         // Determine which base path to use based on the element's class
-        let basePath;
+        let imagePath;
         if (element.classList.contains('root-page')) {
-            basePath = ROOT_IMAGES_PATH;
+            imagePath = ROOT_IMAGES_PATH;
         } else if (element.classList.contains('main-page')) {
-            basePath = MAIN_IMAGES_PATH;
+            imagePath = MAIN_IMAGES_PATH;
+        } else {
+            console.warn('Element has neither root-page nor main-page class:', element);
+            return; // Skip this element
         }
 
-        // Set the appropriate image based on time of day
-        const backgroundImage = daytime 
-            ? basePath + 'Cebu_Capitol_Compound.png' 
-            : basePath + 'Cebu_Capitol_Compound_Night.png';
-
-        // Apply the background image with cache-busting timestamp
-        element.style.backgroundImage = `url('${backgroundImage + timestamp}')`;
+        // Select the appropriate image based on time of day
+        const imageFile = isDaytimeNow ? DAYTIME_IMAGE : NIGHTTIME_IMAGE;
+        const fullImagePath = imagePath + imageFile;
+        
+        try {
+            // Apply the background image with cache-busting parameter
+            element.style.backgroundImage = `url('${fullImagePath + cacheParam}')`;
+        } catch (error) {
+            console.error('Failed to set background image:', error);
+        }
     });
 
-    console.log(`Background updated: ${daytime ? 'Daytime' : 'Nighttime'} mode.`);
+    console.log(`Background updated: ${isDaytimeNow ? 'Daytime' : 'Nighttime'} mode.`);
 }

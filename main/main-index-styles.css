@@ -1,87 +1,122 @@
-/* main-index-styles.css: Specific styles for main/index.html to override global container styles and use CSS Grid layout for the logo and text block */
+/* ==========================================================================
+   MAIN INDEX STYLES
+   Specific styles for main/index.html to override global container styles
+   and implement responsive flex layout for the logo and text block
+   ========================================================================== */
 
-/* Use a selector with higher specificity than the global .container style */
-body.home .container.grid-layout {
-  display: flex !important; /* Use flexbox for better control */
-  flex-direction: row; /* Ensure horizontal alignment */
-  align-items: center !important; /* Vertically center items */
-  gap: 15px !important; /* Reduce excessive spacing */
-  width: 100% !important;
-  justify-content: center; /* Ensures both elements stay centered together */
+/* Main container layout - using higher specificity instead of !important */
+html body.home .container.grid-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(10px, 2vw, 15px);
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-body.home .container.grid-layout .logo {
-  width: 200px;
+/* Logo styling with responsive dimensions */
+html body.home .container.grid-layout .logo {
+  width: clamp(150px, 20vw, 200px);
   height: auto;
-  max-height: 200px;
+  max-height: clamp(150px, 20vw, 200px);
   object-fit: contain;
-  flex-shrink: 0; /* Prevents logo from shrinking */
+  flex-shrink: 0;
 }
 
-body.home .container.grid-layout .text-content {
-  max-width: 600px;
-  flex-grow: 1; /* Allow text content to take remaining space */
+/* Text content container */
+html body.home .container.grid-layout .text-content {
+  max-width: min(600px, 90%);
+  flex-grow: 1;
 }
 
-body.home .container.grid-layout .heading {
-  color: rgb(14, 98, 134);
-  font-size: 1.55rem; /* Increased from 1.25rem */
+/* Typography styles */
+html body.home .container.grid-layout .heading {
+  color: rgb(14, 98, 134); /* Primary brand color */
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
   font-weight: bold;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   text-align: left;
 }
 
-body.home .container.grid-layout .paragraph {
+html body.home .container.grid-layout .paragraph {
   color: rgba(0, 0, 0, 0.85);
   font-family: Helvetica, sans-serif;
-  font-size: 1.05rem; /* Increased from default size */
-  line-height: 1.6; /* Improves readability */
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  line-height: 1.6;
   text-align: left;
+  margin-bottom: 1rem;
 }
 
-body.home .container.grid-layout .button-container {
+/* ==========================================================================
+   BUTTON STYLES
+   ========================================================================== */
+
+/* Button container styles */
+html body.home .container.grid-layout .button-container,
+html body.home .container.grid-layout .learn-more-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  margin-top: 1rem;
 }
 
-body.home .container.grid-layout .elementor-button {
-  background-color: #0e6286; /* Matching heading color */
+/* Common button styles */
+html body.home .container.grid-layout .elementor-button {
+  --button-bg-color: #0e6286;
+  --button-hover-color: #094861;
+  
+  background-color: var(--button-bg-color);
   color: white;
-  padding: 12px 24px;
   border-radius: 5px;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+/* Standard button with icon */
+html body.home .container.grid-layout .button-container .elementor-button {
+  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icon and text */
-  font-weight: bold;
+  gap: 10px;
 }
 
-body.home .container.grid-layout .elementor-button:hover {
-  background-color: #094861; /* Darker on hover */
-}
-
-
-/* Ensure the Learn More button fits the text properly */
-body.home .container.grid-layout .learn-more-container {
-  margin-top: 15px; /* Add some space between paragraph and button */
-}
-
-body.home .container.grid-layout .learn-more-container .elementor-button {
-  background-color: #0e6286; /* Match heading color */
-  color: white;
-  padding: 8px 16px; /* Adjust padding for a compact button */
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 1rem;
-  display: inline-block; /* Prevents full width */
-  font-weight: bold;
+/* Learn more button specific styles */
+html body.home .container.grid-layout .learn-more-container .elementor-button {
+  padding: 0.5rem 1rem;
+  display: inline-block;
   text-align: center;
-  width: auto; /* Ensure button width adjusts to text */
-  white-space: nowrap; /* Prevents text from wrapping */
+  width: auto;
+  white-space: nowrap;
 }
 
-body.home .container.grid-layout .learn-more-container .elementor-button:hover {
-  background-color: #094861; /* Darker on hover */
+/* Hover state for all buttons */
+html body.home .container.grid-layout .elementor-button:hover {
+  background-color: var(--button-hover-color);
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  html body.home .container.grid-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  html body.home .container.grid-layout .heading,
+  html body.home .container.grid-layout .paragraph {
+    text-align: center;
+  }
+  
+  html body.home .container.grid-layout .button-container,
+  html body.home .container.grid-layout .learn-more-container {
+    justify-content: center;
+  }
 }

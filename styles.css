@@ -1,39 +1,35 @@
-/* Fullscreen Background Styles */
+/* -------------------- Background Styling -------------------- */
+/* Shared styles for fullscreen background */
 .root-page, .main-page {
     width: 100vw;
     height: 100vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
+/* Light mode backgrounds */
 .root-page {
-    background: url('./images/Cebu_Capitol_Compound.png') no-repeat center center fixed;
-    background-size: cover;
-    background-attachment: fixed;
+    background-image: url('./images/Cebu_Capitol_Compound.png');
 }
 
 .main-page {
-    background: url('images/Cebu_Capitol_Compound.png') no-repeat center center fixed;
-    background-size: cover;
-    background-attachment: fixed;
+    background-image: url('images/Cebu_Capitol_Compound.png');
 }
 
-/* Add dark mode support using prefers-color-scheme */
+/* -------------------- Dark Mode Support -------------------- */
 @media (prefers-color-scheme: dark) {
     .root-page {
-        background: url('./images/Cebu_Capitol_Compound_Night.png') no-repeat center center fixed;
-        background-size: cover;
-        background-attachment: fixed;
+        background-image: url('./images/Cebu_Capitol_Compound_Night.png');
     }
     
     .main-page {
-        background: url('images/Cebu_Capitol_Compound_Night.png') no-repeat center center fixed;
-        background-size: cover;
-        background-attachment: fixed;
+        background-image: url('images/Cebu_Capitol_Compound_Night.png');
     }
 }
 
+/* -------------------- Reset & Fonts -------------------- */
 /* Reset default browser styles */
 * {
     margin: 0;
@@ -41,6 +37,7 @@
     box-sizing: border-box;
 }
 
+/* Font Face Declarations */
 @font-face {
     font-family: 'EuphoriaScript';
     src: url('assets/fonts/EuphoriaScript-Regular.ttf') format('truetype');
@@ -53,12 +50,16 @@
     font-display: swap;
 }
 
+/* -------------------- Base Styles -------------------- */
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 80px; /* Adjusted for fixed header */
+    display: block;
+    padding-bottom: 0;
 }
 
 /* Default background for all pages if no specific class is applied */
@@ -73,8 +74,17 @@ body:not(.root-page):not(.main-page) {
     align-items: center;
     text-align: center;
     padding: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
+/* Override container styles for pages with navigation */
+body:not(.landing-page) .container {
+    display: block;
+    padding-top: 20px;
+}
+
+/* -------------------- Logo & Images -------------------- */
 .logo-container {
     display: flex;
     justify-content: center;
@@ -95,7 +105,7 @@ img {
     margin-top: 1rem;
 }
 
-/* Responsive adjustments */
+/* -------------------- Responsive Adjustments -------------------- */
 @media screen and (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -103,6 +113,14 @@ img {
     
     .coming-soon {
         font-size: 2rem;
+    }
+    
+    .image-row {
+        gap: 15px;
+    }
+    
+    .image-row img {
+        max-width: 120px;
     }
 }
 
@@ -120,9 +138,18 @@ img {
     img {
         max-width: 30%;
     }
+    
+    .image-row {
+        gap: 10px;
+    }
+    
+    .image-row img {
+        max-width: 100px;
+    }
 }
 
-/* Navigation Styles */
+/* -------------------- Navigation Styles -------------------- */
+/* Main header & navigation container */
 .main-header {
     position: fixed;
     top: 0;
@@ -133,34 +160,38 @@ img {
     z-index: 1000;
 }
 
+/* Navigation bar */
 .main-navigation {
     display: flex;
-    align-items: center; /* Ensure vertical centering */
-    justify-content: center; /* Center the navigation horizontally */
+    align-items: center;
+    justify-content: center;
     padding: 10px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
+/* Logo inside navigation */
 .nav-logo img {
     max-width: 80px;
     height: auto;
     margin-right: 20px;
 }
 
+/* Navigation menu container */
 .nav-menu {
     flex-grow: 1;
 }
 
+/* Main menu styles */
 .main-menu {
     display: flex;
     list-style: none;
-    justify-content: center; /* Center menu items horizontally */
+    justify-content: center;
 }
 
 .main-menu > li {
     position: relative;
-    margin: 0 10px; /* Equal margin on both sides for better centering */
+    margin: 0 10px;
 }
 
 .main-menu > li > a {
@@ -199,12 +230,12 @@ img {
     transform: translateY(0);
 }
 
-/* New rule for nested dropdown menus */
+/* Nested Dropdown for multi-level menus */
 .has-dropdown ul.dropdown-menu li.has-dropdown:hover > ul.dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition-delay: 0.05s; /* Optional: maintain transition delay */
+    transition-delay: 0.05s;
     z-index: 110;
 }
 
@@ -230,9 +261,9 @@ img {
     padding-left: 18px;
 }
 
-/* Nested dropdown menu for LGU's (Cebu) with auto-scrolling */
+/* Nested dropdown menu styling for LGU's */
 .main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown ul.dropdown-menu {
-    max-height: 300px; /* Adjust the value as needed */
+    max-height: 300px;
     overflow-y: auto;
     border-radius: 4px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -262,12 +293,31 @@ img {
 /* Custom font for PANGATUNGDANAN menu item */
 a[href="index.html?p=1853.html"] {
     font-family: 'EuphoriaScript', cursive;
-    font-size: 30px;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    line-height: 1.2;
+    padding: 5px 0;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* More specific selectors for PANGATUNGDANAN in navigation menus */
+.main-navigation a[href="index.html?p=1853.html"], 
+.footer-navigation a[href="index.html?p=1853.html"] {
+    font-size: 20px !important;
+    font-weight: bold !important; 
+}
+
+/* Responsive adjustment for PANGATUNGDANAN menu item */
+@media screen and (max-width: 768px) {
+    a[href="index.html?p=1853.html"] {
+        font-size: 48px !important;
+    }
 }
 
 /* Dropdown indicator styles */
 .main-menu > li.has-dropdown > a::after {
-    content: "\25BC"; /* Unicode down triangle */
+    content: "\25BC";
     display: inline-block;
     margin-left: 5px;
     font-size: 9px;
@@ -307,7 +357,7 @@ a[href="index.html?p=1853.html"] {
     transition: all 0.3s ease;
 }
 
-/* Responsive Navigation */
+/* -------------------- Responsive Navigation -------------------- */
 @media screen and (max-width: 768px) {
     body {
         padding-top: 60px;
@@ -400,32 +450,7 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
-/* Adjust body for fixed header */
-body {
-    padding-top: 80px;
-    display: block;
-    padding-bottom: 0; /* Remove extra space below footer */
-}
-
-/* Ensure content is visible over background image */
-.container {
-    position: relative;
-    z-index: 1;
-}
-
-/* Override container styles for pages with navigation */
-body:not(.landing-page) .container {
-    display: block;
-    padding-top: 20px;
-}
-
-/* Jupiter header logo size adjustment */
-.jupiterx-navbar-brand-img {
-    width: 80%;
-    height: auto;
-}
-
-/* Image Row Styles */
+/* -------------------- Image Row Styles -------------------- */
 .image-row {
     display: flex;
     justify-content: center;
@@ -446,28 +471,7 @@ body:not(.landing-page) .container {
     object-fit: contain;
 }
 
-/* Responsive adjustments for image row */
-@media screen and (max-width: 768px) {
-    .image-row {
-        gap: 15px;
-    }
-    
-    .image-row img {
-        max-width: 120px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .image-row {
-        gap: 10px;
-    }
-    
-    .image-row img {
-        max-width: 100px;
-    }
-}
-
-/* Footer Styles */
+/* -------------------- Footer Styles -------------------- */
 .jupiterx-footer {
     background-color: #fff;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -479,7 +483,6 @@ body:not(.landing-page) .container {
     padding: 20px 0;
 }
 
-/* Footer Menu Styles */
 .jupiterx-footer-menu {
     border-top: 1px solid #f0f0f0;
     padding: 20px 0;
@@ -543,8 +546,6 @@ body:not(.landing-page) .container {
     border-bottom: none;
 }
 
-
-
 .footer-navigation .dropdown-menu a {
     display: block;
     padding: 10px 15px;
@@ -567,7 +568,6 @@ body:not(.landing-page) .container {
     transform: none;
 }
 
-/* Copyright Section */
 .jupiterx-subfooter {
     background-color: #f8f8f8;
     padding: 15px 0;
@@ -580,7 +580,6 @@ body:not(.landing-page) .container {
     color: #666;
 }
 
-/* Ensure no extra space below footer */
 .jupiterx-footer, .jupiterx-subfooter {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -630,7 +629,7 @@ body:not(.landing-page) .container {
     }
 }
 
-/* Main Page Slider Styles */
+/* -------------------- Main Page Slider Styles -------------------- */
 .main-slider-container {
     width: 100%;
     max-width: 1200px;
@@ -639,19 +638,16 @@ body:not(.landing-page) .container {
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    /* Added to ensure container is centered on page */
     display: flex;
     justify-content: center;
 }
 
-/* Universal responsive slider using aspect-ratio instead of fixed heights */
 .main-slider {
     display: flex;
     transition: transform 0.5s ease;
     width: 100%;
-    aspect-ratio: 16 / 9; /* Standard widescreen aspect ratio */
+    aspect-ratio: 16 / 9;
     align-items: center;
-    /* This responsive implementation replaces previous fixed-height methods */
 }
 
 .main-slide {
@@ -668,7 +664,6 @@ body:not(.landing-page) .container {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    /* Ensures images maintain aspect ratio while filling the container */
     max-width: none;
 }
 
@@ -734,13 +729,10 @@ body:not(.landing-page) .container {
 
 /* Responsive Slider Adjustments */
 @media screen and (max-width: 992px) {
-    /* No height adjustments needed - aspect-ratio handles responsive sizing */
+    /* Aspect ratio handles responsive sizing */
 }
 
 @media screen and (max-width: 768px) {
-    /* Optional: can adjust aspect-ratio for different devices if needed */
-    /* .main-slider { aspect-ratio: 4 / 3; } */ /* Uncomment to use a different ratio on tablets */
-    
     .slider-nav {
         width: 40px;
         height: 40px;
@@ -749,9 +741,6 @@ body:not(.landing-page) .container {
 }
 
 @media screen and (max-width: 480px) {
-    /* Optional: can adjust aspect-ratio for mobile if needed */
-    /* .main-slider { aspect-ratio: 1 / 1; } */ /* Uncomment to use a square ratio on mobile */
-    
     .slider-nav {
         width: 30px;
         height: 30px;
@@ -764,8 +753,70 @@ body:not(.landing-page) .container {
     }
 }
 
-/* LGU's Menu Grid Styles */
-/* 
+@media screen and (min-width: 769px) {
+    .main-slider {
+        /* Adjust aspect ratio to reduce height by 10% for large displays */
+        aspect-ratio: 16 / 10;
+    }
+}
+
+/* Default for very small screens (smartphones) */
+.main-slider {
+    aspect-ratio: 16 / 9;
+}
+
+/* Tablets (Portrait) */
+@media screen and (min-width: 481px) {
+    .main-slider {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+/* Tablets (Landscape) and Small Laptops */
+@media screen and (min-width: 769px) {
+    .main-slider {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+/* Large Laptops and Small Desktops */
+@media screen and (min-width: 1024px) {
+    .main-slider {
+        aspect-ratio: 16 / 9;
+    }
+}
+
+/* Large Desktops */
+@media screen and (min-width: 1440px) {
+    .main-slider {
+        aspect-ratio: 21 / 10;
+    }
+}
+
+/* Ultra-Wide Screens (21:9 or wider) */
+@media screen and (min-width: 1920px) {
+    .main-slider {
+        aspect-ratio: 21 / 9;
+    }
+}
+
+/* 4K and Very Large Screens */
+@media screen and (min-width: 2560px) {
+    .main-slider {
+        aspect-ratio: 32 / 10;
+    }
+}
+
+/* Ultra-Wide 5K+ Screens */
+@media screen and (min-width: 3840px) {
+    .main-slider {
+        aspect-ratio: 32 / 9;
+    }
+}
+
+
+/* -------------------- LGU's Menu Grid Styles -------------------- */
+/*
  * The LGU menu should be organized as follows:
  * - First column: 11 items (with "Cebu" as the first item)
  * - Columns 2-5: 10 items each
@@ -798,7 +849,6 @@ body:not(.landing-page) .container {
     color: #0056b3;
 }
 
-/* Responsive adjustments for LGU grid */
 @media screen and (max-width: 992px) {
     .lgu-grid {
         grid-template-columns: repeat(3, 1fr);
