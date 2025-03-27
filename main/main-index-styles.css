@@ -120,3 +120,13 @@ html body.home .container.grid-layout .elementor-button:hover {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   FULL WIDTH SLIDER
+   ========================================================================== */
+
+.main-slider-container.full-width {
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+}

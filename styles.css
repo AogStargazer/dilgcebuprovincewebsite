@@ -631,9 +631,9 @@ a[href="index.html?p=1853.html"] {
 
 /* -------------------- Main Page Slider Styles -------------------- */
 .main-slider-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100vw;
+    max-width: none;
+    margin: 0;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
@@ -789,28 +789,28 @@ a[href="index.html?p=1853.html"] {
 /* Large Desktops */
 @media screen and (min-width: 1440px) {
     .main-slider {
-        aspect-ratio: 21 / 10;
+        aspect-ratio: 21 / 7.8;
     }
 }
 
 /* Ultra-Wide Screens (21:9 or wider) */
 @media screen and (min-width: 1920px) {
     .main-slider {
-        aspect-ratio: 21 / 9;
+        aspect-ratio: 21 / 6.9;
     }
 }
 
 /* 4K and Very Large Screens */
 @media screen and (min-width: 2560px) {
     .main-slider {
-        aspect-ratio: 32 / 10;
+        aspect-ratio: 32 / 7.7;
     }
 }
 
 /* Ultra-Wide 5K+ Screens */
 @media screen and (min-width: 3840px) {
     .main-slider {
-        aspect-ratio: 32 / 9;
+        aspect-ratio: 32 / 6.7;
     }
 }
 
