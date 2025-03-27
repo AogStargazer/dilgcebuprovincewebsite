@@ -11,7 +11,8 @@
       img:is([sizes="auto" i], [sizes^="auto," i]) {
         contain-intrinsic-size: 3000px 1500px;
       }
-      /* Consolidated Main Slider CSS */
+      /* Universal Responsive Slider CSS - Using aspect-ratio instead of fixed heights */
+      /* This implementation uses the global styles from styles.css for responsive behavior */
       .main-slider-container {
         width: 100%;
         max-width: 1200px;
@@ -20,11 +21,16 @@
         overflow: hidden;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Added to ensure container is centered on page */
+        display: flex;
+        justify-content: center;
       }
       .main-slider {
         display: flex;
         transition: transform 0.5s ease;
-        height: 500px;
+        width: 100%;
+        aspect-ratio: 16 / 9; /* Standard widescreen aspect ratio */
+        align-items: center;
       }
       .main-slide {
         min-width: 100%;
@@ -124,6 +130,106 @@
         .image-row {
           flex-wrap: wrap;
           justify-content: center;
+        }
+      }
+      
+      /* Mobile-specific CSS for responsive design */
+      /* Portrait orientation */
+      @media only screen and (max-width: 767px) and (orientation: portrait) {
+        /* Main slider adjustments */
+        .main-slider-container {
+          max-width: 100%;
+          border-radius: 4px;
+        }
+        /* Height is controlled by aspect-ratio in the main styles */
+        .slider-nav {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+        }
+        .prev-slide {
+          left: 10px;
+        }
+        .next-slide {
+          right: 10px;
+        }
+        .pagination-dot {
+          width: 10px;
+          height: 10px;
+        }
+        
+        /* Navigation menu adjustments */
+        .main-navigation {
+          padding: 10px;
+        }
+        .nav-menu ul.main-menu > li > a {
+          padding: 15px 10px; /* Larger tap targets */
+          font-size: 16px;
+        }
+        .dropdown-menu {
+          width: 100%;
+        }
+        
+        /* Content adjustments */
+        .elementor-widget-heading h1, 
+        .elementor-widget-heading h2 {
+          font-size: 24px;
+          line-height: 1.3;
+        }
+        .elementor-widget-heading h3, 
+        .elementor-widget-heading h4 {
+          font-size: 18px;
+          line-height: 1.3;
+        }
+        .elementor-text-editor p {
+          font-size: 16px;
+          line-height: 1.5;
+        }
+        
+        /* Image row adjustments */
+        .image-row img {
+          max-width: 140px;
+        }
+        
+        /* Footer adjustments */
+        .jupiterx-footer-widgets {
+          padding: 20px 10px;
+        }
+        .footer-navigation ul.main-menu > li {
+          margin-bottom: 10px;
+        }
+      }
+      
+      /* Landscape orientation */
+      @media only screen and (max-width: 1024px) and (orientation: landscape) {
+        /* Main slider adjustments - using aspect-ratio from main styles */
+        /* No fixed height needed as it's handled by the responsive aspect-ratio */
+        
+        /* Two-column layout for image row in landscape */
+        .image-row {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+        
+        /* Navigation adjustments for landscape */
+        .nav-menu ul.main-menu {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .nav-menu ul.main-menu > li {
+          flex: 0 0 50%;
+        }
+        
+        /* Content spacing for better readability */
+        .elementor-widget:not(:last-child) {
+          margin-bottom: 15px;
+        }
+        
+        /* Button size adjustments for touch */
+        .elementor-button {
+          padding: 12px 20px;
+          min-height: 44px; /* Minimum touch target size */
         }
       }
     </style>

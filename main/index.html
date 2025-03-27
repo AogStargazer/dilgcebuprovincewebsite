@@ -12,6 +12,11 @@
       img:is([sizes="auto" i], [sizes^="auto," i]) {
         contain-intrinsic-size: 3000px 1500px;
       }
+      /* Mobile Compatibility - Base Styles */
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
       /* Consolidated Main Slider CSS */
       .main-slider-container {
         width: 100%;
@@ -22,10 +27,11 @@
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
+      /* Main slider now uses aspect-ratio from styles.css instead of fixed heights for better responsiveness */
       .main-slider {
         display: flex;
         transition: transform 0.5s ease;
-        height: 500px;
+        /* height property removed - now using aspect-ratio from styles.css */
       }
       .main-slide {
         min-width: 100%;
@@ -94,10 +100,8 @@
       }
       /* Mobile responsiveness for slider */
       @media (max-width: 768px) {
-        /* Adjust slider container and slider height on mobile */
-        .main-slider {
-          height: 250px; /* Reduced height for mobile screens */
-        }
+
+        /* Slider now uses aspect-ratio from styles.css instead of fixed heights */
         
         /* Adjust slider navigation buttons for a better touch experience */
         .slider-nav {
@@ -116,6 +120,149 @@
           height: 10px;
         }
       }
+      
+      /* Mobile Portrait Orientation */
+      @media screen and (max-width: 768px) and (orientation: portrait) {
+        /* Slider adjustments for portrait */
+        .main-slider-container {
+          max-width: 100%;
+          margin: 0 auto;
+        }
+        
+        /* .main-slider height removed - now using aspect-ratio from styles.css */
+        
+        /* Navigation adjustments */
+        .main-navigation {
+          padding: 10px 5px;
+        }
+        
+        .nav-logo img {
+          max-width: 80px;
+        }
+        
+        /* Grid layout adjustments */
+        .container.grid-layout {
+          display: flex;
+          flex-direction: column;
+          padding: 15px 10px;
+        }
+        
+        .container.grid-layout .logo {
+          max-width: 120px;
+          margin: 0 auto 15px;
+        }
+        
+        .container.grid-layout .text-content {
+          text-align: center;
+          padding: 0 10px;
+        }
+        
+        .container.grid-layout .heading {
+          font-size: 18px;
+          line-height: 1.3;
+          margin-bottom: 10px;
+        }
+        
+        .container.grid-layout .paragraph {
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        
+        .container.grid-layout .button-container {
+          margin-top: 15px;
+          text-align: center;
+        }
+        
+        /* Image row adjustments */
+        .image-row {
+          padding: 5px 0;
+        }
+        
+        .image-row img {
+          max-width: 140px;
+        }
+      }
+      
+      /* Mobile Landscape Orientation */
+      @media screen and (max-width: 900px) and (orientation: landscape) {
+        /* Slider adjustments for landscape */
+        .main-slider-container {
+          max-width: 100%;
+        }
+        
+        /* .main-slider height removed - now using aspect-ratio from styles.css */
+        
+        /* Reduce padding in landscape */
+        body {
+          padding-top: 0;
+        }
+        
+        .main-header {
+          position: relative;
+        }
+        
+        /* Grid layout adjustments for landscape */
+        .container.grid-layout {
+          display: grid;
+          grid-template-columns: 120px 1fr;
+          grid-gap: 15px;
+          padding: 10px;
+          align-items: center;
+        }
+        
+        .container.grid-layout .logo {
+          grid-row: 1;
+          grid-column: 1;
+          max-width: 100px;
+        }
+        
+        .container.grid-layout .text-content {
+          grid-row: 1;
+          grid-column: 2;
+          padding-right: 10px;
+        }
+        
+        .container.grid-layout .heading {
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+        
+        .container.grid-layout .paragraph {
+          font-size: 13px;
+          line-height: 1.3;
+          margin-bottom: 5px;
+        }
+        
+        .container.grid-layout .button-container {
+          grid-row: 2;
+          grid-column: 1 / span 2;
+          margin-top: 10px;
+        }
+        
+        /* Adjust navigation for landscape */
+        .mobile-menu-toggle {
+          top: 10px;
+          right: 10px;
+        }
+        
+        /* Footer adjustments */
+        .jupiterx-footer-widgets {
+          padding: 20px 0;
+        }
+        
+        /* Image row adjustments for landscape */
+        .image-row {
+          overflow-x: auto;
+          justify-content: flex-start;
+          padding: 5px;
+        }
+        
+        .image-row img {
+          max-width: 120px;
+          margin-right: 10px;
+        }
+      }
+
       /* Consolidated Image Row CSS */
       .image-row {
         display: flex;
@@ -149,6 +296,16 @@
         .image-row {
           flex-wrap: wrap;
           justify-content: center;
+        }
+        
+        /* Touch-friendly adjustments */
+        .image-row a {
+          padding: 8px;
+          margin: 5px;
+        }
+        
+        .image-row img {
+          max-width: 150px;
         }
       }
     </style>
@@ -648,6 +805,7 @@
                     <div class="elementor-widget-container">
                       <!-- Main Page Image Slider - Images should be placed in ./images/mainpagealbum/ folder -->
                       <div style="height: 32px;"></div>
+                      <!-- Main slider container - now using aspect-ratio from styles.css for responsive sizing -->
                       <div class="main-slider-container">
                         <div class="main-slider" id="mainPageSlider">
                           <div class="main-slide">
@@ -1122,6 +1280,11 @@
         </footer>
       </main>
       <script>
+        /* 
+         * Main JavaScript with mobile compatibility enhancements
+         * - Improved touch handling for mobile devices
+         * - Orientation change handling
+         */
         document.addEventListener("DOMContentLoaded", function () {
           // Slider functionality
           const slider = document.getElementById("mainPageSlider");
@@ -1166,6 +1329,46 @@
           slider.parentElement.addEventListener("mouseleave", () => {
             interval = setInterval(nextSlide, 5000);
           });
+          
+          // Handle touch events for mobile
+          let touchStartX = 0;
+          let touchEndX = 0;
+          
+          slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(interval);
+          }, {passive: true});
+          
+          slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            interval = setInterval(nextSlide, 5000);
+          }, {passive: true});
+          
+          function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+              // Swipe left
+              nextSlide();
+            } else if (touchEndX > touchStartX + 50) {
+              // Swipe right
+              prevSlide();
+            }
+          }
+          
+          // Handle orientation changes
+          window.addEventListener('orientationchange', function() {
+            // Small delay to allow the browser to complete the orientation change
+            setTimeout(function() {
+              // Adjust any elements that need repositioning after orientation change
+              updateSliderHeight();
+            }, 200);
+          });
+          
+          function updateSliderHeight() {
+            // This function is no longer needed as slider height is controlled by CSS aspect-ratio
+            // Left here for compatibility but doesn't modify any heights
+            console.log("Slider now uses CSS aspect-ratio for responsive sizing");
+          }
           document.addEventListener("keydown", (e) => {
             if (e.key === "ArrowLeft") {
               prevSlide();
@@ -1186,11 +1389,34 @@
           dropdownItems.forEach((item) => {
             item.addEventListener("click", function (e) {
               if (window.innerWidth <= 768) {
-                e.preventDefault();
+                // Prevent immediate navigation on mobile
+                const link = this.querySelector('a');
+                if (link && e.target === link) {
+                  e.preventDefault();
+                }
                 this.classList.toggle("open");
               }
             });
+            
+            // Add touch-friendly submenu handling
+            const submenus = item.querySelectorAll('.dropdown-menu');
+            submenus.forEach(submenu => {
+              const parentLink = submenu.parentElement.querySelector('a');
+              if (parentLink) {
+                parentLink.addEventListener('touchend', function(e) {
+                  if (window.innerWidth <= 768) {
+                    if (!submenu.classList.contains('active')) {
+                      e.preventDefault();
+                      submenu.classList.add('active');
+                    }
+                  }
+                }, {passive: false});
+              }
+            });
           });
+          
+          // Initial check for orientation
+          updateSliderHeight();
         });
       </script>
       <script src="../assets/js/main-background-switcher.js"></script>
