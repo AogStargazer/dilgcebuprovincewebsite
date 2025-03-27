@@ -191,12 +191,12 @@ img {
 
 .main-menu > li {
     position: relative;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 .main-menu > li > a {
     display: block;
-    padding: 10px 15px;
+    padding: 9px 4px;
     color: #333;
     text-decoration: none;
     font-weight: 400;
