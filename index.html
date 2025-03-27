@@ -9,6 +9,74 @@
     <link rel="stylesheet" href="/styles.css">
     <!-- Fallback to relative path if not at root -->
     <link rel="stylesheet" href="./styles.css">
+    
+    <!-- Mobile-specific styles -->
+    <style>
+        /* Mobile Styling - Common */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo-container img {
+                max-width: 80%;
+                height: auto;
+                margin: 10px 0;
+            }
+            
+            .coming-soon {
+                font-size: 1.5rem;
+                margin-top: 20px;
+            }
+            
+            .coming-soon a {
+                padding: 10px 15px;
+            }
+        }
+        
+        /* Mobile Styling - Portrait */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            .root-page {
+                padding: 10px;
+            }
+            
+            .logo-container img {
+                max-width: 90%;
+            }
+            
+            .coming-soon {
+                margin-top: 30px;
+            }
+        }
+        
+        /* Mobile Styling - Landscape */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            .root-page {
+                padding: 5px;
+            }
+            
+            .logo-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .logo-container img {
+                max-width: 40%;
+                margin: 0 10px;
+            }
+            
+            .coming-soon {
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body class="root-page">
     <!-- Main navigation removed - this page serves as a gateway to the main site -->
