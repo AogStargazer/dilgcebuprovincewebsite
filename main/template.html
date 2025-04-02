@@ -131,6 +131,49 @@
         }
       }
       
+      /* Drop-right menu styles */
+      .has-dropright {
+        position: relative;
+      }
+      .has-dropright > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: 0;
+        margin-left: -1px;
+        border-radius: 0 6px 6px 6px;
+        display: none;
+      }
+      .has-dropright:hover > .dropdown-menu {
+        display: block;
+      }
+      
+      /* Arrow indicator for drop-right menus */
+      .has-dropright > a:after {
+        display: inline-block;
+        content: "";
+        width: 0;
+        height: 0;
+        margin-left: 5px;
+        vertical-align: middle;
+        border-left: 4px solid;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+      }
+      
+      /* Mobile-specific adjustments for drop-right menus */
+      @media (max-width: 768px) {
+        .has-dropright > .dropdown-menu {
+          position: static;
+          left: 0;
+          margin-left: 20px;
+          width: auto;
+          border-radius: 0;
+        }
+        .has-dropright.open > .dropdown-menu {
+          display: block;
+        }
+      }
+      
       /* Mobile-specific CSS for responsive design */
       /* Portrait orientation */
       @media only screen and (max-width: 767px) and (orientation: portrait) {
@@ -642,8 +685,17 @@
               <li class="has-dropdown">
                 <a href="index.html?p=27.html">LGU's</a>
                 <ul class="dropdown-menu">
+                  <!-- New drop-right submenu -->
+                  <li class="has-dropright">
+                    <a href="#">Field Offices</a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">LGU</a></li>
+                      <li><a href="#">DILG Field Office</a></li>
+                    </ul>
+                  </li>
+                  <!-- Existing submenu (e.g., Cebu entry) -->
                   <li class="has-dropdown">
-                    <a href="index.html?p=66.html">Cebu</a>
+                    <a href="https://www.cebu.gov.ph/">Cebu</a>
                     <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu-link-228">
                       <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofbogocebu.gov.ph/" class="dropdown-item">City of Bogo</a></li>
                       <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofcarcar.gov.ph/" class="dropdown-item">City of Carcar</a></li>
@@ -725,7 +777,47 @@
                   </div>
                   <div class="elementor-element elementor-element-a628aca elementor-widget elementor-widget-html" data-id="a628aca" data-element_type="widget" data-widget_type="html.default">
                     <div class="elementor-widget-container">
-+++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+                            <!-- LGU Hierarchical Structure -->
+                       <!--     <li class="has-dropdown">      -->
+                       <!--     <a href="https://www.cebu.gov.ph/">Cebu</a> -->
+                       <!--     <ul class="dropdown-menu">  -->
+                              <!-- 1st Legislative District -->
+                              <li class="menu-item has-drop-right">
+                                <a href="#" class="dropdown-item">1st Legislative District</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item has-drop-right">
+                                    <a href="#" class="dropdown-item">Carcar City</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="https://cityofcarcar.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item has-drop-right">
+                                    <a href="#" class="dropdown-item">Naga City</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="https://cityofnaga-cebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item has-drop-right">
+                                    <a href="#" class="dropdown-item">Talisay City</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="https://www.talisaycitycebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
 
 
 
@@ -733,447 +825,800 @@
 
 
 
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">2nd Legislative District</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Alcoy</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Argao</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Boljoon</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Dalaguete</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Oslob</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Santander</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                  <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-item">Samboan</a>
+                                    <ul class="drop-right-menu">
+                                      <li class="menu-item"><a href="#" class="dropdown-item">LGU Website</a></li>
+                                      <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
 
-+++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    </div>
-                  </div>
-                  <div class="elementor-element elementor-element-32388a3 elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="32388a3" data-element_type="widget" data-widget_type="divider.default">
-                    <div class="elementor-widget-container">
-                      <div class="elementor-divider" style="--divider-pattern-url: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#039;http://www.w3.org/2000/svg&#039; preserveAspectRatio=&#039;none&#039; overflow=&#039;visible&#039; height=&#039;100%&#039; viewBox=&#039;0 0 24 24&#039; fill=&#039;black&#039; stroke=&#039;none&#039;%3E%3Cpolygon points=&#039;9.4,2 24,2 14.6,21.6 0,21.6&#039;/%3E%3C/svg%3E&quot;);">
-                        <span class="elementor-divider-separator"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-d00e1ef elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d00e1ef" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-bd19339" data-id="bd19339" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-d941873 elementor-widget elementor-widget-image" data-id="d941873" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-70e0bab" data-id="70e0bab" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-9738c46 elementor-widget elementor-widget-heading" data-id="9738c46" data-element_type="widget" data-widget_type="heading.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                  <div class="elementor-element elementor-element-5c0bf37 elementor-widget elementor-widget-button" data-id="5c0bf37" data-element_type="widget" data-widget_type="button.default">
-                    <div class="elementor-widget-container">
-                      <div class="elementor-button-wrapper">
-                        <a class="elementor-button elementor-button-link elementor-size-sm" href="#">
-                          <span class="elementor-button-content-wrapper">
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-5d34d9c" data-id="5d34d9c" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-c9a0456 elementor-widget elementor-widget-spacer" data-id="c9a0456" data-element_type="widget" data-widget_type="spacer.default">
-                    <div class="elementor-widget-container">
-                      <div class="elementor-spacer">
-                        <div class="elementor-spacer-inner"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="elementor-element elementor-element-00fd17a elementor-absolute elementor-widget elementor-widget-button" data-id="00fd17a" data-element_type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="button.default">
-                    <div class="elementor-widget-container">
-                      <div class="elementor-button-wrapper">
-                        <a class="elementor-button elementor-button-link elementor-size-md" href="index.html?p=2947.html">
-                          <span class="elementor-button-content-wrapper">
-                            <span class="elementor-button-icon">
-                              <i aria-hidden="true" class="fas fa-arrow-right"></i>
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-68da392 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="68da392" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-b6fc8aa" data-id="b6fc8aa" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-04c512b elementor-widget elementor-widget-image" data-id="04c512b" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-99f63ff" data-id="99f63ff" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-a0650ad elementor-widget elementor-widget-image" data-id="a0650ad" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-cb67841" data-id="cb67841" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-093e742 elementor-widget elementor-widget-image" data-id="093e742" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-d0d7b82" data-id="d0d7b82" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-0345b7e elementor-widget elementor-widget-image" data-id="0345b7e" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-b9dce95 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b9dce95" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-763ab0e" data-id="763ab0e" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated"></div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-464236d elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="464236d" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-ea3b16f" data-id="ea3b16f" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-widget elementor-widget-sidebar" data-id="7f8f919" data-element_type="widget" data-widget_type="sidebar.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-70fd690" data-id="70fd690" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-b57e932 elementor-widget elementor-widget-heading" data-id="b57e932" data-element_type="widget" data-widget_type="heading.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                  <div class="elementor-element elementor-element-8eb3402 elementor-widget elementor-widget-wp-widget-jupiterx_posts" data-id="8eb3402" data-element_type="widget" data-widget_type="wp-widget-jupiterx_posts.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                  <div class="elementor-element elementor-element-d43162c elementor-button-info elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="d43162c" data-element_type="widget" data-widget_type="button.default">
-                    <div class="elementor-widget-container">
-                      <div class="elementor-button-wrapper">
-                        <a class="elementor-button elementor-button-link elementor-size-xs" href="category/news/index.html" rel="nofollow">
-                          <span class="elementor-button-content-wrapper"></span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-40aab4e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="40aab4e" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c32a96b" data-id="c32a96b" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-a8b5462 elementor-widget__width-initial elementor-widget elementor-widget-image" data-id="a8b5462" data-element_type="widget" data-widget_type="image.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-d2eae5a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d2eae5a" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a5a98cd" data-id="a5a98cd" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-b607c28 elementor-widget elementor-widget-heading" data-id="b607c28" data-element_type="widget" data-widget_type="heading.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-e9c2605 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e9c2605" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-81003eb" data-id="81003eb" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-003116e elementor-widget elementor-widget-html" data-id="003116e" data-element_type="widget" data-widget_type="html.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-76a192c" data-id="76a192c" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-f4bf6e9 elementor-widget elementor-widget-html" data-id="f4bf6e9" data-element_type="widget" data-widget_type="html.default">
-                    <div class="elementor-widget-container"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="elementor-section elementor-top-section elementor-element elementor-element-51dffbd elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="eeddbe9" data-element_type="widget" data-widget_type="divider.default">
-            <div class="elementor-widget-container">
-              <div class="elementor-divider" style="--divider-pattern-url: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#039;http://www.w3.org/2000/svg&#039; preserveAspectRatio=&#039;none&#039; overflow=&#039;visible&#039; height=&#039;100%&#039; viewBox=&#039;0 0 24 24&#039; fill=&#039;black&#039; stroke=&#039;none&#039;%3E%3Cpolygon points=&#039;9.4,2 24,2 14.6,21.6 0,21.6&#039;/%3E%3C/svg%3E&quot;);">
-                <span class="elementor-divider-separator"></span>
-              </div>
-            </div>
-          </section>
-        </div>
-        <!-- Image Row Container -->
-        <div class="image-row">
-          <a href="http://www.president.gov.ph">
-            <img src="wp-content/uploads/2019/10/banner-president-corner-300x143.png" alt="Banner President Corner" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-293 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/banner-president-corner-300x143.png 300w, wp-content/uploads/2019/10/banner-president-corner.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="https://dilg.gov.ph/secretarys-corner/">
-            <img src="wp-content/uploads/2019/10/secretarys-corner-300x143.png" alt="Secretarys Corner" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-292 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/secretarys-corner-300x143.png 300w, wp-content/uploads/2019/10/secretarys-corner.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="index.html?p=301.html">
-            <img src="wp-content/uploads/2019/10/banner-transparency-seal-300x143.png" alt="Transparency Seal" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-294 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/banner-transparency-seal-300x143.png 300w, wp-content/uploads/2019/10/banner-transparency-seal.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="Ahttps://drive.google.com/drive/folders/198y0g9Mcjm0XgQOYmw_gP39rQadoZvxW" target="_blank">
-            <img src="wp-content/uploads/2019/10/CitizenCharter02-300x143.jpg" alt="Citizen Charter" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-297 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/CitizenCharter02-300x143.jpg 300w, wp-content/uploads/2019/10/CitizenCharter02.jpg 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="Ahttps://docs.google.com/document/d/12Rr-BdwOB7iMsDx-8d4pxb6ezMVvmdMTYdvE-D0wDek/edit" target="_blank">
-            <img src="wp-content/uploads/2019/10/dilg-iso9001-1-300x165.jpg" alt="ISO 9001 Certification" loading="lazy" decoding="async" width="300" height="165" class="image wp-image-298 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/dilg-iso9001-1-300x165.jpg 300w, wp-content/uploads/2019/10/dilg-iso9001-1.jpg 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="http://dilg.gov.ph/reports-and-resources/seal-of-good-local-governance/12/">
-            <img src="wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel-300x165.png" alt="Seal of Good Local Governance" loading="lazy" decoding="async" width="300" height="165" class="image wp-image-300 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel-300x165.png 300w, wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="index.html?p=8076.html">
-            <img src="wp-content/uploads/2023/08/GAD-300x135.jpg" alt="GAD" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/08/GAD-300x135.jpg 300w, wp-content/uploads/2023/08/GAD.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="https://www.foi.gov.ph/">
-            <img src="wp-content/uploads/2023/02/a2.jpg" alt="FOI" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/02/a2.jpg 300w, wp-content/uploads/2023/02/a2.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-          <a href="https://safetyseal.dilg.gov.ph/">
-            <img src="wp-content/uploads/2023/02/a4.jpg" alt="Safety Seal" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/02/a4.jpg 300w, wp-content/uploads/2023/02/a4.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
-          </a>
-        </div>
-        <footer class="jupiterx-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
-          <div class="jupiterx-footer-widgets jupiterx-footer-layout-04">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-              </div>
-            </div>
-          </div>
-          <div class="jupiterx-footer-menu">
-            <nav class="footer-navigation">
-              <ul class="main-menu">
-                <li><a href="index.html">Home</a></li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=15.html">About Us</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="index.html?p=51.html">History</a></li>
-                    <li><a href="index.html?p=7253.html">Mandate</a></li>
-                    <li><a href="index.html?p=53.html">Organizational Structure</a></li>
-                    <li><a href="index.html?p=55.html">Key Officials &amp; Management</a></li>
-                    <li><a href="index.html?p=59.html">Attached Agencies</a></li>
-                  </ul>
-                </li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=21.html">Programs &amp; Services</a>
-                </li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=17.html">Transparency at Work</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="index.html?p=301.html">Transparency Seal</a></li>
-                    <li><a href="index.html?p=31.html">Regional, Provincial &amp; HUC Status: LGU Compliance on Full Disclosure</a></li>
-                    <li><a href="index.html?p=33.html">LGU Compliance on Full Disclosure</a></li>
-                    <li><a href="index.html?p=35.html">Vacant Positions</a></li>
-                  </ul>
-                </li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=6733.html">Issuances</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="https://dilg.gov.ph/issuances-archive/jc/">Joint Circulars</a></li>
-                    <li><a href="https://dilg.gov.ph/issuances-archive/mc/">Memo Circulars</a></li>
-                    <li><a href="https://dilg.gov.ph/issuances-archive/pd/">Presidential Directives</a></li>
-                  </ul>
-                </li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=6801.html">LGU Portal</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
-                    <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
-                    <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
-                    <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
-                    <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
-                    <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
-                    <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
-                    <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
-                    <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
-                  </ul>
-                </li>
-                <li><a href="index.html?p=19.html">News</a></li>
-                <li class="has-dropdown">
-                  <a href="index.html?p=27.html">LGU's</a>
-                  <ul class="dropdown-menu">
-                    <li class="has-dropdown">
-                      <a href="https://www.cebu.gov.ph/">Cebu</a>
-                      <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu-link-228">
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofbogocebu.gov.ph/" class="dropdown-item">City of Bogo</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofcarcar.gov.ph/" class="dropdown-item">City of Carcar</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://danaocity.gov.ph/" class="dropdown-item">City of Danao</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofnaga-cebu.gov.ph/" class="dropdown-item">City of Naga</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://www.talisaycitycebu.gov.ph/" class="dropdown-item">City of Talisay</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://toledocity.gov.ph/" class="dropdown-item">City of Toledo</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Alcantara</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://alcoycebu.gov.ph/" class="dropdown-item">Alcoy</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Alegria</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Aloguinsan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://argaotourism.com/" class="dropdown-item">Argao</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Asturias</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://badian.gov.ph/" class="dropdown-item">Badian</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://balambancebu.gov.ph/" class="dropdown-item">Balamban</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://bantayancebu.gov.ph/" class="dropdown-item">Bantayan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Barili</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Boljoon</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Borbon</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://carmencebu.gov.ph/" class="dropdown-item">Carmen</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Catmon</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://compostelacebu.gov.ph/" class="dropdown-item">Compostela</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://consolacion.gov.ph/" class="dropdown-item">Consolacion</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cordova.gov.ph/" class="dropdown-item">Cordova</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://daanbantayan.gov.ph/" class="dropdown-item">Daanbantayan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://dalaguete.gov.ph/" class="dropdown-item">Dalaguete</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Dumanjug</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Ginatilan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://liloan.gov.ph/" class="dropdown-item">Liloan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://madridejoscebu.gov.ph/" class="dropdown-item">Madridejos</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Malabuyoc</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://medellin.gov.ph/" class="dropdown-item">Medellin</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://minglanilla.gov.ph/" class="dropdown-item">Minglanilla</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://moalboal.gov.ph/" class="dropdown-item">Moalboal</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://oslob.gov.ph/" class="dropdown-item">Oslob</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Pilar</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://pinamungajan.gov.ph/" class="dropdown-item">Pinamungajan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Poro</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Ronda</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Samboan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://sanfernandocebu.gov.ph/" class="dropdown-item">San Fernando</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">San Francisco</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">San Remigio</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Santa Fe</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Santander</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Sibonga</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Sogod</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tabogon</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tabuelan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tuburan</a></li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tudela</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li><a href="index.html?p=1853.html">Pangatungdanan</a></li>
-                <li><a href="index.html?p=29.html">Contact Information</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="jupiterx-subfooter">
-            <div class="container">
-              <div class="row justify-content-center">
-                <div class="col-md text-center">
-                  <div class="jupiterx-subfooter-copyright">
-                    © 2025 - DILG Cebu Province. All rights reserved. Created by: Polster Noksman
-                  </div>
-                  <div class="elementor-widget-container" style="margin-top: 10px;">
-                    <div style="font-weight: bold; margin-bottom: 5px;">Philippine Standard Time</div>
-                    <div style="display: flex; justify-content: center; padding-left: 36px;">
-                      <iframe src="https://free.timeanddate.com/clock/i8p1xekg/n1238/ahl/tt0/tw0/tm1/th2" frameborder="0" width="218" height="18" style="padding-right: 3px;"></iframe>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </main>
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          // Slider functionality
-          const slider = document.getElementById("mainPageSlider");
-          const slides = document.querySelectorAll(".main-slide");
-          const prevBtn = document.querySelector(".prev-slide");
-          const nextBtn = document.querySelector(".next-slide");
-          const pagination = document.getElementById("sliderPagination");
-          let currentSlide = 0;
-          const slideCount = slides.length;
-          for (let i = 0; i < slideCount; i++) {
-            const dot = document.createElement("div");
-            dot.classList.add("pagination-dot");
-            if (i === 0) dot.classList.add("active");
-            dot.addEventListener("click", () => goToSlide(i));
-            pagination.appendChild(dot);
-          }
-          function updatePagination() {
-            const dots = document.querySelectorAll(".pagination-dot");
-            dots.forEach((dot, index) => {
-              dot.classList.toggle("active", index === currentSlide);
-            });
-          }
-          function goToSlide(index) {
-            currentSlide = index;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            updatePagination();
-          }
-          function nextSlide() {
-            currentSlide = (currentSlide + 1) % slideCount;
-            goToSlide(currentSlide);
-          }
-          function prevSlide() {
-            currentSlide = (currentSlide - 1 + slideCount) % slideCount;
-            goToSlide(currentSlide);
-          }
-          prevBtn.addEventListener("click", prevSlide);
-          nextBtn.addEventListener("click", nextSlide);
-          let interval = setInterval(nextSlide, 5000);
-          slider.parentElement.addEventListener("mouseenter", () => {
-            clearInterval(interval);
-          });
-          slider.parentElement.addEventListener("mouseleave", () => {
-            interval = setInterval(nextSlide, 5000);
-          });
-          document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") {
-              prevSlide();
-            } else if (e.key === "ArrowRight") {
-              nextSlide();
-            }
-          });
-          // Mobile menu toggle and dropdown handling
-          const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
-          const navMenu = document.querySelector(".nav-menu");
-          if (mobileMenuToggle && navMenu) {
-            mobileMenuToggle.addEventListener("click", function () {
-              navMenu.classList.toggle("active");
-              mobileMenuToggle.classList.toggle("active");
-            });
-          }
-          const dropdownItems = document.querySelectorAll(".has-dropdown");
-          dropdownItems.forEach((item) => {
-            item.addEventListener("click", function (e) {
-              if (window.innerWidth <= 768) {
-                e.preventDefault();
-                this.classList.toggle("open");
-              }
-            });
-          });
-        });
-      </script>
-      <script src="../assets/js/main-background-switcher.js"></script>
-      <script>
-        // Ensure DOM is fully loaded before loading scroll restoration script
-        document.addEventListener('DOMContentLoaded', function() {
-          // Create and load the scroll restoration script
-          const scrollScript = document.createElement('script');
-          scrollScript.src = "../assets/js/scroll-restoration.js";
-          scrollScript.async = false; // Ensure script executes in order
-          document.body.appendChild(scrollScript);
-        });
-      </script>
+                              
+
+
+
+
+
+                            <!-- 3rd Legislative District -->
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-item">3rd Legislative District</a>
+                            <ul class="drop-right-menu">
+                              <!-- City -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://toledocity.gov.ph/" class="dropdown-item">Toledo City</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://toledocity.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <!-- Municipalities -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Aloguinsan</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Asturias</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Balamban</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Barili</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Pinamungahan</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Tuburan</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                            </li>
+
+
+                            <!-- 4th Legislative District -->
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-item">4th Legislative District</a>
+                            <ul class="drop-right-menu">
+                              <!-- Cities -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://danaocity.gov.ph/" class="dropdown-item">Danao City</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://danaocity.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <!-- Municipalities -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Carmen</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Catmon</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                            </li>
+
+                            <!-- 5th Legislative District -->
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-item">5th Legislative District</a>
+                            <ul class="drop-right-menu">
+                              <li class="menu-item"><a href="#" class="dropdown-item">Danao City</a></li>
+                              <li class="menu-item"><a href="#" class="dropdown-item">Borbon</a></li>
+                              <li class="menu-item"><a href="#" class="dropdown-item">Sogod</a></li>
+                              <li class="menu-item"><a href="#" class="dropdown-item">Tabogon</a></li>
+                              <li class="menu-item"><a href="#" class="dropdown-item">San Francisco</a></li>
+                            </ul>
+                            </li>
+
+                            <!-- 6th Legislative District -->
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-item">6th Legislative District</a>
+                            <ul class="drop-right-menu">
+                              <!-- Cities -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://mandauecity.gov.ph/" class="dropdown-item">Mandaue City</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://mandauecity.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                            </li>
+
+
+                            <!-- 7th Legislative District -->
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" class="dropdown-item">7th Legislative District</a>
+                            <ul class="drop-right-menu">
+                              <!-- Municipalities -->
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Alcantara</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://alegriacebu.gov.ph/" class="dropdown-item">Alegria</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://alegriacebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://badiancebu.gov.ph/" class="dropdown-item">Badian</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://badiancebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://dumanjugcebu.gov.ph/" class="dropdown-item">Dumanjug</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://dumanjugcebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Ginatilan</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Malabuyoc</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="https://moalboalcebu.gov.ph/" class="dropdown-item">Moalboal</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="https://moalboalcebu.gov.ph/" class="dropdown-item">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                              <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item has-drop-right" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-item">Ronda</a>
+                                <ul class="drop-right-menu">
+                                  <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
+                                  <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
+                                </ul>
+                              </li>
+                            </ul>
+                            </li>  
+
+
+
+
+
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE BELOW++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++++++++++++++++++++++++++PASTE YOUR CODE ABOVE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+</div>
+</div>
+<div class="elementor-element elementor-element-32388a3 elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="32388a3" data-element_type="widget" data-widget_type="divider.default">
+  <div class="elementor-widget-container">
+    <div class="elementor-divider" style="--divider-pattern-url: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#039;http://www.w3.org/2000/svg&#039; preserveAspectRatio=&#039;none&#039; overflow=&#039;visible&#039; height=&#039;100%&#039; viewBox=&#039;0 0 24 24&#039; fill=&#039;black&#039; stroke=&#039;none&#039;%3E%3Cpolygon points=&#039;9.4,2 24,2 14.6,21.6 0,21.6&#039;/%3E%3C/svg%3E&quot;);">
+      <span class="elementor-divider-separator"></span>
     </div>
-  </body>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-d00e1ef elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d00e1ef" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-bd19339" data-id="bd19339" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-d941873 elementor-widget elementor-widget-image" data-id="d941873" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-70e0bab" data-id="70e0bab" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-9738c46 elementor-widget elementor-widget-heading" data-id="9738c46" data-element_type="widget" data-widget_type="heading.default">
+  <div class="elementor-widget-container"></div>
+</div>
+<div class="elementor-element elementor-element-5c0bf37 elementor-widget elementor-widget-button" data-id="5c0bf37" data-element_type="widget" data-widget_type="button.default">
+  <div class="elementor-widget-container">
+    <div class="elementor-button-wrapper">
+      <a class="elementor-button elementor-button-link elementor-size-sm" href="#">
+        <span class="elementor-button-content-wrapper">
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-5d34d9c" data-id="5d34d9c" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-c9a0456 elementor-widget elementor-widget-spacer" data-id="c9a0456" data-element_type="widget" data-widget_type="spacer.default">
+  <div class="elementor-widget-container">
+    <div class="elementor-spacer">
+      <div class="elementor-spacer-inner"></div>
+    </div>
+  </div>
+</div>
+<div class="elementor-element elementor-element-00fd17a elementor-absolute elementor-widget elementor-widget-button" data-id="00fd17a" data-element_type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="button.default">
+  <div class="elementor-widget-container">
+    <div class="elementor-button-wrapper">
+      <a class="elementor-button elementor-button-link elementor-size-md" href="index.html?p=2947.html">
+        <span class="elementor-button-content-wrapper">
+          <span class="elementor-button-icon">
+            <i aria-hidden="true" class="fas fa-arrow-right"></i>
+          </span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-68da392 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="68da392" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-b6fc8aa" data-id="b6fc8aa" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-04c512b elementor-widget elementor-widget-image" data-id="04c512b" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-99f63ff" data-id="99f63ff" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-a0650ad elementor-widget elementor-widget-image" data-id="a0650ad" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-cb67841" data-id="cb67841" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-093e742 elementor-widget elementor-widget-image" data-id="093e742" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-d0d7b82" data-id="d0d7b82" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-0345b7e elementor-widget elementor-widget-image" data-id="0345b7e" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-b9dce95 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b9dce95" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-763ab0e" data-id="763ab0e" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated"></div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-464236d elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="464236d" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-ea3b16f" data-id="ea3b16f" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-widget elementor-widget-sidebar" data-id="7f8f919" data-element_type="widget" data-widget_type="sidebar.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-70fd690" data-id="70fd690" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-b57e932 elementor-widget elementor-widget-heading" data-id="b57e932" data-element_type="widget" data-widget_type="heading.default">
+  <div class="elementor-widget-container"></div>
+</div>
+<div class="elementor-element elementor-element-8eb3402 elementor-widget elementor-widget-wp-widget-jupiterx_posts" data-id="8eb3402" data-element_type="widget" data-widget_type="wp-widget-jupiterx_posts.default">
+  <div class="elementor-widget-container"></div>
+</div>
+<div class="elementor-element elementor-element-d43162c elementor-button-info elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="d43162c" data-element_type="widget" data-widget_type="button.default">
+  <div class="elementor-widget-container">
+    <div class="elementor-button-wrapper">
+      <a class="elementor-button elementor-button-link elementor-size-xs" href="category/news/index.html" rel="nofollow">
+        <span class="elementor-button-content-wrapper"></span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-40aab4e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="40aab4e" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c32a96b" data-id="c32a96b" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-a8b5462 elementor-widget__width-initial elementor-widget elementor-widget-image" data-id="a8b5462" data-element_type="widget" data-widget_type="image.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-d2eae5a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d2eae5a" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a5a98cd" data-id="a5a98cd" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-b607c28 elementor-widget elementor-widget-heading" data-id="b607c28" data-element_type="widget" data-widget_type="heading.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-e9c2605 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e9c2605" data-element_type="section">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-81003eb" data-id="81003eb" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-003116e elementor-widget elementor-widget-html" data-id="003116e" data-element_type="widget" data-widget_type="html.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-76a192c" data-id="76a192c" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-f4bf6e9 elementor-widget elementor-widget-html" data-id="f4bf6e9" data-element_type="widget" data-widget_type="html.default">
+  <div class="elementor-widget-container"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-51dffbd elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="eeddbe9" data-element_type="widget" data-widget_type="divider.default">
+<div class="elementor-widget-container">
+<div class="elementor-divider" style="--divider-pattern-url: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#039;http://www.w3.org/2000/svg&#039; preserveAspectRatio=&#039;none&#039; overflow=&#039;visible&#039; height=&#039;100%&#039; viewBox=&#039;0 0 24 24&#039; fill=&#039;black&#039; stroke=&#039;none&#039;%3E%3Cpolygon points=&#039;9.4,2 24,2 14.6,21.6 0,21.6&#039;/%3E%3C/svg%3E&quot;);">
+<span class="elementor-divider-separator"></span>
+</div>
+</div>
+</section>
+</div>
+<!-- Image Row Container -->
+<div class="image-row">
+<a href="http://www.president.gov.ph">
+<img src="wp-content/uploads/2019/10/banner-president-corner-300x143.png" alt="Banner President Corner" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-293 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/banner-president-corner-300x143.png 300w, wp-content/uploads/2019/10/banner-president-corner.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="https://dilg.gov.ph/secretarys-corner/">
+<img src="wp-content/uploads/2019/10/secretarys-corner-300x143.png" alt="Secretarys Corner" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-292 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/secretarys-corner-300x143.png 300w, wp-content/uploads/2019/10/secretarys-corner.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="index.html?p=301.html">
+<img src="wp-content/uploads/2019/10/banner-transparency-seal-300x143.png" alt="Transparency Seal" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-294 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/banner-transparency-seal-300x143.png 300w, wp-content/uploads/2019/10/banner-transparency-seal.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="Ahttps://drive.google.com/drive/folders/198y0g9Mcjm0XgQOYmw_gP39rQadoZvxW" target="_blank">
+<img src="wp-content/uploads/2019/10/CitizenCharter02-300x143.jpg" alt="Citizen Charter" loading="lazy" decoding="async" width="300" height="143" class="image wp-image-297 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/CitizenCharter02-300x143.jpg 300w, wp-content/uploads/2019/10/CitizenCharter02.jpg 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="Ahttps://docs.google.com/document/d/12Rr-BdwOB7iMsDx-8d4pxb6ezMVvmdMTYdvE-D0wDek/edit" target="_blank">
+<img src="wp-content/uploads/2019/10/dilg-iso9001-1-300x165.jpg" alt="ISO 9001 Certification" loading="lazy" decoding="async" width="300" height="165" class="image wp-image-298 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/dilg-iso9001-1-300x165.jpg 300w, wp-content/uploads/2019/10/dilg-iso9001-1.jpg 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="http://dilg.gov.ph/reports-and-resources/seal-of-good-local-governance/12/">
+<img src="wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel-300x165.png" alt="Seal of Good Local Governance" loading="lazy" decoding="async" width="300" height="165" class="image wp-image-300 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel-300x165.png 300w, wp-content/uploads/2019/10/Seal-of-Good-Loca-Governancel.png 381w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="index.html?p=8076.html">
+<img src="wp-content/uploads/2023/08/GAD-300x135.jpg" alt="GAD" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/08/GAD-300x135.jpg 300w, wp-content/uploads/2023/08/GAD.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="https://www.foi.gov.ph/">
+<img src="wp-content/uploads/2023/02/a2.jpg" alt="FOI" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/02/a2.jpg 300w, wp-content/uploads/2023/02/a2.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+<a href="https://safetyseal.dilg.gov.ph/">
+<img src="wp-content/uploads/2023/02/a4.jpg" alt="Safety Seal" loading="lazy" decoding="async" width="300" height="135" class="image wp-image-8087 attachment-medium size-medium" style="max-width: 100%; height: auto;" srcset="wp-content/uploads/2023/02/a4.jpg 300w, wp-content/uploads/2023/02/a4.jpg 720w" sizes="(max-width: 300px) 100vw, 300px" />
+</a>
+</div>
+<footer class="jupiterx-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+<div class="jupiterx-footer-widgets jupiterx-footer-layout-04">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+</div>
+</div>
+</div>
+<div class="jupiterx-footer-menu">
+<nav class="footer-navigation">
+<ul class="main-menu">
+<li><a href="index.html">Home</a></li>
+<li class="has-dropdown">
+<a href="index.html?p=15.html">About Us</a>
+<ul class="dropdown-menu">
+  <li><a href="index.html?p=51.html">History</a></li>
+  <li><a href="index.html?p=7253.html">Mandate</a></li>
+  <li><a href="index.html?p=53.html">Organizational Structure</a></li>
+  <li><a href="index.html?p=55.html">Key Officials &amp; Management</a></li>
+  <li><a href="index.html?p=59.html">Attached Agencies</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a href="index.html?p=21.html">Programs &amp; Services</a>
+</li>
+<li class="has-dropdown">
+<a href="index.html?p=17.html">Transparency at Work</a>
+<ul class="dropdown-menu">
+  <li><a href="index.html?p=301.html">Transparency Seal</a></li>
+  <li><a href="index.html?p=31.html">Regional, Provincial &amp; HUC Status: LGU Compliance on Full Disclosure</a></li>
+  <li><a href="index.html?p=33.html">LGU Compliance on Full Disclosure</a></li>
+  <li><a href="index.html?p=35.html">Vacant Positions</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a href="index.html?p=6733.html">Issuances</a>
+<ul class="dropdown-menu">
+  <li><a href="https://dilg.gov.ph/issuances-archive/jc/">Joint Circulars</a></li>
+  <li><a href="https://dilg.gov.ph/issuances-archive/mc/">Memo Circulars</a></li>
+  <li><a href="https://dilg.gov.ph/issuances-archive/pd/">Presidential Directives</a></li>
+</ul>
+</li>
+<li class="has-dropdown">
+<a href="index.html?p=6801.html">LGU Portal</a>
+<ul class="dropdown-menu">
+  <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
+  <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
+  <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
+  <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
+  <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
+  <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
+  <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
+  <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
+  <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
+</ul>
+</li>
+<li><a href="index.html?p=19.html">News</a></li>
+<li class="has-dropdown">
+<a href="index.html?p=27.html">LGU's</a>
+<ul class="dropdown-menu">
+  <!-- New drop-right submenu -->
+  <li class="has-dropright">
+    <a href="#">Field Offices</a>
+    <ul class="dropdown-menu">
+      <li><a href="#">LGU</a></li>
+      <li><a href="#">DILG Field Office</a></li>
+    </ul>
+  </li>
+  <!-- Existing submenu (e.g., Cebu entry) -->
+  <li class="has-dropdown">
+    <a href="https://www.cebu.gov.ph/">Cebu</a>
+    <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu-link-228">
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofbogocebu.gov.ph/" class="dropdown-item">City of Bogo</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofcarcar.gov.ph/" class="dropdown-item">City of Carcar</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://danaocity.gov.ph/" class="dropdown-item">City of Danao</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cityofnaga-cebu.gov.ph/" class="dropdown-item">City of Naga</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://www.talisaycitycebu.gov.ph/" class="dropdown-item">City of Talisay</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://toledocity.gov.ph/" class="dropdown-item">City of Toledo</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Alcantara</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://alcoycebu.gov.ph/" class="dropdown-item">Alcoy</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Alegria</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Aloguinsan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://argaotourism.com/" class="dropdown-item">Argao</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Asturias</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://badian.gov.ph/" class="dropdown-item">Badian</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://balambancebu.gov.ph/" class="dropdown-item">Balamban</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://bantayancebu.gov.ph/" class="dropdown-item">Bantayan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Barili</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Boljoon</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Borbon</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://carmencebu.gov.ph/" class="dropdown-item">Carmen</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Catmon</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://compostelacebu.gov.ph/" class="dropdown-item">Compostela</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://consolacion.gov.ph/" class="dropdown-item">Consolacion</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://cordova.gov.ph/" class="dropdown-item">Cordova</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://daanbantayan.gov.ph/" class="dropdown-item">Daanbantayan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://dalaguete.gov.ph/" class="dropdown-item">Dalaguete</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Dumanjug</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Ginatilan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://liloan.gov.ph/" class="dropdown-item">Liloan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://madridejoscebu.gov.ph/" class="dropdown-item">Madridejos</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Malabuyoc</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://medellin.gov.ph/" class="dropdown-item">Medellin</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://minglanilla.gov.ph/" class="dropdown-item">Minglanilla</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://moalboal.gov.ph/" class="dropdown-item">Moalboal</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://oslob.gov.ph/" class="dropdown-item">Oslob</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Pilar</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://pinamungajan.gov.ph/" class="dropdown-item">Pinamungajan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Poro</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Ronda</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Samboan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="https://sanfernandocebu.gov.ph/" class="dropdown-item">San Fernando</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">San Francisco</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">San Remigio</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Santa Fe</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Santander</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Sibonga</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Sogod</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tabogon</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tabuelan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tuburan</a></li>
+      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item"><a href="#" class="dropdown-item">Tudela</a></li>
+    </ul>
+  </li>
+</ul>
+</li>
+<li><a href="index.html?p=1853.html">Pangatungdanan</a></li>
+<li><a href="index.html?p=29.html">Contact Information</a></li>
+</ul>
+</nav>
+</div>
+<div class="jupiterx-subfooter">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-md text-center">
+<div class="jupiterx-subfooter-copyright">
+  © 2025 - DILG Cebu Province. All rights reserved. Created by: Polster Noksman
+</div>
+<div class="elementor-widget-container" style="margin-top: 10px;">
+  <div style="font-weight: bold; margin-bottom: 5px;">Philippine Standard Time</div>
+  <div style="display: flex; justify-content: center; padding-left: 36px;">
+    <iframe src="https://free.timeanddate.com/clock/i8p1xekg/n1238/ahl/tt0/tw0/tm1/th2" frameborder="0" width="218" height="18" style="padding-right: 3px;"></iframe>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</main>
+<script>
+/* 
+* Main JavaScript with mobile compatibility enhancements
+* - Improved touch handling for mobile devices
+* - Orientation change handling
+*/
+document.addEventListener("DOMContentLoaded", function () {
+// Slider functionality
+const slider = document.getElementById("mainPageSlider");
+const slides = document.querySelectorAll(".main-slide");
+const prevBtn = document.querySelector(".prev-slide");
+const nextBtn = document.querySelector(".next-slide");
+const pagination = document.getElementById("sliderPagination");
+let currentSlide = 0;
+const slideCount = slides.length;
+for (let i = 0; i < slideCount; i++) {
+const dot = document.createElement("div");
+dot.classList.add("pagination-dot");
+if (i === 0) dot.classList.add("active");
+dot.addEventListener("click", () => goToSlide(i));
+pagination.appendChild(dot);
+}
+function updatePagination() {
+const dots = document.querySelectorAll(".pagination-dot");
+dots.forEach((dot, index) => {
+dot.classList.toggle("active", index === currentSlide);
+});
+}
+function goToSlide(index) {
+currentSlide = index;
+slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+updatePagination();
+}
+function nextSlide() {
+currentSlide = (currentSlide + 1) % slideCount;
+goToSlide(currentSlide);
+}
+function prevSlide() {
+currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+goToSlide(currentSlide);
+}
+prevBtn.addEventListener("click", prevSlide);
+nextBtn.addEventListener("click", nextSlide);
+let interval = setInterval(nextSlide, 5000);
+slider.parentElement.addEventListener("mouseenter", () => {
+clearInterval(interval);
+});
+slider.parentElement.addEventListener("mouseleave", () => {
+interval = setInterval(nextSlide, 5000);
+});
+
+// Handle touch events for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+slider.addEventListener('touchstart', (e) => {
+touchStartX = e.changedTouches[0].screenX;
+clearInterval(interval);
+}, {passive: true});
+
+slider.addEventListener('touchend', (e) => {
+touchEndX = e.changedTouches[0].screenX;
+handleSwipe();
+interval = setInterval(nextSlide, 5000);
+}, {passive: true});
+
+function handleSwipe() {
+if (touchEndX < touchStartX - 50) {
+// Swipe left
+nextSlide();
+} else if (touchEndX > touchStartX + 50) {
+// Swipe right
+prevSlide();
+}
+}
+
+// Handle orientation changes
+window.addEventListener('orientationchange', function() {
+// Small delay to allow the browser to complete the orientation change
+setTimeout(function() {
+// Adjust any elements that need repositioning after orientation change
+updateSliderHeight();
+}, 200);
+});
+
+function updateSliderHeight() {
+// This function is no longer needed as slider height is controlled by CSS aspect-ratio
+// Left here for compatibility but doesn't modify any heights
+console.log("Slider now uses CSS aspect-ratio for responsive sizing");
+}
+document.addEventListener("keydown", (e) => {
+if (e.key === "ArrowLeft") {
+prevSlide();
+} else if (e.key === "ArrowRight") {
+nextSlide();
+}
+});
+// Mobile menu toggle and dropdown handling
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+const navMenu = document.querySelector(".nav-menu");
+if (mobileMenuToggle && navMenu) {
+mobileMenuToggle.addEventListener("click", function () {
+navMenu.classList.toggle("active");
+mobileMenuToggle.classList.toggle("active");
+});
+}
+const dropdownItems = document.querySelectorAll(".has-dropdown");
+dropdownItems.forEach((item) => {
+item.addEventListener("click", function (e) {
+if (window.innerWidth <= 768) {
+// Prevent immediate navigation on mobile
+const link = this.querySelector('a');
+if (link && e.target === link) {
+e.preventDefault();
+}
+this.classList.toggle("open");
+}
+});
+
+// Add touch-friendly submenu handling
+const submenus = item.querySelectorAll('.dropdown-menu');
+submenus.forEach(submenu => {
+const parentLink = submenu.parentElement.querySelector('a');
+if (parentLink) {
+parentLink.addEventListener('touchend', function(e) {
+if (window.innerWidth <= 768) {
+  if (!submenu.classList.contains('active')) {
+    e.preventDefault();
+    submenu.classList.add('active');
+  }
+}
+}, {passive: false});
+}
+});
+});
+
+// Handle drop-right menu items for mobile
+const droprightItems = document.querySelectorAll('.has-dropright');
+droprightItems.forEach((item) => {
+  item.addEventListener('click', function(e) {
+    if (window.innerWidth <= 768) {
+      const link = this.querySelector('a');
+      if (link && e.target === link) {
+        e.preventDefault();
+      }
+      this.classList.toggle('open');
+      e.stopPropagation();
+    }
+  });
+});
+
+// Initial check for orientation
+updateSliderHeight();
+});
+</script>
+<script src="../assets/js/main-background-switcher.js"></script>
+<script>
+// Ensure DOM is fully loaded before loading scroll restoration script
+document.addEventListener('DOMContentLoaded', function() {
+// Create and load the scroll restoration script
+const scrollScript = document.createElement('script');
+scrollScript.src = "../assets/js/scroll-restoration.js";
+scrollScript.async = false; // Ensure script executes in order
+document.body.appendChild(scrollScript);
+});
+</script>
+</div>
+</body>
 </html>

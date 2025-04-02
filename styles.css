@@ -46,7 +46,7 @@
 
 @font-face {
     font-family: 'Whitehella';
-    src: url('assets/fonts/Whitehella.otf') format('opentype');
+    src: url('assets/fonts/Whitehella.ttf') format('opentype');
     font-display: swap;
 }
 
@@ -466,7 +466,7 @@ a[href="index.html?p=1853.html"] {
 }
 
 .image-row img {
-    max-width: 150px;
+    max-width: 2000px;
     height: auto;
     object-fit: contain;
 }
@@ -815,6 +815,70 @@ a[href="index.html?p=1853.html"] {
 }
 
 
+/* -------------------- Drop-right Submenu Styles -------------------- */
+/* Drop-right submenu styles */
+.has-drop-right {
+    position: relative;
+}
+
+.drop-right-menu {
+    display: none;
+    position: absolute;
+    left: 100%; /* Positions it to the right of the parent item */
+    top: 0;
+    min-width: 200px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    z-index: 120;
+    list-style: none;
+    padding: 0;
+}
+
+.has-drop-right:hover .drop-right-menu {
+    display: block;
+}
+
+/* Adjust scrollbar positioning for parent dropdown */
+.dropdown-menu {
+    direction: rtl; /* Moves scrollbar to the left side */
+}
+
+.dropdown-menu * {
+    direction: ltr; /* Maintain left-to-right text styling */
+}
+
+/* Styling for submenu list items */
+.drop-right-menu li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.drop-right-menu li:last-child {
+    border-bottom: none;
+}
+
+.drop-right-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.drop-right-menu a:hover {
+    background-color: #f5f5f5;
+    color: #0056b3;
+}
+
+/* Disabled state for LGU Website when no valid URL is present */
+.drop-right-menu .disabled a {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #999;
+}
+
+
 /* -------------------- LGU's Menu Grid Styles -------------------- */
 /*
  * The LGU menu should be organized as follows:
@@ -866,3 +930,4 @@ a[href="index.html?p=1853.html"] {
         grid-template-columns: 1fr;
     }
 }
+

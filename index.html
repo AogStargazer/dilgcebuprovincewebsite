@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="root-page">
+    <!-- This is the landing page with a "Coming Soon" message and link to the main site -->
     <header>
         <div class="container">
             <div class="logo-container">
@@ -17,16 +18,29 @@
             <h1 class="coming-soon"><a href="main/index.html">Coming Soon!</a></h1>
         </div>
     </header>
+    
+    <main>
+        <!-- Main content will be added here in future updates -->
+    </main>
     <script src="./assets/js/background-switcher.js"></script>
     <script>
-        // Ensure DOM is fully loaded before loading scroll restoration script
+        /**
+         * Dynamic Script Loader
+         * 
+         * This script dynamically loads the scroll-restoration.js after the DOM is fully loaded.
+         * This approach ensures that the scroll restoration functionality works correctly
+         * by loading it at the appropriate time in the page lifecycle.
+         * 
+         * NOTE TO DEVELOPERS: Consider moving this to an external file (e.g., script-loader.js)
+         * if more scripts need to be dynamically loaded in the future for better maintainability.
+         */
         document.addEventListener('DOMContentLoaded', function() {
           // Create and load the scroll restoration script
           const scrollScript = document.createElement('script');
-          scrollScript.src = "../assets/js/scroll-restoration.js";
+          scrollScript.src = "./assets/js/scroll-restoration.js"; // Correct path relative to index.html
           scrollScript.async = false; // Ensure script executes in order
           document.body.appendChild(scrollScript);
         });
-      </script>
+    </script>
 </body>
 </html>
