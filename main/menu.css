@@ -210,3 +210,16 @@ body {
   border-bottom: 0.3em solid transparent;
   border-left: 0.3em solid;
 }
+
+/* Grey out and disable links with href="#" */
+.main-menu a[href="#"] {
+  color: #aaa;          /* Change text color to grey */
+  opacity: 0.6;         /* Reduce opacity for visual cue */
+  pointer-events: none; /* Disable clicking */
+  cursor: default;      /* Change cursor to default arrow */
+}
+
+/* Optional: Disable hover effects */
+.main-menu a[href="#"]:hover {
+  background: none;
+}

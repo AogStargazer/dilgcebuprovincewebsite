@@ -187,11 +187,13 @@ img {
     display: flex;
     list-style: none;
     justify-content: center;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .main-menu > li {
     position: relative;
     margin: 0 5px;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .main-menu > li > a {
@@ -402,7 +404,11 @@ a[href="index.html?p=1853.html"] {
     
     .main-menu > li {
         margin: 0;
-        border-bottom: 1px solid #f0f0f0;
+        /* border-bottom: 1px solid #f0f0f0; */
+    }
+    
+    .dropdown-menu li {
+        border-bottom: none;
     }
     
     .main-menu > li > a {
@@ -424,8 +430,8 @@ a[href="index.html?p=1853.html"] {
     .has-dropdown.open .dropdown-menu {
         max-height: 500px;
         overflow-y: auto;
-        border-left: 3px solid #0056b3;
-        background-color: #f9f9f9;
+        /* Removed border-left and background color to eliminate unnecessary lines */
+        background-color: transparent;
     }
     
     .has-dropdown.open > a .dropdown-indicator,
