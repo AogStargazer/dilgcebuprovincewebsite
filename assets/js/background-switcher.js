@@ -12,6 +12,7 @@ const MAIN_IMAGES_PATH = '../images/'; // For inner pages
 // Image filenames
 const DAYTIME_IMAGE = 'Cebu_Capitol_Compound.png';
 const NIGHTTIME_IMAGE = 'Cebu_Capitol_Compound_Night.png';
+const NIGHTTIME_IMAGES = ['Cebu_Capitol_Compound_Night.png', 'Cebu_Capitol_Compound_Night_Alternate.png'];
 
 // Execute when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -72,7 +73,7 @@ function updateBackgroundBasedOnTime() {
         }
 
         // Select the appropriate image based on time of day
-        const imageFile = isDaytimeNow ? DAYTIME_IMAGE : NIGHTTIME_IMAGE;
+        const imageFile = isDaytimeNow ? DAYTIME_IMAGE : NIGHTTIME_IMAGES[Math.floor(Math.random() * NIGHTTIME_IMAGES.length)];
         const fullImagePath = imagePath + imageFile;
         
         try {

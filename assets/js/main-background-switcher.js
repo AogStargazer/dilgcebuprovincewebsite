@@ -58,9 +58,13 @@ const MainBackgroundSwitcher = (function() {
      */
     function getBackgroundImageUrl() {
         // Determine which image to use based on time
-        const imageName = isDaytime() 
-            ? BackgroundConfig.images.day 
-            : BackgroundConfig.images.night;
+        let imageName;
+        if (isDaytime()) {
+            imageName = BackgroundConfig.images.day;
+        } else {
+            const nightImages = ['Cebu_Capitol_Compound_Night.png', 'Cebu_Capitol_Compound_Night_Alternate.png'];
+            imageName = nightImages[Math.floor(Math.random() * nightImages.length)];
+        }
         
         // Add a timestamp for cache-busting
         const timestamp = new Date().getTime();
