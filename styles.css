@@ -172,7 +172,7 @@ img {
 
 /* Logo inside navigation */
 .nav-logo img {
-    max-width: 80px;
+    max-width: 90px;
     height: auto;
     margin-right: 20px;
 }
@@ -196,12 +196,13 @@ img {
 
 .main-menu > li > a {
     display: block;
-    padding: 9px 4px;
+    padding: 4px 4px;
     color: #333;
     text-decoration: none;
     font-weight: 400;
     font-size: 14px;
     transition: color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .main-menu > li > a:hover {
@@ -395,7 +396,8 @@ a[href="index.html?p=1853.html"] {
     .main-menu {
         flex-direction: column;
         padding: 20px;
-        justify-content: flex-start;
+        justify-content: center;
+        align-items: center;
     }
     
     .main-menu > li {
@@ -629,6 +631,31 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
+/* 
+ * NEW RULES: Top Main Menu Grid Layout & Footer Menu Grid Layout
+ * These rules convert the existing flex layout into a grid layout with fixed columns on desktop screens (min-width: 769px).
+ * The top main menu will have 7 columns and the footer menu 5 columns.
+ */
+@media screen and (min-width: 769px) {
+    /* Top Main Menu: Two rows with 7 items per row (if more items are added, the grid will enforce 7 columns) */
+    .main-navigation .nav-menu .main-menu {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        justify-items: center;
+        justify-content: center;
+    }
+
+    /* Footer Menu: Two rows with 5 items per row */
+    .footer-navigation .main-menu {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        justify-items: center;
+        justify-content: center;
+    }
+}
+
 /* -------------------- Main Page Slider Styles -------------------- */
 .main-slider-container {
     width: 100vw;
@@ -815,68 +842,7 @@ a[href="index.html?p=1853.html"] {
 }
 
 
-/* -------------------- Drop-right Submenu Styles -------------------- */
-/* Drop-right submenu styles */
-.has-drop-right {
-    position: relative;
-}
 
-.drop-right-menu {
-    display: none;
-    position: absolute;
-    left: 100%; /* Positions it to the right of the parent item */
-    top: 0;
-    min-width: 200px;
-    background: white;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    z-index: 120;
-    list-style: none;
-    padding: 0;
-}
-
-.has-drop-right:hover .drop-right-menu {
-    display: block;
-}
-
-/* Adjust scrollbar positioning for parent dropdown */
-.dropdown-menu {
-    direction: rtl; /* Moves scrollbar to the left side */
-}
-
-.dropdown-menu * {
-    direction: ltr; /* Maintain left-to-right text styling */
-}
-
-/* Styling for submenu list items */
-.drop-right-menu li {
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.drop-right-menu li:last-child {
-    border-bottom: none;
-}
-
-.drop-right-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.drop-right-menu a:hover {
-    background-color: #f5f5f5;
-    color: #0056b3;
-}
-
-/* Disabled state for LGU Website when no valid URL is present */
-.drop-right-menu .disabled a {
-    opacity: 0.6;
-    cursor: not-allowed;
-    pointer-events: none;
-    color: #999;
-}
 
 
 /* -------------------- LGU's Menu Grid Styles -------------------- */
