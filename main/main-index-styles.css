@@ -130,3 +130,29 @@ html body.home .container.grid-layout .elementor-button:hover {
     max-width: none;
     margin: 0;
 }
+
+/* ==========================================================================
+   OVERRIDE FOR ATTACHED AGENCIES IMAGE ROW
+   ========================================================================== */
+
+.attached-agencies .image-row {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+
+/* Optional: Apply similar behavior to all .image-row elements on large screens */
+@media screen and (min-width: 1024px) {
+  .image-row.no-wrap {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  
+  .image-row.no-wrap img {
+    width: auto;
+    flex: 0 0 150px;
+    max-width: 150px;
+  }
+}

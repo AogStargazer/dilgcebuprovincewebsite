@@ -479,6 +479,14 @@ a[href="index.html?p=1853.html"] {
     object-fit: contain;
 }
 
+/* Base image dimensions for large screens */
+@media screen and (min-width: 1024px) {
+    .image-row img {
+         width: 250px;
+         max-width: 250px;
+    }
+}
+
 /* -------------------- Footer Styles -------------------- */
 .jupiterx-footer {
     background-color: #fff;

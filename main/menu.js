@@ -70,8 +70,8 @@ function closeAllDropdowns() {
  * for the Legislative Districts, Cities/Municipalities, and individual LGUs.
  */
 function initDropRightMenus() {
-    // Select both types of dropdown menu items
-    const droprightItems = document.querySelectorAll('.has-dropright, .has-drop-right');
+    // Select all types of dropdown menu items
+    const droprightItems = document.querySelectorAll('.has-dropdown, .has-dropright, .has-drop-right');
     
     droprightItems.forEach(item => {
         // Desktop events

@@ -136,13 +136,13 @@ body {
   pointer-events: auto;
 }
 
-/* Prevent text wrapping in menu items for better appearance */
+/* Allow full text display in menu items */
 .dropdown-menu li a,
 .drop-right-menu li a {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 250px; /* Reasonable maximum width */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  max-width: none;
 }
 
 /* Ensure menus don't get too tall on smaller screens */
@@ -190,6 +190,27 @@ body {
   
   .has-drop-right:hover .drop-right-menu {
     display: block;
+  }
+  
+  /* Mobile accordion style for top-menu dropdowns (for .has-dropdown) */
+  .main-navigation .main-menu .has-dropdown > .dropdown-menu {
+    display: block; /* Always block for accordion effect */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  /* When the parent has the 'open' class, expand the submenu to show its content */
+  .main-navigation .main-menu .has-dropdown.open > .dropdown-menu {
+    max-height: 500px; /* Adjust value as needed to accommodate submenu content */
+  }
+
+  /* Optional: rotate arrow indicator for open state */
+  .main-navigation .main-menu .has-dropdown > a::after {
+    transition: transform 0.3s ease;
+  }
+  .main-navigation .main-menu .has-dropdown.open > a::after {
+    transform: rotate(90deg);
   }
 }
 
