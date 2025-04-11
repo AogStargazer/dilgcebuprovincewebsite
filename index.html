@@ -691,9 +691,9 @@
       });
       /* ]]> */
     </script>
-    <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-    <script type="text/javascript" src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js?ver=3.28.1" id="font-awesome-4-shim-js"></script>
+    <script type="text/javascript" src="/main/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+    <script type="text/javascript" src="/main/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+    <script type="text/javascript" src="/main/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js?ver=3.28.1" id="font-awesome-4-shim-js"></script>
     <link rel="https://api.w.org/" href="wp-json/index.html" />
     <link rel="alternate" title="JSON" type="application/json" href="wp-json/wp/v2/pages/250" />
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="xmlrpc.php?rsd" />
@@ -701,7 +701,7 @@
     <link rel="canonical" href="index.html" />
     <link rel="shortlink" href="index.html" />
      <meta name="generator" content="Elementor 3.28.1; features: additional_custom_breakpoints, e_local_google_fonts; settings: css_print_method-external, google_font-enabled, font_display-auto" />
-    <link rel="stylesheet" href="menu.css" type="text/css" media="all">
+    <link rel="stylesheet" href="main/menu.css" type="text/css" media="all">
   </head>
   <body class="home page-template page-template-elementor_header_footer page page-id-250 current_page_item no-js jet-desktop-menu-active elementor-default elementor-template-full-width elementor-kit-3750 elementor-page elementor-page-250 jupiterx-header-fixed jupiterx-header-overlapped jupiterx-header-overlapped-tablet jupiterx-header-overlapped-mobile main-page" itemscope="itemscope" itemtype="http://schema.org/WebPage">
     <div class="jupiterx-site">
@@ -907,8 +907,6 @@
                       </li>
                       <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item" aria-haspopup="true" aria-expanded="false"><a href="#" class="dropdown-item">Tudela</a>
                         <ul class="drop-right-menu">
-                          <li class="menu-item"><a href="#" class="dropdown-item disabled">LGU Website</a></li>
-                          <li class="menu-item"><a href="#" class="dropdown-item">DILG Field Office</a></li>
                         </ul>
                       </li>
                     </ul>
@@ -1142,8 +1140,17 @@
 
 
 
-              <li><a id="pangatundanan" href="index.html?p=1853.html">Pangatungdanan</a></li>
-              <li><a href="index.html?p=29.html">Contact Information</a></li>
+              <li><a id="pangatundanan" href="#">Pangatungdanan</a></li>
+              <li class="has-dropdown">
+                <a href="#">Procurement</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Invitation to Bid</a></li>
+                  <li><a href="#">Notice to Proceed</a></li>
+
+                </ul>
+              </li>
+
+              <li><a href="#">Contact Information</a></li>
             </ul>
           </div>
           <div class="mobile-menu-toggle">
@@ -1558,45 +1565,39 @@
   <ul class="main-menu">
   <li><a href="index.html">Home</a></li>
   <li class="has-dropdown">
-  <a href="main/index.html?p=15.html">About Us</a>
+  <a href="main/aboutus.html">About Us</a>
   <ul class="dropdown-menu">
   </ul>
   </li>
   <li class="has-dropdown">
-  <a href="index.html?p=21.html">Programs &amp; Services</a>
+  <a href="programs.html">Programs &amp; Services</a>
   </li>
   <li class="has-dropdown">
-  <a href="index.html?p=17.html">Transparency at Work</a>
+  <a href="transparencyofwork.html">Transparency at Work</a>
   <ul class="dropdown-menu">
   </ul>
   </li>
   <li class="has-dropdown">
-  <a href="index.html?p=6733.html">Issuances</a>
+  <a href="issuances.html">Issuances</a>
   <ul class="dropdown-menu">
   </ul>
   </li>
   <li class="has-dropdown">
-  <a href="index.html?p=6801.html">LGU Portal</a>
+  <a href="lguportal.html">LGU Portal</a>
   <ul class="dropdown-menu">
   </ul>
   </li>
-  <li><a href="index.html?p=19.html">News</a></li>
+  <li><a href="news.html">News</a></li>
   <li class="has-dropdown">
   <a href="index.html?p=27.html">LGU's</a>
   <ul class="dropdown-menu">
-    <!-- New drop-right submenu -->
-    <li class="has-dropright">
-      <a href="#">Field Offices</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">LGU</a></li>
-        <li><a href="#">DILG Field Office</a></li>
-      </ul>
-    </li>
-    <!-- Existing submenu (e.g., Cebu entry) -->
+
 
   </ul>
   </li>
   <li><a href="index.html?p=1853.html">Pangatungdanan</a></li>
+  <li><a href="index.html?p=29.html">Procurement</a></li>
+
   <li><a href="index.html?p=29.html">Contact Information</a></li>
   </ul>
   </nav>
@@ -1761,18 +1762,18 @@
           updateSliderHeight();
         });
       </script>
-      <script src="../assets/js/main-background-switcher.js"></script>
+      <script src="assets/js/main-background-switcher.js"></script>
       <script>
         // Ensure DOM is fully loaded before loading scroll restoration script
         document.addEventListener('DOMContentLoaded', function() {
           // Create and load the scroll restoration script
           const scrollScript = document.createElement('script');
-          scrollScript.src = "../assets/js/scroll-restoration.js";
+          scrollScript.src = "assets/js/scroll-restoration.js";
           scrollScript.async = false; // Ensure script executes in order
           document.body.appendChild(scrollScript);
         });
       </script>
-      <script src="menu.js"></script>
+      <script src="main/menu.js"></script>
     </div>
   </body>
 </html>
