@@ -6,7 +6,26 @@
 /* Prevent horizontal scrolling when submenus expand */
 body {
   overflow-x: hidden;
+  
+  /* Ensure submenus can be accessed via keyboard navigation */
+  .has-dropdown:focus-within > .dropdown-menu,
+  .has-dropright:focus-within > .dropdown-menu,
+  .has-drop-right:focus-within > .drop-right-menu {
+    display: block;
+  }
 }
+
+/* Add JavaScript-free viewport edge detection via CSS */
+@media (min-width: 769px) {
+  /* For very wide menus or menus near the right edge */
+  @supports (position: fixed) {
+    /* This creates a safe zone for menus that might overflow */
+    .has-dropright:hover > .dropdown-menu,
+    .has-drop-right:hover > .drop-right-menu {
+      max-width: calc(100vw - 50px);
+      overflow-x: auto;
+    }
+  }
 
 /* Drop-right submenu styles */
 .has-drop-right {
@@ -43,21 +62,23 @@ body {
   margin: 0;
 }
 
-/* When the drop-right menu should be visible (opened via JavaScript) */
-.has-dropright.open > .dropdown-menu {
+/* When the drop-right menu should be visible (using pure CSS) */
+.has-dropright:hover > .dropdown-menu,
+.has-dropright:focus-within > .dropdown-menu {
   display: block;
 }
 
-/* When the submenu needs to open left because the right side is clipped */
-.has-dropright.drop-left > .dropdown-menu {
-  left: auto;
-  right: 100%;
-}
+/* Auto-positioning for submenus that would overflow the viewport */
+@media (min-width: 769px) {
+  .has-dropright.viewport-edge > .dropdown-menu {
+    left: auto;
+    right: 100%;
+  }
 
-/* When the drop-right menu needs to open left because of overflow */
-.has-drop-right.drop-left .drop-right-menu {
-  left: auto;
-  right: 100%;
+  .has-drop-right.viewport-edge .drop-right-menu {
+    left: auto;
+    right: 100%;
+  }
 }
 
 /* Improved styling for deeper nested menus (3+ levels) */
@@ -77,8 +98,8 @@ body {
   margin-left: 0;
 }
 
-/* Ensure proper arrow direction for drop-left menus */
-.has-dropright.drop-left > .dropdown-toggle::after {
+/* Ensure proper arrow direction for edge-positioned menus */
+.has-dropright.viewport-edge > .dropdown-toggle::after {
   transform: rotate(180deg);
 }
 
@@ -94,8 +115,8 @@ body {
   border-left: 0.3em solid;
 }
 
-/* Ensure proper arrow direction for drop-left menus with has-drop-right */
-.has-drop-right.drop-left > a::after {
+/* Ensure proper arrow direction for edge-positioned menus with has-drop-right */
+.has-drop-right.viewport-edge > a::after {
   transform: rotate(180deg);
 }
 
@@ -129,8 +150,10 @@ body {
   pointer-events: none;
 }
 
-.has-dropright.open > .dropdown-menu,
-.has-drop-right:hover .drop-right-menu {
+.has-dropright:hover > .dropdown-menu,
+.has-dropright:focus-within > .dropdown-menu,
+.has-drop-right:hover .drop-right-menu,
+.has-drop-right:focus-within .drop-right-menu {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -192,25 +215,42 @@ body {
     display: block;
   }
   
-  /* Mobile accordion style for top-menu dropdowns (for .has-dropdown) */
+  /* Mobile accordion style for top-menu dropdowns using pure CSS */
   .main-navigation .main-menu .has-dropdown > .dropdown-menu {
-    display: block; /* Always block for accordion effect */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+    display: none;
   }
 
-  /* When the parent has the 'open' class, expand the submenu to show its content */
-  .main-navigation .main-menu .has-dropdown.open > .dropdown-menu {
-    max-height: 500px; /* Adjust value as needed to accommodate submenu content */
+  /* Show submenu on tap/focus for mobile */
+  .main-navigation .main-menu .has-dropdown:focus-within > .dropdown-menu {
+    display: block;
   }
 
-  /* Optional: rotate arrow indicator for open state */
+  /* Optional: rotate arrow indicator for focus state */
   .main-navigation .main-menu .has-dropdown > a::after {
     transition: transform 0.3s ease;
   }
-  .main-navigation .main-menu .has-dropdown.open > a::after {
+  .main-navigation .main-menu .has-dropdown:focus-within > a::after {
     transform: rotate(90deg);
+  }
+  
+  /* Support for tap-to-expand on mobile */
+  .main-navigation .main-menu .has-dropdown > a,
+  .has-dropright > a,
+  .has-drop-right > a {
+    position: relative;
+  }
+  
+  /* Add a larger tap area for mobile navigation */
+  .main-navigation .main-menu .has-dropdown > a::before,
+  .has-dropright > a::before,
+  .has-drop-right > a::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    z-index: 1;
   }
 }
 
@@ -221,7 +261,8 @@ body {
 }
 
 /* Add a subtle indicator for items with submenus */
-.has-dropright > .dropdown-toggle::after {
+.has-dropright > .dropdown-toggle::after,
+.has-dropright > a::after {
   display: inline-block;
   margin-left: 0.255em;
   vertical-align: 0.255em;
