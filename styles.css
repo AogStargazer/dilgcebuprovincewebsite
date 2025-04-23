@@ -415,6 +415,26 @@ a[href="index.html?p=1853.html"] {
         padding: 15px 0;
     }
     
+    /* Center main menu links on mobile */
+    .main-navigation .main-menu {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    /* Center dropdown containers and items on mobile */
+    .main-navigation .dropdown-menu {
+        text-align: center;
+        width: 100%;
+    }
+    
+    /* Reset left padding and make links full width */
+    .main-navigation .dropdown-menu a {
+        display: block;
+        width: 100%;
+        padding-left: 0;
+    }
+    
     .dropdown-menu {
         position: static;
         opacity: 1;
