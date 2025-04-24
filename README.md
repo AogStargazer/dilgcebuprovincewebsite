@@ -1,33 +1,41 @@
 # DILG Cebu Province Website
 
-This repository contains the official website for the Department of the Interior and Local Government (DILG) Cebu Province.
+This repository contains the official website for the Department of the Interior and Local Government (DILG) Cebu Province. The site is a static export of a WordPress site built with Elementor, optimized for GitHub Pages hosting.
+
+## Project Overview
+
+The DILG Cebu Province website provides information about the department's services, programs, and initiatives. It features a responsive design with dynamic elements like day/night background switching and scroll position restoration.
 
 ## File Structure
 
 The website follows this organization:
 
 ```
-dilgcebuprovincewebsite-1/
-├── index.html              # Landing page
-├── styles.css              # Main CSS file (at repository root)
-├── main/                   # Main website content
-│   ├── index.html          # Main website homepage
-│   └── images/             # Images for main section
-│       ├── Cebu_Capitol_Compound.png       # Daytime background image
-│       └── Cebu_Capitol_Compound_Night.png # Nighttime background image
-├── assets/                 # Asset files
-│   ├── fonts/              # Custom fonts
+/ (root)
+├── index.html                # Landing page
+├── aboutus.html              # About Us page
+├── history.html              # History page
+├── mandate.html              # Mandate page
+├── theprovincialdirector.html # Provincial Director page
+├── maintenanceindex.html     # Maintenance page
+├── template.html             # Template for new pages
+├── styles.css                # Main CSS file
+├── main-index-styles.css     # Styles for main index
+├── menu.css                  # Navigation menu styles
+├── Whitehella.otf            # Font file
+├── CNAME                     # Custom domain configuration
+├── archive/                  # Archived content
+│   └── index.html
+├── assets/                   # Asset files
+│   ├── fonts/                # Custom fonts
 │   │   ├── EuphoriaScript-Regular.ttf
 │   │   └── Whitehella.otf
-│   └── js/                 # JavaScript files
-│       └── background-switcher.js  # Script for day/night background switching
-├── images/                 # Image files
-│   ├── logo.png            # DILG Cebu Province Logo
-│   ├── lgrc.png            # LGRC Logo
-│   ├── Cebu_Capitol_Compound.png       # Daytime background image
-│   ├── Cebu_Capitol_Compound_Night.png # Nighttime background image
-│   └── mainpagealbum/      # Folder for main page image slider
-└── README.md               # This file
+│   └── js/                   # JavaScript files
+│       ├── main-background-switcher.js  # Day/night background switching
+│       └── scroll-restoration.js        # Scroll position management
+├── wp-content/               # WordPress content (static export)
+├── wp-includes/              # WordPress includes (static export)
+└── README.md                 # This file
 ```
 
 ## CSS Structure
