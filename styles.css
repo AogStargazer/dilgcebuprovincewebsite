@@ -875,8 +875,17 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
-
-
+/* Override for Pangatungdanan link to reset disabled state and apply custom styling */
+.main-navigation a.pangatundanan[href="#"],
+.footer-navigation a.pangatundanan[href="#"] {
+  color: #333 !important;             /* Reset to default link color */
+  opacity: 1 !important;              /* Fully opaque */
+  pointer-events: auto !important;    /* Re-enable clicking */
+  cursor: pointer !important;         /* Default pointer */
+  font-family: 'EuphoriaScript', cursive !important; /* Custom script font */
+  font-size: 20px !important;         /* Match existing sizing */
+  font-weight: bold !important;       /* Consistent weight */
+}
 
 
 /* -------------------- LGU's Menu Grid Styles -------------------- */

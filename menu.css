@@ -274,7 +274,8 @@ body {
 }
 
 /* Grey out and disable links with href="#" */
-.main-menu a[href="#"] {
+.main-menu .dropdown-menu a[href="#"],
+.main-menu .drop-right-menu a[href="#"] {
   color: #aaa;          /* Change text color to grey */
   opacity: 0.6;         /* Reduce opacity for visual cue */
   pointer-events: none; /* Disable clicking */
@@ -282,6 +283,7 @@ body {
 }
 
 /* Optional: Disable hover effects */
-.main-menu a[href="#"]:hover {
+.main-menu .dropdown-menu a[href="#"]:hover,
+.main-menu .drop-right-menu a[href="#"]:hover {
   background: none;
 }
