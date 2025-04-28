@@ -979,9 +979,9 @@ a[href="index.html?p=1853.html"] {
 }
 
 .org-node img {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
+    /* width: 1000px; */ /* Commented out to use org-chart-img class instead */
+    height: auto;
+    border-radius: 100px;
     border: 2px solid #333;
     margin-bottom: 5px;
 }
@@ -995,4 +995,19 @@ a[href="index.html?p=1853.html"] {
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+/* -------------------- Organizational Chart Image Styles -------------------- */
+/* 
+ * This class provides consistent sizing for organizational chart images
+ * Apply this class to all <img> tags within the organizational chart section
+ * to ensure uniform dimensions and appearance across the chart
+ */
+.org-chart-img {
+    width: 750px;
+    height: 750px;
+    object-fit: cover;
+    border-radius: 100px;
+    border: 2px solid #333;
+    margin-bottom: 5px;
 }
