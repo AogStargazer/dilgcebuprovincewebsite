@@ -1,0 +1,29 @@
+/* Attached Agencies Styles */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.agencies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.agency {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.agency img {
+    width: var(--agency-img-width, 5000px);
+    margin-bottom: var(--agency-img-margin, 10px);
+}
+
+/* Center the Go Back button */
+.text-content .learn-more-container {
+    text-align: center;
+    margin-top: 20px;
+}

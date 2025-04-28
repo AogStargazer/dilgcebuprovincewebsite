@@ -940,3 +940,59 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
+/* Attached Agencies Styles */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.agencies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+.agency {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.agency img {
+    width: var(--agency-img-width, 5000px);
+    margin-bottom: var(--agency-img-margin, 10px);
+}
+
+
+.org-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.org-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.org-node img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 2px solid #333;
+    margin-bottom: 5px;
+}
+
+.node-label {
+    font-weight: bold;
+    text-align: center;
+}
+
+.org-row {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
