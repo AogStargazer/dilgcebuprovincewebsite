@@ -1052,3 +1052,32 @@ a[href="index.html?p=1853.html"] {
 .adjust-left {
     object-position: 60% center; /* Try 65% or more if still hiding! */
 }
+
+/* Mobile Responsive Organizational Chart */
+@media screen and (max-width: 768px) {
+    /* Stack chart rows vertically */
+    .org-row {
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Add spacing between nodes */
+    .org-row .org-node {
+      margin-bottom: 30px;
+    }
+    /* Reduce image size for mobile */
+    .org-chart-img {
+      width: 120px;
+      height: 120px;
+    }
+    /* Smaller labels for readability */
+    .node-label {
+      font-size: 14px;
+    }
+    /* Make "learn more" buttons full width and add top margin */
+    .org-node .container.grid-layout,
+    .learn-more-container {
+      width: auto;
+      padding: 0;
+      margin-top: 10px;
+    }
+}
