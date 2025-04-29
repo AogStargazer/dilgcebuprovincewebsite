@@ -887,6 +887,31 @@ a[href="index.html?p=1853.html"] {
   font-weight: bold !important;       /* Consistent weight */
 }
 
+/* -------------------- Organizational Chart Hover Effects -------------------- */
+.orgchart-item {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 2px solid #333;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.orgchart-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.orgchart-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 
 /* -------------------- LGU's Menu Grid Styles -------------------- */
 /*
@@ -965,7 +990,15 @@ a[href="index.html?p=1853.html"] {
 }
 
 
-.org-chart {
+
+/* -------------------- Organizational Chart Image Styles -------------------- */
+/* 
+ * This class provides consistent sizing for organizational chart images
+ * Apply this class to all <img> tags within the organizational chart section
+ * to ensure uniform dimensions and appearance across the chart
+ */
+
+ .org-chart {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -976,14 +1009,6 @@ a[href="index.html?p=1853.html"] {
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-}
-
-.org-node img {
-    /* width: 1000px; */ /* Commented out to use org-chart-img class instead */
-    height: auto;
-    border-radius: 100px;
-    border: 2px solid #333;
-    margin-bottom: 5px;
 }
 
 .node-label {
@@ -997,17 +1022,33 @@ a[href="index.html?p=1853.html"] {
     width: 100%;
 }
 
-/* -------------------- Organizational Chart Image Styles -------------------- */
-/* 
- * This class provides consistent sizing for organizational chart images
- * Apply this class to all <img> tags within the organizational chart section
- * to ensure uniform dimensions and appearance across the chart
- */
 .org-chart-img {
-    width: 750px;
-    height: 750px;
-    object-fit: cover;
-    border-radius: 100px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
     border: 2px solid #333;
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition for hover effect */
+}
+
+/* Hover effect */
+.org-chart-img:hover {
+    transform: scale(1.1); /* Slight zoom-in effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add subtle shadow effect */
+}
+
+.org-chart-img img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+.adjust-left {
+    object-position: 60% center; /* Try 65% or more if still hiding! */
 }
