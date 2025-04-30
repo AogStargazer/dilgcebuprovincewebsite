@@ -40,8 +40,15 @@
 /* Font Face Declarations */
 @font-face {
     font-family: 'EuphoriaScript';
-    src: url('assets/fonts/EuphoriaScript-Regular.ttf') format('truetype');
+    src: url('assets/fonts/EuphoriaScript-Regular.ttf') format('truetype'),
+         url('assets/fonts/EuphoriaScript-Regular.woff2') format('woff2'),
+         url('assets/fonts/EuphoriaScript-Regular.woff') format('woff');
     font-display: swap;
+}
+
+/* Global class for Pangatungdanan styling */
+.pangatungdanan {
+  font-family: 'EuphoriaScript', cursive;
 }
 
 @font-face {
@@ -876,8 +883,8 @@ a[href="index.html?p=1853.html"] {
 }
 
 /* Override for Pangatungdanan link to reset disabled state and apply custom styling */
-.main-navigation a.pangatundanan[href="#"],
-.footer-navigation a.pangatundanan[href="#"] {
+.main-navigation a.pangatungdanan,
+.footer-navigation a.pangatungdanan {
   color: #333 !important;             /* Reset to default link color */
   opacity: 1 !important;              /* Fully opaque */
   pointer-events: auto !important;    /* Re-enable clicking */
