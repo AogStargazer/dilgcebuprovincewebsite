@@ -1129,3 +1129,23 @@ a[href="index.html?p=1853.html"] {
 .long-namespace-to-hide-map .map-container {
     display: none !important;
   }
+
+
+
+
+
+
+
+  .container.grid-layout .text-content {
+    text-align: center;
+  }
+
+
+
+  .elementor-button {
+    display: inline-block; /* already default in most cases */
+    margin: 0 auto;
+  }
+  .learn-more-container {
+    text-align: center;
+  }
