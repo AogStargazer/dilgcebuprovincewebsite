@@ -1081,3 +1081,51 @@ a[href="index.html?p=1853.html"] {
       margin-top: 10px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* -------------------- MAP IMAGE -------------------- */
+/* 
+ * This class provides consistent sizing for organizational chart images
+ * Apply this class to all <img> tags within the organizational chart section
+ * to ensure uniform dimensions and appearance across the chart
+ */
+
+
+
+  .map-container {
+    position: relative;
+    width: 7000px;
+  }
+
+  .map-container-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .map-container-label {
+    position: absolute;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: sans-serif;
+    font-size: 18px;
+    z-index: 10;
+  }
+
+
+
+  /* Long Namespaced CSS Class to Hide the Map Container-  Delete this to show the image */
+.long-namespace-to-hide-map .map-container {
+    display: none !important;
+  }
