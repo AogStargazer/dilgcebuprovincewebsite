@@ -719,7 +719,7 @@
                   <li><a href="aboutus.html">About Us</a></li>
                   <li><a href="history.html">History</a></li>
                   <li><a href="mandate.html">Mandate</a></li>
-                  <li><a href="#">Organizational Structure</a></li>
+                  <li><a href="organizationalstructure.html">Organizational Structure</a></li>
                   <li><a href="organizationalchartchief.html">Key Officials &amp; Management</a></li>
                   <li><a href="attachedagencies.html">Attached Agencies</a></li>
                 </ul>
@@ -727,9 +727,8 @@
               <li class="has-dropdown">
                 <a href="#">Programs &amp; Services</a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">DILG Cebu Province's Customized PPAs</a></li>
-				  <li><a href="#">Amuma sa Barangay</a></li>
-				  <li><a href="#">Bansiwag</a></li>
+                  <li><a href="amumasabarangay.html">Amuma sa Barangay</a></li>
+                  <li><a href="bansiwag.html">Bansiwag</a></li>
                 </ul>
               </li>
               <li class="has-dropdown">
@@ -761,6 +760,7 @@
                   <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
                   <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
                   <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
+                  <li><a href="https://bims-admin.dilg.gov.ph/">Barangay Information Management System (BIMS)</a></li>
                 </ul>
               </li>
               <li><a href="#">News</a></li>
@@ -924,8 +924,7 @@
                   <li class="has-dropdown">
                     <a href="https://www.cebu.gov.ph/">Cebu</a>
                     <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu-link-228">
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item" aria-haspopup="true" aria-expanded="false"><a href="./fieldofficers/tuburan/index.html" class="dropdown-item">City of Tuburan</a>
-                      </li>
+
                       <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item" aria-haspopup="true" aria-expanded="false"><a href="#" class="dropdown-item">City of Bogo</a>
                       </li>
                       <li class="menu-item menu-item-type-custom menu-item-object-custom nav-item" aria-haspopup="true" aria-expanded="false"><a href="#" class="dropdown-item">City of Carcar</a>
@@ -1141,17 +1140,17 @@
 
 
 
-              <li><a id="pangatungdanan" class="pangatungdanan" href="#">Pangatungdanan</a></li>
+              <li><a id="pangatungdanan" class="pangatungdanan"   style="font-family: 'EuphoriaScript', cursive;"  href="https://anyflip.com/explore?q=pangatungdanan">Pangatungdanan</a></li>
               <li class="has-dropdown">
                 <a href="#">Procurement</a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Invitation to Bid</a></li>
-                  <li><a href="#">Notice to Proceed</a></li>
+                  <li><a href="invitationtobid.html">Invitation to Bid</a></li>
+                  <li><a href="noticetoproceed.html">Notice to Proceed</a></li>
 
                 </ul>
               </li>
 
-              <li><a href="contactus.html">Contact Information</a></li>
+              <li><a href="contact-info.html">Contact Information</a></li>
             </ul>
           </div>
           <div class="mobile-menu-toggle">
@@ -1227,7 +1226,6 @@
 
 
 
-
 <footer class="jupiterx-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
   <div class="jupiterx-footer-widgets jupiterx-footer-layout-04">
   <div class="container-fluid">
@@ -1249,7 +1247,7 @@
   </ul>
   </li>
   <li class="has-dropdown">
-  <a href="programs.html">Programs &amp; Services</a>
+  <a href="#">Programs &amp; Services</a>
   </li>
   <li class="has-dropdown">
   <a href="transparencyofwork.html">Transparency at Work</a>
@@ -1274,10 +1272,10 @@
 
   </ul>
   </li>
-  <li><a class="pangatungdanan" href="#">Pangatungdanan</a></li>
+  <li><a class="pangatungdanan"   style="font-family: 'EuphoriaScript', cursive;"   href="https://anyflip.com/explore?q=pangatungdanan">Pangatungdanan</a></li>
   <li><a href="#">Procurement</a></li>
 
-  <li><a href="contactus.html">Contact Information</a></li>
+  <li><a href="contact-info.html">Contact Information</a></li>
   </ul>
   </nav>
   </div>
@@ -1309,95 +1307,112 @@
         document.addEventListener("DOMContentLoaded", function () {
           // Slider functionality
           const slider = document.getElementById("mainPageSlider");
-          const slides = document.querySelectorAll(".main-slide");
-          const prevBtn = document.querySelector(".prev-slide");
-          const nextBtn = document.querySelector(".next-slide");
-          const pagination = document.getElementById("sliderPagination");
-          let currentSlide = 0;
-          const slideCount = slides.length;
-          for (let i = 0; i < slideCount; i++) {
-            const dot = document.createElement("div");
-            dot.classList.add("pagination-dot");
-            if (i === 0) dot.classList.add("active");
-            dot.addEventListener("click", () => goToSlide(i));
-            pagination.appendChild(dot);
-          }
-          function updatePagination() {
-            const dots = document.querySelectorAll(".pagination-dot");
-            dots.forEach((dot, index) => {
-              dot.classList.toggle("active", index === currentSlide);
+          
+          if (slider) {
+            const slides = document.querySelectorAll(".main-slide");
+            const prevBtn = document.querySelector(".prev-slide");
+            const nextBtn = document.querySelector(".next-slide");
+            const pagination = document.getElementById("sliderPagination");
+            let currentSlide = 0;
+            const slideCount = slides.length;
+            
+            for (let i = 0; i < slideCount; i++) {
+              const dot = document.createElement("div");
+              dot.classList.add("pagination-dot");
+              if (i === 0) dot.classList.add("active");
+              dot.addEventListener("click", () => goToSlide(i));
+              pagination.appendChild(dot);
+            }
+            
+            function updatePagination() {
+              const dots = document.querySelectorAll(".pagination-dot");
+              dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentSlide);
+              });
+            }
+            
+            function goToSlide(index) {
+              currentSlide = index;
+              slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+              updatePagination();
+            }
+            
+            function nextSlide() {
+              currentSlide = (currentSlide + 1) % slideCount;
+              goToSlide(currentSlide);
+            }
+            
+            function prevSlide() {
+              currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+              goToSlide(currentSlide);
+            }
+            
+            prevBtn.addEventListener("click", prevSlide);
+            nextBtn.addEventListener("click", nextSlide);
+            
+            let interval = setInterval(nextSlide, 5000);
+            
+            slider.parentElement.addEventListener("mouseenter", () => {
+              clearInterval(interval);
             });
-          }
-          function goToSlide(index) {
-            currentSlide = index;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            updatePagination();
-          }
-          function nextSlide() {
-            currentSlide = (currentSlide + 1) % slideCount;
-            goToSlide(currentSlide);
-          }
-          function prevSlide() {
-            currentSlide = (currentSlide - 1 + slideCount) % slideCount;
-            goToSlide(currentSlide);
-          }
-          prevBtn.addEventListener("click", prevSlide);
-          nextBtn.addEventListener("click", nextSlide);
-          let interval = setInterval(nextSlide, 5000);
-          slider.parentElement.addEventListener("mouseenter", () => {
-            clearInterval(interval);
-          });
-          slider.parentElement.addEventListener("mouseleave", () => {
-            interval = setInterval(nextSlide, 5000);
-          });
-          
-          // Handle touch events for mobile
-          let touchStartX = 0;
-          let touchEndX = 0;
-          
-          slider.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            clearInterval(interval);
-          }, {passive: true});
-          
-          slider.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-            interval = setInterval(nextSlide, 5000);
-          }, {passive: true});
-          
-          function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-              // Swipe left
-              nextSlide();
-            } else if (touchEndX > touchStartX + 50) {
-              // Swipe right
-              prevSlide();
+            
+            slider.parentElement.addEventListener("mouseleave", () => {
+              interval = setInterval(nextSlide, 5000);
+            });
+            
+            // Handle touch events for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slider.addEventListener('touchstart', (e) => {
+              touchStartX = e.changedTouches[0].screenX;
+              clearInterval(interval);
+            }, {passive: true});
+            
+            slider.addEventListener('touchend', (e) => {
+              touchEndX = e.changedTouches[0].screenX;
+              handleSwipe();
+              interval = setInterval(nextSlide, 5000);
+            }, {passive: true});
+            
+            function handleSwipe() {
+              if (touchEndX < touchStartX - 50) {
+                // Swipe left
+                nextSlide();
+              } else if (touchEndX > touchStartX + 50) {
+                // Swipe right
+                prevSlide();
+              }
             }
-          }
-          
-          // Handle orientation changes
-          window.addEventListener('orientationchange', function() {
-            // Small delay to allow the browser to complete the orientation change
-            setTimeout(function() {
-              // Adjust any elements that need repositioning after orientation change
-              updateSliderHeight();
-            }, 200);
-          });
-          
-          function updateSliderHeight() {
-            // This function is no longer needed as slider height is controlled by CSS aspect-ratio
-            // Left here for compatibility but doesn't modify any heights
-            console.log("Slider now uses CSS aspect-ratio for responsive sizing");
-          }
-          document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") {
-              prevSlide();
-            } else if (e.key === "ArrowRight") {
-              nextSlide();
+            
+            // Handle orientation changes
+            window.addEventListener('orientationchange', function() {
+              // Small delay to allow the browser to complete the orientation change
+              setTimeout(function() {
+                // Adjust any elements that need repositioning after orientation change
+                updateSliderHeight();
+              }, 200);
+            });
+            
+            function updateSliderHeight() {
+              // This function is no longer needed as slider height is controlled by CSS aspect-ratio
+              // Left here for compatibility but doesn't modify any heights
+              console.log("Slider now uses CSS aspect-ratio for responsive sizing");
             }
-          });
-          // Mobile menu toggle and dropdown handling
+            
+            document.addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") {
+                prevSlide();
+              } else if (e.key === "ArrowRight") {
+                nextSlide();
+              }
+            });
+            
+            // Initial check for orientation
+            updateSliderHeight();
+          }
+          
+          // Mobile menu toggle and dropdown handling - outside slider conditional block
           const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
           const navMenu = document.querySelector(".nav-menu");
           if (mobileMenuToggle && navMenu) {
@@ -1406,6 +1421,7 @@
               mobileMenuToggle.classList.toggle("active");
             });
           }
+          
           const dropdownItems = document.querySelectorAll(".has-dropdown");
           dropdownItems.forEach((item) => {
             item.addEventListener("click", function (e) {
@@ -1435,10 +1451,6 @@
               }
             });
           });
-
-          
-          // Initial check for orientation
-          updateSliderHeight();
         });
       </script>
       <script src="assets/js/main-background-switcher.js"></script>

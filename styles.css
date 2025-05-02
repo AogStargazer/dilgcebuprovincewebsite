@@ -383,6 +383,10 @@ a[href="index.html?p=1853.html"] {
     
     .mobile-menu-toggle {
         display: flex;
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        z-index: 1002;
     }
     
     .nav-menu {
@@ -395,6 +399,7 @@ a[href="index.html?p=1853.html"] {
         overflow: hidden;
         transition: height 0.3s ease;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
     }
     
     .nav-menu.active {
