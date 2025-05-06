@@ -692,14 +692,7 @@ a[href="index.html?p=1853.html"] {
         justify-content: center;
     }
 
-    /* Footer Menu: Two rows with 5 items per row */
-    .footer-navigation .main-menu {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-        justify-items: center;
-        justify-content: center;
-    }
+    /* Footer Menu: Removed grid layout to use flex layout instead */
 }
 
 /* -------------------- Main Page Slider Styles -------------------- */
@@ -1161,3 +1154,20 @@ a[href="index.html?p=1853.html"] {
   .learn-more-container {
     text-align: center;
   }
+
+/* -------------------- Footer Menu Flex Layout for Desktop -------------------- */
+@media screen and (min-width: 769px) {
+    /* Footer Menu: Flex layout with proper centering for wrapped rows */
+    .footer-navigation .main-menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .footer-navigation .main-menu > li {
+        flex: 0 1 auto;
+        margin: 0 10px;
+    }
+}
