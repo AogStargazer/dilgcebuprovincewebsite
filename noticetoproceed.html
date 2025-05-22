@@ -1178,8 +1178,79 @@
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
 
-                      <div style="padding-top:1000px; padding-bottom:1000px;">
+
+                      <div style="padding-top:20px; padding-bottom:20px;">
                       </div>
+                                            <div style="padding-top:20px; padding-bottom:20px;">
+                      </div>
+
+
+                                              <body>
+                                                <h1 style="text-align:center;">Open Procurement Notice to Proceed Listings For DILG Cebu Province</h1>
+                                                <div style="overflow-x:auto; padding: 0 1rem;">
+                                                  <table id="procurement-table" style="width:100%; border-collapse:collapse; margin:auto;">
+                                                    <thead><tr></tr></thead>
+                                                    <tbody></tbody>
+                                                  </table>
+                                                </div>
+
+                                                <script>
+                                                  const apiKey       = 'AIzaSyC1y1wlCZnKc0uiY0MXxgXdmTwYUKk42S4';
+                                                  const spreadsheetId = '1iXqpc1hoMVltvcnPDe9T9IrfYgyqYqBrK1V4xvTPfoc';  // ← PUT THE REAL ID HERE
+                                                  const range         = 'ntp';               // ← or your actual tab name
+
+                                                  fetch(
+                                                    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}?key=${apiKey}`
+                                                  )
+                                                  .then(res => {
+                                                    console.log(res.status, res.statusText);
+                                                    if (!res.ok) throw new Error(`HTTP ${res.status} – ${res.statusText}`);
+                                                    return res.json();
+                                                  })
+                                                  .then(data => {
+                                                    if (!data.values || !data.values.length) {
+                                                      console.warn('No data in sheet or wrong range name.');
+                                                      return;
+                                                    }
+                                                    const [headers, ...rows] = data.values;
+                                                    const theadRow = document.querySelector('#procurement-table thead tr');
+                                                    const tbody    = document.querySelector('#procurement-table tbody');
+
+                                                    // build headers
+                                                    headers.forEach(text => {
+                                                      const th = document.createElement('th');
+                                                      th.textContent = text;
+                                                      Object.assign(th.style, {
+                                                        border: '1px solid #ccc',
+                                                        padding: '8px',
+                                                        background: '#f4f4f4'
+                                                      });
+                                                      theadRow.appendChild(th);
+                                                    });
+
+                                                    // build body
+                                                    rows.forEach(row => {
+                                                      const tr = document.createElement('tr');
+                                                      row.forEach(cell => {
+                                                        const td = document.createElement('td');
+                                                        td.textContent = cell;
+                                                        Object.assign(td.style, {
+                                                          border: '1px solid #ccc',
+                                                          padding: '8px'
+                                                        });
+                                                        tr.appendChild(td);
+                                                      });
+                                                      tbody.appendChild(tr);
+                                                    });
+                                                  })
+                                                  .catch(err => {
+                                                    console.error('Error loading procurement data:', err);
+                                                  });
+                                                </script>
+                                              </body>
+
+
+
 
 
 
@@ -1196,6 +1267,14 @@
                           </div>
                         </div>
                       </div>
+
+
+
+
+
+
+
+
 
 
 
