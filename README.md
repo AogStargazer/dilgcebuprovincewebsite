@@ -66,16 +66,17 @@ This organization ensures that styles are properly applied regardless of which p
 
 ## JavaScript Files
 
-The website uses two JavaScript files for dynamic background switching:
+The website uses three JavaScript files for dynamic functionality:
 
-1. **assets/js/main-background-switcher.js** - Handles background image switching for the main/index page based on time of day
-2. **assets/js/background-switcher.js** - General background switching functionality for all pages
+1. **assets/js/image-preloader.js** - Utility module for preloading and caching background images to ensure smooth transitions
+2. **assets/js/main-background-switcher.js** - Handles background image switching for the main/index page based on time of day
+3. **assets/js/background-switcher.js** - General background switching functionality for all pages
 
-**Note:** The code references a `scroll-restoration.js` file that is not currently present in the repository. This file should either be added to the `assets/js/` directory or the reference to it should be removed from the HTML files.
+**Note:** The image-preloader.js must be included before the background switcher scripts in your HTML files to ensure proper image caching. The code also references a `scroll-restoration.js` file that is not currently present in the repository. This file should either be added to the `assets/js/` directory or the reference to it should be removed from the HTML files.
 
 ## Background Images
 
-The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM).
+The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM). The images are preloaded using the image-preloader.js utility to ensure smooth transitions without loading delays.
 
 **IMPORTANT:** The JavaScript files reference background images that are not currently in the repository. You need to:
 
@@ -85,7 +86,7 @@ The website features dynamic background images that change based on the time of 
    - `Cebu_Capitol_Compound_Night.png` (nighttime)
    - `Cebu_Capitol_Compound_Night_Alternate.png` (alternate nighttime)
 
-**Note:** The filenames are case-sensitive and must match exactly as shown above. The background switcher scripts automatically detect the time and switch between these images.
+**Note:** The filenames are case-sensitive and must match exactly as shown above. The background switcher scripts use the image preloader to cache these images in memory for optimal performance.
 
 ## Image Slider
 
@@ -131,14 +132,33 @@ To deploy this website on GitHub Pages:
    - Check that fonts, images, and styles load properly
    - Test navigation links to ensure they work as expected
 
+## Setup Instructions
+
+To set up this website for development or deployment:
+
+1. **Clone and prepare the repository:**
+   ```bash
+   git clone https://github.com/yourusername/dilgcebuprovincewebsite-1.git
+   cd dilgcebuprovincewebsite-1
+   ```
+
+2. **Add required background images:**
+   - Create an `images/` directory in the root folder
+   - Place the three background PNGs (`Cebu_Capitol_Compound.png`, `Cebu_Capitol_Compound_Night.png`, `Cebu_Capitol_Compound_Night_Alternate.png`) in this directory
+
+3. **Include image preloader in HTML:**
+   - Ensure `assets/js/image-preloader.js` is included before each background switcher script in your HTML files
+   - The preloader handles image caching for smooth background transitions
+
+4. **Deploy:**
+   - Push to GitHub for GitHub Pages deployment, or
+   - Use a local server for development testing
+
 ## Local Development
 
 To work on this website locally:
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/dilgcebuprovincewebsite-1.git
-   ```
+1. Follow the setup instructions above
 
 2. Open the project in your preferred code editor
 

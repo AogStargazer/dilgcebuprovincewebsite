@@ -5,6 +5,9 @@
  * the appropriate image path based on page location.
  */
 
+// Import ImagePreloader utility
+const ImagePreloader = window.ImagePreloader || require('./image-preloader.js');
+
 // Base paths for background images based on page location
 const ROOT_IMAGES_PATH = './images/';  // For landing/root page
 const MAIN_IMAGES_PATH = '../images/'; // For inner pages
@@ -14,12 +17,41 @@ const DAYTIME_IMAGE = 'Cebu_Capitol_Compound.png';
 const NIGHTTIME_IMAGE = 'Cebu_Capitol_Compound_Night.png';
 const NIGHTTIME_IMAGES = ['Cebu_Capitol_Compound_Night.png', 'Cebu_Capitol_Compound_Night_Alternate.png'];
 
+// Cache for preloaded images
+let preloadedImages = {};
+
 // Execute when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     try {
-        updateBackgroundBasedOnTime();
+        // Build full URLs for all images that need to be preloaded
+        const imagesToPreload = [];
+        
+        // Add daytime image URLs for both root and main pages
+        imagesToPreload.push(ROOT_IMAGES_PATH + DAYTIME_IMAGE);
+        imagesToPreload.push(MAIN_IMAGES_PATH + DAYTIME_IMAGE);
+        
+        // Add nighttime image URLs for both root and main pages
+        NIGHTTIME_IMAGES.forEach(nightImage => {
+            imagesToPreload.push(ROOT_IMAGES_PATH + nightImage);
+            imagesToPreload.push(MAIN_IMAGES_PATH + nightImage);
+        });
+        
+        // Preload all images, then update background
+        ImagePreloader.preloadImages(imagesToPreload)
+            .then(loadedImages => {
+                // Store loaded images in cache for easy access
+                loadedImages.forEach(img => {
+                    preloadedImages[img.src] = img;
+                });
+                updateBackgroundBasedOnTime();
+            })
+            .catch(error => {
+                console.error('Error preloading images:', error);
+                // Still try to update background even if preloading fails
+                updateBackgroundBasedOnTime();
+            });
     } catch (error) {
-        console.error('Error updating background:', error);
+        console.error('Error in DOMContentLoaded:', error);
     }
 });
 
@@ -51,13 +83,10 @@ function isDaytime() {
 
 /**
  * Updates the background images based on time of day
- * Uses a cache-busting timestamp to ensure fresh images are loaded
- * when the time of day changes (prevents browser caching issues)
+ * Uses preloaded images from cache for optimal performance
  */
 function updateBackgroundBasedOnTime() {
     const isDaytimeNow = isDaytime();
-    // Cache-busting parameter to force browser to reload images when they change
-    const cacheParam = `?v=${Date.now()}`;
     
     // Find all elements that need background updates
     document.querySelectorAll('.root-page, .main-page').forEach(element => {
@@ -77,8 +106,18 @@ function updateBackgroundBasedOnTime() {
         const fullImagePath = imagePath + imageFile;
         
         try {
-            // Apply the background image with cache-busting parameter
-            element.style.backgroundImage = `url('${fullImagePath + cacheParam}')`;
+            // Get the preloaded image from cache
+            const cachedImage = preloadedImages[window.location.origin + '/' + fullImagePath] || 
+                               preloadedImages[fullImagePath];
+            
+            if (cachedImage) {
+                // Use the cached image source
+                element.style.backgroundImage = `url(${cachedImage.src})`;
+            } else {
+                // Fallback to direct path if image not found in cache
+                element.style.backgroundImage = `url('${fullImagePath}')`;
+                console.warn('Image not found in cache, using direct path:', fullImagePath);
+            }
         } catch (error) {
             console.error('Failed to set background image:', error);
         }

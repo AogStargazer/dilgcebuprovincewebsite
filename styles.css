@@ -9,7 +9,8 @@
     background-attachment: fixed;
 }
 
-/* Light mode backgrounds */
+/* Light mode backgrounds - Commented out to defer to JavaScript background switchers */
+/*
 .root-page {
     background-image: url('./images/Cebu_Capitol_Compound.png');
 }
@@ -17,8 +18,11 @@
 .main-page {
     background-image: url('images/Cebu_Capitol_Compound.png');
 }
+*/
 
 /* -------------------- Dark Mode Support -------------------- */
+/* Commented out to defer to JavaScript background switchers */
+/*
 @media (prefers-color-scheme: dark) {
     .root-page {
         background-image: url('./images/Cebu_Capitol_Compound_Night.png');
@@ -28,6 +32,7 @@
         background-image: url('images/Cebu_Capitol_Compound_Night.png');
     }
 }
+*/
 
 /* -------------------- Reset & Fonts -------------------- */
 /* Reset default browser styles */

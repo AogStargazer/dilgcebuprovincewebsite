@@ -10,6 +10,9 @@
  * @version 1.1.0
  */
 
+// Import the ImagePreloader utility
+// Note: Assumes image-preloader.js is loaded before this script
+
 // Background Switcher Configuration
 const BackgroundConfig = {
     // Image paths relative to main/index.html
@@ -54,7 +57,7 @@ const MainBackgroundSwitcher = (function() {
     
     /**
      * Gets the appropriate image URL based on time of day
-     * @returns {string} The complete image URL with cache-busting parameter
+     * @returns {string} The complete image URL without cache-busting
      */
     function getBackgroundImageUrl() {
         // Determine which image to use based on time
@@ -66,9 +69,8 @@ const MainBackgroundSwitcher = (function() {
             imageName = nightImages[Math.floor(Math.random() * nightImages.length)];
         }
         
-        // Add a timestamp for cache-busting
-        const timestamp = new Date().getTime();
-        return `${BackgroundConfig.paths.main}${imageName}?t=${timestamp}`;
+        // Return clean URL without timestamp (images are preloaded and cached)
+        return `${BackgroundConfig.paths.main}${imageName}`;
     }
     
     /**
@@ -91,8 +93,30 @@ const MainBackgroundSwitcher = (function() {
      * Initializes the background switcher
      */
     function init() {
-        // Initial update
-        updateBackground();
+        // Gather all image URLs for preloading
+        const imageUrls = [
+            BackgroundConfig.paths.main + BackgroundConfig.images.day,
+            BackgroundConfig.paths.main + BackgroundConfig.images.night,
+            BackgroundConfig.paths.main + 'Cebu_Capitol_Compound_Night_Alternate.png'
+        ];
+        
+        // Preload images before starting background switching
+        if (typeof ImagePreloader !== 'undefined') {
+            ImagePreloader.preloadImages(imageUrls)
+                .then(() => {
+                    console.log('Background images preloaded successfully');
+                    // Initial update after preloading
+                    updateBackground();
+                })
+                .catch((error) => {
+                    console.error('Failed to preload background images:', error);
+                    // Proceed with background switching even if preloading fails
+                    updateBackground();
+                });
+        } else {
+            console.warn('ImagePreloader not available, proceeding without preloading');
+            updateBackground();
+        }
         
         // Set up event listeners
         document.addEventListener('DOMContentLoaded', updateBackground);
