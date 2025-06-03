@@ -42,5 +42,11 @@
           document.body.appendChild(scrollScript);
         });
     </script>
+            <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/assets/js/service-worker.js')
+          .catch(console.error);
+      }
+    </script>
 </body>
 </html>

@@ -5,8 +5,8 @@
  * the appropriate image path based on page location.
  */
 
-// Import ImagePreloader utility
-const ImagePreloader = window.ImagePreloader || require('./image-preloader.js');
+// Import ImageManager utility
+const ImageManager = window.ImageManager || require('./image-manager.js');
 
 // Base paths for background images based on page location
 const ROOT_IMAGES_PATH = './images/';  // For landing/root page
@@ -17,12 +17,15 @@ const DAYTIME_IMAGE = 'Cebu_Capitol_Compound.png';
 const NIGHTTIME_IMAGE = 'Cebu_Capitol_Compound_Night.png';
 const NIGHTTIME_IMAGES = ['Cebu_Capitol_Compound_Night.png', 'Cebu_Capitol_Compound_Night_Alternate.png'];
 
-// Cache for preloaded images
-let preloadedImages = {};
+// Cache stats for diagnostics
+let cacheStats = {};
 
 // Execute when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     try {
+        // Initialize ImageManager
+        ImageManager.init();
+        
         // Build full URLs for all images that need to be preloaded
         const imagesToPreload = [];
         
@@ -37,12 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Preload all images, then update background
-        ImagePreloader.preloadImages(imagesToPreload)
+        ImageManager.preload(imagesToPreload)
             .then(loadedImages => {
-                // Store loaded images in cache for easy access
-                loadedImages.forEach(img => {
-                    preloadedImages[img.src] = img;
-                });
+                // Get cache stats for diagnostics
+                cacheStats = ImageManager.getCacheStats();
+                console.log('Images preloaded. Cache stats:', cacheStats);
                 updateBackgroundBasedOnTime();
             })
             .catch(error => {
@@ -106,20 +108,35 @@ function updateBackgroundBasedOnTime() {
         const fullImagePath = imagePath + imageFile;
         
         try {
-            // Get the preloaded image from cache
-            const cachedImage = preloadedImages[window.location.origin + '/' + fullImagePath] || 
-                               preloadedImages[fullImagePath];
+            // Get current cache stats for diagnostics
+            const currentCacheStats = ImageManager.getCacheStats();
             
-            if (cachedImage) {
-                // Use the cached image source
-                element.style.backgroundImage = `url(${cachedImage.src})`;
+            // Check if image is available in ImageManager cache by checking URLs in cache stats
+            const imageInCache = currentCacheStats.urls.some(url => 
+                url.includes(imageFile) || url.endsWith(fullImagePath)
+            );
+            
+            if (imageInCache) {
+                // Use the cached image
+                element.style.backgroundImage = `url('${fullImagePath}')`;
             } else {
                 // Fallback to direct path if image not found in cache
                 element.style.backgroundImage = `url('${fullImagePath}')`;
                 console.warn('Image not found in cache, using direct path:', fullImagePath);
+                
+                // Add error handling for background images
+                const tempImg = new Image();
+                tempImg.addEventListener('error', () => {
+                    console.error('Failed to load background image:', fullImagePath);
+                    // Could set a fallback background color or default image here
+                    element.style.backgroundColor = '#f0f0f0';
+                });
+                tempImg.src = fullImagePath;
             }
         } catch (error) {
             console.error('Failed to set background image:', error);
+            // Set fallback background color on error
+            element.style.backgroundColor = '#f0f0f0';
         }
     });
 

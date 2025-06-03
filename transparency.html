@@ -702,6 +702,12 @@
     <link rel="shortlink" href="index.html" />
      <meta name="generator" content="Elementor 3.28.1; features: additional_custom_breakpoints, e_local_google_fonts; settings: css_print_method-external, google_font-enabled, font_display-auto" />
     <link rel="stylesheet" href="menu.css" type="text/css" media="all">
+        <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/assets/js/service-worker.js')
+          .catch(console.error);
+      }
+    </script>
   </head>
   <body class="home page-template page-template-elementor_header_footer page page-id-250 current_page_item no-js jet-desktop-menu-active elementor-default elementor-template-full-width elementor-kit-3750 elementor-page elementor-page-250 jupiterx-header-fixed jupiterx-header-overlapped jupiterx-header-overlapped-tablet jupiterx-header-overlapped-mobile main-page" itemscope="itemscope" itemtype="http://schema.org/WebPage">
     <div class="jupiterx-site">
@@ -1648,6 +1654,7 @@
           document.body.appendChild(scrollScript);
         });
       </script>
+      <script src="assets/js/image-manager.js" defer></script>
     </div>
   </body>
 </html>

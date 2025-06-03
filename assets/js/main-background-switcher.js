@@ -10,8 +10,8 @@
  * @version 1.1.0
  */
 
-// Import the ImagePreloader utility
-// Note: Assumes image-preloader.js is loaded before this script
+// Import the ImageManager utility
+// Note: Assumes image-manager.js is loaded before this script
 
 // Background Switcher Configuration
 const BackgroundConfig = {
@@ -93,6 +93,11 @@ const MainBackgroundSwitcher = (function() {
      * Initializes the background switcher
      */
     function init() {
+        // Initialize ImageManager with network-aware configuration
+        if (typeof ImageManager !== 'undefined') {
+            ImageManager.init({ networkAware: true });
+        }
+        
         // Gather all image URLs for preloading
         const imageUrls = [
             BackgroundConfig.paths.main + BackgroundConfig.images.day,
@@ -100,21 +105,51 @@ const MainBackgroundSwitcher = (function() {
             BackgroundConfig.paths.main + 'Cebu_Capitol_Compound_Night_Alternate.png'
         ];
         
-        // Preload images before starting background switching
-        if (typeof ImagePreloader !== 'undefined') {
-            ImagePreloader.preloadImages(imageUrls)
-                .then(() => {
-                    console.log('Background images preloaded successfully');
-                    // Initial update after preloading
+        // Subscribe to image completion events for telemetry-based logging
+        let firstImageReady = false;
+        document.addEventListener('imageComplete', (event) => {
+            const { url, loadTime, retries } = event.detail;
+            if (imageUrls.includes(url)) {
+                console.log(`Background image loaded: ${url} (${loadTime.toFixed(2)}ms, ${retries} retries)`);
+                
+                // Trigger background update when first critical image is ready
+                if (!firstImageReady) {
+                    firstImageReady = true;
                     updateBackground();
+                }
+            }
+        });
+        
+        document.addEventListener('imageError', (event) => {
+            const { url, error } = event.detail;
+            if (imageUrls.includes(url)) {
+                console.error(`Failed to load background image: ${url}`, error);
+            }
+        });
+        
+        // Preload images with high priority before starting background switching
+        if (typeof ImageManager !== 'undefined') {
+            ImageManager.preload(imageUrls, { priority: 'high' })
+                .then((results) => {
+                    const successCount = results.filter(result => result.status === 'fulfilled').length;
+                    const failureCount = results.filter(result => result.status === 'rejected').length;
+                    
+                    if (successCount > 0) {
+                        console.log(`Background images preloaded: ${successCount} successful, ${failureCount} failed`);
+                    }
+                    
+                    // Ensure background is updated even if some images failed
+                    if (!firstImageReady) {
+                        updateBackground();
+                    }
                 })
                 .catch((error) => {
-                    console.error('Failed to preload background images:', error);
+                    console.error('Critical failure in background image preloading:', error);
                     // Proceed with background switching even if preloading fails
                     updateBackground();
                 });
         } else {
-            console.warn('ImagePreloader not available, proceeding without preloading');
+            console.warn('ImageManager not available, proceeding without preloading');
             updateBackground();
         }
         
