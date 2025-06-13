@@ -1,35 +1,59 @@
-// Configuration constants
+// Import configuration
+try {
+    importScripts('/assets/js/standalone-config.js');
+} catch (error) {
+    console.warn('Service Worker: Failed to load standalone-config.js, using fallback configuration:', error);
+}
+
+// Get configuration with fallback defaults
+const config = self.StandaloneConfig || {
+    cache: {
+        names: {
+            critical: 'image-cache-critical-v1',
+            dynamic: 'image-cache-dynamic-v1',
+            fallback: 'image-cache-fallback-v1'
+        },
+        criticalImages: ['images/placeholder.svg', 'images/error.svg'],
+        maxDynamicSize: 100,
+        maxAgeMs: 7 * 24 * 60 * 60 * 1000,
+        staleWhileRevalidateAgeMs: 24 * 60 * 60 * 1000,
+        retryConfig: { maxRetries: 3, baseDelay: 1000, maxDelay: 10000 },
+        networkTimeout: { 'slow-2g': 20000, '2g': 15000, '3g': 10000, '4g': 8000, 'default': 8000 },
+        skipPrecache: false
+    },
+    basePath: '',
+    imageDir: 'images/',
+    getCriticalImagePaths: function() {
+        return this.cache.criticalImages.map(imageName => this.basePath + this.imageDir + imageName);
+    }
+};
+
+// Configuration constants derived from StandaloneConfig
 const CACHE_CONFIG = {
-    CRITICAL: 'image-cache-critical-v1',
-    DYNAMIC: 'image-cache-dynamic-v1',
-    FALLBACK: 'image-cache-fallback-v1'
+    CRITICAL: config.cache.names.critical,
+    DYNAMIC: config.cache.names.dynamic,
+    FALLBACK: config.cache.names.fallback
 };
 
 const CACHE_STRATEGIES = {
-    CRITICAL_IMAGES: [
-        'images/placeholder.svg',
-        'images/error.svg'
-    ],
-    MAX_DYNAMIC_SIZE: 100,
-    MAX_AGE_MS: 7 * 24 * 60 * 60 * 1000, // 7 days
-    STALE_WHILE_REVALIDATE_AGE_MS: 24 * 60 * 60 * 1000, // 1 day
-    RETRY_CONFIG: {
-        maxRetries: 3,
-        baseDelay: 1000,
-        maxDelay: 10000
-    },
-    NETWORK_TIMEOUT: {
-        'slow-2g': 20000,
-        '2g': 15000,
-        '3g': 10000,
-        '4g': 8000,
-        'default': 8000
-    }
+    CRITICAL_IMAGES: config.getCriticalImagePaths ? config.getCriticalImagePaths() : config.cache.criticalImages,
+    MAX_DYNAMIC_SIZE: config.cache.maxDynamicSize,
+    MAX_AGE_MS: config.cache.maxAgeMs,
+    STALE_WHILE_REVALIDATE_AGE_MS: config.cache.staleWhileRevalidateAgeMs,
+    RETRY_CONFIG: config.cache.retryConfig,
+    NETWORK_TIMEOUT: config.cache.networkTimeout
 };
 
 // Install event - pre-cache critical images
 self.addEventListener('install', event => {
     console.log('Service Worker: Installing...');
+    
+    // Check if precaching should be skipped
+    if (config.cache.skipPrecache) {
+        console.log('Service Worker: Skipping precache as configured');
+        event.waitUntil(self.skipWaiting());
+        return;
+    }
     
     event.waitUntil(
         caches.open(CACHE_CONFIG.CRITICAL)
@@ -181,14 +205,16 @@ async function updateCacheWithLRU(cache, request, response) {
 async function getUltimateFallback(url) {
     // Try critical cache first
     const criticalCache = await caches.open(CACHE_CONFIG.CRITICAL);
-    const errorResponse = await criticalCache.match('images/error.svg');
+    const errorImagePath = config.getImagePath ? config.getImagePath('error.svg') : 'images/error.svg';
+    const errorResponse = await criticalCache.match(errorImagePath);
     if (errorResponse) {
         return errorResponse;
     }
     
     // Try fallback cache
     const fallbackCache = await caches.open(CACHE_CONFIG.FALLBACK);
-    const fallbackResponse = await fallbackCache.match('images/placeholder.svg');
+    const placeholderImagePath = config.getImagePath ? config.getImagePath('placeholder.svg') : 'images/placeholder.svg';
+    const fallbackResponse = await fallbackCache.match(placeholderImagePath);
     if (fallbackResponse) {
         return fallbackResponse;
     }
@@ -451,9 +477,11 @@ async function clearImageCache() {
         const deletePromises = Object.values(CACHE_CONFIG).map(cacheName => caches.delete(cacheName));
         const results = await Promise.all(deletePromises);
         
-        // Recreate critical cache with critical images
-        const criticalCache = await caches.open(CACHE_CONFIG.CRITICAL);
-        await criticalCache.addAll(CACHE_STRATEGIES.CRITICAL_IMAGES.map(url => new Request(url, { cache: 'reload' })));
+        // Recreate critical cache with critical images (unless precaching is disabled)
+        if (!config.cache.skipPrecache) {
+            const criticalCache = await caches.open(CACHE_CONFIG.CRITICAL);
+            await criticalCache.addAll(CACHE_STRATEGIES.CRITICAL_IMAGES.map(url => new Request(url, { cache: 'reload' })));
+        }
         
         return results.some(result => result);
     } catch (error) {
