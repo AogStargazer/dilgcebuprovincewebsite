@@ -627,12 +627,10 @@ a[href="index.html?p=1853.html"] {
     text-align: center;
     border-top: 1px solid #eaeaea;
 }
-
 .jupiterx-subfooter-copyright {
     font-size: 12px;
     color: #666;
 }
-
 .jupiterx-footer, .jupiterx-subfooter {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -922,7 +920,6 @@ a[href="index.html?p=1853.html"] {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-
 /* -------------------- LGU's Menu Grid Styles -------------------- */
 /*
  * The LGU menu should be organized as follows:
@@ -998,8 +995,6 @@ a[href="index.html?p=1853.html"] {
     width: var(--agency-img-width, 5000px);
     margin-bottom: var(--agency-img-margin, 10px);
 }
-
-
 
 /* -------------------- Organizational Chart Image Styles -------------------- */
 /* 
@@ -1092,23 +1087,12 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
-
-
-
-
-
-
-
-
-
 /* -------------------- MAP IMAGE -------------------- */
 /* 
  * This class provides consistent sizing for organizational chart images
  * Apply this class to all <img> tags within the organizational chart section
  * to ensure uniform dimensions and appearance across the chart
  */
-
-
 
   .map-container {
     position: relative;
@@ -1133,32 +1117,22 @@ a[href="index.html?p=1853.html"] {
     z-index: 10;
   }
 
-
-
-  /* Long Namespaced CSS Class to Hide the Map Container-  Delete this to show the image */
+/* Long Namespaced CSS Class to Hide the Map Container-  Delete this to show the image */
 .long-namespace-to-hide-map .map-container {
     display: none !important;
-  }
+}
 
-
-
-
-
-
-
-  .container.grid-layout .text-content {
+.container.grid-layout .text-content {
     text-align: center;
-  }
+}
 
-
-
-  .elementor-button {
+.elementor-button {
     display: inline-block; /* already default in most cases */
     margin: 0 auto;
-  }
-  .learn-more-container {
+}
+.learn-more-container {
     text-align: center;
-  }
+}
 
 /* -------------------- Footer Menu Flex Layout for Desktop -------------------- */
 @media screen and (min-width: 769px) {
@@ -1174,5 +1148,32 @@ a[href="index.html?p=1853.html"] {
     .footer-navigation .main-menu > li {
         flex: 0 1 auto;
         margin: 0 10px;
+    }
+}
+
+/* -------------------- Mobile Padding Removal Overrides -------------------- */
+@media screen and (max-width: 768px) {
+    /* Remove left/right padding from all containers */
+    .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    /* Remove left/right padding specifically from grid-layout containers */
+    .container.grid-layout {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    /* Eliminate image-row horizontal padding */
+    .image-row {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    /* Adjust main navigation padding for mobile */
+    .main-navigation {
+        padding: 10px 5px !important;
+    }
+    /* Reposition mobile menu toggle for reduced padding */
+    .mobile-menu-toggle {
+        right: 5px !important;
     }
 }
