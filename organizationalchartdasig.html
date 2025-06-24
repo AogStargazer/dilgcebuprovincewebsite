@@ -712,6 +712,65 @@
   <body class="home page-template page-template-elementor_header_footer page page-id-250 current_page_item no-js jet-desktop-menu-active elementor-default elementor-template-full-width elementor-kit-3750 elementor-page elementor-page-250 jupiterx-header-fixed jupiterx-header-overlapped jupiterx-header-overlapped-tablet jupiterx-header-overlapped-mobile main-page" itemscope="itemscope" itemtype="http://schema.org/WebPage">
     <div class="jupiterx-site">
       <header class="main-header">
+
+
+
+
+
+
+                    <!-- Overlay Date/Time/Weather Widget -->
+                    <div class="overlay-widget" id="header-widgets">
+                      <div id="date" class="overlay-text"></div>
+                      <div id="time" class="overlay-text"></div>
+                      <a class="weatherwidget-io"
+                        href="https://forecast7.com"
+                        data-label_1="WEATHER"
+                        data-label_2="TODAY"
+                        data-theme="original"
+                        data-basecolor="rgba(255, 255, 255, 0)"
+                        data-textcolor="#ffffff">
+                      </a>
+                    </div>
+
+                  <!-- Time/Date Script -->
+                  <script>
+                    function updateDateTime() {
+                      const dateElem = document.getElementById("date");
+                      const timeElem = document.getElementById("time");
+                      const now = new Date();
+                      dateElem.textContent = now.toLocaleDateString('en-US', {
+                        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric'
+                      });
+                      timeElem.textContent = now.toLocaleTimeString('en-US', {
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                      });
+                    }
+                    setInterval(updateDateTime, 1000);
+                    updateDateTime();
+                  </script>
+
+                  <!-- Weather Widget Script -->
+                  <script>
+                    !function(d,s,id){
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if(!d.getElementById(id)){
+                        js = d.createElement(s); js.id = id;
+                        js.src = 'https://weatherwidget.io/js/widget.min.js';
+                        fjs.parentNode.insertBefore(js,fjs);
+                      }
+                    }(document,'script','weatherwidget-io-js');
+                  </script>
+
+
+
+
+
+
+
+
+
+
+
         <nav class="main-navigation">
           <div class="nav-logo">
             <img src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Logo">
@@ -1553,24 +1612,49 @@
   </ul>
   </nav>
   </div>
-  <div class="jupiterx-subfooter">
-  <div class="container">
-  <div class="row justify-content-center">
-  <div class="col-md text-center">
-  <div class="jupiterx-subfooter-copyright">
-    © 2025 - DILG Cebu Province. All rights reserved. Created by: ISA I POL JOSEPH LOUIE L. LACANDULA
-  </div>
-  <div class="elementor-widget-container" style="margin-top: 10px;">
-    <div style="font-weight: bold; margin-bottom: 5px;">Philippine Standard Time</div>
-    <div style="display: flex; justify-content: center; padding-left: 36px;">
-      <iframe src="https://free.timeanddate.com/clock/i8p1xekg/n1238/ahl/tt0/tw0/tm1/th2" frameborder="0" width="218" height="18" style="padding-right: 3px;"></iframe>
+<footer class="text-center mt-10 bg-gray-500 text-gray-100">
+
+  <!-- Middle Content -->
+  <div class="w-full py-6">
+    <div class="max-w-screen-lg grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Government Seal (left center) -->
+      <div class="flex flex-col items-center">
+        <p class="text-sm font-semibold uppercase mb-2">Republic of the Philippines</p>
+        <img src="./images/govph-seal.png" class="h-34.52 w-32" alt="Government Seal">
+      </div>
+
+      <!-- Government Links (right center) -->
+      <div class="flex flex-col items-center">
+        <p class="text-sm font-semibold uppercase mb-2">Government Links</p>
+        <div class="flex flex-col items-center space-y-1">
+          <a href="https://president.gov.ph/" target="_blank" class="gov-link">Office of the President</a>
+          <a href="https://ovp.gov.ph/" target="_blank" class="gov-link">Office of the Vice President</a>
+          <a href="http://legacy.senate.gov.ph/" target="_blank" class="gov-link">Senate of the Philippines</a>
+          <a href="https://www.congress.gov.ph/" target="_blank" class="gov-link">House of Representatives</a>
+          <a href="https://sc.judiciary.gov.ph/" target="_blank" class="gov-link">Supreme Court</a>
+          <a href="https://ca.judiciary.gov.ph/" target="_blank" class="gov-link">Court of Appeals</a>
+          <a href="https://sb.judiciary.gov.ph/" target="_blank" class="gov-link">Sandiganbayan</a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Subfooter with uniform background -->
+  <div class="jupiterx-subfooter bg-gray-500 text-gray-100 py-6">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md text-center">
+            <div class="jupiterx-subfooter-copyright mb-2" style="color: #f9fafb;">
+              © 2025 - DILG Cebu Province. All rights reserved. Created by: Pol Joseph Louie L. Lacandula
+            </div>
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-  </div>
-  </div>
-  </footer>
+</footer>
+</footer>
+
       </main>
       <script>
         /* 
