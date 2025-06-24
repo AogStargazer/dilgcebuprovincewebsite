@@ -1210,17 +1210,40 @@
                           <!-- DILG Cebu Province Page -->
 
 
-                                                          <div style="text-align: center;">
-                                                            <iframe 
-                                                              style="width:1500px;height:622px" 
-                                                              src="https://anyflip.com/bookcase/yaplw/"  
-                                                              seamless="seamless" 
-                                                              scrolling="no" 
-                                                              frameborder="0" 
-                                                              allowtransparency="true" 
-                                                              allowfullscreen="true">
-                                                            </iframe>
-                                                          </div>
+<div id="anyflip-container" style="text-align: center;">
+  <iframe
+    id="anyflip-iframe"
+    src="https://anyflip.com/bookcase/yaplw/"
+    frameborder="0"
+    allowtransparency="true"
+    allowfullscreen="true"
+    scrolling="no"
+    style="width: 100%; max-width: 100%; height: 622px;">
+  </iframe>
+</div>
+
+<script>
+  function adjustAnyflipHeight() {
+    const iframe = document.getElementById("anyflip-iframe");
+
+    const baseWidth = 1500;     // original design width
+    const baseHeight = 622;     // original design height
+
+    const currentWidth = Math.min(window.innerWidth, 1500); // restrict to base width
+    const delta = baseWidth - currentWidth;
+
+    const steps = Math.floor(delta / 100);  // 1 step = every 25px drop
+    const newHeight = baseHeight + (steps * 10);
+
+    iframe.style.height = `${newHeight}px`;
+  }
+
+  // Run on load and on resize
+  window.addEventListener('load', adjustAnyflipHeight);
+  window.addEventListener('resize', adjustAnyflipHeight);
+</script>
+
+
 
 
 
