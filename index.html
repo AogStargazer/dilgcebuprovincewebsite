@@ -9,6 +9,14 @@
     <meta name="robots" content="max-image-preview:large" />
     <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
     <link rel="stylesheet" href="main-index-styles.css" type="text/css" media="all" />
+        <!--
+      HIGH-PERFORMANCE ASSET PRELOADING
+      By placing the preloader here without 'defer', we allow it to start scanning
+      the document as it's being parsed, giving it a head start to fetch assets
+      before the browser's main rendering process requests them.
+    -->
+    <script src="assets/js/standalone-config.js"></script>
+    <script src="assets/js/asset-preloader.js"></script>
     <style>
       img:is([sizes="auto" i], [sizes^="auto," i]) {
         contain-intrinsic-size: 3000px 1500px;
@@ -828,6 +836,9 @@
                   <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
                   <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
                   <li><a href="https://bims-admin.dilg.gov.ph/">Barangay Information Management System (BIMS)</a></li>
+                  <li><a href="https://fta.dilg.gov.ph/"></a>Foreign Travel Authority (FTA)</li>
+                  <li><a href="https://www.katarungangpambarangay.com/">Katarungang Pambarangay</a></li>
+                  <li><a href="https://gad.dilg.gov.ph/">GAD Plan and Budget Monitoring System</a></li>
                 </ul>
               </li>
 
@@ -842,7 +853,17 @@
                 </ul>
               </li>
 
-
+              <li class="has-dropdown">
+                <a href="#">DILG Intranet</a>
+                <ul class="dropdown-menu">
+                  <li><a href="https://intranet.dilg.gov.ph/">DILG Intranet Homepage</a></li>
+                  <li><a href="https://dms.dilg.gov.ph/">Document Management System (DMS)</a></li>
+                  <li><a href="https://bis.dilg.gov.ph/">Barangay Information System (BIS)</a></li>
+                  <li><a href="https://elopd.dilg.gov.ph/">Elected Local Officials Database System (ELOPDS)</a></li>
+                  <li><a href="https://subaybayan.dilg.gov.ph/">SubayBAYAN (PPMS)</a></li>
+                  <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
+                </ul>
+              </li>
 
               <li><a href="news.html">News</a></li>
               <li class="has-dropdown">

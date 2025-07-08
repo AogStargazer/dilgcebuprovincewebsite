@@ -41,6 +41,12 @@
 }(typeof self !== 'undefined' ? self : this, function (StandaloneConfig) {
     'use strict';
 
+    // Hard check for the configuration dependency. The script cannot run without it.
+    if (!StandaloneConfig) {
+        console.error("AssetPreloader FATAL ERROR: StandaloneConfig is not defined. Please ensure standalone-config.js is loaded before asset-preloader.js.");
+        return {}; // Return an empty object to prevent further script errors.
+    }
+
     // Get configuration, fallback to global or defaults
     const config = StandaloneConfig || (typeof window !== 'undefined' ? window.StandaloneConfig : null) || {
         autoPreload: true,
@@ -161,75 +167,47 @@
      * @param {string} asType - The type of asset ('script', 'style', 'font', 'image')
      * @returns {Promise<boolean>} - Promise that resolves to true/false based on load outcome
      */
-    function safePreloadCore(url, asType) {
-        return new Promise((resolve) => {
-            const startTime = performance.now();
-            let success = false;
-            
-            try {
-                // Create and append preload link hint to head
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = asType;
-                link.href = url;
-                
-                // Add crossorigin for fonts to avoid CORS issues
-                if (asType === 'font') {
-                    link.crossOrigin = 'anonymous';
-                }
-                
-                document.head.appendChild(link);
+function safePreloadCore(url, asType) {
+    return new Promise((resolve) => {
+        const startTime = performance.now();
+        
+        try {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = asType;
+            link.href = url;
 
-                // Handle different asset types
-                if (asType === 'image') {
-                    // For images, use Image constructor
-                    const img = new Image();
-                    img.onload = () => {
-                        success = true;
-                        const duration = performance.now() - startTime;
-                        trackPreloadMetric(url, success, duration);
-                        resolve(success);
-                    };
-                    img.onerror = () => {
-                        success = false;
-                        const duration = performance.now() - startTime;
-                        trackPreloadMetric(url, success, duration);
-                        circuitBreaker.recordFailure(url);
-                        resolve(success);
-                    };
-                    img.src = url;
-                } else {
-                    // For script/style/font, use fetch
-                    fetch(url, { 
-                        cache: 'force-cache', 
-                        mode: 'cors' 
-                    })
-                    .then((response) => {
-                        success = response.ok;
-                        const duration = performance.now() - startTime;
-                        trackPreloadMetric(url, success, duration);
-                        if (!success) {
-                            circuitBreaker.recordFailure(url);
-                        }
-                        resolve(success);
-                    })
-                    .catch(() => {
-                        success = false;
-                        const duration = performance.now() - startTime;
-                        trackPreloadMetric(url, success, duration);
-                        circuitBreaker.recordFailure(url);
-                        resolve(success);
-                    });
-                }
-            } catch (error) {
-                success = false;
-                const duration = performance.now() - startTime;
-                trackPreloadMetric(url, success, duration);
-                circuitBreaker.recordFailure(url);
-                resolve(success);
+            // Add crossorigin for fonts and other cross-origin assets
+            if (asType === 'font' || (asType === 'script' && !url.startsWith(location.origin))) {
+                link.crossOrigin = 'anonymous';
             }
-        });
-    }
+
+            link.onload = () => {
+                const duration = performance.now() - startTime;
+                trackPreloadMetric(url, true, duration);
+                resolve(true);
+                // Clean up the link element from the head after it has done its job
+                link.remove(); 
+            };
+
+            link.onerror = () => {
+                const duration = performance.now() - startTime;
+                trackPreloadMetric(url, false, duration);
+                circuitBreaker.recordFailure(url);
+                resolve(false);
+                link.remove();
+            };
+
+            document.head.appendChild(link);
+
+        } catch (error) {
+            const duration = performance.now() - startTime;
+            trackPreloadMetric(url, false, duration);
+            circuitBreaker.recordFailure(url);
+            resolve(false);
+        }
+    });
+}
 
     /**
      * Preload with retry logic and circuit breaker
@@ -291,48 +269,52 @@
      * @param {Array<string>} manifest - Array of asset URLs to preload
      * @returns {Promise} - Promise that resolves when all preloads complete
      */
-    function preloadAssetsWithConcurrency(manifest) {
-        if (!Array.isArray(manifest)) {
-            return Promise.resolve();
-        }
+function preloadAssetsWithConcurrency(manifest) {
+    if (!Array.isArray(manifest)) {
+        return Promise.resolve();
+    }
 
-        // Filter out already processed assets
-        const filteredAssets = manifest.filter(url => !shouldSkipAsset(url));
-        
-        if (filteredAssets.length === 0) {
-            return Promise.resolve();
-        }
+    const filteredAssets = manifest.filter(url => !shouldSkipAsset(url));
+    if (filteredAssets.length === 0) {
+        return Promise.resolve();
+    }
 
-        // Sort by priority
-        const prioritizedAssets = prioritizeAssets(filteredAssets);
+    const prioritizedAssets = prioritizeAssets(filteredAssets);
+    const queue = [...prioritizedAssets];
 
-        // Process in batches with concurrency limit
-        return new Promise(async (resolve) => {
-            const batchSize = PRELOAD_CONFIG.maxConcurrent;
-            
-            for (let i = 0; i < prioritizedAssets.length; i += batchSize) {
-                const batch = prioritizedAssets.slice(i, i + batchSize);
-                
-                const batchPromises = batch.map(async (url) => {
-                    const asType = getAssetType(url);
-                    const success = await safePreloadWithRetry(url, asType);
-                    
+    return new Promise((resolve) => {
+        let inFlight = 0;
+        let processedCount = 0;
+
+        function processNext() {
+            if (processedCount === prioritizedAssets.length) {
+                resolve();
+                return;
+            }
+
+            while (inFlight < PRELOAD_CONFIG.maxConcurrent && queue.length > 0) {
+                const url = queue.shift();
+                inFlight++;
+
+                const asType = getAssetType(url);
+                safePreloadWithRetry(url, asType).then(success => {
                     if (success) {
                         preloadedAssets.add(url);
                         circuitBreaker.reset(url);
                     } else {
                         failedAssets.add(url);
                     }
-                    
-                    return { url, success };
+                }).finally(() => {
+                    inFlight--;
+                    processedCount++;
+                    processNext();
                 });
-
-                await Promise.allSettled(batchPromises);
             }
-            
-            resolve();
-        });
-    }
+        }
+
+        processNext();
+    });
+}
 
     /**
      * Preload all assets from manifest (backward compatible wrapper)
@@ -413,6 +395,10 @@
      * Watch for dynamically added assets using MutationObserver
      */
     function watchForDynamicAssets() {
+        // Disconnect any existing observer to prevent duplicates
+        if (AssetPreloader.observer) {
+            AssetPreloader.observer.disconnect();
+        }
         if (!PRELOAD_CONFIG.enableMutationObserver || typeof MutationObserver === 'undefined') {
             return;
         }
@@ -442,7 +428,7 @@
             }
         });
 
-        observer.observe(document.body, {
+        AssetPreloader.observer = observer.observe(document.body, {
             childList: true,
             subtree: true
         });
@@ -452,12 +438,17 @@
      * Collect all assets referenced on the current page (enhanced version)
      * Scans DOM elements, inline styles, CSSOM, @import rules, and preconnect hints
      * @returns {Array<string>} - De-duplicated array of asset URLs
+     * 
+     * @warning This function can be performance-intensive on large, complex pages.
+     * For production sites, generating a server-side asset manifest is a more performant pattern.
      */
-    function collectAdvancedAssets() {
+    function collectAdvancedAssets(logPerformance = false) {
         const assetUrls = new Set();
+        if (logPerformance) performance.mark('asset-collection:start');
         
         try {
             // 1. Scan DOM elements for src/href attributes
+            if (logPerformance) performance.mark('asset-collection:dom-scan:start');
             const selectors = [
                 'link[href]',           // CSS, icons, etc.
                 'script[src]',          // JavaScript files
@@ -481,17 +472,27 @@
                     // Skip if selector fails
                 }
             });
+            if (logPerformance) {
+                performance.mark('asset-collection:dom-scan:end');
+                performance.measure('Asset Collection: DOM Scan', 'asset-collection:dom-scan:start', 'asset-collection:dom-scan:end');
+            }
             
             // 2. Scan inline style attributes for url() references
+            if (logPerformance) performance.mark('asset-collection:style-attr:start');
             try {
                 document.querySelectorAll('[style]').forEach(element => {
                     extractAssetsFromElement(element).forEach(url => assetUrls.add(url));
                 });
             } catch (e) {
-                // Skip inline style scanning if it fails
+                console.warn('Asset Preloader: Error scanning inline styles.', e);
+            }
+            if (logPerformance) {
+                performance.mark('asset-collection:style-attr:end');
+                performance.measure('Asset Collection: Style Attributes', 'asset-collection:style-attr:start', 'asset-collection:style-attr:end');
             }
             
             // 3. Scan <style> tags for @import rules
+            if (logPerformance) performance.mark('asset-collection:style-tag:start');
             try {
                 document.querySelectorAll('style').forEach(styleElement => {
                     const cssText = styleElement.textContent || styleElement.innerText || '';
@@ -513,10 +514,15 @@
                     }
                 });
             } catch (e) {
-                // Skip style tag scanning if it fails
+                console.warn('Asset Preloader: Error scanning <style> tags.', e);
+            }
+            if (logPerformance) {
+                performance.mark('asset-collection:style-tag:end');
+                performance.measure('Asset Collection: Style Tags', 'asset-collection:style-tag:start', 'asset-collection:style-tag:end');
             }
             
             // 4. Scan CSSOM for url() references and @font-face rules
+            if (logPerformance) performance.mark('asset-collection:cssom:start');
             try {
                 Array.from(document.styleSheets).forEach(styleSheet => {
                     try {
@@ -577,10 +583,16 @@
                     }
                 });
             } catch (e) {
-                // Skip CSSOM scanning if it fails entirely
+                console.warn('Asset Preloader: Error scanning document.styleSheets.', e);
+            }
+            if (logPerformance) {
+                performance.mark('asset-collection:cssom:end');
+                performance.measure('Asset Collection: CSSOM', 'asset-collection:cssom:start', 'asset-collection:cssom:end');
             }
             
             // 5. Harvest domains from preconnect hints for potential DNS prefetch
+            // This part is for future optimization and does not add URLs to the preload list directly.
+            if (logPerformance) performance.mark('asset-collection:preconnect:start');
             try {
                 document.querySelectorAll('link[rel="preconnect"]').forEach(link => {
                     if (link.href) {
@@ -594,12 +606,31 @@
                     }
                 });
             } catch (e) {
-                // Skip preconnect scanning if it fails
+                console.warn('Asset Preloader: Error scanning preconnect links.', e);
+            }
+            if (logPerformance) {
+                performance.mark('asset-collection:preconnect:end');
+                performance.measure('Asset Collection: Preconnect Scan', 'asset-collection:preconnect:start', 'asset-collection:preconnect:end');
             }
             
         } catch (e) {
             // Gracefully handle any unexpected errors
-            console.warn('Asset collection encountered an error:', e);
+            console.error('Asset Preloader: A critical error occurred during asset collection.', e);
+        }
+        
+        if (logPerformance) {
+            performance.mark('asset-collection:end');
+            performance.measure('Asset Collection: Total', 'asset-collection:start', 'asset-collection:end');
+
+            const measures = performance.getEntriesByType('measure');
+            console.groupCollapsed(`Asset Preloader Performance Report (${measures.find(m => m.name === 'Asset Collection: Total')?.duration.toFixed(2) || 'N/A'}ms)`);
+            measures.forEach(measure => {
+                if (measure.name.startsWith('Asset Collection:')) {
+                    console.log(`- ${measure.name.replace('Asset Collection: ', '')}: ${measure.duration.toFixed(2)}ms`);
+                }
+            });
+            console.groupEnd();
+            performance.clearMeasures();
         }
         
         return Array.from(assetUrls);
@@ -609,34 +640,41 @@
      * Auto-preload assets detected from the current page (enhanced version)
      * Falls back to window.__ASSET_MANIFEST__ if no assets are found
      * This function is called automatically on DOMContentLoaded if config.autoPreload is true
+     * 
+     * The new strategy prioritizes a static `window.__ASSET_MANIFEST__` for performance.
+     * If the manifest is present, the slow dynamic asset collection is skipped entirely.
      */
     function autoPreload() {
         // Check if auto-preload is disabled via config
-        if (!config.autoPreload) {
+        if (!config.autoPreload || !shouldPreload()) {
             return;
         }
-        
-        // Check if preloading should proceed
-        if (!shouldPreload()) {
-            return;
+
+        let assetList = [];
+
+        // PRIORITY 1: Use a static manifest. This is the fastest and most reliable method.
+        if (Array.isArray(window.__ASSET_MANIFEST__) && window.__ASSET_MANIFEST__.length > 0) {
+            assetList = [...window.__ASSET_MANIFEST__];
+            console.log(`Asset preloader: Using static manifest with ${assetList.length} assets.`);
+        } 
+        // PRIORITY 2: Fallback to slow dynamic collection if no manifest is found.
+        else {
+            // Call with diagnostics enabled. The function will handle its own logging.
+            assetList = collectAdvancedAssets(true);
         }
         
-        // Get asset list from enhanced discovery
-        let list = collectAdvancedAssets();
-        
-        // Fallback: if no assets found, check for manual manifest
-        if (!list.length && Array.isArray(window.__ASSET_MANIFEST__)) {
-            list = [...window.__ASSET_MANIFEST__];
-        }
-        
-        // Only preload if we have assets to preload
-        if (list.length > 0) {
-            preloadAssets(list);
+        if (assetList.length > 0) {
+            preloadAssets(assetList);
         }
         
         // Enable dynamic asset watching if configured
+        // This should always wait for the DOM to be ready before attaching.
         if (PRELOAD_CONFIG.enableMutationObserver) {
-            watchForDynamicAssets();
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', watchForDynamicAssets);
+            } else {
+                watchForDynamicAssets();
+            }
         }
     }
 
@@ -651,6 +689,7 @@
         shouldPreload: shouldPreload,
         watchForDynamicAssets: watchForDynamicAssets,
         autoPreload: autoPreload,
+        observer: null, // To hold the MutationObserver instance
         
         // Configuration and debugging
         getConfig: () => ({...PRELOAD_CONFIG}),
@@ -669,8 +708,9 @@
         // Manual control
         start: autoPreload,
         stop: function() {
-            // Stop dynamic asset watching if active
-            // Note: MutationObserver disconnect would need to be tracked
+            if (this.observer) {
+                this.observer.disconnect();
+            }
             return this;
         }
     };
@@ -694,14 +734,13 @@
     // Auto-preload assets when DOM is ready (only if autoPreload is enabled)
     // This enables automatic asset detection without requiring manual manifest setup
     // Manual calls to preloadAssets() will still work as before
+    // The script should be placed in the <head> for best performance.
     if (typeof document !== 'undefined') {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', autoPreload);
-        } else {
-            // DOM is already ready, run immediately if auto-preload is enabled
-            if (config.autoPreload) {
-                setTimeout(autoPreload, 0);
-            }
+        // Run immediately if auto-preload is enabled.
+        // Using a timeout ensures this runs after the current script execution stack clears,
+        // allowing an inline __ASSET_MANIFEST__ to be defined and read correctly.
+        if (config.autoPreload) {
+            setTimeout(autoPreload, 0);
         }
     }
 

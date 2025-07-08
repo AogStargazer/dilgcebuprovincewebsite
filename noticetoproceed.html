@@ -8,6 +8,14 @@
     <meta name="robots" content="max-image-preview:large" />
     <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
     <link rel="stylesheet" href="main-index-styles.css" type="text/css" media="all" />
+        <!--
+      HIGH-PERFORMANCE ASSET PRELOADING
+      By placing the preloader here without 'defer', we allow it to start scanning
+      the document as it's being parsed, giving it a head start to fetch assets
+      before the browser's main rendering process requests them.
+    -->
+    <script src="assets/js/standalone-config.js"></script>
+    <script src="assets/js/asset-preloader.js"></script>
     <style>
       img:is([sizes="auto" i], [sizes^="auto," i]) {
         contain-intrinsic-size: 3000px 1500px;
@@ -844,7 +852,24 @@
                 </ul>
               </li>
 
-
+              <li class="has-dropdown">
+                <a href="#">LGU Portal</a>
+                <ul class="dropdown-menu">
+                  <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
+                  <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
+                  <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
+                  <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
+                  <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
+                  <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
+                  <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
+                  <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
+                  <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
+                  <li><a href="https://bims-admin.dilg.gov.ph/">Barangay Information Management System (BIMS)</a></li>
+                  <li><a href="https://fta.dilg.gov.ph/"></a>Foreign Travel Authority (FTA)</li>
+                  <li><a href="https://www.katarungangpambarangay.com/">Katarungang Pambarangay</a></li>
+                  <li><a href="https://gad.dilg.gov.ph/">GAD Plan and Budget Monitoring System</a></li>
+                </ul>
+              </li>
 
               <li><a href="news.html">News</a></li>
               <li class="has-dropdown">
