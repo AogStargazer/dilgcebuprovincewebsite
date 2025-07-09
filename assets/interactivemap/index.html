@@ -35,7 +35,7 @@
     const bounds = [[0, 0], [height, width]];
     map.fitBounds(bounds);
 
-    fetch("CebuProvince_Cleaned.svg")
+    fetch("https://cebuprovincedilg.duckdns.org/assets/interactivemap/CebuProvince_Cleaned.svg")
       .then(res => res.text())
       .then(svgText => {
         const overlay = L.svgOverlay(svgText, bounds).addTo(map);
