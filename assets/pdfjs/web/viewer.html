@@ -394,5 +394,94 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
+
+
+<!------------------------------------------------------------------------------------------- -->
+<!------------------------------------------------------------------------------------------- -->
+<!-- Spinner Overlay -->
+<div id="pdf-loader">
+  <div class="spinner">
+    <div class="spinner-text">0%</div>
+  </div>
+</div>
+
+<style>
+  /* Fullscreen overlay */
+  #pdf-loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  /* Spinner circle */
+  #pdf-loader .spinner {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 10px solid #ccc;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Centered text */
+  #pdf-loader .spinner-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+</style>
+
+<script>
+  // Wait until DOM and PDF viewer are ready
+  document.addEventListener("DOMContentLoaded", () => {
+    // Hook into PDF.js loading task
+    const spinnerText = document.querySelector("#pdf-loader .spinner-text");
+    const spinnerOverlay = document.getElementById("pdf-loader");
+
+    // Patch into PDF.js loading
+    const originalOpen = window.PDFViewerApplication.open;
+
+    window.PDFViewerApplication.open = function(pdfFile) {
+      const loadingTask = pdfjsLib.getDocument(pdfFile);
+
+      loadingTask.onProgress = function({ loaded, total }) {
+        const percent = total ? Math.floor((loaded / total) * 100) : 0;
+        spinnerText.textContent = `${percent}%`;
+      };
+
+      loadingTask.promise.then((pdfDocument) => {
+        spinnerOverlay.style.display = "none";
+        return window.PDFViewerApplication.load(pdfDocument);
+      }).catch((error) => {
+        spinnerOverlay.style.display = "none";
+        console.error("PDF loading error:", error);
+      });
+
+      return loadingTask.promise;
+    };
+  });
+</script>
+
+<!------------------------------------------------------------------------------------------- -->
+<!------------------------------------------------------------------------------------------- -->
+<!------------------------------------------------------------------------------------------- -->
+
+
+
+
   </body>
 </html>
