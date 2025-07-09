@@ -788,8 +788,6 @@
 
 
 
-
-
         <nav class="main-navigation">
           <div class="nav-logo">
             <img src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Logo">
@@ -862,6 +860,7 @@
                 </ul>
               </li>
 
+
               <li class="has-dropdown">
                 <a href="#">DILG Intranet</a>
                 <ul class="dropdown-menu">
@@ -875,10 +874,7 @@
                 </ul>
               </li>
 
-
               <li><a href="citizenscharter.html">Citizen's Charter</a></li>
-
-
 
 
               <li><a href="news.html">News</a></li>
@@ -1226,11 +1222,128 @@
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
 
-                      <div style="padding-top:1000px; padding-bottom:1000px;">
+                      <div style="padding-top:55px; padding-bottom:55px;">
                       </div>
 
 
+                      <!-- Main Content Should be Placed Here -->
 
+
+
+
+
+
+<div class="pdf-tab-header">
+  <button class="pdf-tab-button active" onclick="showPdfTab(0)">Central Office</button>
+  <button class="pdf-tab-button" onclick="showPdfTab(1)">Regional Offices</button>
+  <button class="pdf-tab-button" onclick="showPdfTab(2)">Provincial Offices</button>
+</div>
+
+<!-- Tab 1 -->
+<div class="pdf-tab-content active">
+  <iframe src="assets/pdfjs/web/viewer.html?file=/assets/pdf-files/CentralOfficeIPPhone.pdf" title="Charter PDF"></iframe>
+  <div class="pdf-tab-footer">
+    <p>📌 Download: 
+      <a href="assets/pdf-files/CentralOfficeIPPhone.pdf" download>Click here</a>
+    </p>
+    <p>⬅️ Scroll up/down this page, or use the scrollbar inside the PDF viewer.</p>
+  </div>
+</div>
+
+<!-- Tab 2 -->
+<div class="pdf-tab-content">
+  <iframe src="assets/pdfjs/web/viewer.html?file=/assets/pdf-files/RegionalIPPhone.pdf" title="Invoice PDF"></iframe>
+  <div class="pdf-tab-footer">
+    <p>📌 Download: 
+      <a href="assets/pdf-files/RegionalIPPhone.pdf" download>Click here</a>
+    </p>
+  </div>
+</div>
+
+<!-- Tab 3 -->
+<div class="pdf-tab-content">
+  <iframe src="assets/pdfjs/web/viewer.html?file=/assets/pdf-files/ProvincialIPPhone.pdf" title="Report PDF"></iframe>
+  <div class="pdf-tab-footer">
+    <p>📌 Download: 
+      <a href="assets/pdf-files/ProvincialIPPhone.pdf" download>Click here</a>
+    </p>
+  </div>
+</div>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    font-family: Arial, sans-serif;
+  }
+
+  .pdf-tab-header {
+    display: flex;
+    background: #f1f1f1;
+    border-bottom: 2px solid #ccc;
+  }
+
+  .pdf-tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: inherit;
+    font-weight: bold;
+    transition: background 0.2s ease;
+  }
+
+  .pdf-tab-button:hover,
+  .pdf-tab-button.active {
+    background: #ffffff;
+    border-bottom: 2px solid #1a73e8;
+  }
+
+  .pdf-tab-content {
+    display: none;
+    padding: 0;
+  }
+
+  .pdf-tab-content.active {
+    display: block;
+  }
+
+  .pdf-tab-content iframe {
+    width: 100%;
+    height: 200vh;
+    border: none;
+    display: block;
+  }
+
+  .pdf-tab-footer {
+    padding: 2rem;
+    text-align: center;
+  }
+</style>
+
+<script>
+  function showPdfTab(index) {
+    const tabs = document.querySelectorAll(".pdf-tab-button");
+    const contents = document.querySelectorAll(".pdf-tab-content");
+
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle("active", i === index);
+    });
+
+    contents.forEach((content, i) => {
+      content.classList.toggle("active", i === index);
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+                      <!-- Main Content Should be Placed Here -->
 
 
                       <div class="container grid-layout">
@@ -1361,7 +1474,7 @@
     </div>
   </div>
 
-   <!-- Subfooter with uniform background -->
+  <!-- Subfooter with uniform background -->
   <div class="jupiterx-subfooter bg-gray-500 text-gray-100 py-6">
     <div class="container">
       <div class="row justify-content-center">
