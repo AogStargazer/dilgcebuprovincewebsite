@@ -1237,37 +1237,46 @@
 
 
 
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: auto; /* allow full page scroll */
-  }
+<!-- 📄 Unique-Styled PDF.js Viewer Block -->
+<div class="custom-pdf-wrapper">
+  <iframe 
+    src="assets/pdfjs/web/viewer.html?file=/assets/pdf-files/4340-dilg-charter-1st-edition-2024.pdf"
+    title="PDF Viewer">
+  </iframe>
 
-  iframe {
-    width: 100%;
-    height: 200vh; /* show most of viewport but allow outer scroll too */
-    border: none;
-    display: block;
-    margin: 2rem 0; /* optional: space around viewer */
-  }
-</style>
-
-<!-- Embedded PDF.js Viewer with its own scrollbar -->
-<iframe 
-  src="assets/pdfjs/web/viewer.html?file=/assets/pdf-files/4340-dilg-charter-1st-edition-2024.pdf"
-  title="PDF Viewer">
-</iframe>
-
-<!-- More content below to trigger outer scrollbar -->
-<div style="padding: 2rem; text-align:center;">
-  <p>📌 Want to download the file? <a href="assets/pdf-files/4340-dilg-charter-1st-edition-2024.pdf" download>Click here</a>.</p>
-  <p>⬅️ Scroll up/down this page, or use the scrollbar inside the PDF viewer.</p>
+  <div class="custom-pdf-footer">
+    <p>📌 Want to download the file? 
+      <a href="assets/pdf-files/4340-dilg-charter-1st-edition-2024.pdf" download>Click here</a>.
+    </p>
+    <p>⬅️ Scroll up/down this page, or use the scrollbar inside the PDF viewer.</p>
+  </div>
 </div>
 
+<!-- ✅ Isolated CSS to prevent global conflicts -->
+<style>
+  .custom-pdf-wrapper {
+    margin: 0;
+    padding: 0;
+  }
 
+  .custom-pdf-wrapper iframe {
+    width: 100%;
+    height: 200vh; /* Show tall PDF with outer scroll */
+    border: none;
+    display: block;
+    margin: 2rem 0; /* Optional spacing above/below */
+  }
 
+  .custom-pdf-footer {
+    padding: 2rem;
+    text-align: center;
+  }
 
+  .custom-pdf-footer a {
+    color: #1a73e8;
+    text-decoration: underline;
+  }
+</style>
 
 
 
