@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cebu Province Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+    }
+    .highlighted {
+      fill: orange !important;
+    }
+    svg path {
+      fill: #cccccc;
+      stroke: #333;
+      stroke-width: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -2,
+      maxZoom: 2
+    });
+
+    const width = 4751;
+    const height = 6104;
+    const bounds = [[0, 0], [height, width]];
+    map.fitBounds(bounds);
+
+    fetch("CebuProvince_Cleaned.svg")
+      .then(res => res.text())
+      .then(svgText => {
+        const overlay = L.svgOverlay(svgText, bounds).addTo(map);
+        overlay.on("load", () => {
+          const svg = overlay.getElement();
+          svg.querySelectorAll("path").forEach(path => {
+            const id = path.id || "Unknown";
+            path.style.cursor = "pointer";
+            path.addEventListener("click", e => {
+              const pt = map.mouseEventToLatLng(e);
+              svg.querySelectorAll(".highlighted").forEach(p => p.classList.remove("highlighted"));
+              path.classList.add("highlighted");
+
+              L.popup()
+                .setLatLng(pt)
+                .setContent(`<strong>${id}</strong><br>This is ${id}. Add your info here.`)
+                .openOn(map);
+            });
+          });
+        });
+      });
+  </script>
+</body>
+</html>
