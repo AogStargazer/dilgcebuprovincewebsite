@@ -1229,9 +1229,8 @@
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cebu Province Interactive Map</title>
@@ -1295,7 +1294,9 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
       padding: 16px;
       z-index: 1000;
+      pointer-events: none; /* avoid blocking mouse */
     }
+
 
     .cebu-map-tooltip h2 {
       margin: 0 0 10px;
@@ -1327,8 +1328,10 @@
       font-size: 14px;
       font-weight: 500;
     }
+
+  
   </style>
-</head>
+
 <body>
   <div class="cebu-province-map-main-container">
     <div class="cebu-interactive-map-svg-wrapper">
@@ -2318,39 +2321,167 @@
     </div>
   </div>
 
-  <script>
-    /**
-     * =============================
-     * README / GUIDE TO ADD TOOLTIP DATA
-     * =============================
-     *
-     * Each SVG <path> element should have a <title> tag.
-     * Example:
-     *   <path ...>
-     *     <title>LAPU-LAPU CITY</title>
-     *   </path>
-     *
-     * Then match that exact string in the object below:
-     *
-     * "LAPU-LAPU CITY": {
-     *   profile: "Your description here",
-     *   mayor: "Mayor Full Name",
-     *   mayorImg: "images/mayor_lapu.jpg",
-     *   lgoo: "LGOO Officer Full Name",
-     *   lgooImg: "images/lgoo_lapu.jpg"
-     * }
-     *
-     * Make sure the image paths are correct relative to the HTML file.
-     */
-    const cebuMapTooltipData = {
-      "CEBU CITY": {
+<script>
+/**
+ * =============================
+ * OVERENGINEERED SVG TOOLTIP SYSTEM
+ * =============================
+ * 
+ * Features:
+ * - Multiple initialization strategies with fallbacks
+ * - Mutation Observer for dynamically loaded SVGs
+ * - Performance optimized with debouncing
+ * - Comprehensive error handling and logging
+ * - Automatic retry mechanisms
+ * - Memory leak prevention
+ * - Accessibility support
+ * - Unit-testable utilities
+ * - Dynamic data injection
+ * 
+ * Each SVG <path> must have a <title> tag inside.
+ * Example:
+ *   <path ...>
+ *     <title>LAPU-LAPU CITY</title>
+ *   </path>
+ *
+ * Then add data via:
+ * window.cebuMapTooltipSystem.setTooltipData({
+ *   "LAPULAPUCITY": {
+ *     profile: "Your description",
+ *     mayor: "Mayor Full Name",
+ *     mayorImg: "images/mayor_lapu.jpg",
+ *     lgoo: "LGOO Full Name",
+ *     lgooImg: "images/lgoo_lapu.jpg"
+ *   }
+ * });
+ */
+
+/**
+ * Static utility class for unit-testable helper functions
+ */
+class TooltipUtilities {
+  // Debounce function for performance optimization
+  static debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // Safe element getter with multiple fallbacks
+  static safeGetElement(selectors) {
+    if (typeof selectors === 'string') selectors = [selectors];
+    
+    for (const selector of selectors) {
+      try {
+        const element = document.querySelector(selector);
+        if (element) return element;
+      } catch (e) {
+        console.warn(`Invalid selector: ${selector}`, e);
+      }
+    }
+    return null;
+  }
+
+  // Extract title from SVG path with multiple strategies
+  static extractTitleFromPath(path) {
+    const strategies = [
+      // Strategy 1: Direct childNodes search (most reliable for inline SVG)
+      () => Array.from(path.childNodes).find(n => n.nodeName === 'title' || n.nodeName === 'TITLE'),
+      
+      // Strategy 2: querySelector (works sometimes)
+      () => path.querySelector('title'),
+      
+      // Strategy 3: getElementsByTagName
+      () => path.getElementsByTagName('title')[0],
+      
+      // Strategy 4: Deep search in all descendants
+      () => {
+        const walker = document.createTreeWalker(
+          path,
+          NodeFilter.SHOW_ELEMENT,
+          node => node.nodeName.toLowerCase() === 'title' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
+        );
+        return walker.nextNode();
+      },
+      
+      // Strategy 5: Manual recursive search
+      () => {
+        const findTitle = (node) => {
+          if (node.nodeName && node.nodeName.toLowerCase() === 'title') return node;
+          for (const child of node.childNodes || []) {
+            const found = findTitle(child);
+            if (found) return found;
+          }
+          return null;
+        };
+        return findTitle(path);
+      }
+    ];
+
+    for (const strategy of strategies) {
+      try {
+        const titleEl = strategy();
+        if (titleEl && titleEl.textContent) {
+          return titleEl;
+        }
+      } catch (e) {
+        console.debug('Title extraction strategy failed:', e);
+      }
+    }
+    return null;
+  }
+
+  // Generate region key from raw name
+  static generateRegionKey(rawName) {
+    return rawName?.replace(/\s+/g, "").toUpperCase();
+  }
+
+  // Calculate optimal tooltip position
+static calculateTooltipPosition(mouseX, mouseY, tooltipRect, viewportWidth, viewportHeight) {
+  // Fixed position: below header on the left side
+  const headerHeight = 60; // Adjust this to match your actual header height
+  const leftMargin = 20;   // Distance from left edge
+  
+  return { 
+    top: headerHeight + 10,  // 10px below header
+    left: leftMargin 
+  };
+}
+
+
+
+
+}
+
+class CebuMapTooltipSystem {
+  constructor() {
+    this.isInitialized = false;
+    this.observers = [];
+    this.tooltipData = {};
+    this.tooltipElements = {};
+    this.activePaths = new Set();
+    this.retryCount = 0;
+    this.maxRetries = 5;
+    this.retryDelay = 250;
+    this.mouseMoveDebounceTime = 16; // ~60fps
+    this.initializationStrategies = [];
+    
+    // Default data
+    this.defaultData = {
+      "CEBUCITY": {
         profile: "Cebu City is the capital city and known as the Queen City of the South.",
         mayor: "Michael Rama",
         mayorImg: "images/mayor_cebu.jpg",
         lgoo: "Juan Dela Cruz",
         lgooImg: "images/lgoo_cebu.jpg"
       },
-      "MANDAUE CITY": {
+      "MANDAUECITY": {
         profile: "Mandaue is a highly urbanized city with vibrant industries.",
         mayor: "Jonas Cortes",
         mayorImg: "images/mayor_mandaue.jpg",
@@ -2358,43 +2489,436 @@
         lgooImg: "images/lgoo_mandaue.jpg"
       }
     };
+    
+    // Initialize with default data
+    this.setTooltipData();
+    
+    // Bind methods to preserve context
+    this.handleMouseMove = TooltipUtilities.debounce(this.handleMouseMove.bind(this), this.mouseMoveDebounceTime);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.initializeTooltips = this.initializeTooltips.bind(this);
+    
+    this.init();
+  }
 
-    const tooltip = document.getElementById('cebuMapTooltip');
-    const nameEl = document.getElementById('tooltipPlaceName');
-    const profileEl = document.getElementById('tooltipProfile');
-    const mayorImg = document.getElementById('tooltipMayorImg');
-    const mayorName = document.getElementById('tooltipMayorName');
-    const lgooImg = document.getElementById('tooltipLgooImg');
-    const lgooName = document.getElementById('tooltipLgooName');
+  // Configuration data with merge support
+  setTooltipData(data = {}) {
+    this.tooltipData = {
+      ...this.defaultData,
+      ...data
+    };
+    
+    // If already initialized, reprocess paths with new data
+    if (this.isInitialized) {
+      console.debug('Updating tooltip data and reinitializing...');
+      this.reinitializeWithNewData();
+    }
+    
+    return this; // Allow method chaining
+  }
 
-    document.querySelectorAll('.cebu-map-region-path-element').forEach(path => {
-      const titleEl = path.querySelector('title');
-      const regionName = titleEl?.textContent.trim();
+  // Add new data without replacing existing
+  addTooltipData(data = {}) {
+    this.tooltipData = {
+      ...this.tooltipData,
+      ...data
+    };
+    
+    if (this.isInitialized) {
+      console.debug('Adding new tooltip data and reinitializing...');
+      this.reinitializeWithNewData();
+    }
+    
+    return this; // Allow method chaining
+  }
 
-      if (!regionName || !cebuMapTooltipData[regionName]) return;
+  // Get current tooltip data (for debugging)
+  getTooltipData() {
+    return { ...this.tooltipData };
+  }
 
-      const regionData = cebuMapTooltipData[regionName];
-
-      path.addEventListener('mousemove', e => {
-        nameEl.textContent = regionName;
-        profileEl.textContent = regionData.profile;
-        mayorImg.src = regionData.mayorImg;
-        mayorName.textContent = regionData.mayor;
-        lgooImg.src = regionData.lgooImg;
-        lgooName.textContent = regionData.lgoo;
-
-        tooltip.style.display = "block";
-        tooltip.style.left = (e.pageX + 20) + "px";
-        tooltip.style.top = (e.pageY + 20) + "px";
-      });
-
-      path.addEventListener('mouseleave', () => {
-        tooltip.style.display = "none";
-      });
+  // Reinitialize with new data
+  reinitializeWithNewData() {
+    if (!this.isInitialized) return;
+    
+    // Clean up existing paths
+    this.activePaths.forEach(path => {
+      path.removeEventListener('mousemove', this.handleMouseMove);
+      path.removeEventListener('mouseleave', this.handleMouseLeave);
     });
-  </script>
-</body>
-</html>
+    this.activePaths.clear();
+    
+    // Reinitialize
+    this.processAllPaths();
+  }
+
+  // Initialize tooltip elements with comprehensive validation
+  initializeTooltipElements() {
+    const elementMap = {
+      tooltip: ['#cebuMapTooltip', '.cebu-map-tooltip', '[data-tooltip="cebu-map"]'],
+      nameEl: ['#tooltipPlaceName', '.tooltip-place-name', '[data-tooltip-field="name"]'],
+      profileEl: ['#tooltipProfile', '.tooltip-profile', '[data-tooltip-field="profile"]'],
+      mayorImg: ['#tooltipMayorImg', '.tooltip-mayor-img', '[data-tooltip-field="mayor-img"]'],
+      mayorName: ['#tooltipMayorName', '.tooltip-mayor-name', '[data-tooltip-field="mayor-name"]'],
+      lgooImg: ['#tooltipLgooImg', '.tooltip-lgoo-img', '[data-tooltip-field="lgoo-img"]'],
+      lgooName: ['#tooltipLgooName', '.tooltip-lgoo-name', '[data-tooltip-field="lgoo-name"]']
+    };
+
+    const elements = {};
+    const missing = [];
+
+    for (const [key, selectors] of Object.entries(elementMap)) {
+      const element = TooltipUtilities.safeGetElement(selectors);
+      if (element) {
+        elements[key] = element;
+      } else {
+        missing.push(key);
+      }
+    }
+
+    if (missing.length > 0) {
+      console.error('Missing tooltip elements:', missing);
+      return null;
+    }
+
+    return elements;
+  }
+
+  // Find SVG paths with multiple strategies
+  findSVGPaths() {
+    const pathSelectors = [
+      '.cebu-map-region-path-element',
+      'svg path',
+      'path',
+      'svg g path',
+      '[data-region]',
+      '.region-path',
+      '.map-region'
+    ];
+
+    const foundPaths = new Set();
+    
+    for (const selector of pathSelectors) {
+      try {
+        const paths = document.querySelectorAll(selector);
+        paths.forEach(path => {
+          // Verify it's actually an SVG path
+          if (path.tagName && path.tagName.toLowerCase() === 'path') {
+            foundPaths.add(path);
+          }
+        });
+      } catch (e) {
+        console.debug(`Path selector failed: ${selector}`, e);
+      }
+    }
+
+    // Additional strategy: Find all SVGs and search their paths
+    const svgs = document.querySelectorAll('svg');
+    svgs.forEach(svg => {
+      const paths = svg.querySelectorAll('path');
+      paths.forEach(path => foundPaths.add(path));
+    });
+
+    return Array.from(foundPaths);
+  }
+
+  // Process individual path for tooltip
+  processPath(path, tooltipElements) {
+    const titleEl = TooltipUtilities.extractTitleFromPath(path);
+    
+    if (!titleEl) {
+      console.debug('No title found for path:', path);
+      return false;
+    }
+
+    const rawName = titleEl.textContent?.trim();
+    if (!rawName) {
+      console.debug('Empty title for path:', path);
+      return false;
+    }
+
+    const regionKey = TooltipUtilities.generateRegionKey(rawName);
+    
+    if (!this.tooltipData[regionKey]) {
+      console.debug('No data found for region:', regionKey, 'Available keys:', Object.keys(this.tooltipData));
+      return false;
+    }
+
+    const regionData = this.tooltipData[regionKey];
+    
+    // Remove existing event listeners to prevent duplicates
+    path.removeEventListener('mousemove', this.handleMouseMove);
+    path.removeEventListener('mouseleave', this.handleMouseLeave);
+    
+    // Add new event listeners
+    path.addEventListener('mousemove', (e) => this.handleMouseMove(e, rawName, regionData, tooltipElements));
+    path.addEventListener('mouseleave', () => this.handleMouseLeave(tooltipElements));
+    
+    // Add accessibility attributes
+    path.setAttribute('role', 'button');
+    path.setAttribute('tabindex', '0');
+    path.setAttribute('aria-label', `${rawName} - ${regionData.profile}`);
+    
+    // Add visual feedback
+    path.style.cursor = 'pointer';
+    
+    this.activePaths.add(path);
+    
+    console.debug('Successfully processed path:', rawName);
+    return true;
+  }
+
+  // Process all paths (extracted for reuse)
+  processAllPaths() {
+    const paths = this.findSVGPaths();
+    console.debug('Found SVG paths:', paths.length);
+
+    if (paths.length === 0) {
+      console.warn('No SVG paths found');
+      return 0;
+    }
+
+    let processedCount = 0;
+    paths.forEach(path => {
+      if (this.processPath(path, this.tooltipElements)) {
+        processedCount++;
+      }
+    });
+
+    return processedCount;
+  }
+
+  // Handle mouse move with optimized tooltip positioning
+  handleMouseMove(e, rawName, regionData, tooltipElements) {
+    const { tooltip, nameEl, profileEl, mayorImg, mayorName, lgooImg, lgooName } = tooltipElements;
+    
+    try {
+      // Update tooltip content
+      nameEl.textContent = rawName;
+      profileEl.textContent = regionData.profile;
+      mayorImg.src = regionData.mayorImg;
+      mayorName.textContent = regionData.mayor;
+      lgooImg.src = regionData.lgooImg;
+      lgooName.textContent = regionData.lgoo;
+      
+      // Calculate optimal position using utility
+      const tooltipRect = tooltip.getBoundingClientRect();
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      const position = TooltipUtilities.calculateTooltipPosition(
+        e.pageX, 
+        e.pageY, 
+        tooltipRect, 
+        window.innerWidth, 
+        window.innerHeight
+      );
+      
+      tooltip.style.display = "block";
+      tooltip.style.left = `${e.clientX + 4}px`;
+      tooltip.style.top = `${e.clientY + 4}px`;
+      tooltip.style.transform = "none"; // ensure no hidden offset
+      
+      // Add fade-in animation if not already visible
+      if (!tooltip.classList.contains('visible')) {
+        tooltip.classList.add('visible');
+        tooltip.style.opacity = '0';
+        requestAnimationFrame(() => {
+          tooltip.style.transition = 'opacity 0.2s ease-in-out';
+          tooltip.style.opacity = '1';
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error in handleMouseMove:', error);
+    }
+  }
+
+  // Handle mouse leave with smooth fade-out
+  handleMouseLeave(tooltipElements) {
+    const { tooltip } = tooltipElements;
+    
+    try {
+      tooltip.style.transition = 'opacity 0.15s ease-in-out';
+      tooltip.style.opacity = '0';
+      
+      setTimeout(() => {
+        tooltip.style.display = "none";
+        tooltip.classList.remove('visible');
+      }, 150);
+      
+    } catch (error) {
+      console.error('Error in handleMouseLeave:', error);
+    }
+  }
+
+  // Main initialization method
+  initializeTooltips() {
+    if (this.isInitialized) {
+      console.debug('Tooltip system already initialized');
+      return true;
+    }
+
+    console.debug('Initializing tooltip system...');
+    
+    // Initialize tooltip elements
+    this.tooltipElements = this.initializeTooltipElements();
+    if (!this.tooltipElements) {
+      console.error('Failed to initialize tooltip elements');
+      return false;
+    }
+
+    // Set tooltip data
+    this.setTooltipData({});
+
+    // Find and process SVG paths
+    const paths = this.findSVGPaths();
+    console.debug('Found SVG paths:', paths.length);
+
+    if (paths.length === 0) {
+      console.warn('No SVG paths found');
+      return false;
+    }
+
+    let processedCount = 0;
+    paths.forEach(path => {
+      if (this.processPath(path, this.tooltipElements)) {
+        processedCount++;
+      }
+    });
+
+    console.log(`Tooltip system initialized: ${processedCount}/${paths.length} paths processed`);
+    
+    if (processedCount > 0) {
+      this.isInitialized = true;
+      return true;
+    }
+
+    return false;
+  }
+
+  // Setup mutation observer for dynamically loaded content
+  setupMutationObserver() {
+    if (!window.MutationObserver) {
+      console.warn('MutationObserver not supported');
+      return;
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldReinit = false;
+      
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          // Check if SVG elements were added
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              if (node.tagName === 'svg' || node.querySelector('svg') || node.tagName === 'path') {
+                shouldReinit = true;
+              }
+            }
+          });
+        }
+      });
+      
+      if (shouldReinit && !this.isInitialized) {
+        console.debug('DOM changes detected, reinitializing tooltips...');
+        this.initializeTooltips();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    this.observers.push(observer);
+  }
+
+  // Retry mechanism with exponential backoff
+  scheduleRetry() {
+    if (this.retryCount >= this.maxRetries) {
+      console.error('Max retries reached. Tooltip system initialization failed.');
+      return;
+    }
+
+    this.retryCount++;
+    const delay = this.retryDelay * Math.pow(2, this.retryCount - 1);
+    
+    console.debug(`Retrying initialization in ${delay}ms (attempt ${this.retryCount}/${this.maxRetries})`);
+    
+    setTimeout(() => {
+      if (!this.isInitialized) {
+        if (!this.initializeTooltips()) {
+          this.scheduleRetry();
+        }
+      }
+    }, delay);
+  }
+
+  // Main initialization with multiple strategies
+  init() {
+    console.debug('Starting Cebu Map Tooltip System...');
+    
+    // Strategy 1: Immediate initialization
+    if (this.initializeTooltips()) {
+      return;
+    }
+
+    // Strategy 2: Wait for DOM content loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!this.isInitialized && !this.initializeTooltips()) {
+          this.scheduleRetry();
+        }
+      });
+    } else {
+      // Strategy 3: Immediate retry
+      this.scheduleRetry();
+    }
+
+    // Strategy 4: Window load event
+    window.addEventListener('load', () => {
+      if (!this.isInitialized && !this.initializeTooltips()) {
+        this.scheduleRetry();
+      }
+    });
+
+    // Strategy 5: Mutation observer for dynamic content
+    this.setupMutationObserver();
+  }
+
+  // Cleanup method to prevent memory leaks
+  destroy() {
+    console.debug('Destroying tooltip system...');
+    
+    // Remove event listeners
+    this.activePaths.forEach(path => {
+      path.removeEventListener('mousemove', this.handleMouseMove);
+      path.removeEventListener('mouseleave', this.handleMouseLeave);
+    });
+    
+    // Disconnect observers
+    this.observers.forEach(observer => observer.disconnect());
+    
+    // Hide tooltip
+    if (this.tooltipElements && this.tooltipElements.tooltip) {
+      this.tooltipElements.tooltip.style.display = 'none';
+    }
+    
+    // Reset state
+    this.isInitialized = false;
+    this.activePaths.clear();
+    this.observers = [];
+    this.tooltipElements = {};
+  }
+}
+
+// Initialize the system
+const cebuMapTooltipSystem = new CebuMapTooltipSystem();
+
+// Expose for debugging
+window.cebuMapTooltipSystem = cebuMapTooltipSystem;
+</script>
 
 
 
