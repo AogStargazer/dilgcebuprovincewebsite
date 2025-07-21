@@ -1893,7 +1893,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="ToledoCity">
                                 <title
-                                   id="title150">Toledo City</title>
+                                   id="title150">Toledo_City</title>
                               </path>
                               <path
                                  style="fill:#ff0000;stroke-width:5.6942"
@@ -1909,7 +1909,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="CarcarCity">
                                 <title
-                                   id="title160">Carcar City</title>
+                                   id="title160">Carcar_City</title>
                               </path>
                               <path
                                  style="fill:#ff0000;stroke-width:5.6942"
@@ -1925,7 +1925,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="NagaCity">
                                 <title
-                                   id="title26">Naga City</title>
+                                   id="title26">Naga_City</title>
                               </path>
                               <path
                                  style="fill:#ff0000;stroke-width:5.6942"
@@ -1941,7 +1941,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="TalisayCity">
                                 <title
-                                   id="title161">Talisay City</title>
+                                   id="title161">Talisay_City</title>
                               </path>
                               <path
                                  style="fill:#ffff00;stroke-width:5.6942"
@@ -1986,7 +1986,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SanRemigio">
                                 <title
-                                   id="title97">San Remigio</title>
+                                   id="title97">San_Remigio</title>
                               </path>
                               <path
                                  style="fill:#00ffff;stroke-width:5.6942"
@@ -2018,7 +2018,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="BogoCity">
                                 <title
-                                   id="title162">Bogo City</title>
+                                   id="title162">Bogo_City</title>
                               </path>
                               <path
                                  style="fill:#00ffff;stroke-width:5.6942"
@@ -2042,7 +2042,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SantaFe">
                                 <title
-                                   id="title165">Santa Fe</title>
+                                   id="title165">Santa_Fe</title>
                               </path>
                               <path
                                  style="fill:#00ffff;stroke-width:5.6942"
@@ -2050,7 +2050,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SantaFe2">
                                 <title
-                                   id="title96">Santa Fe</title>
+                                   id="title96">Santa_Fe</title>
                               </path>
                               <path
                                  style="fill:#00ffff;stroke-width:1.42355"
@@ -2058,7 +2058,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SantaFe1">
                                 <title
-                                   id="title95">Santa Fe</title>
+                                   id="title95">Santa_Fe</title>
                               </path>
                               <path
                                  style="fill:#00ffff;stroke-width:0.251651"
@@ -2152,7 +2152,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SanFrancisco">
                                 <title
-                                   id="title173">San Francisco</title>
+                                   id="title173">San_Francisco</title>
                               </path>
                               <path
                                  style="fill:#808000;stroke-width:0.503301"
@@ -2200,7 +2200,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="DanaoCity">
                                 <title
-                                   id="title88">Danao City</title>
+                                   id="title88">Danao_City</title>
                               </path>
                               <path
                                  style="fill:#808000;stroke-width:1.0066"
@@ -2229,7 +2229,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="MandaueCity">
                                 <title
-                                   id="title80">Mandaue City</title>
+                                   id="title80">Mandaue_City</title>
                               </path>
                               <path
                                  style="fill:#ff00ff;stroke-width:1.42355"
@@ -2237,7 +2237,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="LapuLapuCity">
                                 <title
-                                   id="title81">LapuLapu City</title>
+                                   id="title81">LapuLapu_City</title>
                               </path>
                               <path
                                  style="fill:#66ff00;stroke-width:1.42355"
@@ -2298,7 +2298,7 @@
                  transform="translate(252.2197,384.5392)"
                  id="LapuLapuCity1">
                 <title
-                   id="title82">LapuLapu City</title>
+                   id="title82">LapuLapu_City</title>
               </path>
               <path
                  style="fill:#fc02fc;fill-opacity:0.972549;stroke-width:0.69798"
@@ -2306,7 +2306,7 @@
                  transform="translate(252.2197,384.5392)"
                  id="CebuCity">
                 <title
-                   id="title79">Cebu City</title>
+                   id="title79">Cebu_City</title>
               </path>
             </g>
           </g>
@@ -2321,1361 +2321,553 @@
 
 <script>
 /**
- * =============================
- * OVERENGINEERED SVG TOOLTIP SYSTEM
- * =============================
- * 
- * Features:
- * - Multiple initialization strategies with fallbacks
- * - Mutation Observer for dynamically loaded SVGs
- * - Performance optimized with debouncing
- * - Comprehensive error handling and logging
- * - Automatic retry mechanisms
- * - Memory leak prevention
- * - Accessibility support
- * - Unit-testable utilities
- * - Dynamic data injection
- * - ROBUST CENTER POSITIONING with viewport tracking
- * - Scroll-independent positioning
- * - Responsive design considerations
- * - Multiple fallback positioning strategies
- * 
- * Each SVG <path> must have a <title> tag inside.
- * Example:
- *   <path ...>
- *     <title>LAPU-LAPU CITY</title>
- *   </path>
- *
- * Then add data via:
- * window.cebuMapTooltipSystem.setTooltipData({
- *   "LAPULAPUCITY": {
- *     profile: "Your description",
- *     mayor: "Mayor Full Name",
- *     mayorImg: "images/mayor_lapu.jpg",
- *     lgoo: "LGOO Full Name",
- *     lgooImg: "images/lgoo_lapu.jpg"
- *   }
- * });
+ * Cebu Map Persistent Tooltip System
+ * Creates a permanent info panel that updates when hovering different regions
  */
-
-/**
- * Static utility class for unit-testable helper functions
- */
-class TooltipUtilities {
-  // Debounce function for performance optimization
-  static debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  // Throttle function for scroll events
-  static throttle(func, limit) {
-    let inThrottle;
-    return function(...args) {
-      if (!inThrottle) {
-        func.apply(this, args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
-      }
-    };
-  }
-
-  // Safe element getter with multiple fallbacks
-  static safeGetElement(selectors) {
-    if (typeof selectors === 'string') selectors = [selectors];
-    
-    for (const selector of selectors) {
-      try {
-        const element = document.querySelector(selector);
-        if (element) return element;
-      } catch (e) {
-        console.warn(`Invalid selector: ${selector}`, e);
-      }
-    }
-    return null;
-  }
-
-  // Extract title from SVG path with multiple strategies
-  static extractTitleFromPath(path) {
-    const strategies = [
-      // Strategy 1: Direct childNodes search (most reliable for inline SVG)
-      () => Array.from(path.childNodes).find(n => n.nodeName === 'title' || n.nodeName === 'TITLE'),
-      
-      // Strategy 2: querySelector (works sometimes)
-      () => path.querySelector('title'),
-      
-      // Strategy 3: getElementsByTagName
-      () => path.getElementsByTagName('title')[0],
-      
-      // Strategy 4: Deep search in all descendants
-      () => {
-        const walker = document.createTreeWalker(
-          path,
-          NodeFilter.SHOW_ELEMENT,
-          node => node.nodeName.toLowerCase() === 'title' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
-        );
-        return walker.nextNode();
-      },
-      
-      // Strategy 5: Manual recursive search
-      () => {
-        const findTitle = (node) => {
-          if (node.nodeName && node.nodeName.toLowerCase() === 'title') return node;
-          for (const child of node.childNodes || []) {
-            const found = findTitle(child);
-            if (found) return found;
-          }
-          return null;
-        };
-        return findTitle(path);
-      }
-    ];
-
-    for (const strategy of strategies) {
-      try {
-        const titleEl = strategy();
-        if (titleEl && titleEl.textContent) {
-          return titleEl;
-        }
-      } catch (e) {
-        console.debug('Title extraction strategy failed:', e);
-      }
-    }
-    return null;
-  }
-
-  // Generate region key from raw name
-  static generateRegionKey(rawName) {
-    return rawName?.replace(/\s+/g, "").toUpperCase();
-  }
-
-  // Get comprehensive viewport information
-  static getViewportInfo() {
-    const body = document.body;
-    const documentElement = document.documentElement;
-    
-    return {
-      width: Math.max(
-        body.scrollWidth, 
-        body.offsetWidth, 
-        documentElement.clientWidth, 
-        documentElement.scrollWidth, 
-        documentElement.offsetWidth,
-        window.innerWidth || 0
-      ),
-      height: Math.max(
-        body.scrollHeight, 
-        body.offsetHeight, 
-        documentElement.clientHeight, 
-        documentElement.scrollHeight, 
-        documentElement.offsetHeight,
-        window.innerHeight || 0
-      ),
-      clientWidth: documentElement.clientWidth || window.innerWidth || 0,
-      clientHeight: documentElement.clientHeight || window.innerHeight || 0,
-      scrollLeft: window.pageXOffset || documentElement.scrollLeft || body.scrollLeft || 0,
-      scrollTop: window.pageYOffset || documentElement.scrollTop || body.scrollTop || 0,
-      innerWidth: window.innerWidth || documentElement.clientWidth || body.clientWidth,
-      innerHeight: window.innerHeight || documentElement.clientHeight || body.clientHeight
-    };
-  }
-
-  // Calculate center position with multiple fallback strategies
-  static calculateCenterPosition(tooltip) {
-    const viewport = this.getViewportInfo();
-    const strategies = [];
-    
-    // Get tooltip dimensions with fallbacks
-    let tooltipWidth = 0;
-    let tooltipHeight = 0;
-    
-    try {
-      // Make tooltip temporarily visible to measure
-      const originalDisplay = tooltip.style.display;
-      const originalVisibility = tooltip.style.visibility;
-      const originalPosition = tooltip.style.position;
-      
-      tooltip.style.position = 'fixed';
-      tooltip.style.visibility = 'hidden';
-      tooltip.style.display = 'block';
-      
-      const rect = tooltip.getBoundingClientRect();
-      tooltipWidth = rect.width || tooltip.offsetWidth || 300; // fallback width
-      tooltipHeight = rect.height || tooltip.offsetHeight || 200; // fallback height
-      
-      // Restore original styles
-      tooltip.style.display = originalDisplay;
-      tooltip.style.visibility = originalVisibility;
-      tooltip.style.position = originalPosition;
-      
-    } catch (error) {
-      console.warn('Could not measure tooltip dimensions:', error);
-      tooltipWidth = 300; // default fallback
-      tooltipHeight = 200; // default fallback
-    }
-    
-    // Strategy 1: Perfect center with viewport consideration
-    strategies.push(() => {
-      const centerX = viewport.clientWidth / 2 - tooltipWidth / 2;
-      const centerY = viewport.clientHeight / 2 - tooltipHeight / 2;
-      
-      return {
-        position: 'fixed',
-        left: `${Math.max(10, centerX)}px`,
-        top: `${Math.max(10, centerY)}px`,
-        transform: 'none',
-        zIndex: 10000
-      };
-    });
-    
-    // Strategy 2: Adjusted center with margins
-    strategies.push(() => {
-      const margin = 20;
-      const centerX = (viewport.clientWidth - tooltipWidth) / 2;
-      const centerY = (viewport.clientHeight - tooltipHeight) / 2;
-      
-      return {
-        position: 'fixed',
-        left: `${Math.max(margin, Math.min(centerX, viewport.clientWidth - tooltipWidth - margin))}px`,
-        top: `${Math.max(margin, Math.min(centerY, viewport.clientHeight - tooltipHeight - margin))}px`,
-        transform: 'none',
-        zIndex: 10000
-      };
-    });
-    
-    // Strategy 3: Absolute center with transform
-    strategies.push(() => ({
-      position: 'fixed',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      zIndex: 10000
-    }));
-    
-    // Strategy 4: Fallback to top-center
-    strategies.push(() => ({
-      position: 'fixed',
-      left: '50%',
-      top: '20%',
-      transform: 'translateX(-50%)',
-      zIndex: 10000
-    }));
-    
-    // Strategy 5: Emergency fallback
-    strategies.push(() => ({
-      position: 'fixed',
-      left: '20px',
-      top: '20px',
-      transform: 'none',
-      zIndex: 10000
-    }));
-    
-    // Try each strategy
-    for (const strategy of strategies) {
-      try {
-        const position = strategy();
-        if (position && position.left && position.top) {
-          return position;
-        }
-      } catch (error) {
-        console.debug('Positioning strategy failed:', error);
-      }
-    }
-    
-    // Ultimate fallback
-    return {
-      position: 'fixed',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      zIndex: 10000
-    };
-  }
-
-  // Setup CSS for tooltip positioning
-  static setupTooltipCSS(tooltip) {
-    // Add essential CSS properties
-    const essentialStyles = {
-      position: 'fixed',
-      zIndex: '10000',
-      pointerEvents: 'none',
-      transition: 'opacity 0.2s ease-in-out',
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-      overflow: 'auto',
-      boxSizing: 'border-box'
-    };
-    
-    Object.assign(tooltip.style, essentialStyles);
-    
-    // Add CSS class for enhanced styling
-    if (!tooltip.classList.contains('cebu-tooltip-enhanced')) {
-      tooltip.classList.add('cebu-tooltip-enhanced');
-      
-      // Inject CSS if not already present
-      if (!document.querySelector('#cebu-tooltip-styles')) {
-        const style = document.createElement('style');
-        style.id = 'cebu-tooltip-styles';
-        style.textContent = `
-          .cebu-tooltip-enhanced {
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-          }
-          
-          .cebu-tooltip-enhanced.visible {
-            animation: tooltipFadeIn 0.3s ease-out;
-          }
-          
-          @keyframes tooltipFadeIn {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-          }
-          
-          @media (max-width: 768px) {
-            .cebu-tooltip-enhanced {
-              max-width: 95vw;
-              max-height: 80vh;
-            }
-          }
-        `;
-        document.head.appendChild(style);
-      }
-    }
-  }
-}
-
-/**
- * Enhanced position manager for tooltip centering
- */
-class TooltipPositionManager {
-  constructor(tooltip) {
-    this.tooltip = tooltip;
-    this.isPositioning = false;
-    this.positionQueue = [];
-    this.resizeObserver = null;
-    this.lastKnownPosition = null;
-    
-    this.setupPositionTracking();
-  }
-  
-  setupPositionTracking() {
-    // Setup resize observer for responsive positioning
-    if (window.ResizeObserver) {
-      this.resizeObserver = new ResizeObserver(() => {
-        this.updatePositionDebounced();
-      });
-      
-      this.resizeObserver.observe(document.body);
-      this.resizeObserver.observe(this.tooltip);
-    }
-    
-    // Setup scroll and resize listeners
-    const updatePosition = TooltipUtilities.throttle(() => {
-      this.updatePosition();
-    }, 16); // ~60fps
-    
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition);
-    document.addEventListener('orientationchange', updatePosition);
-  }
-  
-  updatePositionDebounced = TooltipUtilities.debounce(() => {
-    this.updatePosition();
-  }, 100);
-  
-  updatePosition() {
-    if (!this.tooltip || this.tooltip.style.display === 'none') return;
-    
-    if (this.isPositioning) {
-      this.positionQueue.push(() => this.updatePosition());
-      return;
-    }
-    
-    this.isPositioning = true;
-    
-    try {
-      const position = TooltipUtilities.calculateCenterPosition(this.tooltip);
-      this.applyPosition(position);
-      this.lastKnownPosition = position;
-    } catch (error) {
-      console.error('Error updating tooltip position:', error);
-      this.applyFallbackPosition();
-    } finally {
-      this.isPositioning = false;
-      
-      // Process queued position updates
-      if (this.positionQueue.length > 0) {
-        const nextUpdate = this.positionQueue.shift();
-        requestAnimationFrame(nextUpdate);
-      }
-    }
-  }
-  
-  applyPosition(position) {
-    if (!position || !this.tooltip) return;
-    
-    // Apply position with validation
-    Object.entries(position).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        this.tooltip.style[key] = value;
-      }
-    });
-    
-    // Ensure tooltip is properly setup
-    TooltipUtilities.setupTooltipCSS(this.tooltip);
-  }
-  
-  applyFallbackPosition() {
-    if (!this.tooltip) return;
-    
-    this.tooltip.style.position = 'fixed';
-    this.tooltip.style.left = '50%';
-    this.tooltip.style.top = '50%';
-    this.tooltip.style.transform = 'translate(-50%, -50%)';
-    this.tooltip.style.zIndex = '10000';
-  }
-  
-  showTooltip() {
-    if (!this.tooltip) return;
-    
-    this.tooltip.style.display = 'block';
-    this.updatePosition();
-    
-    // Add fade-in animation
-    requestAnimationFrame(() => {
-      this.tooltip.classList.add('visible');
-      this.tooltip.style.opacity = '1';
-    });
-  }
-  
-  hideTooltip() {
-    if (!this.tooltip) return;
-    
-    this.tooltip.style.transition = 'opacity 0.15s ease-in-out';
-    this.tooltip.style.opacity = '0';
-    
-    setTimeout(() => {
-      this.tooltip.style.display = 'none';
-      this.tooltip.classList.remove('visible');
-    }, 150);
-  }
-  
-  destroy() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
-    
-    window.removeEventListener('resize', this.updatePositionDebounced);
-    window.removeEventListener('scroll', this.updatePositionDebounced);
-    document.removeEventListener('orientationchange', this.updatePositionDebounced);
-    
-    this.positionQueue = [];
-    this.tooltip = null;
-  }
-}
 
 class CebuMapTooltipSystem {
   constructor() {
-    this.isInitialized = false;
-    this.observers = [];
-    this.tooltipData = {};
-    this.tooltipElements = {};
-    this.positionManager = null;
-    this.activePaths = new Set();
-    this.retryCount = 0;
-    this.maxRetries = 5;
-    this.retryDelay = 250;
-    this.mouseMoveDebounceTime = 16; // ~60fps
-    this.initializationStrategies = [];
-    
-    // Default data
-this.defaultData = {
-      "ASTURIAS": {
-        profile: "Asturias is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_asturias.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_asturias.jpg"
-      },
-      "BALAMBAN": {
-        profile: "Balamban is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_balamban.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_balamban.jpg"
-      },
-      "BANTAYAN": {
-        profile: "Bantayan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_bantayan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_bantayan.jpg"
-      },
-      "BOGOCITY": {
-        profile: "Bogo City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_bogocity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_bogocity.jpg"
-      },
-      "DAANBANTAYAN": {
-        profile: "Daanbantayan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_daanbantayan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_daanbantayan.jpg"
-      },
-      "MADRIDEJOS": {
-        profile: "Madridejos is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_madridejos.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_madridejos.jpg"
-      },
-      "MEDELLIN": {
-        profile: "Medellin is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_medellin.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_medellin.jpg"
-      },
-      "SANREMIGIO": {
-        profile: "San Remigio is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_sanremigio.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_sanremigio.jpg"
-      },
-      "SANTAFE": {
-        profile: "Santa Fe is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_santafe.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_santafe.jpg"
-      },
-      "TABOGON": {
-        profile: "Tabogon is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_tabogon.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_tabogon.jpg"
-      },
-      "TABUELAN": {
-        profile: "Tabuelan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_tabuelan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_tabuelan.jpg"
-      },
-      "TUBURAN": {
-        profile: "Tuburan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_tuburan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_tuburan.jpg"
-      },
-      "BORBON": {
-        profile: "Borbon is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_borbon.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_borbon.jpg"
-      },
-      "CARMEN": {
-        profile: "Carmen is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_carmen.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_carmen.jpg"
-      },
-      "CATMON": {
-        profile: "Catmon is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_catmon.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_catmon.jpg"
-      },
-      "COMPOSTELA": {
-        profile: "Compostela is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_compostela.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_compostela.jpg"
-      },
-      "CONSOLACION": {
-        profile: "Consolacion is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_consolacion.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_consolacion.jpg"
-      },
-      "CORDOVA": {
-        profile: "Cordova is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_cordova.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_cordova.jpg"
-      },
-      "DANAOCITY": {
-        profile: "Danao City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_danaocity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_danaocity.jpg"
-      },
-      "LILOAN": {
-        profile: "Liloan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_liloan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_liloan.jpg"
-      },
-      "PILAR": {
-        profile: "Pilar is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_pilar.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_pilar.jpg"
-      },
-      "PORO": {
-        profile: "Poro is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_poro.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_poro.jpg"
-      },
-      "SANFRANCISCO": {
-        profile: "San Francisco is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_sanfrancisco.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_sanfrancisco.jpg"
-      },
-      "SOGOD": {
-        profile: "Sogod is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_sogod.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_sogod.jpg"
-      },
-      "TUDELA": {
-        profile: "Tudela is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_tudela.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_tudela.jpg"
-      },
-      "ALCANTARA": {
-        profile: "Alcantara is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_alcantara.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_alcantara.jpg"
-      },
-      "ALEGRIA": {
-        profile: "Alegria is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_alegria.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_alegria.jpg"
-      },
-      "ALOGUINSAN": {
-        profile: "Aloguinsan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_aloguinsan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_aloguinsan.jpg"
-      },
-      "BADIAN": {
-        profile: "Badian is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_badian.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_badian.jpg"
-      },
-      "BARILI": {
-        profile: "Barili is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_barili.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_barili.jpg"
-      },
-      "DUMANJUG": {
-        profile: "Dumanjug is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_dumanjug.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_dumanjug.jpg"
-      },
-      "GINATILAN": {
-        profile: "Ginatilan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_ginatilan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_ginatilan.jpg"
-      },
-      "MALABUYOC": {
-        profile: "Malabuyoc is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_malabuyoc.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_malabuyoc.jpg"
-      },
-      "MOALBOAL": {
-        profile: "Moalboal is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_moalboal.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_moalboal.jpg"
-      },
-      "PINAMUNGAJAN": {
-        profile: "Pinamungajan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_pinamungajan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_pinamungajan.jpg"
-      },
-      "RONDA": {
-        profile: "Ronda is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_ronda.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_ronda.jpg"
-      },
-      "TOLEDOCITY": {
-        profile: "Toledo City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_toledocity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_toledocity.jpg"
-      },
-      "ALCOY": {
-        profile: "Alcoy is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_alcoy.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_alcoy.jpg"
-      },
-      "ARGAO": {
-        profile: "Argao is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_argao.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_argao.jpg"
-      },
-      "BOLJOON": {
-        profile: "Boljoon is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_boljoon.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_boljoon.jpg"
-      },
-      "CARCARCITY": {
-        profile: "Carcar City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_carcarcity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_carcarcity.jpg"
-      },
-      "DALAGUETE": {
-        profile: "Dalaguete is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_dalaguete.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_dalaguete.jpg"
-      },
-      "MINGLANILLA": {
-        profile: "Minglanilla is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_minglanilla.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_minglanilla.jpg"
-      },
-      "NAGACITY": {
-        profile: "Naga City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_nagacity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_nagacity.jpg"
-      },
-      "OSLOB": {
-        profile: "Oslob is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_oslob.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_oslob.jpg"
-      },
-      "SAMBOAN": {
-        profile: "Samboan is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_samboan.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_samboan.jpg"
-      },
-      "SANFERNANDO": {
-        profile: "San Fernando is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_sanfernando.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_sanfernando.jpg"
-      },
-      "SANTANDER": {
-        profile: "Santander is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_santander.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_santander.jpg"
-      },
-      "SIBONGA": {
-        profile: "Sibonga is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_sibonga.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_sibonga.jpg"
-      },
-      "TALISAYCITY": {
-        profile: "Talisay City is one of the local government units in Cebu Province.",
-        mayor: "To be updated",
-        mayorImg: "images/mayor_talisaycity.jpg",
-        lgoo: "To be updated",
-        lgooImg: "images/lgoo_talisaycity.jpg"
-      },
-      "CEBUCITY": {
-        profile: "Cebu City is the capital city and known as the Queen City of the South.",
-        mayor: "Michael Rama",
-        mayorImg: "images/mayor_cebu.jpg",
-        lgoo: "Juan Dela Cruz",
-        lgooImg: "images/lgoo_cebu.jpg"
-      },
-      "MANDAUECITY": {
-        profile: "Mandaue is a highly urbanized city with vibrant industries.",
-        mayor: "Jonas Cortes",
-        mayorImg: "images/mayor_mandaue.jpg",
-        lgoo: "Maria Santos",
-        lgooImg: "images/lgoo_mandaue.jpg"
-      }
-    };
-    
-    // Initialize with default data
-    this.setTooltipData();
-    
-    // Bind methods to preserve context
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.initializeTooltips = this.initializeTooltips.bind(this);
+this.tooltipData = {
+  "ASTURIAS": {
+    lguname: "Asturias",
+    profile: "Asturias is one of the local government units in Cebu Province.",
+    lgoo: "JOHN MICHAEL B. MONILLAS",
+    lgoodesignation: "MLGOO of the Muncipality of Asturias",
+    lgooImg: "organizationalchart/images/mackymoe_asturias.png"
+  },
+  "BALAMBAN": {
+    lguname: "Balamban",
+    profile: "Balamban is one of the local government units in Cebu Province.",
+    lgoo: "EVALYN R. QUIROS",
+    lgoodesignation: "MLGOO of the Muncipality of Balamban",
+    lgooImg: "organizationalchart/images/evalyn_balamban.png"
+  },
+  "BANTAYAN": {
+    lguname: "Bantayan",
+    profile: "Bantayan is one of the local government units in Cebu Province.",
+    lgoo: "JUPITER E. DAWA",
+    lgoodesignation: "MLGOO of the Muncipality of Bantayan",
+    lgooImg: "organizationalchart/images/jupz_bantayan.png"
+  },
+  "BOGO_CITY": {
+    lguname: "Bogo City",
+    profile: "Bogocity is one of the local government units in Cebu Province.",
+    lgoo: "MAE B. DURA",
+    lgoodesignation: "CLGOO of the City of Bogo",
+    lgooImg: "organizationalchart/images/maedura_bogocity.png"
+  },
+  "DAANBANTAYAN": {
+    lguname: "Daanbantayan",
+    profile: "Daanbantayan is one of the local government units in Cebu Province.",
+    lgoo: "GRACE Y. CABURNAY",
+    lgoodesignation: "MLGOO of the Muncipality of Daanbantayan",
+    lgooImg: "organizationalchart/images/gracecaburnay_daanbantayan.png"
+  },
+  "MADRIDEJOS": {
+    lguname: "Madridejos",
+    profile: "Madridejos is one of the local government units in Cebu Province.",
+    lgoo: "JOHN MICHAEL M. LEGASPI",
+    lgoodesignation: "MLGOO of the Muncipality of Madridejos",
+    lgooImg: "organizationalchart/images/JM_madridejos.png"
+  },
+  "MEDELLIN": {
+    lguname: "Medellin",
+    profile: "Medellin is one of the local government units in Cebu Province.",
+    lgoo: "JANIEVA A. DANDAN",
+    lgoodesignation: "MLGOO of the Muncipality of Medellin",
+    lgooImg: "organizationalchart/images/jan_medellin.png"
+  },
+  "SAN_REMIGIO": {
+    lguname: "San Remigio",
+    profile: "San Remigio is one of the local government units in Cebu Province.",
+    lgoo: "CLAIRE V. DIAZ",
+    lgoodesignation: "MLGOO of the Muncipality of San Remigio",
+    lgooImg: "organizationalchart/images/claire_sanremigio.png"
+  },
+  "SANTA_FE": {
+    lguname: "Santa Fe",
+    profile: "Santafe is one of the local government units in Cebu Province.",
+    lgoo: "NIÑO VINCENT B. FIEL",
+    lgoodesignation: "MLGOO of the Muncipality of Santa Fe",
+    lgooImg: "organizationalchart/images/ninosenpai_stafe.png"
+  },
+  "TABOGON": {
+    lguname: "Tabogon",
+    profile: "Tabogon is one of the local government units in Cebu Province.",
+    lgoo: "JERRY BIB PITOGO",
+    lgoodesignation: "MLGOO of the Muncipality of Tabogon",
+    lgooImg: "organizationalchart/images/jerry_tabogon.png"
+  },
+  "TABUELAN": {
+    lguname: "Tabuelan",
+    profile: "Tabuelan is one of the local government units in Cebu Province.",
+    lgoo: "EASTER-APRIL R. QUIROL",
+    lgoodesignation: "MLGOO of the Muncipality of Tabuelan",
+    lgooImg: "organizationalchart/images/easterapril_tabuelan.png"
+  },
+  "TUBURAN": {
+    lguname: "Tuburan",
+    profile: "Tuburan is one of the local government units in Cebu Province.",
+    lgoo: "LEO NICHOLAS T. PATRIANA",
+    lgoodesignation: "MLGOO of the Muncipality of Tuburan",
+    lgooImg: "organizationalchart/images/leopatz_tuburan.png",
+    lgoo2: "ABEL JOHN C. PEGUIT",
+    lgoodesignation2: "Assistant MLGOO of the Muncipality of Tuburan",
+    lgooImg2: "organizationalchart/images/avelbrother_tuburan.png"
+  },
+  "BORBON": {
+    lguname: "Borbon",
+    profile: "Borbon is one of the local government units in Cebu Province.",
+    lgoo: "CECILLE C. BELCINA",
+    lgoodesignation: "MLGOO of the Muncipality of Borbon",
+    lgooImg: "organizationalchart/images/cecilleCbelcina_borbon.png"
+  },
+  "CARMEN": {
+    lguname: "Carmen",
+    profile: "Carmen is one of the local government units in Cebu Province.",
+    lgoo: "AMMIE MARIE Z. GENERALE",
+    lgoodesignation: "MLGOO of the Muncipality of Carmen",
+    lgooImg: "organizationalchart/images/ammieMarieZGenerale_carmen.png"
+  },
+  "COMPOSTELA": {
+    lguname: "Compostela",
+    profile: "Compostela is one of the local government units in Cebu Province.",
+    lgoo: "MELBOURNE O. NAVALES",
+    lgoodesignation: "MLGOO of the Muncipality of Compostela",
+    lgooImg: "organizationalchart/images/MelbourneONavales_Compostela.png"
+  },
+  "CONSOLACION": {
+    lguname: "Consolacion",
+    profile: "Consolacion is one of the local government units in Cebu Province.",
+    lgoo: "SHERYL A. PIDOR",
+    lgoodesignation: "MLGOO of the Muncipality of Consolacion",
+    lgooImg: "organizationalchart/images/sherylpidor_consolacion.png"
+  },
+  "CORDOVA": {
+    lguname: "Cordova",
+    profile: "Cordova is one of the local government units in Cebu Province.",
+    lgoo: "SHEVAH TRIXY L. CAOCTOY",
+    lgoodesignation: "MLGOO of the Muncipality of Cordova",
+    lgooImg: "organizationalchart/images/shevahtrixyLcaoctoy_cordova.png"
+  },
+  "DANAO_CITY": {
+    lguname: "Danao City",
+    profile: "Danao City is one of the local government units in Cebu Province.",
+    lgoo: "GEMMA M. BERMOY",
+    lgoodesignation: "CLGOO of the City of Danao",
+    lgooImg: "images/lgoo_Danao City.jpg",
+    lgoo2: "ANTHONY A. NIEVES",
+    lgoodesignation2: "Assistant CLGOO of the City of Danao",
+    lgooImg2: "organizationalchart/images/AnthonyANIeves_Danao.png"
+  },
+  "LILOAN": {
+    lguname: "Liloan",
+    profile: "Liloan is one of the local government units in Cebu Province.",
+    lgoo: "JAMES ANDREW G. ANDAYA",
+    lgoodesignation: "MLGOO of the Muncipality of Liloan",
+    lgooImg: "organizationalchart/images/jamesandrewgandaya_liloan.png"
+  },
+  "PILAR": {
+    lguname: "Pilar",
+    profile: "Pilar is one of the local government units in Cebu Province.",
+    lgoo: "LOVIE B. DE LA CRUZ",
+    lgoodesignation: "MLGOO of the Muncipality of Pilar",
+    lgooImg: "organizationalchart/images/lovieBdeLaCruz_pilar.png"
+  },
+  "PORO": {
+    lguname: "Poro",
+    profile: "Poro is one of the local government units in Cebu Province.",
+    lgoo: "CLIFF P. OTADOY",
+    lgoodesignation: "MLGOO of the Muncipality of Poro",
+    lgooImg: "organizationalchart/images/cliff_poro.png"
+  },
+  "SAN_FRANCISCO": {
+    lguname: "San Francisco",
+    profile: "San Francisco is one of the local government units in Cebu Province.",
+    lgoo: "GREGORY A. SOSMEÑA",
+    lgoodesignation: "MLGOO of the Muncipality of San Francisco",
+    lgooImg: "organizationalchart/images/sosmena_sanfran.png"
+  },
+  "SOGOD": {
+    lguname: "Sogod",
+    profile: "Sogod is one of the local government units in Cebu Province.",
+    lgoo: "SHEILA G. DENDEN",
+    lgoodesignation: "MLGOO of the Muncipality of Sogod",
+    lgooImg: "organizationalchart/images/sheila_sogod.png"
+  },
+  "TUDELA": {
+    lguname: "Tudela",
+    profile: "Tudela is one of the local government units in Cebu Province.",
+    lgoo: "PERSIUS R. BORLASA",
+    lgoodesignation: "MLGOO of the Muncipality of Tudela",
+    lgooImg: "organizationalchart/images/perseus_tudela.png"
+  },
+  "ALCANTARA": {
+    lguname: "Alcantara",
+    profile: "Alcantara is one of the local government units in Cebu Province.",
+    lgoo: "JUDELYN C. SALINAS",
+    lgoodesignation: "MLGOO of the Muncipality of Alcantara",
+    lgooImg: "organizationalchart/images/judesalinas_alcantara.png"
+  },
+  "ALEGRIA": {
+    lguname: "Alegria",
+    profile: "Alegria is one of the local government units in Cebu Province.",
+    lgoo: "JOSE REY A. PACRES",
+    lgoodesignation: "MLGOO of the Muncipality of Alegria",
+    lgooImg: "organizationalchart/images/pacres_alegria.png",
+  },
+  "ALOGUINSAN": {
+    lguname: "Aloguinsan",
+    profile: "Aloguinsan is one of the local government units in Cebu Province.",
+    lgoo: "DENNIS C. ITOM",
+    lgoodesignation: "MLGOO of the Muncipality of Aloguinsan",
+    lgooImg: "organizationalchart/images/dennisitom_aloguinsan.png"
+  },
+  "BADIAN": {
+    lguname: "Badian",
+    profile: "Badian is one of the local government units in Cebu Province.",
+    lgoo: "IRIS V. ARIAS",
+    lgoodesignation: "MLGOO of the Municipality of Badian",
+    lgooImg: "organizationalchart/images/irisarias_badian.png"
+  },
+  "BARILI": {
+    lguname: "Barili",
+    profile: "Barili is one of the local government units in Cebu Province.",
+    lgoo: "DANN MARR P. ANDRINO",
+    lgoodesignation: "MLGOO of the Municipality of Barili",
+    lgooImg: "organizationalchart/images/attydannmarr_barili.png"
+  },
+  "DUMANJUG": {
+    lguname: "Dumanjug",
+    profile: "Dumanjug is one of the local government units in Cebu Province.",
+    lgoo: "GLENDA G. GABUYA",
+    lgoodesignation: "MLGOO of the Municipality of Dumanjug",
+    lgooImg: "organizationalchart/images/gabuya_dumanjug.png"
+  },
+  "GINATILAN": {
+    lguname: "Ginatilan",
+    profile: "Ginatilan is one of the local government units in Cebu Province.",
+    lgoo: "EMMANNUEL S. PEDRALBA",
+    lgoodesignation: "MLGOO of the Municipality of Ginatilan",
+    lgooImg: "organizationalchart/images/pedralba_ginatilan.png"
+  },
+  "MALABUYOC": {
+    lguname: "Malabuyoc",
+    profile: "Malabuyoc is one of the local government units in Cebu Province.",
+    lgoo: "ELVIE S. GAUDAN",
+    lgoodesignation: "MLGOO of the Municipality of Malabuyoc",
+    lgooImg: "organizationalchart/images/elviegaudan_malabuyoc.png"
+  },
+  "MOALBOAL": {
+    lguname: "Moalboal",
+    profile: "Moalboal is one of the local government units in Cebu Province.",
+    lgoo: "LYN N. AGUELO",
+    lgoodesignation: "MLGOO of the Municipality of Moalboal",
+    lgooImg: "organizationalchart/images/lynaguelo_moalboal.png"
+  },
+  "PINAMUNGAJAN": {
+    lguname: "Pinamungajan",
+    profile: "Pinamungajan is one of the local government units in Cebu Province.",
+    lgoo: "JEFFREY A. LOPEZ",
+    lgoodesignation: "MLGOO of the Municipality of Pinamungajan",
+    lgooImg: "organizationalchart/images/lopez_pinamungajan.png"
+  },
+  "RONDA": {
+    lguname: "Ronda",
+    profile: "Ronda is one of the local government units in Cebu Province.",
+    lgoo: "JOSE MENELEO C. AQUINO",
+    lgoodesignation: "MLGOO of the Municipality of Ronda",
+    lgooImg: "organizationalchart/images/aquino_ronda.png"
+  },
+  "TOLEDO_CITY": {
+    lguname: "Toledo City",
+    profile: "Toledocity is one of the local government units in Cebu Province.",
+    lgoo: "ABRAHAM REY C. DONALDO",
+    lgoodesignation: "CLGOO of the City of Toledo",
+    lgooImg: "organizationalchart/images/abbeydonaldo_toledo.png"
+  },
+  "ALCOY": {
+    lguname: "Alcoy",
+    profile: "Alcoy is one of the local government units in Cebu Province.",
+    lgoo: "MARIA LOURDES D. BOONE",
+    lgoodesignation: "MLGOO of the Municipality of Alcoy",
+    lgooImg: "organizationalchart/images/MariaLourdesDBoone_Alcoy.png"
+  },
+  "ARGAO": {
+    lguname: "Argao",
+    profile: "Argao is one of the local government units in Cebu Province.",
+    lgoo: "LEWELYN M. ARQUILLANO",
+    lgoodesignation: "MLGOO of the Municipality of Argao",
+    lgooImg: "organizationalchart/images/lewelyn_argao.png"
+  },
+  "CARCAR_CITY": {
+    lguname: "Carcar City",
+    profile: "Carcarcity is one of the local government units in Cebu Province.",
+    lgoo: "MILDRED C. LASALA",
+    lgoodesignation: "CLGOO of the City of Carcar",
+    lgooImg: "organizationalchart/images/mildred_carcar.png"
+  },
+  "DALAGUETE": {
+    lguname: "Dalaguete",
+    profile: "Dalaguete is one of the local government units in Cebu Province.",
+    lgoo: "GINABLE M. EJOC",
+    lgoodesignation: "MLGOO of the Municipality of Dalaguete",
+    lgooImg: "organizationalchart/images/GinableEjoc_Dalaguete.png"
+  },
+  "OSLOB": {
+    lguname: "Oslob",
+    profile: "Oslob is one of the local government units in Cebu Province.",
+    lgoo: "DEANNA A. MINGUETO",
+    lgoodesignation: "MLGOO of the Municipality of Oslob",
+    lgooImg: "organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png"
+  },
+  "SANTANDER": {
+    lguname: "Santander",
+    profile: "Santander is one of the local government units in Cebu Province.",
+    lgoo: "DEANNA A. MINGUETO",
+    lgoodesignation: "MLGOO of the Municipality of Santander",
+    lgooImg: "organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png"
+  },
+  "SAMBOAN": {
+    lguname: "Samboan",
+    profile: "Samboan is one of the local government units in Cebu Province.",
+    lgoo: "KYM A. ALBRANDO",
+    lgoodesignation: "MLGOO of the Municipality of Samboan",
+    lgooImg: "organizationalchart/images/KymAlbrando_Samboan.png"
+  },
+  "SAN_FERNANDO": {
+    lguname: "San Fernando",
+    profile: "Sanfernando is one of the local government units in Cebu Province.",
+    lgoo: "JOSEPH ELIZAR F. MERLAS",
+    lgoodesignation: "MLGOO of the Municipality of San Fernando",
+    lgooImg: "organizationalchart/images/JosephElizarMerlas_SanFernando.png"
+  },
+  "SIBONGA": {
+    lguname: "Sibonga",
+    profile: "Sibonga is one of the local government units in Cebu Province.",
+    lgoo: "SUSAN E. TOLENTINO",
+    lgoodesignation: "MLGOO of the Municipality of Sibonga",
+    lgooImg: "organizationalchart/images/susan_sibonga.png"
+  },
+  "TALISAY_CITY": {
+    lguname: "Talisay City",
+    profile: "Talisay City is one of the local government units in Cebu Province.",
+    lgoo: "JONALUKE V. TUBAL II",
+    lgoodesignation: "CLGOO of the City of Talisay",
+    lgooImg: "organizationalchart/images/tubal_lgcds.png"
+  },
+    "CATMON": {
+    lguname: "Catmon",
+    profile: "Catmon is one of the local government units in Cebu Province.",
+    lgoo: "JONALUKE V. TUBAL II",
+    lgoodesignation: "MLGOO of the Municipality of Catmon",
+    lgooImg: "organizationalchart/images/tubal_lgcds.png"
+  },
+    "MINGLANILLA": {
+    lguname: "Minglanilla",
+    profile: "Minglanilla is one of the local government units in Cebu Province.",
+    lgoo: "IRENE O. ANONAR",
+    lgoodesignation: "MLGOO of the Municipality of Minglanilla",
+    lgooImg: "organizationalchart/images/irene_o_anonar_minglanilla.png"
+  },
+  "NAGA_CITY": {
+    lguname: "Naga City",
+    profile: "Naga City is one of the local government units in Cebu Province.",
+    lgoo: "EMMA JOYEVLYN V. CALVO",
+    lgoodesignation: "CLGOO of the City of Naga",
+    lgooImg: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png",
+    lgoo2: "AILEEN GRACE B. ARGAWANON-PECA",
+    lgoodesignation2: "Assistant CLGOO of the City of Naga",
+    lgooImg2: "organizationalchart/images/AileenPeca_Naga.png"
+  },
+};
+
     
     this.init();
   }
 
-  // Configuration data with merge support
-  setTooltipData(data = {}) {
-    this.tooltipData = {
-      ...this.defaultData,
-      ...data
-    };
-    
-    // If already initialized, reprocess paths with new data
-    if (this.isInitialized) {
-      console.debug('Updating tooltip data and reinitializing...');
-      this.reinitializeWithNewData();
-    }
-    
-    return this; // Allow method chaining
-  }
+  createInfoPanel() {
+    // Remove existing panel if any
+    const existing = document.querySelector('#cebuMapInfoPanel');
+    if (existing) existing.remove();
 
-  // Add new data without replacing existing
-  addTooltipData(data = {}) {
-    this.tooltipData = {
-      ...this.tooltipData,
-      ...data
-    };
-    
-    if (this.isInitialized) {
-      console.debug('Adding new tooltip data and reinitializing...');
-      this.reinitializeWithNewData();
-    }
-    
-    return this; // Allow method chaining
-  }
-
-  // Get current tooltip data (for debugging)
-  getTooltipData() {
-    return { ...this.tooltipData };
-  }
-
-  // Reinitialize with new data
-  reinitializeWithNewData() {
-    if (!this.isInitialized) return;
-    
-    // Clean up existing paths
-    this.activePaths.forEach(path => {
-      path.removeEventListener('mouseenter', this.handleMouseEnter);
-      path.removeEventListener('mouseleave', this.handleMouseLeave);
-    });
-    this.activePaths.clear();
-    
-    // Reinitialize
-    this.processAllPaths();
-  }
-
-  // Initialize tooltip elements with comprehensive validation
-  initializeTooltipElements() {
-    const elementMap = {
-      tooltip: ['#cebuMapTooltip', '.cebu-map-tooltip', '[data-tooltip="cebu-map"]'],
-      nameEl: ['#tooltipPlaceName', '.tooltip-place-name', '[data-tooltip-field="name"]'],
-      profileEl: ['#tooltipProfile', '.tooltip-profile', '[data-tooltip-field="profile"]'],
-      mayorImg: ['#tooltipMayorImg', '.tooltip-mayor-img', '[data-tooltip-field="mayor-img"]'],
-      mayorName: ['#tooltipMayorName', '.tooltip-mayor-name', '[data-tooltip-field="mayor-name"]'],
-      lgooImg: ['#tooltipLgooImg', '.tooltip-lgoo-img', '[data-tooltip-field="lgoo-img"]'],
-      lgooName: ['#tooltipLgooName', '.tooltip-lgoo-name', '[data-tooltip-field="lgoo-name"]']
-    };
-
-    const elements = {};
-    const missing = [];
-
-    for (const [key, selectors] of Object.entries(elementMap)) {
-      const element = TooltipUtilities.safeGetElement(selectors);
-      if (element) {
-        elements[key] = element;
-      } else {
-        missing.push(key);
-      }
-    }
-
-    if (missing.length > 0) {
-      console.error('Missing tooltip elements:', missing);
-      return null;
-    }
-
-    // Initialize position manager
-    this.positionManager = new TooltipPositionManager(elements.tooltip);
-    
-    return elements;
-  }
-
-  // Find SVG paths with multiple strategies
-  findSVGPaths() {
-    const pathSelectors = [
-      '.cebu-map-region-path-element',
-      'svg path',
-      'path',
-      'svg g path',
-      '[data-region]',
-      '.region-path',
-      '.map-region'
-    ];
-
-    const foundPaths = new Set();
-    
-    for (const selector of pathSelectors) {
-      try {
-        const paths = document.querySelectorAll(selector);
-        paths.forEach(path => {
-          // Verify it's actually an SVG path
-          if (path.tagName && path.tagName.toLowerCase() === 'path') {
-            foundPaths.add(path);
-          }
-        });
-      } catch (e) {
-        console.debug(`Path selector failed: ${selector}`, e);
-      }
-    }
-
-    // Additional strategy: Find all SVGs and search their paths
-    const svgs = document.querySelectorAll('svg');
-    svgs.forEach(svg => {
-      const paths = svg.querySelectorAll('path');
-      paths.forEach(path => foundPaths.add(path));
-    });
-
-    return Array.from(foundPaths);
-  }
-
-  // Process individual path for tooltip
-  processPath(path, tooltipElements) {
-    const titleEl = TooltipUtilities.extractTitleFromPath(path);
-    
-    if (!titleEl) {
-      console.debug('No title found for path:', path);
-      return false;
-    }
-
-    const rawName = titleEl.textContent?.trim();
-    if (!rawName) {
-      console.debug('Empty title for path:', path);
-      return false;
-    }
-
-    const regionKey = TooltipUtilities.generateRegionKey(rawName);
-    
-    if (!this.tooltipData[regionKey]) {
-      console.debug('No data found for region:', regionKey, 'Available keys:', Object.keys(this.tooltipData));
-      return false;
-    }
-
-    const regionData = this.tooltipData[regionKey];
-    
-    // Remove existing event listeners to prevent duplicates
-    path.removeEventListener('mouseenter', this.handleMouseEnter);
-    path.removeEventListener('mouseleave', this.handleMouseLeave);
-    
-    // Add new event listeners (using mouseenter/mouseleave for better control)
-    path.addEventListener('mouseenter', (e) => this.handleMouseEnter(e, rawName, regionData, tooltipElements));
-    path.addEventListener('mouseleave', () => this.handleMouseLeave(tooltipElements));
-    
-    // Add accessibility attributes
-    path.setAttribute('role', 'button');
-    path.setAttribute('tabindex', '0');
-    path.setAttribute('aria-label', `${rawName} - ${regionData.profile}`);
-    
-    // Add visual feedback
-    path.style.cursor = 'pointer';
-    
-    this.activePaths.add(path);
-    
-    console.debug('Successfully processed path:', rawName);
-    return true;
-  }
-
-  // Process all paths (extracted for reuse)
-  processAllPaths() {
-    const paths = this.findSVGPaths();
-    console.debug('Found SVG paths:', paths.length);
-
-    if (paths.length === 0) {
-      console.warn('No SVG paths found');
-      return 0;
-    }
-
-    let processedCount = 0;
-    paths.forEach(path => {
-      if (this.processPath(path, this.tooltipElements)) {
-        processedCount++;
-      }
-    });
-
-    return processedCount;
-  }
-
-  // Handle mouse enter with center positioning
-  handleMouseEnter(e, rawName, regionData, tooltipElements) {
-    const { tooltip, nameEl, profileEl, mayorImg, mayorName, lgooImg, lgooName } = tooltipElements;
-    
-    try {
-      // Update tooltip content
-      nameEl.textContent = rawName;
-      profileEl.textContent = regionData.profile;
-      mayorImg.src = regionData.mayorImg;
-      mayorName.textContent = regionData.mayor;
-      lgooImg.src = regionData.lgooImg;
-      lgooName.textContent = regionData.lgoo;
-      
-      // Show tooltip with center positioning
-      if (this.positionManager) {
-        this.positionManager.showTooltip();
-      } else {
-        // Fallback positioning
-        tooltip.style.display = "block";
-        tooltip.style.position = "fixed";
-        tooltip.style.left = "50%";
-        tooltip.style.top = "50%";
-        tooltip.style.transform = "translate(-50%, -50%)";
-        tooltip.style.zIndex = "10000";
+    const panelHTML = `
+      <div id="cebuMapInfoPanel" style="
+        position: fixed !important;
+        left: 20px !important;
+        top: calc(100px + 20px) !important;
+        z-index: 2147483647 !important;
+        display: block !important;
+        background: white !important;
+        color: black !important;
+        padding: 20px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+        max-width: 380px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        pointer-events: auto !important;
+      ">
+        <div style="text-align: center; color: #666; margin-bottom: 15px;">
+          <small>Hover over a region to see information</small>
+        </div>
+        <h3 id="panelPlaceName" style="margin: 0 0 15px 0 !important; color: #333 !important; border-bottom: 1px solid #eee; padding-bottom: 10px;">Select a Region</h3>
+        <p id="panelProfile" style="margin: 0 0 15px 0 !important; color: #555 !important; line-height: 1.4;">Click or hover over any region on the map to view detailed information about that area.</p>
         
-        tooltip.classList.add('visible');
-        tooltip.style.opacity = '1';
-      }
-      
-    } catch (error) {
-      console.error('Error in handleMouseEnter:', error);
-    }
+        <div id="panelOfficials" style="display: none;">
+          <div id="mayorSection" style="display: none; margin-bottom: 15px;">
+            <div style="display: flex; gap: 15px; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 6px;">
+              <img id="panelMayorImg" src="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd;" />
+              <div>
+                <div id="panelMayorName" style="font-weight: bold; color: #333; margin-bottom: 4px;">Mayor Name</div>
+                <span id="panelMayorDesignation" style="color: #555 !important; font-size: 13px;">Mayor Designation</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="lgooSection" style="display: none; margin-bottom: 15px;">
+            <div style="display: flex; gap: 15px; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 6px;">
+              <img id="panelLgooImg" src="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd;" />
+              <div>
+                <div id="panelLgooName" style="font-weight: bold; color: #333; margin-bottom: 4px;">LGOO Name</div>
+                <span id="panelLgooDesignation" style="color: #555 !important; font-size: 13px;">LGOO Designation</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="lgoo2Section" style="display: none;">
+            <div style="display: flex; gap: 15px; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 6px;">
+              <img id="panelLgoo2Img" src="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd;" />
+              <div>
+                <div id="panelLgoo2Name" style="font-weight: bold; color: #333; margin-bottom: 4px;">LGOO 2 Name</div>
+                <span id="panelLgoo2Designation" style="color: #555 !important; font-size: 13px;">LGOO 2 Designation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', panelHTML);
+    return document.querySelector('#cebuMapInfoPanel');
   }
 
-  // Handle mouse leave with smooth fade-out
-  handleMouseLeave(tooltipElements) {
-    const { tooltip } = tooltipElements;
-    
-    try {
-      if (this.positionManager) {
-        this.positionManager.hideTooltip();
-      } else {
-        // Fallback hiding
-        tooltip.style.transition = 'opacity 0.15s ease-in-out';
-        tooltip.style.opacity = '0';
-        
-        setTimeout(() => {
-          tooltip.style.display = "none";
-          tooltip.classList.remove('visible');
-        }, 150);
-      }
-      
-    } catch (error) {
-      console.error('Error in handleMouseLeave:', error);
+  updatePanel(name, data) {
+    const panel = document.querySelector('#cebuMapInfoPanel');
+    if (!panel) return;
+
+    // Update basic content
+    document.querySelector('#panelPlaceName').textContent = data.lguname || name;
+    document.querySelector('#panelProfile').textContent = data.profile;
+
+    // Handle Mayor section - only show if mayor data exists
+    const mayorSection = document.querySelector('#mayorSection');
+    if (data.mayor && data.mayor.trim() !== '') {
+      document.querySelector('#panelMayorImg').src = data.mayorImg || '';
+      document.querySelector('#panelMayorName').textContent = data.mayor;
+      document.querySelector('#panelMayorDesignation').textContent = data.mayordesignation || '';
+      mayorSection.style.display = 'block';
+    } else {
+      mayorSection.style.display = 'none';
     }
+
+    // Handle LGOO section - only show if lgoo data exists
+    const lgooSection = document.querySelector('#lgooSection');
+    if (data.lgoo && data.lgoo.trim() !== '') {
+      document.querySelector('#panelLgooImg').src = data.lgooImg || '';
+      document.querySelector('#panelLgooName').textContent = data.lgoo;
+      document.querySelector('#panelLgooDesignation').textContent = data.lgoodesignation || '';
+      lgooSection.style.display = 'block';
+    } else {
+      lgooSection.style.display = 'none';
+    }
+
+    // Handle LGOO2 section - only show if lgoo2 data exists
+    const lgoo2Section = document.querySelector('#lgoo2Section');
+    if (data.lgoo2 && data.lgoo2.trim() !== '') {
+      document.querySelector('#panelLgoo2Img').src = data.lgooImg2 || '';
+      document.querySelector('#panelLgoo2Name').textContent = data.lgoo2;
+      document.querySelector('#panelLgoo2Designation').textContent = data.lgoodesignation2 || '';
+      lgoo2Section.style.display = 'block';
+    } else {
+      lgoo2Section.style.display = 'none';
+    }
+
+    // Show officials container if any official data exists
+    const hasAnyOfficials = (data.mayor && data.mayor.trim() !== '') || 
+                           (data.lgoo && data.lgoo.trim() !== '') || 
+                           (data.lgoo2 && data.lgoo2.trim() !== '');
+    
+    document.querySelector('#panelOfficials').style.display = hasAnyOfficials ? 'block' : 'none';
   }
 
-  // Main initialization method
-  initializeTooltips() {
-    if (this.isInitialized) {
-      console.debug('Tooltip system already initialized');
-      return true;
-    }
-
-    console.debug('Initializing tooltip system...');
+  setupPathEvents() {
+    const paths = document.querySelectorAll('svg path');
     
-    // Initialize tooltip elements
-    this.tooltipElements = this.initializeTooltipElements();
-    if (!this.tooltipElements) {
-      console.error('Failed to initialize tooltip elements');
-      return false;
-    }
+    paths.forEach((path) => {
+      const title = path.querySelector('title');
+      if (!title) return;
 
-    // Set tooltip data
-    this.setTooltipData({});
+      const rawName = title.textContent.trim();
+      const regionKey = rawName.replace(/\s+/g, "").toUpperCase();
+      const data = this.tooltipData[regionKey];
 
-    // Find and process SVG paths
-    const paths = this.findSVGPaths();
-    console.debug('Found SVG paths:', paths.length);
+      if (!data) return;
 
-    if (paths.length === 0) {
-      console.warn('No SVG paths found');
-      return false;
-    }
+      // Style the interactive paths
+      path.style.cssText += `
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+      `;
 
-    let processedCount = 0;
-    paths.forEach(path => {
-      if (this.processPath(path, this.tooltipElements)) {
-        processedCount++;
-      }
-    });
-
-    console.log(`Tooltip system initialized: ${processedCount}/${paths.length} paths processed`);
-    
-    if (processedCount > 0) {
-      this.isInitialized = true;
-      return true;
-    }
-
-    return false;
-  }
-
-  // Setup mutation observer for dynamically loaded content
-  setupMutationObserver() {
-    if (!window.MutationObserver) {
-      console.warn('MutationObserver not supported');
-      return;
-    }
-
-    const observer = new MutationObserver((mutations) => {
-      let shouldReinit = false;
-      
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-          // Check if SVG elements were added
-          mutation.addedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              if (node.tagName === 'svg' || node.querySelector('svg') || node.tagName === 'path') {
-                shouldReinit = true;
-              }
-            }
-          });
-        }
+      // Add hover events - only update panel, never reset
+      path.addEventListener('mouseenter', () => {
+        this.updatePanel(rawName, data);
+        path.style.opacity = '0.7';
+        path.style.filter = 'brightness(1.1)';
       });
-      
-      if (shouldReinit && !this.isInitialized) {
-        console.debug('DOM changes detected, reinitializing tooltips...');
-        this.initializeTooltips();
-      }
-    });
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+      path.addEventListener('mouseleave', () => {
+        path.style.opacity = '';
+        path.style.filter = '';
+        // Panel data stays - no reset!
+      });
 
-    this.observers.push(observer);
+      // Add click event for mobile/touch devices
+      path.addEventListener('click', (e) => {
+        this.updatePanel(rawName, data);
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    });
   }
 
-  // Retry mechanism with exponential backoff
-  scheduleRetry() {
-    if (this.retryCount >= this.maxRetries) {
-      console.error('Max retries reached. Tooltip system initialization failed.');
-      return;
-    }
-
-    this.retryCount++;
-    const delay = this.retryDelay * Math.pow(2, this.retryCount - 1);
-    
-    console.debug(`Retrying initialization in ${delay}ms (attempt ${this.retryCount}/${this.maxRetries})`);
-    
-    setTimeout(() => {
-      if (!this.isInitialized) {
-        if (!this.initializeTooltips()) {
-          this.scheduleRetry();
-        }
-      }
-    }, delay);
-  }
-
-  // Main initialization with multiple strategies
   init() {
-    console.debug('Starting Cebu Map Tooltip System...');
-    
-    // Strategy 1: Immediate initialization
-    if (this.initializeTooltips()) {
-      return;
-    }
-
-    // Strategy 2: Wait for DOM content loaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if (!this.isInitialized && !this.initializeTooltips()) {
-          this.scheduleRetry();
-        }
-      });
-    } else {
-      // Strategy 3: Immediate retry
-      this.scheduleRetry();
-    }
-
-    // Strategy 4: Window load event
-    window.addEventListener('load', () => {
-      if (!this.isInitialized && !this.initializeTooltips()) {
-        this.scheduleRetry();
-      }
-    });
-
-    // Strategy 5: Mutation observer for dynamic content
-    this.setupMutationObserver();
-  }
-
-  // Cleanup method to prevent memory leaks
-  destroy() {
-    console.debug('Destroying tooltip system...');
-    
-    // Remove event listeners
-    this.activePaths.forEach(path => {
-      path.removeEventListener('mouseenter', this.handleMouseEnter);
-      path.removeEventListener('mouseleave', this.handleMouseLeave);
-    });
-    
-    // Disconnect observers
-    this.observers.forEach(observer => observer.disconnect());
-    
-    // Cleanup position manager
-    if (this.positionManager) {
-      this.positionManager.destroy();
-    }
-    
-    // Hide tooltip
-    if (this.tooltipElements && this.tooltipElements.tooltip) {
-      this.tooltipElements.tooltip.style.display = 'none';
-    }
-    
-    // Reset state
-    this.isInitialized = false;
-    this.activePaths.clear();
-    this.observers = [];
-    this.tooltipElements = {};
-    this.positionManager = null;
-  }
-
-  // Debug method to manually trigger tooltip positioning
-  debugPosition() {
-    if (this.positionManager && this.tooltipElements.tooltip) {
-      console.debug('Current viewport info:', TooltipUtilities.getViewportInfo());
-      console.debug('Current tooltip position:', this.positionManager.lastKnownPosition);
-      this.positionManager.updatePosition();
-    }
-  }
-
-  // Method to force center positioning
-  forceCenterPosition() {
-    if (!this.tooltipElements.tooltip) return;
-    
-    const position = TooltipUtilities.calculateCenterPosition(this.tooltipElements.tooltip);
-    console.debug('Forcing center position:', position);
-    
-    if (this.positionManager) {
-      this.positionManager.applyPosition(position);
-    } else {
-      Object.assign(this.tooltipElements.tooltip.style, position);
-    }
-  }
-
-  // Get system status for debugging
-  getSystemStatus() {
-    return {
-      isInitialized: this.isInitialized,
-      activePaths: this.activePaths.size,
-      hasPositionManager: !!this.positionManager,
-      tooltipElements: Object.keys(this.tooltipElements),
-      dataKeys: Object.keys(this.tooltipData),
-      retryCount: this.retryCount,
-      viewport: TooltipUtilities.getViewportInfo()
+    const doInit = () => {
+      // Create persistent info panel
+      this.createInfoPanel();
+      
+      // Setup path events
+      this.setupPathEvents();
     };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', doInit);
+    } else {
+      doInit();
+    }
+  }
+
+  setTooltipData(data) {
+    Object.assign(this.tooltipData, data);
+    return this;
   }
 }
 
 // Initialize the system
 const cebuMapTooltipSystem = new CebuMapTooltipSystem();
-
-// Expose for debugging and external control
 window.cebuMapTooltipSystem = cebuMapTooltipSystem;
-
-// Additional debugging utilities
-window.cebuMapTooltipDebug = {
-  // Force center positioning
-  center: () => cebuMapTooltipSystem.forceCenterPosition(),
-  
-  // Get system status
-  status: () => cebuMapTooltipSystem.getSystemStatus(),
-  
-  // Get viewport info
-  viewport: () => TooltipUtilities.getViewportInfo(),
-  
-  // Reinitialize system
-  reinit: () => {
-    cebuMapTooltipSystem.destroy();
-    setTimeout(() => {
-      const newSystem = new CebuMapTooltipSystem();
-      window.cebuMapTooltipSystem = newSystem;
-    }, 100);
-  },
-  
-  // Test tooltip positioning
-  testPosition: () => {
-    const tooltip = cebuMapTooltipSystem.tooltipElements.tooltip;
-    if (tooltip) {
-      tooltip.style.display = 'block';
-      tooltip.style.opacity = '1';
-      cebuMapTooltipSystem.forceCenterPosition();
-      
-      setTimeout(() => {
-        tooltip.style.opacity = '0';
-        setTimeout(() => {
-          tooltip.style.display = 'none';
-        }, 150);
-      }, 3000);
-    }
-  }
-};
-
-console.log('🗺️ Enhanced Cebu Map Tooltip System initialized');
-console.log('📊 Debug utilities available at window.cebuMapTooltipDebug');
-console.log('🎯 Tooltip will now appear centered regardless of scroll position');
-console.log('🔧 Use cebuMapTooltipDebug.status() to check system status');
-console.log('🔄 Use cebuMapTooltipDebug.testPosition() to test positioning');
-
 </script>
 
 
