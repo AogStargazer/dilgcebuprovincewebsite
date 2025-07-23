@@ -1345,7 +1345,30 @@
         </div>
       </div>
 
+
+      <style>
+        .svg-responsive-container {
+          width: 100%;
+          max-width: 100vw;
+          height: auto;
+          overflow: auto;
+        }
+        .cebu-map-svg {
+          display: block;
+          width: 100%;
+          height: auto;
+          max-width: 100vw;
+        }
+        @media (max-width: 1024px) {
+      .cebu-province-map-main-container {
+        padding-top: 140px !important;
+  }
+}
+      </style>
+
+
       <!-- Embedded SVG Map -->
+<div class="svg-responsive-container">
 <svg
    class="cebu-map-svg"
      viewBox="0 0 4751.001 6104.1836" 
@@ -1917,7 +1940,7 @@
                                  transform="translate(252.2197,384.5392)"
                                  id="SanFernando">
                                 <title
-                                   id="title25">San Fernando</title>
+                                   id="title25">San_Fernando</title>
                               </path>
                               <path
                                  style="fill:#ff0000;stroke-width:5.6942"
@@ -2315,7 +2338,7 @@
     </g>
   </g>
 </svg>
-
+</div>
     </div>
   </div>
 
@@ -2366,7 +2389,7 @@ class UniversalSVGTooltipEngine {
       maxColumns: 5,
       defaultMessage: 'Hover over a region to see information',
       emptyStateTitle: 'Select a Region',
-      emptyStateMessage: 'Click or hover over any region on the map to view detailed information about that area.',
+      emptyStateMessage: 'Click or hover over any region on the map to<br>view detailed information about that area.',
       customRenderers: {}, // User can provide custom renderers
       ...options
     };
@@ -2375,6 +2398,8 @@ class UniversalSVGTooltipEngine {
     this._tooltipContentCache = new Map();
     this._boundPaths = [];
     this._panel = null;
+    this._panelClosed = false;
+    this._activeRegionKey = null; // Track the last region shown
     this.init();
   }
 
@@ -2473,15 +2498,16 @@ class UniversalSVGTooltipEngine {
    * Now uses a <style> tag for CSS.
    * Reuses the panel DOM node if it exists.
    * Adds accessibility attributes.
+   * Adds a close button in the upper right.
    */
   createInfoPanel() {
     // Remove existing panel if any (but reuse if possible)
     let panel = document.querySelector(`#${this.options.panelId}`);
     if (panel) {
-      // Just clear content, don't remove the node
-      panel.querySelector('#panelTitle').textContent = this.options.emptyStateTitle;
       panel.querySelector('#panelEmptyState').style.display = 'block';
       panel.querySelector('#panelContent').style.display = 'none';
+      // Always show the panel if reusing
+      panel.style.display = 'block';
       this._panel = panel;
       return panel;
     }
@@ -2490,7 +2516,7 @@ class UniversalSVGTooltipEngine {
     if (!document.getElementById(`${this.options.panelId}-styles`)) {
       const styleTag = document.createElement('style');
       styleTag.id = `${this.options.panelId}-styles`;
-      styleTag.textContent = this._getPanelStyles();
+      styleTag.textContent = this._getPanelStyles() + `\n#${this.options.panelId} .usvg-close-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: #fff; background-color: #e53935; border-radius: 50%; width: 26px; height: 26px; font-size: 18px; font-weight: bold; cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center; transition: background 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }\n#${this.options.panelId} .usvg-close-btn:hover, #${this.options.panelId} .usvg-close-btn:focus { background-color: #b71c1c; outline: none; }`;
       document.head.appendChild(styleTag);
     }
 
@@ -2498,6 +2524,7 @@ class UniversalSVGTooltipEngine {
       <div id="${this.options.panelId}"
         role="region" aria-live="polite" aria-atomic="true" tabindex="-1"
         style="left: ${this.options.position.left}; top: ${this.options.position.top};">
+        <button class="usvg-close-btn" aria-label="Close tooltip panel" title="Close" tabindex="0">&times;</button>
         <div style="text-align: center; color: #666; margin-bottom: 15px; font-size: 12px;">
           <small>${this.options.defaultMessage}</small>
         </div>
@@ -2512,6 +2539,24 @@ class UniversalSVGTooltipEngine {
 
     document.body.insertAdjacentHTML('beforeend', panelHTML);
     this._panel = document.querySelector(`#${this.options.panelId}`);
+
+    // Add close button logic
+    const closeBtn = this._panel.querySelector('.usvg-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        this.resetPanel();
+        this._panelClosed = true; // Mark the panel as closed by the user
+        this._activeRegionKey = null; // Reset active region so next hover is always new
+        e.stopPropagation();
+      });
+      // Keyboard accessibility: Enter/Space
+      closeBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          closeBtn.click();
+        }
+      });
+    }
     return this._panel;
   }
 
@@ -2802,6 +2847,7 @@ class UniversalSVGTooltipEngine {
     if (cellConfig.underline && cellConfig.strikethrough) textStyle += 'text-decoration: underline line-through;';
     if (cellConfig.highlight) textStyle += `background: ${cellConfig.highlight};`;
     if (cellConfig.noWrap) textStyle += 'white-space: nowrap; overflow-x: auto;';
+    if (cellConfig.fontsize) textStyle += `font-size: ${cellConfig.fontsize}px;`;
 
     const wrapWithFormat = (html) => `<span style="${textStyle}">${html}</span>`;
     const sanitize = (html) => {
@@ -2997,10 +3043,22 @@ class UniversalSVGTooltipEngine {
    * Updates panel with new data using grid layout
    * Uses tooltip content cache for efficiency.
    * Focuses the panel for accessibility.
+   * Shows the panel if it was closed.
    */
   updatePanel(name, data) {
     const panel = document.querySelector(`#${this.options.panelId}`);
     if (!panel) return;
+
+    // Normalize the region key
+    const regionKey = this._normalizeKey(name);
+    // If the panel was just closed and the same region is being hovered, do not reopen
+    if (this._panelClosed && this._activeRegionKey === regionKey) {
+      return;
+    }
+    // Otherwise, show the panel and reset closed state
+    panel.style.display = 'block';
+    this._panelClosed = false; // The panel is now active, so reset the flag
+    this._activeRegionKey = regionKey;
 
     const emptyState = document.querySelector('#panelEmptyState');
     const content = document.querySelector('#panelContent');
@@ -3208,7 +3266,10 @@ class UniversalSVGTooltipEngine {
 
       // Add hover events
       const mouseenter = debounce(() => {
-        this.updatePanel(rawName, data);
+        // Only update panel if not just closed for this region
+        if (!(this._panelClosed && this._activeRegionKey === regionKey)) {
+          this.updatePanel(rawName, data);
+        }
         path.style.opacity = '0.8';
         path.style.filter = 'brightness(1.1)';
       }, 40);
@@ -3218,7 +3279,10 @@ class UniversalSVGTooltipEngine {
         // Panel data stays - no reset
       };
       const click = (e) => {
-        this.updatePanel(rawName, data);
+        // Only allow click to reopen the panel if not just closed for this region
+        if (!(this._panelClosed && this._activeRegionKey === regionKey)) {
+          this.updatePanel(rawName, data);
+        }
         e.preventDefault();
         e.stopPropagation();
       };
@@ -3258,14 +3322,12 @@ class UniversalSVGTooltipEngine {
 
   /**
    * Reset panel to empty state
+   * If panel was closed, do not show it.
    */
   resetPanel() {
     const emptyState = document.querySelector('#panelEmptyState');
     const content = document.querySelector('#panelContent');
-    // const title = document.querySelector('#panelTitle'); // Removed as per edit hint
-
     if (emptyState && content) {
-      // title.textContent = this.options.emptyStateTitle; // Removed as per edit hint
       emptyState.style.display = 'block';
       content.style.display = 'none';
     }
@@ -3339,10 +3401,11 @@ class UniversalSVGTooltipEngine {
 //      - underline: true/false (optional, underlines value)
 //      - strikethrough: true/false (optional, strikes through value)
 //      - highlight: "#color" (optional, highlights value with color)
+//      - fontsize: 34 (optional, sets font size in px for this cell)
 //    Example:
 //      const gridConfig = {
-//        R1C1: { key: "names", label: "Full Name", bold: true, italic: true },
-//        R1C2: { key: "favoriteColor", label: "Favorite Color", highlight: "#ffff00" },
+//        R1C1: { key: "names", label: "Full Name", bold: true, italic: true, fontsize: 24 },
+//        R1C2: { key: "favoriteColor", label: "Favorite Color", highlight: "#ffff00", fontsize: 18 },
 //        R1C3: { key: "hobby", label: "Hobby", underline: true, strikethrough: true }
 //      };
 // 2. If gridConfig is omitted or empty, the engine will auto-generate a grid from your data keys.
@@ -3431,14 +3494,14 @@ const gridConfig = {
 
 // --- BEGIN USER GRID CONFIG ---
 const gridConfig = {
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true },
-  R2C1: { key: "descriptionLGU", label: "Description", paragraph: true, wrapchar: 74 },
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", paragraph: true, wrapchar: 74, fontsize: 12 },
   R3R4C1: { key: "lgooImage", label: "LGOO Photo" },
-  R3C2: { key: "lgooName", label: "LGOO Name", bold: true, wrapchar: 20 },
-  R4C2: { key: "lgooDesignation", label: "LGOO Designation" },
+  R3C2: { key: "lgooName", label: "LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
+  R4C2: { key: "lgooDesignation", label: "LGOO Designation", fontsize: 12, wrapchar: 30 },
   R5R6C1: { key: "lgoo2Image", label: "2nd LGOO Photo" },
-  R5C2: { key: "lgoo2Name", label: "2nd LGOO Name", bold: true, wrapchar: 20 },
-  R6C2: { key: "lgoo2Designation", label: "2nd LGOO Designation" }
+  R5C2: { key: "lgoo2Name", label: "2nd LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
+  R6C2: { key: "lgoo2Designation", label: "2nd LGOO Designation", fontsize: 12, wrapchar: 30 }
 };
 // --- END USER GRID CONFIG ---
 
@@ -3450,336 +3513,367 @@ const exampleData = {
     NameofLGU: "Asturias",
     descriptionLGU: "Asturias is one of the local government units in Cebu Province.",
     lgooName: "JOHN MICHAEL B. MONILLAS",
-    lgooDesignation: "LGOO of Asturias",
+    lgooDesignation: "MLGOO of the Municipality of Asturias",
     lgooImage: "organizationalchart/images/mackymoe_asturias.png"
   },
   "BALAMBAN": {
     NameofLGU: "Balamban",
     descriptionLGU: "Balamban is one of the local government units in Cebu Province.",
     lgooName: "EVALYN R. QUIROS",
-    lgooDesignation: "LGOO of Balamban",
+    lgooDesignation: "MLGOO of the Municipality of Balamban",
     lgooImage: "organizationalchart/images/evalyn_balamban.png"
   },
   "BANTAYAN": {
     NameofLGU: "Bantayan",
     descriptionLGU: "Bantayan is one of the local government units in Cebu Province.",
     lgooName: "JUPITER E. DAWA",
-    lgooDesignation: "LGOO of Bantayan",
+    lgooDesignation: "MLGOO of the Municipality of Bantayan",
     lgooImage: "organizationalchart/images/jupz_bantayan.png"
   },
   "BOGO_CITY": {
     NameofLGU: "Bogo City",
     descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
     lgooName: "MAE B. DURA",
-    lgooDesignation: "LGOO of Bogo City",
+    lgooDesignation: "CLGOO of the City of Bogo",
     lgooImage: "organizationalchart/images/maedura_bogocity.png"
   },
   "DAANBANTAYAN": {
     NameofLGU: "Daanbantayan",
     descriptionLGU: "Daanbantayan is one of the local government units in Cebu Province.",
     lgooName: "GRACE Y. CABURNAY",
-    lgooDesignation: "LGOO of Daanbantayan",
+    lgooDesignation: "MLGOO of the Municipality of Daanbantayan",
     lgooImage: "organizationalchart/images/gracecaburnay_daanbantayan.png"
   },
   "MADRIDEJOS": {
     NameofLGU: "Madridejos",
     descriptionLGU: "Madridejos is one of the local government units in Cebu Province.",
     lgooName: "JOHN MICHAEL M. LEGASPI",
-    lgooDesignation: "LGOO of Madridejos",
+    lgooDesignation: "MLGOO of the Municipality of Madridejos",
     lgooImage: "organizationalchart/images/JM_madridejos.png"
   },
   "MEDELLIN": {
     NameofLGU: "Medellin",
     descriptionLGU: "Medellin is one of the local government units in Cebu Province.",
     lgooName: "JANIEVA A. DANDAN",
-    lgooDesignation: "LGOO of Medellin",
+    lgooDesignation: "MLGOO of the Municipality of Medellin",
     lgooImage: "organizationalchart/images/jan_medellin.png"
   },
   "SAN_REMIGIO": {
     NameofLGU: "San Remigio",
-    descriptionLGU: "Sanremigio is one of the local government units in Cebu Province.",
+    descriptionLGU: "San Remigio is one of the local government units in Cebu Province.",
     lgooName: "CLAIRE V. DIAZ",
-    lgooDesignation: "LGOO of Sanremigio",
+    lgooDesignation: "MLGOO of the Municipality of San Remigio",
     lgooImage: "organizationalchart/images/claire_sanremigio.png"
   },
   "SANTA_FE": {
     NameofLGU: "Santa Fe",
-    descriptionLGU: "Santafe is one of the local government units in Cebu Province.",
+    descriptionLGU: "Santa Fe is one of the local government units in Cebu Province.",
     lgooName: "NIÑO VINCENT B. FIEL",
-    lgooDesignation: "LGOO of Santafe",
+    lgooDesignation: "MLGOO of the Municipality of Santa Fe",
     lgooImage: "organizationalchart/images/ninosenpai_stafe.png"
   },
   "TABOGON": {
     NameofLGU: "Tabogon",
     descriptionLGU: "Tabogon is one of the local government units in Cebu Province.",
     lgooName: "JERRY BIB PITOGO",
-    lgooDesignation: "LGOO of Tabogon",
+    lgooDesignation: "MLGOO of the Municipality of Tabogon",
     lgooImage: "organizationalchart/images/jerry_tabogon.png"
   },
   "TABUELAN": {
     NameofLGU: "Tabuelan",
     descriptionLGU: "Tabuelan is one of the local government units in Cebu Province.",
     lgooName: "EASTER-APRIL R. QUIROL",
-    lgooDesignation: "LGOO of Tabuelan",
+    lgooDesignation: "MLGOO of the Municipality of Tabuelan",
     lgooImage: "organizationalchart/images/easterapril_tabuelan.png"
   },
   "TUBURAN": {
     NameofLGU: "Tuburan",
     descriptionLGU: "Tuburan is one of the local government units in Cebu Province.",
     lgooName: "LEO NICHOLAS T. PATRIANA",
-    lgooDesignation: "LGOO of Tuburan",
+    lgooDesignation: "MLGOO of the Municipality of Tuburan",
     lgooImage: "organizationalchart/images/leopatz_tuburan.png",
-    lgoo2Name: "ABEL JOHN C. PEGUIT",
-    lgoo2Designation: "Assistant LGOO of Tuburan",
+    lgoo2Name: "ABEL JOHN B. PEGUIT",
+    lgoo2Designation: "Assistant MLGOO of the Municipality of Tuburan",
     lgoo2Image: "organizationalchart/images/avelbrother_tuburan.png"
   },
   "BORBON": {
     NameofLGU: "Borbon",
     descriptionLGU: "Borbon is one of the local government units in Cebu Province.",
     lgooName: "CECILLE C. BELCINA",
-    lgooDesignation: "LGOO of Borbon",
+    lgooDesignation: "MLGOO of the Municipality of Borbon",
     lgooImage: "organizationalchart/images/cecilleCbelcina_borbon.png"
   },
   "CARMEN": {
     NameofLGU: "Carmen",
     descriptionLGU: "Carmen is one of the local government units in Cebu Province.",
     lgooName: "AMMIE MARIE Z. GENERALE",
-    lgooDesignation: "LGOO of Carmen",
+    lgooDesignation: "MLGOO of the Municipality of Carmen",
     lgooImage: "organizationalchart/images/ammieMarieZGenerale_carmen.png"
   },
   "COMPOSTELA": {
     NameofLGU: "Compostela",
     descriptionLGU: "Compostela is one of the local government units in Cebu Province.",
     lgooName: "MELBOURNE O. NAVALES",
-    lgooDesignation: "LGOO of Compostela",
+    lgooDesignation: "MLGOO of the Municipality of Compostela",
     lgooImage: "organizationalchart/images/MelbourneONavales_Compostela.png"
   },
   "CONSOLACION": {
     NameofLGU: "Consolacion",
     descriptionLGU: "Consolacion is one of the local government units in Cebu Province.",
     lgooName: "SHERYL A. PIDOR",
-    lgooDesignation: "LGOO of Consolacion",
+    lgooDesignation: "MLGOO of the Municipality of Consolacion",
     lgooImage: "organizationalchart/images/sherylpidor_consolacion.png"
   },
   "CORDOVA": {
     NameofLGU: "Cordova",
     descriptionLGU: "Cordova is one of the local government units in Cebu Province.",
     lgooName: "SHEVAH TRIXY L. CAOCTOY",
-    lgooDesignation: "LGOO of Cordova",
+    lgooDesignation: "MLGOO of the Municipality of Cordova",
     lgooImage: "organizationalchart/images/shevahtrixyLcaoctoy_cordova.png"
   },
   "DANAO_CITY": {
     NameofLGU: "Danao City",
     descriptionLGU: "Danao City is one of the local government units in Cebu Province.",
     lgooName: "GEMMA M. BERMOY",
-    lgooDesignation: "LGOO of Danaocity",
-    lgooImage: "images/lgoo_danaocity.jpg"
+    lgooDesignation: "CLGOO of the City of Danao",
+    lgooImage: "organizationalchart/images/gemmabermoydanao.png",
+    lgoo2Name: "ANTHONY A. NIEVES",
+    lgoo2Designation: "Assistant CLGOO of the City of Danao",
+    lgoo2Image: "organizationalchart/images/AnthonyANIeves_Danao.png"
   },
   "LILOAN": {
     NameofLGU: "Liloan",
     descriptionLGU: "Liloan is one of the local government units in Cebu Province.",
     lgooName: "JAMES ANDREW G. ANDAYA",
-    lgooDesignation: "LGOO of Liloan",
+    lgooDesignation: "MLGOO of the Municipality of Liloan",
     lgooImage: "organizationalchart/images/jamesandrewgandaya_liloan.png"
   },
   "PILAR": {
     NameofLGU: "Pilar",
     descriptionLGU: "Pilar is one of the local government units in Cebu Province.",
     lgooName: "LOVIE B. DE LA CRUZ",
-    lgooDesignation: "LGOO of Pilar",
+    lgooDesignation: "MLGOO of the Municipality of Pilar",
     lgooImage: "organizationalchart/images/lovieBdeLaCruz_pilar.png"
   },
   "PORO": {
     NameofLGU: "Poro",
     descriptionLGU: "Poro is one of the local government units in Cebu Province.",
     lgooName: "CLIFF P. OTADOY",
-    lgooDesignation: "LGOO of Poro",
+    lgooDesignation: "MLGOO of the Municipality of Poro",
     lgooImage: "organizationalchart/images/cliff_poro.png"
   },
   "SAN_FRANCISCO": {
     NameofLGU: "San Francisco",
     descriptionLGU: "San Francisco is one of the local government units in Cebu Province.",
     lgooName: "GREGORY A. SOSMEÑA",
-    lgooDesignation: "LGOO of Sanfrancisco",
+    lgooDesignation: "MLGOO of the Municipality of San Francisco",
     lgooImage: "organizationalchart/images/sosmena_sanfran.png"
   },
   "SOGOD": {
     NameofLGU: "Sogod",
     descriptionLGU: "Sogod is one of the local government units in Cebu Province.",
     lgooName: "SHEILA G. DENDEN",
-    lgooDesignation: "LGOO of Sogod",
+    lgooDesignation: "MLGOO of the Municipality of Sogod",
     lgooImage: "organizationalchart/images/sheila_sogod.png"
   },
   "TUDELA": {
     NameofLGU: "Tudela",
     descriptionLGU: "Tudela is one of the local government units in Cebu Province.",
     lgooName: "PERSIUS R. BORLASA",
-    lgooDesignation: "LGOO of Tudela",
+    lgooDesignation: "MLGOO of the Municipality of Tudela",
     lgooImage: "organizationalchart/images/perseus_tudela.png"
   },
   "ALCANTARA": {
     NameofLGU: "Alcantara",
     descriptionLGU: "Alcantara is one of the local government units in Cebu Province.",
     lgooName: "JUDELYN C. SALINAS",
-    lgooDesignation: "LGOO of Alcantara",
+    lgooDesignation: "MLGOO of the Municipality of Alcantara",
     lgooImage: "organizationalchart/images/judesalinas_alcantara.png"
   },
   "ALEGRIA": {
     NameofLGU: "Alegria",
     descriptionLGU: "Alegria is one of the local government units in Cebu Province.",
     lgooName: "JOSE REY A. PACRES",
-    lgooDesignation: "LGOO of Alegria",
+    lgooDesignation: "MLGOO of the Municipality of Alegria",
     lgooImage: "organizationalchart/images/pacres_alegria.png",
   },
   "ALOGUINSAN": {
     NameofLGU: "Aloguinsan",
     descriptionLGU: "Aloguinsan is one of the local government units in Cebu Province.",
     lgooName: "DENNIS C. ITOM",
-    lgooDesignation: "LGOO of Aloguinsan",
+    lgooDesignation: "MLGOO of the Municipality of Aloguinsan",
     lgooImage: "organizationalchart/images/dennisitom_aloguinsan.png"
   },
   "BADIAN": {
     NameofLGU: "Badian",
     descriptionLGU: "Badian is one of the local government units in Cebu Province.",
     lgooName: "IRIS V. ARIAS",
-    lgooDesignation: "LGOO of Badian",
+    lgooDesignation: "MLGOO of the Municipality of Badian",
     lgooImage: "organizationalchart/images/irisarias_badian.png"
   },
   "BARILI": {
     NameofLGU: "Barili",
     descriptionLGU: "Barili is one of the local government units in Cebu Province.",
     lgooName: "DANN MARR P. ANDRINO",
-    lgooDesignation: "LGOO of Barili",
+    lgooDesignation: "MLGOO of the Municipality of Barili",
     lgooImage: "organizationalchart/images/attydannmarr_barili.png"
   },
   "DUMANJUG": {
     NameofLGU: "Dumanjug",
     descriptionLGU: "Dumanjug is one of the local government units in Cebu Province.",
     lgooName: "GLENDA G. GABUYA",
-    lgooDesignation: "LGOO of Dumanjug",
+    lgooDesignation: "MLGOO of the Municipality of Dumanjug",
     lgooImage: "organizationalchart/images/gabuya_dumanjug.png"
   },
   "GINATILAN": {
     NameofLGU: "Ginatilan",
     descriptionLGU: "Ginatilan is one of the local government units in Cebu Province.",
     lgooName: "EMMANNUEL S. PEDRALBA",
-    lgooDesignation: "LGOO of Ginatilan",
+    lgooDesignation: "MLGOO of the Municipality of Ginatilan",
     lgooImage: "organizationalchart/images/pedralba_ginatilan.png"
   },
   "MALABUYOC": {
     NameofLGU: "Malabuyoc",
     descriptionLGU: "Malabuyoc is one of the local government units in Cebu Province.",
     lgooName: "ELVIE S. GAUDAN",
-    lgooDesignation: "LGOO of Malabuyoc",
+    lgooDesignation: "MLGOO of the Municipality of Malabuyoc",
     lgooImage: "organizationalchart/images/elviegaudan_malabuyoc.png"
   },
   "MOALBOAL": {
     NameofLGU: "Moalboal",
     descriptionLGU: "Moalboal is one of the local government units in Cebu Province.",
     lgooName: "LYN N. AGUELO",
-    lgooDesignation: "LGOO of Moalboal",
+    lgooDesignation: "MLGOO of the Municipality of Moalboal",
     lgooImage: "organizationalchart/images/lynaguelo_moalboal.png"
   },
   "PINAMUNGAJAN": {
     NameofLGU: "Pinamungajan",
     descriptionLGU: "Pinamungajan is one of the local government units in Cebu Province.",
     lgooName: "JEFFREY A. LOPEZ",
-    lgooDesignation: "LGOO of Pinamungajan",
+    lgooDesignation: "MLGOO of the Municipality of Pinamungajan",
     lgooImage: "organizationalchart/images/lopez_pinamungajan.png"
   },
   "RONDA": {
     NameofLGU: "Ronda",
     descriptionLGU: "Ronda is one of the local government units in Cebu Province.",
     lgooName: "JOSE MENELEO C. AQUINO",
-    lgooDesignation: "LGOO of Ronda",
+    lgooDesignation: "MLGOO of the Municipality of Ronda",
     lgooImage: "organizationalchart/images/aquino_ronda.png"
   },
   "TOLEDO_CITY": {
     NameofLGU: "Toledo City",
     descriptionLGU: "Toledocity is one of the local government units in Cebu Province.",
     lgooName: "ABRAHAM REY C. DONALDO",
-    lgooDesignation: "LGOO of Toledocity",
+    lgooDesignation: "CLGOO of the City of Toledo",
     lgooImage: "organizationalchart/images/abbeydonaldo_toledo.png"
   },
   "ALCOY": {
     NameofLGU: "Alcoy",
     descriptionLGU: "Alcoy is one of the local government units in Cebu Province.",
     lgooName: "MARIA LOURDES D. BOONE",
-    lgooDesignation: "LGOO of Alcoy",
+    lgooDesignation: "MLGOO of the Municipality of Alcoy",
     lgooImage: "organizationalchart/images/MariaLourdesDBoone_Alcoy.png"
   },
   "ARGAO": {
     NameofLGU: "Argao",
     descriptionLGU: "Argao is one of the local government units in Cebu Province.",
     lgooName: "LEWELYN M. ARQUILLANO",
-    lgooDesignation: "LGOO of Argao",
+    lgooDesignation: "MLGOO of the Municipality of Argao",
     lgooImage: "organizationalchart/images/lewelyn_argao.png"
   },
   "CARCAR_CITY": {
     NameofLGU: "Carcar City",
-    descriptionLGU: "Carcarcity is one of the local government units in Cebu Province.",
+    descriptionLGU: "Carcar City is one of the local government units in Cebu Province.",
     lgooName: "MILDRED C. LASALA",
-    lgooDesignation: "LGOO of Carcarcity",
+    lgooDesignation: "CLGOO of the City of Carcar",
     lgooImage: "organizationalchart/images/mildred_carcar.png"
   },
   "DALAGUETE": {
     NameofLGU: "Dalaguete",
     descriptionLGU: "Dalaguete is one of the local government units in Cebu Province.",
     lgooName: "GINABLE M. EJOC",
-    lgooDesignation: "LGOO of Dalaguete",
+    lgooDesignation: "MLGOO of the Municipality of Dalaguete",
     lgooImage: "organizationalchart/images/GinableEjoc_Dalaguete.png"
   },
   "OSLOB": {
     NameofLGU: "Oslob",
     descriptionLGU: "Oslob is one of the local government units in Cebu Province.",
     lgooName: "DEANNA A. MINGUETO",
-    lgooDesignation: "LGOO of Oslob",
+    lgooDesignation: "MLGOO of the Municipality of Oslob",
     lgooImage: "organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png"
   },
   "SANTANDER": {
     NameofLGU: "Santander",
     descriptionLGU: "Santander is one of the local government units in Cebu Province.",
     lgooName: "DEANNA A. MINGUETO",
-    lgooDesignation: "LGOO of Santander",
+    lgooDesignation: "MLGOO of the Municipality of Santander",
     lgooImage: "organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png"
   },
   "SAMBOAN": {
     NameofLGU: "Samboan",
     descriptionLGU: "Samboan is one of the local government units in Cebu Province.",
     lgooName: "KYM A. ALBRANDO",
-    lgooDesignation: "LGOO of Samboan",
+    lgooDesignation: "MLGOO of the Municipality of Samboan",
     lgooImage: "organizationalchart/images/KymAlbrando_Samboan.png"
   },
   "SAN_FERNANDO": {
     NameofLGU: "San Fernando",
-    descriptionLGU: "Sanfernando is one of the local government units in Cebu Province.",
+    descriptionLGU: "San Fernando is one of the local government units in Cebu Province.",
     lgooName: "JOSEPH ELIZAR F. MERLAS",
-    lgooDesignation: "LGOO of Sanfernando",
+    lgooDesignation: "MLGOO of the Municipality of San Fernando",
     lgooImage: "organizationalchart/images/JosephElizarMerlas_SanFernando.png"
   },
   "SIBONGA": {
     NameofLGU: "Sibonga",
     descriptionLGU: "Sibonga is one of the local government units in Cebu Province.",
     lgooName: "SUSAN E. TOLENTINO",
-    lgooDesignation: "LGOO of Sibonga",
+    lgooDesignation: "MLGOO of the Municipality of Sibonga",
     lgooImage: "organizationalchart/images/susan_sibonga.png"
   },
   "TALISAY_CITY": {
     NameofLGU: "Talisay City",
     descriptionLGU: "Talisaycity is one of the local government units in Cebu Province.",
     lgooName: "JONALUKE V. TUBAL II",
-    lgooDesignation: "LGOO of Talisaycity",
+    lgooDesignation: "CLGOO of the City of Talisay",
     lgooImage: "organizationalchart/images/tubal_lgcds.png"
   },
   "NAGA_CITY": {
     NameofLGU: "Naga City",
-    descriptionLGU: "Nagacity is one of the local government units in Cebu Province.",
+    descriptionLGU: "Naga City is one of the local government units in Cebu Province.",
     lgooName: "EMMA JOYEVLYN V. CALVO",
-    lgooDesignation: "LGOO of Nagacity",
+    lgooDesignation: "CLGOO of the City of Naga",
     lgooImage: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png",
     lgoo2Name: "AILEEN GRACE B. ARGAWANON-PECA",
-    lgoo2Designation: "Assistant LGOO of Nagacity",
+    lgoo2Designation: "Assistant CLGOO of the City of Naga",
     lgoo2Image: "organizationalchart/images/AileenPeca_Naga.png"
+  },
+    "CATMON": {
+    NameofLGU: "CATMON",
+    descriptionLGU: "Catmon is one of the local government units in Cebu Province.",
+    lgooName: "JONALUKE V. TUBAL II",
+    lgooDesignation: "MLGOO of the Municipality of Catmon",
+    lgooImage: "organizationalchart/images/tubal_lgcds.png"
+  },
+    "MINGLANILLA": {
+    NameofLGU: "MINGLANILLA",
+    descriptionLGU: "Minglanilla is one of the local government units in Cebu Province.",
+    lgooName: "IRENE O. ANONAR",
+    lgooDesignation: "MLGOO of the Municipality of Minglanilla",
+    lgooImage: "organizationalchart/images/irene_o_anonar_minglanilla.png"
+  },
+    "SAN_FERNANDO": {
+    NameofLGU: "SAN FERNANDO",
+    descriptionLGU: "San Fernando is one of the local government units in Cebu Province.",
+    lgooName: "JOSEPH ELIZAR F. MERLAS",
+    lgooDesignation: "MLGOO of the Municipality of San Fernando",
+    lgooImage: "organizationalchart/images/JosephElizarMerlas_SanFernando.png"
+  },
+    "BOLJOON": {
+    NameofLGU: "BOLJOON",
+    descriptionLGU: "Boljoon is one of the local government units in Cebu Province.",
+    lgooName: "RANDEL CEDIE J. SAMONTE",
+    lgooDesignation: "MLGOO of the Municipality of Boljoon",
+    lgooImage: "organizationalchart/images/RandelCedieJSamonte_Boljoon.png"
   },
 };
 
