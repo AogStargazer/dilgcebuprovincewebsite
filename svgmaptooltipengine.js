@@ -503,6 +503,10 @@ class UniversalSVGTooltipEngine {
     if (cellConfig.highlight) textStyle += `background: ${cellConfig.highlight};`;
     if (cellConfig.noWrap) textStyle += 'white-space: nowrap; overflow-x: auto;';
     if (cellConfig.fontsize) textStyle += `font-size: ${cellConfig.fontsize}px;`;
+    if (cellConfig.fontfamily) textStyle += `font-family: ${cellConfig.fontfamily};`;
+    if (cellConfig.fontcolor) textStyle += `color: ${cellConfig.fontcolor};`;
+    if (cellConfig.horizontalalign) textStyle += `text-align: ${cellConfig.horizontalalign};`;
+    if (cellConfig.verticalalign) textStyle += `vertical-align: ${cellConfig.verticalalign};`;
 
     const wrapWithFormat = (html) => `<span style="${textStyle}">${html}</span>`;
     const sanitize = (html) => {
@@ -1137,14 +1141,125 @@ TIPS:
 
 =========================================================================================
 */
-/* sample gridConfig to use when you want to use only grid keys
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
 const gridConfig = {
-  R1C1: { key: "names", label: "Full Name", bold: true, italic: true },
-  R1C2: { key: "favoriteColor", label: "Favorite Color", highlight: "#ffff00" },
-  R1C3: { key: "hobby", label: "Hobby", underline: true, strikethrough: true },
-  R2C1: { key: "email", label: "Email Address" },
-  R2C2: { key: "phone", label: "Phone Number", bold: true }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
 */
 
 // --- BEGIN USER GRID CONFIG ---
@@ -1578,3 +1693,123 @@ window.universalMapEngine = universalMapEngine;
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = UniversalSVGTooltipEngine;
 }
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+*/
