@@ -495,18 +495,18 @@ class UniversalSVGTooltipEngine {
 
     // Compose text formatting styles
     let textStyle = '';
-    if (cellConfig.bold) textStyle += 'font-weight: bold;';
-    if (cellConfig.italic) textStyle += 'font-style: italic;';
-    if (cellConfig.underline) textStyle += 'text-decoration: underline;';
-    if (cellConfig.strikethrough) textStyle += 'text-decoration: line-through;';
-    if (cellConfig.underline && cellConfig.strikethrough) textStyle += 'text-decoration: underline line-through;';
-    if (cellConfig.highlight) textStyle += `background: ${cellConfig.highlight};`;
-    if (cellConfig.noWrap) textStyle += 'white-space: nowrap; overflow-x: auto;';
-    if (cellConfig.fontsize) textStyle += `font-size: ${cellConfig.fontsize}px;`;
-    if (cellConfig.fontfamily) textStyle += `font-family: ${cellConfig.fontfamily};`;
-    if (cellConfig.fontcolor) textStyle += `color: ${cellConfig.fontcolor};`;
-    if (cellConfig.horizontalalign) textStyle += `text-align: ${cellConfig.horizontalalign};`;
-    if (cellConfig.verticalalign) textStyle += `vertical-align: ${cellConfig.verticalalign};`;
+    if (cellConfig.bold && cellConfig.bold !== false) textStyle += 'font-weight: bold;';
+    if (cellConfig.italic && cellConfig.italic !== false) textStyle += 'font-style: italic;';
+    if (cellConfig.underline && cellConfig.underline !== false) textStyle += 'text-decoration: underline;';
+    if (cellConfig.strikethrough && cellConfig.strikethrough !== false) textStyle += 'text-decoration: line-through;';
+    if (cellConfig.underline && cellConfig.strikethrough && cellConfig.underline !== false && cellConfig.strikethrough !== false) textStyle += 'text-decoration: underline line-through;';
+    if (cellConfig.highlight && cellConfig.highlight !== false) textStyle += `background: ${cellConfig.highlight};`;
+    if (cellConfig.noWrap && cellConfig.noWrap !== false) textStyle += 'white-space: nowrap; overflow-x: auto;';
+    if (cellConfig.fontsize && cellConfig.fontsize !== false) textStyle += `font-size: ${cellConfig.fontsize}px;`;
+    if (cellConfig.fontfamily && cellConfig.fontfamily !== false) textStyle += `font-family: ${cellConfig.fontfamily};`;
+    if (cellConfig.fontcolor && cellConfig.fontcolor !== false) textStyle += `color: ${cellConfig.fontcolor};`;
+    if (cellConfig.horizontalalign && cellConfig.horizontalalign !== false) textStyle += `text-align: ${cellConfig.horizontalalign};`;
+    if (cellConfig.verticalalign && cellConfig.verticalalign !== false) textStyle += `vertical-align: ${cellConfig.verticalalign};`;
 
     const wrapWithFormat = (html) => `<span style="${textStyle}">${html}</span>`;
     const sanitize = (html) => {
@@ -561,8 +561,39 @@ class UniversalSVGTooltipEngine {
           border-bottom: 1px dashed #2196F3;
         " text-align: left;">📞 ${sanitize(cleanValue)}</a>`), extraClass };
 
-      case 'html':
-        return { html: wrapWithFormat(`<div style="font-size: 13px; text-align: left;">${sanitize(cleanValue)}</div>`), extraClass };
+      case 'html': {
+        // Special handling for video iframes
+        let htmlToRender = cleanValue;
+        let isVideoIframe = false;
+        if (/<iframe[^>]+src=["'][^"']+["'][^>]*><\/iframe>/i.test(cleanValue)) {
+          isVideoIframe = isSafeVideoIframe(cleanValue);
+        }
+        if (isVideoIframe) {
+          // Allow the iframe through, even if DOMPurify is present
+          // Optionally, strip all but the iframe
+          const div = document.createElement('div');
+          div.innerHTML = cleanValue;
+          const iframe = div.querySelector('iframe');
+          if (iframe) {
+            // Remove all attributes except src, width, height, allow, allowfullscreen, frameborder
+            const allowedAttrs = ['src', 'width', 'height', 'allow', 'allowfullscreen', 'frameborder'];
+            [...iframe.attributes].forEach(attr => {
+              if (!allowedAttrs.includes(attr.name.toLowerCase())) {
+                iframe.removeAttribute(attr.name);
+              }
+            });
+            htmlToRender = iframe.outerHTML;
+          }
+        } else {
+          // Sanitize as usual
+          if (typeof window !== 'undefined' && window.DOMPurify) {
+            htmlToRender = window.DOMPurify.sanitize(cleanValue);
+          } else {
+            htmlToRender = escapeHTML(cleanValue);
+          }
+        }
+        return { html: wrapWithFormat(`<div style="font-size: 13px; text-align: left;">${htmlToRender}</div>`), extraClass };
+      }
 
       case 'emoji':
         return { html: wrapWithFormat(`<span style="font-size: 28px; display: inline-block; line-height: 1;">${sanitize(cleanValue)}</span>`), extraClass };
@@ -1260,6 +1291,18 @@ TIPS:
 
 --------------------------
 For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
 */
 
 // --- BEGIN USER GRID CONFIG ---
@@ -1809,6 +1852,112 @@ TIPS:
 - If you make a mistake, the engine will just ignore the wrong option.
 - You can copy and edit the examples above for your own needs.
 - If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+// Add a helper to detect safe video iframes
+function isSafeVideoIframe(html) {
+  // Allow only iframes from trusted video platforms
+  const allowedHosts = [
+    'youtube.com', 'www.youtube.com', 'youtu.be',
+    'player.vimeo.com', 'vimeo.com',
+    'www.dailymotion.com', 'dailymotion.com',
+    'www.facebook.com', 'facebook.com',
+    'player.twitch.tv', 'twitch.tv'
+  ];
+  try {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const iframe = div.querySelector('iframe');
+    if (!iframe) return false;
+    const src = iframe.src;
+    if (!src) return false;
+    const url = new URL(src, window.location.origin);
+    return allowedHosts.some(host => url.hostname.endsWith(host));
+  } catch (e) {
+    return false;
+  }
+}
+
+/*
+... (existing docs) ...
+
+--------------------------
+TUTORIAL: HOW TO EMBED VIDEOS IN TOOLTIP CELLS
+--------------------------
+You can show videos (like YouTube, Vimeo, Facebook, etc.) inside your tooltip by following these easy steps. No programming needed!
+
+1. Go to the video you want to embed (YouTube, Vimeo, etc.).
+2. Find the "Share" or "Embed" button below the video.
+3. Click "Embed" and copy the code that looks like <iframe ...></iframe>.
+4. In your data, paste the code after html: like this:
+
+   myVideo: 'html:<iframe width="300" height="169" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>'
+
+5. In your gridConfig, make sure the cell uses the key you chose (like myVideo):
+
+   R2C1: { key: "myVideo", label: "Watch Video" }
+
+6. Save and reload your map. The video should appear in the tooltip!
+
+--------------------------
+EXAMPLES FOR POPULAR VIDEO PLATFORMS
+--------------------------
+
+YOUTUBE:
+- Click "Share" under the video, then "Embed". Copy the <iframe> code.
+- Example:
+  myVideo: 'html:<iframe width="300" height="169" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>'
+
+VIMEO:
+- Click the "Share" button (paper plane icon), then copy the <iframe> code under "Embed".
+- Example:
+  myVideo: 'html:<iframe src="https://player.vimeo.com/video/123456789" width="300" height="169" frameborder="0" allowfullscreen></iframe>'
+
+FACEBOOK:
+- Click the three dots on the video, choose "Embed", and copy the <iframe> code.
+- Example:
+  myVideo: 'html:<iframe src="https://www.facebook.com/plugins/video.php?href=VIDEO_URL" width="300" height="169" frameborder="0" allowfullscreen></iframe>'
+
+DAILYMOTION:
+- Click "Share", then "Embed", and copy the <iframe> code.
+- Example:
+  myVideo: 'html:<iframe frameborder="0" width="300" height="169" src="https://www.dailymotion.com/embed/video/x7xyzab" allowfullscreen></iframe>'
+
+TWITCH:
+- Click the "Share" button, then "Embed" and copy the <iframe> code.
+- Example:
+  myVideo: 'html:<iframe src="https://player.twitch.tv/?video=123456789&parent=yourdomain.com" width="300" height="169" frameborder="0" allowfullscreen></iframe>'
+
+--------------------------
+IMPORTANT NOTES
+--------------------------
+- Only videos from trusted sites (YouTube, Vimeo, Facebook, Dailymotion, Twitch) will work. Others may not show up.
+- Always use the code that starts with <iframe ...> and paste it after html: in your data.
+- You can change the width and height numbers to make the video bigger or smaller.
+- If the video does not show up, double-check that you copied the full <iframe> code and that the link is from a supported site.
+- If you see a message about "video not supported" or nothing appears, ask your website administrator for help.
+
+--------------------------
+TIPS
+--------------------------
+- You can add more than one video by using different keys (like myVideo1, myVideo2).
+- You can add a label in gridConfig to describe the video (like "Watch Video").
+- If you want to embed a video from another site, ask your developer to add it to the trusted list.
 
 --------------------------
 For more help, ask your developer or contact your website administrator.
