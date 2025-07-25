@@ -935,27 +935,39 @@ class UniversalSVGTooltipEngine {
         path.removeEventListener('mouseenter', handlers.mouseenter);
         path.removeEventListener('mouseleave', handlers.mouseleave);
         path.removeEventListener('click', handlers.click);
+        // Remove hover glow if present
+        path.classList.remove('usvg-search-highlight');
       });
     }
     this._boundPaths = [];
+    // Track the last hovered region for glow removal
+    if (!this._lastHoveredRegion) this._lastHoveredRegion = null;
     paths.forEach((path) => {
       const title = path.querySelector('title');
       if (!title) return;
-
+  
       const rawName = title.textContent.trim();
       const regionKey = this._normalizeKey(rawName);
       const data = this.tooltipData[regionKey];
-
+  
       if (!data) return;
-
+  
       // Style the interactive paths
       path.style.cssText += `
         cursor: pointer !important;
         transition: all 0.2s ease !important;
       `;
-
+  
       // Add hover events
       const mouseenter = debounce(() => {
+        // Remove glow from previous region
+        if (this._lastHoveredRegion && this._lastHoveredRegion !== path) {
+          this._lastHoveredRegion.classList.remove('usvg-search-highlight');
+        }
+        // Add glow to current region
+        path.classList.add('usvg-search-highlight');
+        this._lastHoveredRegion = path;
+  
         // Only update panel if not just closed for this region
         if (!(this._panelClosed && this._activeRegionKey === regionKey)) {
           this.updatePanel(rawName, data);
@@ -966,6 +978,10 @@ class UniversalSVGTooltipEngine {
       const mouseleave = () => {
         path.style.opacity = '';
         path.style.filter = '';
+        path.classList.remove('usvg-search-highlight');
+        if (this._lastHoveredRegion === path) {
+          this._lastHoveredRegion = null;
+        }
         // Panel data stays - no reset
       };
       const click = (e) => {
@@ -1737,6 +1753,991 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = UniversalSVGTooltipEngine;
 }
 
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+
+// --- END USER DATA ---
+
+/*
+==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
+
+// gridConfig for a profile card layout:
+const gridConfig = {
+  R1C1: { key: "NameofLGU", bold: true },
+  R2C1: { key: "descriptionLGU", paragraph: true },
+  R3R4C1: { key: "lgooImage", imageWidth: "80px" }, // Image spans rows 3-4, column 1
+  R3C2: { key: "lgooName", bold: true },
+  R4C2: { key: "lgooDesignation" }
+};
+
+// exampleData for the above config:
+const exampleData = {
+  NameofLGU: "Bogo City",
+  descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
+  lgooImage: "img:organizationalchart/images/maedura_bogocity.png",
+  lgooName: "MAE B. DURA",
+  lgooDesignation: "CLGOO of the City of Bogo"
+};
+
+// This will render:
+// - Title (Bogo City) and description at the top
+// - Image in the first column, spanning two rows
+// - Name and designation in the second column, aligned with the image
+// - No misalignment or extra empty cells
+========================================================================================
+*/
+// ======================= END OF USER CONFIGURABLE SECTION =======================
+
+
+
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+
+// --- END USER DATA ---
+
+/*
+==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
+
+// gridConfig for a profile card layout:
+const gridConfig = {
+  R1C1: { key: "NameofLGU", bold: true },
+  R2C1: { key: "descriptionLGU", paragraph: true },
+  R3R4C1: { key: "lgooImage", imageWidth: "80px" }, // Image spans rows 3-4, column 1
+  R3C2: { key: "lgooName", bold: true },
+  R4C2: { key: "lgooDesignation" }
+};
+
+// exampleData for the above config:
+const exampleData = {
+  NameofLGU: "Bogo City",
+  descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
+  lgooImage: "img:organizationalchart/images/maedura_bogocity.png",
+  lgooName: "MAE B. DURA",
+  lgooDesignation: "CLGOO of the City of Bogo"
+};
+
+// This will render:
+// - Title (Bogo City) and description at the top
+// - Image in the first column, spanning two rows
+// - Name and designation in the second column, aligned with the image
+// - No misalignment or extra empty cells
+========================================================================================
+*/
+// ======================= END OF USER CONFIGURABLE SECTION =======================
+
+
+
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+// --- END USER DATA ---
+
+/*
+==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
+
+// gridConfig for a profile card layout:
+const gridConfig = {
+  R1C1: { key: "NameofLGU", bold: true },
+  R2C1: { key: "descriptionLGU", paragraph: true },
+  R3R4C1: { key: "lgooImage", imageWidth: "80px" }, // Image spans rows 3-4, column 1
+  R3C2: { key: "lgooName", bold: true },
+  R4C2: { key: "lgooDesignation" }
+};
+
+// exampleData for the above config:
+const exampleData = {
+  NameofLGU: "Bogo City",
+  descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
+  lgooImage: "img:organizationalchart/images/maedura_bogocity.png",
+  lgooName: "MAE B. DURA",
+  lgooDesignation: "CLGOO of the City of Bogo"
+};
+
+// This will render:
+// - Title (Bogo City) and description at the top
+// - Image in the first column, spanning two rows
+// - Name and designation in the second column, aligned with the image
+// - No misalignment or extra empty cells
+========================================================================================
+*/
+// ======================= END OF USER CONFIGURABLE SECTION =======================
+
+
+
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+// --- END USER DATA ---
+
+/*
+==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
+
+// gridConfig for a profile card layout:
+const gridConfig = {
+  R1C1: { key: "NameofLGU", bold: true },
+  R2C1: { key: "descriptionLGU", paragraph: true },
+  R3R4C1: { key: "lgooImage", imageWidth: "80px" }, // Image spans rows 3-4, column 1
+  R3C2: { key: "lgooName", bold: true },
+  R4C2: { key: "lgooDesignation" }
+};
+
+// exampleData for the above config:
+const exampleData = {
+  NameofLGU: "Bogo City",
+  descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
+  lgooImage: "img:organizationalchart/images/maedura_bogocity.png",
+  lgooName: "MAE B. DURA",
+  lgooDesignation: "CLGOO of the City of Bogo"
+};
+
+// This will render:
+// - Title (Bogo City) and description at the top
+// - Image in the first column, spanning two rows
+// - Name and designation in the second column, aligned with the image
+// - No misalignment or extra empty cells
+========================================================================================
+*/
+// ======================= END OF USER CONFIGURABLE SECTION =======================
+
+
+
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+// --- END USER DATA ---
+
+/*
+==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
+
+// gridConfig for a profile card layout:
+const gridConfig = {
+  R1C1: { key: "NameofLGU", bold: true },
+  R2C1: { key: "descriptionLGU", paragraph: true },
+  R3R4C1: { key: "lgooImage", imageWidth: "80px" }, // Image spans rows 3-4, column 1
+  R3C2: { key: "lgooName", bold: true },
+  R4C2: { key: "lgooDesignation" }
+};
+
+// exampleData for the above config:
+const exampleData = {
+  NameofLGU: "Bogo City",
+  descriptionLGU: "Bogocity is one of the local government units in Cebu Province.",
+  lgooImage: "img:organizationalchart/images/maedura_bogocity.png",
+  lgooName: "MAE B. DURA",
+  lgooDesignation: "CLGOO of the City of Bogo"
+};
+
+// This will render:
+// - Title (Bogo City) and description at the top
+// - Image in the first column, spanning two rows
+// - Name and designation in the second column, aligned with the image
+// - No misalignment or extra empty cells
+========================================================================================
+*/
+// ======================= END OF USER CONFIGURABLE SECTION =======================
+
+
+
+
+
+// =======================
+// GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
+// =======================
+/*
+GRIDCONFIG FORMATTING GUIDE
+--------------------------
+This guide explains how to use each formatting option in gridConfig to customize your tooltip cells. You do NOT need to know programming—just copy the examples and change the values!
+
+Each cell in gridConfig looks like this:
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 }
+
+Below are all the formatting options you can use:
+
+1. key
+   - What it does: Tells the engine which data to show in this cell.
+   - Example: key: "NameofLGU"
+
+2. label
+   - What it does: Sets the label or title for the cell (not always shown).
+   - Example: label: "LGU Name"
+
+3. bold
+   - What it does: Makes the text bold.
+   - Example: bold: true
+
+4. italic
+   - What it does: Makes the text italic.
+   - Example: italic: true
+
+5. underline
+   - What it does: Underlines the text.
+   - Example: underline: true
+
+6. strikethrough
+   - What it does: Draws a line through the text.
+   - Example: strikethrough: true
+
+7. highlight
+   - What it does: Colors the background behind the text. Use any color code (like "#ffff00" for yellow).
+   - Example: highlight: "#ffff00"
+
+8. fontsize
+   - What it does: Changes the size of the text (in pixels).
+   - Example: fontsize: 18
+
+9. fontfamily
+   - What it does: Changes the font style (like Arial, Times New Roman, etc.).
+   - Example: fontfamily: "Arial"
+   - Note: Only works if the font is available on your computer or website.
+
+10. fontcolor
+    - What it does: Changes the color of the text. Use any color code (like "#123456" or "red").
+    - Example: fontcolor: "#123456"
+
+11. horizontalalign
+    - What it does: Aligns the text left, center, or right in the cell.
+    - Example: horizontalalign: "center"
+    - Choices: "left", "center", "right"
+
+12. verticalalign
+    - What it does: Aligns the text to the top, middle, or bottom of the cell.
+    - Example: verticalalign: "middle"
+    - Choices: "top", "middle", "bottom"
+
+13. noWrap
+    - What it does: Stops the text from wrapping to the next line.
+    - Example: noWrap: true
+
+14. wrapchar
+    - What it does: Automatically adds a line break after a certain number of characters.
+    - Example: wrapchar: 30
+
+15. imageWidth
+    - What it does: Sets the width of images in the cell (like "80px" or "60%").
+    - Example: imageWidth: "80px"
+
+--------------------------
+TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
+--------------------------
+1. Find the gridConfig section in the file. It looks like this:
+
+const gridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
+};
+
+2. To change the style of a cell, add or change the options. For example, to make the text red and bold:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontcolor: "red" }
+
+3. To make the text bigger and centered:
+
+  R2C1: { key: "descriptionLGU", label: "Description", fontsize: 20, horizontalalign: "center" }
+
+4. To use a different font:
+
+  R3C1: { key: "lgooName", label: "LGOO Name", fontfamily: "Times New Roman" }
+
+5. To highlight a cell with yellow:
+
+  R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#ffff00" }
+
+6. You can combine as many options as you want:
+
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+
+--------------------------
+TIPS:
+- Always use a comma between options inside the curly braces { ... }.
+- Color codes can be written as "#RRGGBB" (like "#ff0000" for red) or as color names (like "blue").
+- If you make a mistake, the engine will just ignore the wrong option.
+- You can copy and edit the examples above for your own needs.
+- If you want to see what each option does, try changing it and reload your map!
+
+--------------------------
+For more help, ask your developer or contact your website administrator.
+
+IMPORTANT: If you do NOT want to use a formatting option, set it to false. For example:
+  fontsize: false
+  fontcolor: false
+  fontfamily: false
+  horizontalalign: false
+  verticalalign: false
+This will use the default style for that property, even if a value is set elsewhere.
+
+Example:
+  R1C1: { key: "NameofLGU", label: "LGU Name", fontsize: false, fontcolor: false }
+This will use the default font size and color for this cell.
+*/
+
+
+
+
+
 // =======================
 // GRIDCONFIG FORMATTING GUIDE & TUTORIAL FOR NON-TECHNICAL USERS
 // =======================
@@ -1935,13 +2936,11 @@ FACEBOOK:
 
 DAILYMOTION:
 - Click "Share", then "Embed", and copy the <iframe> code.
-- Example:
-  myVideo: 'html:<iframe frameborder="0" width="300" height="169" src="https://www.dailymotion.com/embed/video/x7xyzab" allowfullscreen></iframe>'
+- Example:  myVideo: 'html:<iframe frameborder="0" width="300" height="169" src="https://www.dailymotion.com/embed/video/x7xyzab" allowfullscreen></iframe>'
 
 TWITCH:
 - Click the "Share" button, then "Embed" and copy the <iframe> code.
-- Example:
-  myVideo: 'html:<iframe src="https://player.twitch.tv/?video=123456789&parent=yourdomain.com" width="300" height="169" frameborder="0" allowfullscreen></iframe>'
+- Example:  myVideo: 'html:<iframe src="https://player.twitch.tv/?video=123456789&parent=yourdomain.com" width="300" height="169" frameborder="0" allowfullscreen></iframe>'
 
 --------------------------
 IMPORTANT NOTES
@@ -1962,3 +2961,381 @@ TIPS
 --------------------------
 For more help, ask your developer or contact your website administrator.
 */
+
+// ======================= SEARCH ENGINE TOOLTIP (ADDED BY AI) =======================
+(function addSearchEngineTooltip() {
+  // --- CONFIG ---
+  const SEARCH_BOX_ID = 'dilgcebu-search-tooltip-box';
+  const SEARCH_BOX_CLASS = 'dilgcebu-search-tooltip-box';
+  const SEARCH_DROPDOWN_ID = 'dilgcebu-search-tooltip-dropdown';
+  const HIGHLIGHT_CLASS = 'usvg-search-highlight';
+  const SEARCH_BTN_ID = 'usvg-search-tooltip-btn';
+  const SEARCH_RESET_BTN_ID = 'usvg-search-tooltip-reset-btn';
+  const SEARCH_TOOLTIP_STYLE_ID = 'usvg-search-tooltip-style';
+  const SEARCH_TOOLTIP_ZINDEX = 2147483648;
+  // --- END CONFIG ---
+
+  // --- STYLE ---
+  if (!document.getElementById(SEARCH_TOOLTIP_STYLE_ID)) {
+    // Remove any legacy or duplicate style tags for the search box
+    document.querySelectorAll('style#usvg-search-tooltip-style').forEach(s => { if (s !== null) s.remove(); });
+    // Inject style as the last style in <head> for maximum specificity
+    const style = document.createElement('style');
+    style.id = SEARCH_TOOLTIP_STYLE_ID;
+    style.textContent = `
+      /*
+        The following rules allow the dropdown to expand beyond the search box. Overflow is now visible and the dropdown can be up to 300px tall.
+      */
+      @media (max-width: 600px) {
+        .dilgcebu-search-tooltip-box {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          height: 0 !important;
+          min-height: 0 !important;
+          max-height: 0 !important;
+          width: 0 !important;
+          min-width: 0 !important;
+          max-width: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+      }
+      .dilgcebu-search-tooltip-box {
+        position: fixed !important;
+        top: calc(100px + 20px) !important;
+        right: 32px !important;
+        z-index: ${SEARCH_TOOLTIP_ZINDEX} !important;
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.13) !important;
+        padding: 5px 3px !important;
+        width: 400px !important;
+        height: 100px !important;
+        min-width: 400px !important;
+        max-width: 400px !important;
+        min-height: 100px !important;
+        max-height: 100px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+        align-items: stretch !important;
+        box-sizing: border-box !important;
+        overflow: visible !important; /* Allow dropdown to escape the box */
+      }
+      .dilgcebu-search-tooltip-box input[type="text"] {
+        width: 100% !important;
+        padding: 6px 8px !important;
+        border: 1px solid #bbb !important;
+        border-radius: 5px !important;
+        font-size: 14px !important;
+        outline: none !important;
+        margin-bottom: 2px !important;
+      }
+      .dilgcebu-search-tooltip-box button {
+        margin-top: 2px !important;
+        padding: 5px 10px !important;
+        border: none !important;
+        border-radius: 5px !important;
+        background: #2196F3 !important;
+        color: #fff !important;
+        font-size: 13px !important;
+        cursor: pointer !important;
+        transition: background 0.2s !important;
+      }
+      .dilgcebu-search-tooltip-box button:hover {
+        background: #1769aa !important;
+      }
+      .dilgcebu-search-tooltip-box #dilgcebu-search-tooltip-dropdown {
+        position: absolute !important;
+        top: 54px !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-height: 300px !important; /* Allow dropdown to be up to 300px tall */
+        overflow-y: auto !important;
+        z-index: 99999 !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        border-radius: 0 0 8px 8px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+        display: none;
+      }
+      .dilgcebu-search-tooltip-box #dilgcebu-search-tooltip-dropdown .usvg-search-result {
+        padding: 7px 12px !important;
+        cursor: pointer !important;
+        font-size: 14px !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        transition: background 0.15s !important;
+      }
+      .dilgcebu-search-tooltip-box #dilgcebu-search-tooltip-dropdown .usvg-search-result:last-child {
+        border-bottom: none !important;
+      }
+      .dilgcebu-search-tooltip-box #dilgcebu-search-tooltip-dropdown .usvg-search-result:hover,
+      .dilgcebu-search-tooltip-box #dilgcebu-search-tooltip-dropdown .usvg-search-result.active {
+        background: #e3f2fd !important;
+      }
+      .${HIGHLIGHT_CLASS} {
+        stroke: #ff9800 !important;
+        stroke-width: 8 !important;
+        filter: drop-shadow(0 0 12px #ff9800cc) drop-shadow(0 0 24px #ff9800aa) !important;
+        opacity: 1 !important;
+        fill: rgba(255, 200, 40, 0.18) !important;
+        transition: stroke-width 0.2s, filter 0.2s, fill 0.2s !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // --- UI ---
+  if (document.getElementById(SEARCH_BOX_ID)) return; // Prevent double init
+  const searchBox = document.createElement('div');
+  searchBox.id = SEARCH_BOX_ID;
+  searchBox.className = SEARCH_BOX_CLASS;
+  // Set inline styles for bulletproof enforcement
+  searchBox.style.width = '400px';
+  searchBox.style.height = '125px';
+  searchBox.style.minWidth = '400px';
+  searchBox.style.maxWidth = '400px';
+  searchBox.style.minHeight = '125px';
+  searchBox.style.maxHeight = '125px';
+  searchBox.style.overflow = 'hidden';
+  searchBox.style.position = 'fixed';
+  searchBox.style.top = 'calc(100px + 20px)';
+  searchBox.style.right = '32px';
+  searchBox.style.zIndex = String(SEARCH_TOOLTIP_ZINDEX);
+  searchBox.innerHTML = `
+    <label for="usvg-search-tooltip-input" style="font-weight: bold; font-size: 13px; margin-bottom: 2px;">Search LGU or LGOO:</label>
+    <div style="position: relative;">
+      <input id="usvg-search-tooltip-input" type="text" placeholder="Type LGU, LGOO, or keyword..." autocomplete="off" />
+      <div id="${SEARCH_DROPDOWN_ID}"></div>
+    </div>
+    <div style="display: flex; gap: 6px;">
+      <button id="${SEARCH_BTN_ID}" type="button">Reset Tooltip</button>
+      <button id="${SEARCH_RESET_BTN_ID}" type="button" style="background: #e53935;">Clear Search</button>
+    </div>
+  `;
+  document.body.appendChild(searchBox);
+
+  // --- LOGIC ---
+  const input = searchBox.querySelector('input');
+  const dropdown = document.getElementById(SEARCH_DROPDOWN_ID);
+  const searchBtn = document.getElementById(SEARCH_BTN_ID);
+  const clearBtn = document.getElementById(SEARCH_RESET_BTN_ID);
+
+  let lastHighlightedRegion = null;
+  let lastSelectedRegionKey = null;
+  let ignoreNextHover = false;
+
+  // Helper: Get all searchable values and their region keys
+  function getSearchableEntries() {
+    const entries = [];
+    for (const [regionKey, data] of Object.entries(exampleData)) {
+      for (const [field, value] of Object.entries(data)) {
+        if (typeof value === 'string' && value.trim() !== '') {
+          entries.push({
+            regionKey,
+            field,
+            value: value.trim(),
+            display: `${data.NameofLGU || regionKey} — ${field}: ${value.trim()}`
+          });
+        }
+      }
+    }
+    return entries;
+  }
+
+  // Helper: Highlight SVG region
+  function highlightRegion(regionKey) {
+    removeHighlight();
+    const svg = document.querySelector(universalMapEngine.options.mapSelector || 'svg');
+    if (!svg) return;
+    // Try to match by <title> text (case-insensitive, ignore spaces/underscores)
+    const normKey = regionKey.replace(/\s+/g, '').replace(/_/g, '').toUpperCase();
+    let found = false;
+    svg.querySelectorAll('path').forEach(path => {
+      const title = path.querySelector('title');
+      if (!title) return;
+      const tNorm = title.textContent.replace(/\s+/g, '').replace(/_/g, '').toUpperCase();
+      if (tNorm === normKey) {
+        path.classList.add(HIGHLIGHT_CLASS);
+        lastHighlightedRegion = path;
+        found = true;
+        // --- Auto-scroll into view ---
+        setTimeout(() => {
+          try {
+            path.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            // --- Ensure region is visible in viewport (page scroll) ---
+            const rect = path.getBoundingClientRect();
+            const isVisible = (
+              rect.top >= 0 &&
+              rect.left >= 0 &&
+              rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+              rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+            if (!isVisible) {
+              // Scroll window so the region is centered in the viewport
+              const scrollY = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
+              const scrollX = window.scrollX + rect.left + rect.width / 2 - window.innerWidth / 2;
+              window.scrollTo({ top: scrollY, left: scrollX, behavior: 'smooth' });
+            }
+          } catch (e) {}
+        }, 100);
+      }
+    });
+    return found;
+  }
+  function removeHighlight() {
+    if (lastHighlightedRegion) {
+      lastHighlightedRegion.classList.remove(HIGHLIGHT_CLASS);
+      lastHighlightedRegion = null;
+    }
+  }
+
+  // Helper: Show dropdown
+  function showDropdown(results) {
+    if (!results.length) {
+      dropdown.style.display = 'none';
+      dropdown.innerHTML = '';
+      return;
+    }
+    dropdown.innerHTML = results.map((r, i) => `<div class="usvg-search-result" data-index="${i}">${escapeHTML(r.display)}</div>`).join('');
+    dropdown.style.display = 'block';
+  }
+  function hideDropdown() {
+    dropdown.style.display = 'none';
+    dropdown.innerHTML = '';
+  }
+
+  // Helper: Reset search UI and highlight
+  function resetSearchUI() {
+    input.value = '';
+    hideDropdown();
+    removeHighlight();
+    lastSelectedRegionKey = null;
+  }
+
+  // --- SEARCH EVENTS ---
+  let searchResults = [];
+  let activeDropdownIdx = -1;
+
+  input.addEventListener('input', function(e) {
+    const q = input.value.trim().toLowerCase();
+    if (!q) {
+      hideDropdown();
+      removeHighlight();
+      lastSelectedRegionKey = null;
+      return;
+    }
+    const entries = getSearchableEntries();
+    searchResults = entries.filter(entry => entry.value.toLowerCase().includes(q) || entry.regionKey.toLowerCase().includes(q));
+    showDropdown(searchResults);
+    activeDropdownIdx = -1;
+  });
+
+  // Keyboard navigation for dropdown
+  input.addEventListener('keydown', function(e) {
+    if (!searchResults.length) return;
+    if (e.key === 'ArrowDown') {
+      activeDropdownIdx = (activeDropdownIdx + 1) % searchResults.length;
+      updateDropdownActive();
+      e.preventDefault();
+    } else if (e.key === 'ArrowUp') {
+      activeDropdownIdx = (activeDropdownIdx - 1 + searchResults.length) % searchResults.length;
+      updateDropdownActive();
+      e.preventDefault();
+    } else if (e.key === 'Enter') {
+      if (activeDropdownIdx >= 0 && activeDropdownIdx < searchResults.length) {
+        selectResult(searchResults[activeDropdownIdx]);
+        e.preventDefault();
+      }
+    }
+  });
+  function updateDropdownActive() {
+    const items = dropdown.querySelectorAll('.usvg-search-result');
+    items.forEach((el, idx) => {
+      el.classList.toggle('active', idx === activeDropdownIdx);
+    });
+    if (activeDropdownIdx >= 0 && items[activeDropdownIdx]) {
+      items[activeDropdownIdx].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  // Click on dropdown result
+  dropdown.addEventListener('mousedown', function(e) {
+    const target = e.target.closest('.usvg-search-result');
+    if (!target) return;
+    const idx = parseInt(target.getAttribute('data-index'), 10);
+    if (!isNaN(idx) && searchResults[idx]) {
+      selectResult(searchResults[idx]);
+    }
+  });
+
+  // Select a result: highlight region and show tooltip
+  function selectResult(result) {
+    input.value = result.value;
+    hideDropdown();
+    highlightRegion(result.regionKey);
+    lastSelectedRegionKey = result.regionKey;
+    // Show tooltip for region
+    const regionData = exampleData[result.regionKey];
+    if (regionData) {
+      ignoreNextHover = true;
+      universalMapEngine.updatePanel(result.regionKey, regionData);
+      setTimeout(() => { ignoreNextHover = false; }, 500);
+    }
+  }
+
+  // --- BUTTON EVENTS ---
+  searchBtn.addEventListener('click', function() {
+    // Reset left tooltip and highlight
+    universalMapEngine.resetPanel();
+    resetSearchUI();
+  });
+  clearBtn.addEventListener('click', function() {
+    resetSearchUI();
+  });
+
+  // --- HOVER INTERCEPT: Reset search on SVG hover ---
+  // Patch setupPathEvents to reset search on hover
+  const origSetupPathEvents = universalMapEngine.setupPathEvents.bind(universalMapEngine);
+  universalMapEngine.setupPathEvents = function() {
+    const svg = document.querySelector(this.options.mapSelector || 'svg');
+    if (!svg) return;
+    const paths = svg.querySelectorAll('path');
+    paths.forEach((path) => {
+      const title = path.querySelector('title');
+      if (!title) return;
+      const rawName = title.textContent.trim();
+      const regionKey = this._normalizeKey(rawName);
+      const data = this.tooltipData[regionKey];
+      if (!data) return;
+      // Remove previous listeners if any
+      path.removeEventListener('mouseenter', path._usvgSearchHoverListener);
+      // Add new listener
+      path._usvgSearchHoverListener = function() {
+        if (ignoreNextHover) return;
+        resetSearchUI();
+        removeHighlight();
+      };
+      path.addEventListener('mouseenter', path._usvgSearchHoverListener);
+    });
+    origSetupPathEvents();
+  };
+  // Re-setup events to apply new hover logic
+  universalMapEngine.setupPathEvents();
+
+  // --- UTILITY: Escape HTML ---
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[tag]);
+  }
+})();
+// ======================= END SEARCH ENGINE TOOLTIP =======================
+
