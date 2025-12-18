@@ -812,7 +812,18 @@
                 <ul class="dropdown-menu">
                   <li><a href="amumasabarangay.html">Amuma sa Barangay</a></li>
                   <li><a href="bansiwag.html">Bansiwag</a></li>
-                  <li><a href="gad.html">Gender and Development (GAD)</a></li>
+                  <li class="has-dropdown">
+  <style>
+    .has-dropdown > a:hover {
+      color: purple;
+    }
+  </style>
+
+  <a href="gad.html">Gender and Development (GAD)</a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+
                 </ul>
               </li>
               <li class="has-dropdown">
@@ -1187,7 +1198,47 @@
 
 
               <li><a id="pangatungdanan" class="pangatungdanan"   style="font-family: 'EuphoriaScript', cursive;"  href="pangatungdanan.html">Pangatungdanan</a></li>
-              <li><a href="gad.html">Gender and Development (GAD)</a></li>
+<li class="custom-dropdown">
+  <style>
+    /* Scoped hover styles for this <li> only */
+    .custom-dropdown > a.custom-link {
+      position: relative;
+      color: #6a0dad; /* base purple */
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    /* White overlay behind text */
+    .custom-dropdown > a.custom-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255,0); /* transparent by default */
+      z-index: -1;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect */
+    .custom-dropdown > a.custom-link:hover {
+      color: #9b30ff; /* brighter purple */
+      text-shadow: 0 0 10px #9b30ff, 0 0 20px #9b30ff, 0 0 30px #9b30ff; /* thick glow */
+    }
+
+    /* Hover overlay visible */
+    .custom-dropdown > a.custom-link:hover::before {
+      background-color: rgba(255,255,255,0.5);
+    }
+  </style>
+
+  <a href="gad.html" class="custom-link">Gender and Development (GAD)</a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+
+
 
               <li><a href="contact-info.html">Contact Information</a></li>
             </ul>
@@ -1435,7 +1486,18 @@
   </ul>
   </li>
   <li><a class="pangatungdanan"   style="font-family: 'EuphoriaScript', cursive;"   href="pangatungdanan.html">Pangatungdanan</a></li>
-              <li><a href="gad.html">Gender and Development (GAD)</a></li>
+              <li class="has-dropdown">
+  <style>
+    .has-dropdown > a:hover {
+      color: purple;
+    }
+  </style>
+
+  <a href="gad.html">Gender and Development (GAD)</a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+
 
   <li><a href="contact-info.html">Contact Information</a></li>
   </ul>
