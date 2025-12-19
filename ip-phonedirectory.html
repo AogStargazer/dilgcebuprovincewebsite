@@ -1202,34 +1202,14 @@
   <style>
     /* Scoped hover styles for this <li> only */
     .custom-dropdown > a.custom-link {
-      position: relative;
-      color: #6a0dad; /* base purple */
+      font-weight: normal; /* default */
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: font-weight 0.2s ease;
     }
 
-    /* White overlay behind text */
-    .custom-dropdown > a.custom-link::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255,255,255,0); /* transparent by default */
-      z-index: -1;
-      transition: background-color 0.3s ease;
-    }
-
-    /* Hover effect */
+    /* Bold on hover */
     .custom-dropdown > a.custom-link:hover {
-      color: #9b30ff; /* brighter purple */
-      text-shadow: 0 0 10px #9b30ff, 0 0 20px #9b30ff, 0 0 30px #9b30ff; /* thick glow */
-    }
-
-    /* Hover overlay visible */
-    .custom-dropdown > a.custom-link:hover::before {
-      background-color: rgba(255,255,255,0.5);
+      font-weight: bold;
     }
   </style>
 
@@ -1237,6 +1217,7 @@
   <ul class="dropdown-menu">
   </ul>
 </li>
+
 
 
 
