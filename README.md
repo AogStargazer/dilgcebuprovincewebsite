@@ -1,4 +1,4 @@
-# DILG Cebu Province Website
+# DILG Cebu Province Website 2026
 
 This repository contains the official website for the Department of the Interior and Local Government (DILG) Cebu Province. The site is a static export of a WordPress site built with Elementor, optimized for GitHub Pages hosting.
 
@@ -177,3 +177,4 @@ The website is designed to be responsive across different screen sizes:
 - Mobile (<480px)
 
 Media queries in the CSS adjust layouts, font sizes, and navigation for each screen size.
+
