@@ -177,16 +177,23 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
+    --nav-vertical-padding: 0px;
+    --nav-logo-height: 70px;
+    --nav-logo-scale: 1;
+    padding: var(--nav-vertical-padding) 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 /* Logo inside navigation */
 .nav-logo img {
-    max-width: 90px;
-    height: auto;
+    height: var(--nav-logo-height);
+    width: auto;
+    max-width: none;
+    max-height: calc(100% - (var(--nav-vertical-padding) * 2));
     margin-right: 20px;
+    transform: scale(var(--nav-logo-scale));
+    transform-origin: center;
 }
 
 /* Navigation menu container */

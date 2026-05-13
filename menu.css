@@ -273,17 +273,16 @@ body {
   border-left: 0.3em solid;
 }
 
-/* Grey out and disable links with href="#" */
-.main-menu .dropdown-menu a[href="#"],
-.main-menu .drop-right-menu a[href="#"] {
-  color: #aaa;          /* Change text color to grey */
-  opacity: 0.6;         /* Reduce opacity for visual cue */
-  pointer-events: none; /* Disable clicking */
-  cursor: default;      /* Change cursor to default arrow */
+/* Grey out only placeholder leaf links; submenu headings stay active. */
+.main-menu .dropdown-menu li:not(.has-dropdown) > a[href="#"],
+.main-menu .drop-right-menu li:not(.has-dropdown) > a[href="#"] {
+  color: #aaa;
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: default;
 }
 
-/* Optional: Disable hover effects */
-.main-menu .dropdown-menu a[href="#"]:hover,
-.main-menu .drop-right-menu a[href="#"]:hover {
+.main-menu .dropdown-menu li:not(.has-dropdown) > a[href="#"]:hover,
+.main-menu .drop-right-menu li:not(.has-dropdown) > a[href="#"]:hover {
   background: none;
 }
