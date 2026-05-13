@@ -1215,55 +1215,97 @@
                         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
                           
                       
-                          <!-- DILG Cebu Province Page -->
+                          <!-- DILG Cebu Province Facebook News Feed -->
 
+                          <style>
+                            .news-wrapper {
+                              width: 100%;
+                              padding: 2rem 1rem;
+                              box-sizing: border-box;
+                            }
 
-                                                    <body style="margin: 0; padding: 0; font-family: sans-serif; background: url('your-background.jpg') no-repeat center center fixed; background-size: cover;">
+                            .news-container {
+                              width: min(100%, 760px);
+                              margin: 0 auto;
+                              padding: 1.5rem;
+                              background: rgba(255, 255, 255, 0.92);
+                              border: 1px solid rgba(0, 0, 0, 0.08);
+                              border-radius: 8px;
+                              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                              box-sizing: border-box;
+                            }
 
-                                                      <style>
-                                                        .news-container {
-                                                          width: 50%;
-                                                          margin: 0 auto;
-                                                          padding: 1rem;
-                                                          box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                                                          border-radius: 8px;
-                                                          background: white; /* This is important to block the background image */
-                                                          box-sizing: border-box;
-                                                        }
+                            .news-container h2 {
+                              margin: 0 0 1rem;
+                              color: #0f6684;
+                              font-size: 2rem;
+                              line-height: 1.2;
+                              text-align: center;
+                            }
 
-                                                        @media (max-width: 768px) {
-                                                          .news-container {
-                                                            width: 100%;
-                                                            border-radius: 0;
-                                                            box-shadow: none;
-                                                            padding: 0;
-                                                          }
-                                                        }
+                            .facebook-feed-frame {
+                              display: flex;
+                              justify-content: center;
+                              width: 100%;
+                              overflow: hidden;
+                            }
 
-                                                        iframe {
-                                                          width: 100%;
-                                                          height: 800px;
-                                                          border: none;
-                                                          border-radius: 4px;
-                                                        }
+                            .facebook-feed-fallback {
+                              margin-top: 1rem;
+                              text-align: center;
+                            }
 
-                                                        .news-wrapper {
-                                                          width: 100%;
-                                                          padding: 2rem 1rem;
-                                                          box-sizing: border-box;
-                                                        }
-                                                      </style>
+                            .facebook-feed-fallback a {
+                              color: #0f6684;
+                              font-weight: 700;
+                              text-decoration: none;
+                            }
 
-                                                      <div class="news-wrapper">
-                                                        <div class="news-container">
-                                                          <h2 style="text-align: center; margin-top: 0; font-size: 2rem;">📄 News & Updates</h2>
-                                                          <iframe 
-                                                            src="https://docs.google.com/document/d/e/2PACX-1vTteyXcc6DCNjOM_QX8zIqRnAM4Tj_QaDrbbf8XkbTxm2Hof9Qknve5-JlzIsZyDLvH1OzMww-_4fkJ/pub?embedded=true">
-                                                          </iframe>
-                                                        </div>
-                                                      </div>
+                            .facebook-feed-fallback a:hover {
+                              text-decoration: underline;
+                            }
 
-                                                    </body>
+                            @media (max-width: 768px) {
+                              .news-wrapper {
+                                padding: 1rem 0.75rem;
+                              }
+
+                              .news-container {
+                                padding: 1rem 0.5rem;
+                              }
+
+                              .news-container h2 {
+                                font-size: 1.5rem;
+                              }
+                            }
+                          </style>
+
+                          <div id="fb-root"></div>
+                          <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0"></script>
+
+                          <div class="news-wrapper">
+                            <div class="news-container">
+                              <h2>News &amp; Updates</h2>
+                              <div class="facebook-feed-frame">
+                                <div class="fb-page"
+                                     data-href="https://www.facebook.com/DILGCebuProvince"
+                                     data-tabs="timeline"
+                                     data-width="700"
+                                     data-height="850"
+                                     data-small-header="true"
+                                     data-adapt-container-width="true"
+                                     data-hide-cover="false"
+                                     data-show-facepile="false">
+                                  <blockquote cite="https://www.facebook.com/DILGCebuProvince" class="fb-xfbml-parse-ignore">
+                                    <a href="https://www.facebook.com/DILGCebuProvince">DILG Cebu Province</a>
+                                  </blockquote>
+                                </div>
+                              </div>
+                              <p class="facebook-feed-fallback">
+                                <a href="https://www.facebook.com/DILGCebuProvince" target="_blank" rel="noopener">Open DILG Cebu Province on Facebook</a>
+                              </p>
+                            </div>
+                          </div>
 
 
 
