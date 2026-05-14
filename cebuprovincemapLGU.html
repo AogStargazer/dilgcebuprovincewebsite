@@ -850,7 +850,7 @@
           .main-navigation .main-menu .dropdown-menu a:hover,
           .main-navigation .main-menu .dropdown-menu li.has-dropdown:hover > a {
             background: #f3f7fb;
-            color: #0056b3;
+            color: #000000;
             padding-left: 14px;
           }
 
@@ -1262,7 +1262,7 @@
 
     .cebu-map-stat strong {
       display: block;
-      color: #00466a;
+      color: #000000;
       font-size: 30px;
       line-height: 1;
       margin-bottom: 8px;
@@ -1324,7 +1324,7 @@
     .cebu-map-tooltip h2 {
       margin: 0 0 10px;
       font-size: 18px;
-      color: #0277bd;
+      color: #000000;
     }
 
     .cebu-map-tooltip p {
@@ -2942,9 +2942,9 @@ class UniversalSVGTooltipEngine {
       case 'link':
         const displayUrl = cleanValue.length > 30 ? cleanValue.substring(0, 30) + '...' : cleanValue;
         return { html: wrapWithFormat(`<a href="${sanitize(cleanValue)}" target="_blank" style="
-          color: #2196F3; 
+          color: #000000; 
           text-decoration: none; 
-          border-bottom: 1px dashed #2196F3;
+          border-bottom: 1px dashed #000000;
           word-break: break-all;
         " text-align: left;" onmouseover="this.style.textDecoration='underline'" 
         onmouseout="this.style.textDecoration='none'">
@@ -2953,16 +2953,16 @@ class UniversalSVGTooltipEngine {
 
       case 'email':
         return { html: wrapWithFormat(`<a href="mailto:${sanitize(cleanValue)}" style="
-          color: #2196F3; 
+          color: #000000; 
           text-decoration: none;
-          border-bottom: 1px dashed #2196F3;
+          border-bottom: 1px dashed #000000;
         " text-align: left;">📧 ${sanitize(cleanValue)}</a>`), extraClass };
 
       case 'phone':
         return { html: wrapWithFormat(`<a href="tel:${sanitize(cleanValue)}" style="
-          color: #2196F3; 
+          color: #000000; 
           text-decoration: none;
-          border-bottom: 1px dashed #2196F3;
+          border-bottom: 1px dashed #000000;
         " text-align: left;">📞 ${sanitize(cleanValue)}</a>`), extraClass };
 
       case 'html': {
@@ -3705,7 +3705,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -3727,7 +3727,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -4186,7 +4186,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 const lguGridConfig = {
-  R1C1: { key: "NameofLGU", label: "LGU", bold: true, fontsize: 18, fontcolor: "#083f5b" },
+  R1C1: { key: "NameofLGU", label: "LGU", bold: true, fontsize: 18, fontcolor: "#000000" },
   R2C1: { key: "Summary", label: "Summary", paragraph: true, fontsize: 12 },
   R3C1: { key: "Mayor", label: "Mayor", bold: true, fontsize: 13, contentType: "text" },
   R4C1: { key: "ViceMayor", label: "Vice Mayor", bold: true, fontsize: 13, contentType: "text" },
@@ -4467,7 +4467,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -4489,7 +4489,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -4637,7 +4637,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -4659,7 +4659,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -4807,7 +4807,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -4829,7 +4829,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -4976,7 +4976,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -4998,7 +4998,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -5145,7 +5145,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -5167,7 +5167,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -5314,7 +5314,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -5336,7 +5336,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -5450,7 +5450,7 @@ TUTORIAL: HOW TO USE GRIDCONFIG FORMATTING
 const gridConfig = {
   R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", italic: true, wrapchar: 60 },
-  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#0055aa", fontfamily: "Arial" },
+  R3C1: { key: "lgooName", label: "LGOO Name", fontcolor: "#000000", fontfamily: "Arial" },
   R4C1: { key: "lgooDesignation", label: "Designation", highlight: "#e0f7fa", horizontalalign: "center" }
 };
 
@@ -5472,7 +5472,7 @@ const gridConfig = {
 
 6. You can combine as many options as you want:
 
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#0055aa", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
+  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, italic: true, fontcolor: "#000000", fontsize: 18, fontfamily: "Arial", horizontalalign: "center" }
 
 --------------------------
 TIPS:
@@ -5671,7 +5671,7 @@ For more help, ask your developer or contact your website administrator.
         padding: 5px 10px !important;
         border: none !important;
         border-radius: 5px !important;
-        background: #2196F3 !important;
+        background: #000000 !important;
         color: #fff !important;
         font-size: 13px !important;
         cursor: pointer !important;

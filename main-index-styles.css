@@ -33,7 +33,7 @@ html body.home .container.grid-layout .text-content {
 
 /* Typography styles */
 html body.home .container.grid-layout .heading {
-  color: rgb(14, 98, 134); /* Primary brand color */
+  color: #000000;
   font-size: clamp(1.25rem, 3vw, 1.55rem);
   font-weight: bold;
   margin: 0 0 0.5rem 0;
@@ -64,11 +64,11 @@ html body.home .container.grid-layout .learn-more-container {
 
 /* Common button styles */
 html body.home .container.grid-layout .elementor-button {
-  --button-bg-color: #0e6286;
-  --button-hover-color: #094861;
+  --button-bg-color: #ffffff;
+  --button-hover-color: #f7f7f7;
   
   background-color: var(--button-bg-color);
-  color: white;
+  color: #000000;
   border-radius: 5px;
   text-decoration: none;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
