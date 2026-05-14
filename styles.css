@@ -1141,6 +1141,55 @@ a[href="index.html?p=1853.html"] {
     text-align: center;
 }
 
+/* -------------------- White Button Treatment -------------------- */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.elementor-button,
+.wp-block-button__link,
+.wp-block-file__button,
+.slider-nav {
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: #083f5b !important;
+    border: 1px solid rgba(8, 63, 91, 0.18) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08) !important;
+    text-decoration: none !important;
+    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+.elementor-button:hover,
+.wp-block-button__link:hover,
+.wp-block-file__button:hover,
+.slider-nav:hover {
+    background: #ffffff !important;
+    border-color: rgba(8, 63, 91, 0.38) !important;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12) !important;
+}
+
+button:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="reset"]:focus-visible,
+.elementor-button:focus-visible,
+.wp-block-button__link:focus-visible,
+.wp-block-file__button:focus-visible,
+.slider-nav:focus-visible {
+    outline: 2px solid rgba(8, 63, 91, 0.45) !important;
+    outline-offset: 2px;
+}
+
+.elementor-button .elementor-button-icon,
+.elementor-button .elementor-button-text,
+.slider-nav i {
+    color: inherit !important;
+}
+
 /* -------------------- Footer Menu Flex Layout for Desktop -------------------- */
 @media screen and (min-width: 769px) {
     /* Footer Menu: Flex layout with proper centering for wrapped rows */
