@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Cebu Province LGUs - DILG Cebu Province</title>
+  <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="main-index-styles.css" type="text/css" media="all" />
+  <style>
+    :root {
+      --lgu-blue: #0b5f83;
+      --lgu-blue-dark: #083f5b;
+      --lgu-gold: #f5b82e;
+      --lgu-ink: #17212b;
+      --lgu-muted: #5d6b78;
+      --lgu-line: #d9e3ea;
+      --lgu-surface: rgba(255, 255, 255, 0.94);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--lgu-ink);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.88)),
+        url("images/Cebu_Capitol_Compound.png") center top / cover fixed no-repeat;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .lgu-page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .lgu-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+    }
+
+    .lgu-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .lgu-brand img {
+      width: 74px;
+      height: 74px;
+      object-fit: contain;
+    }
+
+    .lgu-brand strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .lgu-brand span {
+      display: block;
+      color: var(--lgu-muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .lgu-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .lgu-nav a {
+      color: var(--lgu-ink);
+      text-decoration: none;
+      border: 1px solid var(--lgu-line);
+      background: rgba(255, 255, 255, 0.86);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .lgu-nav a:hover {
+      border-color: var(--lgu-blue);
+      color: var(--lgu-blue);
+    }
+
+    .lgu-hero {
+      background: var(--lgu-surface);
+      border: 1px solid var(--lgu-line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 12px 28px rgba(15, 34, 50, 0.08);
+    }
+
+    .lgu-eyebrow {
+      margin: 0 0 8px;
+      color: var(--lgu-blue);
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .lgu-hero h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lgu-hero p {
+      max-width: 760px;
+      margin: 14px 0 0;
+      color: var(--lgu-muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .lgu-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .lgu-stat {
+      background: var(--lgu-surface);
+      border: 1px solid var(--lgu-line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .lgu-stat strong {
+      display: block;
+      font-size: 26px;
+      color: var(--lgu-blue-dark);
+      line-height: 1;
+    }
+
+    .lgu-stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--lgu-muted);
+      font-size: 13px;
+    }
+
+    .lgu-controls {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) auto auto;
+      gap: 10px;
+      align-items: center;
+      background: var(--lgu-surface);
+      border: 1px solid var(--lgu-line);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .lgu-controls input,
+    .lgu-controls select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--lgu-line);
+      border-radius: 6px;
+      padding: 0 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--lgu-ink);
+    }
+
+    .lgu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lgu-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 210px;
+      background: var(--lgu-surface);
+      border: 1px solid var(--lgu-line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 8px 18px rgba(15, 34, 50, 0.06);
+    }
+
+    .lgu-card:hover {
+      border-color: rgba(11, 95, 131, 0.45);
+      transform: translateY(-2px);
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lgu-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .lgu-card h2 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .lgu-type {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: #eef7fb;
+      color: var(--lgu-blue-dark);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .lgu-type.city {
+      background: #fff3ce;
+      color: #775200;
+    }
+
+    .lgu-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .lgu-meta div {
+      border: 1px solid var(--lgu-line);
+      border-radius: 6px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .lgu-meta span {
+      display: block;
+      color: var(--lgu-muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .lgu-meta strong {
+      font-size: 16px;
+    }
+
+    .lgu-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .lgu-card-actions a,
+    .lgu-card-actions button {
+      border: 1px solid var(--lgu-blue);
+      border-radius: 6px;
+      background: var(--lgu-blue);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 9px 11px;
+    }
+
+    .lgu-card-actions button {
+      background: #fff;
+      color: var(--lgu-blue);
+    }
+
+    .lgu-map-panel {
+      margin-top: 18px;
+      background: var(--lgu-surface);
+      border: 1px solid var(--lgu-line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .lgu-map-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .lgu-map-frame {
+      width: 100%;
+      height: 420px;
+      border: 0;
+      border-radius: 6px;
+      background: #e9eef2;
+    }
+
+    .lgu-empty {
+      display: none;
+      background: var(--lgu-surface);
+      border: 1px dashed var(--lgu-line);
+      border-radius: 8px;
+      padding: 28px;
+      text-align: center;
+      color: var(--lgu-muted);
+    }
+
+    .lgu-source {
+      margin: 18px 0 0;
+      color: var(--lgu-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 960px) {
+      .lgu-grid,
+      .lgu-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lgu-controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .lgu-controls input {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .lgu-page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 12px;
+      }
+
+      .lgu-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .lgu-nav {
+        justify-content: flex-start;
+      }
+
+      .lgu-hero {
+        padding: 20px;
+      }
+
+      .lgu-grid,
+      .lgu-stats,
+      .lgu-controls,
+      .lgu-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .lgu-controls {
+        position: static;
+      }
+
+      .lgu-map-frame {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="lgu-page">
+    <header class="lgu-topbar">
+      <a class="lgu-brand" href="index.html">
+        <img src="images/logo.png" alt="DILG Cebu Province Logo" />
+        <span>
+          <strong>DILG Cebu Province</strong>
+          <span>Local Government Units Directory</span>
+        </span>
+      </a>
+      <nav class="lgu-nav" aria-label="Page navigation">
+        <a href="index.html">Home</a>
+        <a href="resourcelgu.html">Resources</a>
+        <a href="localgovtcode.html">Local Government Code</a>
+        <a href="contact-info.html">Contact</a>
+      </nav>
+    </header>
+
+    <section class="lgu-hero">
+      <p class="lgu-eyebrow">Province of Cebu</p>
+      <h1>Cities and Municipalities</h1>
+      <p>
+        Directory of the 50 local government units under Cebu Province:
+        6 component cities and 44 municipalities. Cebu City, Lapu-Lapu City,
+        and Mandaue City are excluded as highly urbanized cities.
+      </p>
+    </section>
+
+    <section class="lgu-stats" aria-label="LGU summary">
+      <div class="lgu-stat">
+        <strong>50</strong>
+        <span>Total LGUs listed</span>
+      </div>
+      <div class="lgu-stat">
+        <strong>6</strong>
+        <span>Component cities</span>
+      </div>
+      <div class="lgu-stat">
+        <strong>44</strong>
+        <span>Municipalities</span>
+      </div>
+      <div class="lgu-stat">
+        <strong>1,066</strong>
+        <span>Barangays</span>
+      </div>
+    </section>
+
+    <section class="lgu-controls" aria-label="LGU filters">
+      <input id="lguSearch" type="search" placeholder="Search city or municipality" aria-label="Search city or municipality" />
+      <select id="lguType" aria-label="Filter by type">
+        <option value="all">All LGUs</option>
+        <option value="Component City">Component cities</option>
+        <option value="Municipality">Municipalities</option>
+      </select>
+      <select id="lguSort" aria-label="Sort LGUs">
+        <option value="name">Sort by name</option>
+        <option value="barangays-desc">Most barangays</option>
+        <option value="barangays-asc">Fewest barangays</option>
+      </select>
+    </section>
+
+    <section id="lguGrid" class="lgu-grid" aria-live="polite"></section>
+    <section id="lguEmpty" class="lgu-empty">No LGUs matched your search.</section>
+
+    <section class="lgu-map-panel" aria-label="Selected LGU map">
+      <h2 id="mapTitle" class="lgu-map-title">Map preview: Province of Cebu</h2>
+      <iframe
+        id="mapFrame"
+        class="lgu-map-frame"
+        title="Cebu Province Map"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=Cebu%20Province%2C%20Philippines&amp;t=&amp;z=9&amp;ie=UTF8&amp;iwloc=&amp;output=embed">
+      </iframe>
+    </section>
+
+    <p class="lgu-source">
+      LGU names, PSGC codes, and barangay counts are based on Philippine Standard Geographic Code records retrieved for Cebu Province.
+    </p>
+  </main>
+
+  <script>
+    const cebuLgus = [
+      { name: "Alcantara", type: "Municipality", code: "0702201000", barangays: 9, mapQuery: "Alcantara, Cebu, Philippines" },
+      { name: "Alcoy", type: "Municipality", code: "0702202000", barangays: 8, mapQuery: "Alcoy, Cebu, Philippines" },
+      { name: "Alegria", type: "Municipality", code: "0702203000", barangays: 9, mapQuery: "Alegria, Cebu, Philippines" },
+      { name: "Aloguinsan", type: "Municipality", code: "0702204000", barangays: 15, mapQuery: "Aloguinsan, Cebu, Philippines" },
+      { name: "Argao", type: "Municipality", code: "0702205000", barangays: 45, mapQuery: "Argao, Cebu, Philippines" },
+      { name: "Asturias", type: "Municipality", code: "0702206000", barangays: 27, mapQuery: "Asturias, Cebu, Philippines" },
+      { name: "Badian", type: "Municipality", code: "0702207000", barangays: 29, mapQuery: "Badian, Cebu, Philippines" },
+      { name: "Balamban", type: "Municipality", code: "0702208000", barangays: 28, mapQuery: "Balamban, Cebu, Philippines" },
+      { name: "Bantayan", type: "Municipality", code: "0702209000", barangays: 25, mapQuery: "Bantayan, Cebu, Philippines" },
+      { name: "Barili", type: "Municipality", code: "0702210000", barangays: 42, mapQuery: "Barili, Cebu, Philippines" },
+      { name: "City of Bogo", type: "Component City", code: "0702211000", barangays: 29, mapQuery: "Bogo, Cebu, Philippines" },
+      { name: "Boljoon", type: "Municipality", code: "0702212000", barangays: 11, mapQuery: "Boljoon, Cebu, Philippines" },
+      { name: "Borbon", type: "Municipality", code: "0702213000", barangays: 19, mapQuery: "Borbon, Cebu, Philippines" },
+      { name: "City of Carcar", type: "Component City", code: "0702214000", barangays: 15, mapQuery: "Carcar, Cebu, Philippines" },
+      { name: "Carmen", type: "Municipality", code: "0702215000", barangays: 21, mapQuery: "Carmen, Cebu, Philippines" },
+      { name: "Catmon", type: "Municipality", code: "0702216000", barangays: 20, mapQuery: "Catmon, Cebu, Philippines" },
+      { name: "Compostela", type: "Municipality", code: "0702218000", barangays: 17, mapQuery: "Compostela, Cebu, Philippines" },
+      { name: "Consolacion", type: "Municipality", code: "0702219000", barangays: 21, mapQuery: "Consolacion, Cebu, Philippines" },
+      { name: "Cordova", type: "Municipality", code: "0702220000", barangays: 13, mapQuery: "Cordova, Cebu, Philippines" },
+      { name: "Daanbantayan", type: "Municipality", code: "0702221000", barangays: 20, mapQuery: "Daanbantayan, Cebu, Philippines" },
+      { name: "Dalaguete", type: "Municipality", code: "0702222000", barangays: 33, mapQuery: "Dalaguete, Cebu, Philippines" },
+      { name: "Danao City", type: "Component City", code: "0702223000", barangays: 42, mapQuery: "Danao City, Cebu, Philippines" },
+      { name: "Dumanjug", type: "Municipality", code: "0702224000", barangays: 37, mapQuery: "Dumanjug, Cebu, Philippines" },
+      { name: "Ginatilan", type: "Municipality", code: "0702225000", barangays: 14, mapQuery: "Ginatilan, Cebu, Philippines" },
+      { name: "Liloan", type: "Municipality", code: "0702227000", barangays: 14, mapQuery: "Liloan, Cebu, Philippines" },
+      { name: "Madridejos", type: "Municipality", code: "0702228000", barangays: 14, mapQuery: "Madridejos, Cebu, Philippines" },
+      { name: "Malabuyoc", type: "Municipality", code: "0702229000", barangays: 14, mapQuery: "Malabuyoc, Cebu, Philippines" },
+      { name: "Medellin", type: "Municipality", code: "0702231000", barangays: 19, mapQuery: "Medellin, Cebu, Philippines" },
+      { name: "Minglanilla", type: "Municipality", code: "0702232000", barangays: 19, mapQuery: "Minglanilla, Cebu, Philippines" },
+      { name: "Moalboal", type: "Municipality", code: "0702233000", barangays: 15, mapQuery: "Moalboal, Cebu, Philippines" },
+      { name: "City of Naga", type: "Component City", code: "0702234000", barangays: 28, mapQuery: "Naga, Cebu, Philippines" },
+      { name: "Oslob", type: "Municipality", code: "0702235000", barangays: 21, mapQuery: "Oslob, Cebu, Philippines" },
+      { name: "Pilar", type: "Municipality", code: "0702236000", barangays: 13, mapQuery: "Pilar, Cebu, Philippines" },
+      { name: "Pinamungajan", type: "Municipality", code: "0702237000", barangays: 26, mapQuery: "Pinamungajan, Cebu, Philippines" },
+      { name: "Poro", type: "Municipality", code: "0702238000", barangays: 17, mapQuery: "Poro, Cebu, Philippines" },
+      { name: "Ronda", type: "Municipality", code: "0702239000", barangays: 14, mapQuery: "Ronda, Cebu, Philippines" },
+      { name: "Samboan", type: "Municipality", code: "0702240000", barangays: 15, mapQuery: "Samboan, Cebu, Philippines" },
+      { name: "San Fernando", type: "Municipality", code: "0702241000", barangays: 21, mapQuery: "San Fernando, Cebu, Philippines" },
+      { name: "San Francisco", type: "Municipality", code: "0702242000", barangays: 15, mapQuery: "San Francisco, Cebu, Philippines" },
+      { name: "San Remigio", type: "Municipality", code: "0702243000", barangays: 27, mapQuery: "San Remigio, Cebu, Philippines" },
+      { name: "Santa Fe", type: "Municipality", code: "0702244000", barangays: 10, mapQuery: "Santa Fe, Cebu, Philippines" },
+      { name: "Santander", type: "Municipality", code: "0702245000", barangays: 10, mapQuery: "Santander, Cebu, Philippines" },
+      { name: "Sibonga", type: "Municipality", code: "0702246000", barangays: 25, mapQuery: "Sibonga, Cebu, Philippines" },
+      { name: "Sogod", type: "Municipality", code: "0702247000", barangays: 18, mapQuery: "Sogod, Cebu, Philippines" },
+      { name: "Tabogon", type: "Municipality", code: "0702248000", barangays: 25, mapQuery: "Tabogon, Cebu, Philippines" },
+      { name: "Tabuelan", type: "Municipality", code: "0702249000", barangays: 12, mapQuery: "Tabuelan, Cebu, Philippines" },
+      { name: "City of Talisay", type: "Component City", code: "0702250000", barangays: 22, mapQuery: "Talisay, Cebu, Philippines" },
+      { name: "City of Toledo", type: "Component City", code: "0702251000", barangays: 38, mapQuery: "Toledo, Cebu, Philippines" },
+      { name: "Tuburan", type: "Municipality", code: "0702252000", barangays: 54, mapQuery: "Tuburan, Cebu, Philippines" },
+      { name: "Tudela", type: "Municipality", code: "0702253000", barangays: 11, mapQuery: "Tudela, Cebu, Philippines" }
+    ];
+
+    const grid = document.getElementById("lguGrid");
+    const empty = document.getElementById("lguEmpty");
+    const search = document.getElementById("lguSearch");
+    const type = document.getElementById("lguType");
+    const sort = document.getElementById("lguSort");
+    const mapTitle = document.getElementById("mapTitle");
+    const mapFrame = document.getElementById("mapFrame");
+
+    function mapEmbedUrl(query) {
+      return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=11&ie=UTF8&iwloc=&output=embed`;
+    }
+
+    function mapLinkUrl(query) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
+
+    function renderCards() {
+      const term = search.value.trim().toLowerCase();
+      const selectedType = type.value;
+      const sortMode = sort.value;
+
+      const filtered = cebuLgus
+        .filter(lgu => selectedType === "all" || lgu.type === selectedType)
+        .filter(lgu => lgu.name.toLowerCase().includes(term))
+        .sort((a, b) => {
+          if (sortMode === "barangays-desc") return b.barangays - a.barangays || a.name.localeCompare(b.name);
+          if (sortMode === "barangays-asc") return a.barangays - b.barangays || a.name.localeCompare(b.name);
+          return a.name.localeCompare(b.name);
+        });
+
+      grid.innerHTML = filtered.map(lgu => `
+        <article class="lgu-card">
+          <div class="lgu-card-header">
+            <h2>${lgu.name}</h2>
+            <span class="lgu-type ${lgu.type === "Component City" ? "city" : ""}">${lgu.type}</span>
+          </div>
+          <div class="lgu-meta">
+            <div>
+              <span>Barangays</span>
+              <strong>${lgu.barangays}</strong>
+            </div>
+            <div>
+              <span>PSGC</span>
+              <strong>${lgu.code}</strong>
+            </div>
+          </div>
+          <div class="lgu-card-actions">
+            <button type="button" data-map="${lgu.mapQuery}" data-name="${lgu.name}">Preview Map</button>
+            <a href="${mapLinkUrl(lgu.mapQuery)}" target="_blank" rel="noopener">Open in Maps</a>
+          </div>
+        </article>
+      `).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+
+      grid.querySelectorAll("button[data-map]").forEach(button => {
+        button.addEventListener("click", () => {
+          mapTitle.textContent = `Map preview: ${button.dataset.name}`;
+          mapFrame.src = mapEmbedUrl(button.dataset.map);
+          mapFrame.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      });
+    }
+
+    [search, type, sort].forEach(control => {
+      control.addEventListener("input", renderCards);
+      control.addEventListener("change", renderCards);
+    });
+
+    renderCards();
+  </script>
+</body>
+</html>

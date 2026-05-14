@@ -268,19 +268,20 @@
       /* Consolidated Image Row CSS */
       .image-row {
         display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 0;
-        overflow-x: auto;
-      }
-      .image-row a {
-        display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        padding: 10px 0;
+        overflow-x: visible;
+      }
+      .image-row a {
+        display: flex;
+        flex: 0 1 170px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
         padding: 10px 0;
       }
       
@@ -291,7 +292,8 @@
         transform: translateY(-5px);
       }
       .image-row img {
-        max-width: 100%;
+        width: 100%;
+        max-width: 170px;
         height: auto;
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -301,13 +303,14 @@
           flex-wrap: wrap;
           justify-content: center;
         }
-        
+
         /* Touch-friendly adjustments */
         .image-row a {
+          flex-basis: 150px;
           padding: 8px;
           margin: 5px;
         }
-        
+
         .image-row img {
           max-width: 150px;
         }
@@ -938,6 +941,7 @@
                       <li><a href="organizationalchartchief.html">Key Officials &amp; Management</a></li>
                       <li><a href="#">Organizational Structure</a></li>
                       <li><a href="cebuprovincemap.html">Cebu Province Field Officers</a></li>
+                      <li><a href="cebuprovincemapLGU.html">Cebu Province LGUs</a></li>
                       <li><a href="attachedagencies.html">Attached Agencies</a></li>
 
                   <li class="has-dropdown">
@@ -981,6 +985,8 @@
                   <li class="has-dropdown">
                     <a href="#">LGU's</a>
                     <ul class="dropdown-menu">
+
+                      <!-- <li><a href="lgus.html">Cebu Province LGUs Directory</a></li> -->
 
                      <!-- Existing submenu for LGUs -->
                       <li class="has-dropdown">
@@ -1789,7 +1795,7 @@
   </li>
   <li><a href="news.html">News</a></li>
   <li class="has-dropdown">
-  <a href="#">LGU's</a>
+  <a href="lgus.html">LGU's</a>
   <ul class="dropdown-menu">
   </ul>
   </li>

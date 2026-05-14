@@ -2728,7 +2728,10 @@ class UniversalSVGTooltipEngine {
     }
 
     // Strategy 12: Date detection
-    if (!isNaN(Date.parse(value))) {
+    // Date.parse is intentionally loose and can treat text like "Barangays: 10"
+    // as a date. Only classify strings that visibly look like dates.
+    const dateLikePattern = /^(?:\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]\d{2,4}|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+\d{1,2},?\s+\d{2,4}|\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+\d{2,4})$/i;
+    if (dateLikePattern.test(value.trim()) && !isNaN(Date.parse(value))) {
       return 'date';
     }
 
@@ -2763,7 +2766,7 @@ class UniversalSVGTooltipEngine {
 
     // Remove type prefix if present
     const cleanValue = value.toString().replace(/^(img:|video:|audio:|html:|link:|emoji:|icon:|text:)/, '');
-    const contentType = this.detectContentType(value);
+    const contentType = cellConfig.contentType || this.detectContentType(value);
 
     // Custom renderer support
     const customRenderers = this.options.customRenderers || {};
@@ -3213,7 +3216,7 @@ class UniversalSVGTooltipEngine {
               break;
             }
           }
-          const contentType = this.detectContentType(cell.value);
+          const contentType = cellConfig.contentType || this.detectContentType(cell.value);
           if (isLastFilled && (contentType === 'text' || contentType === 'paragraph')) {
             const { html, extraClass } = this.renderContent(cell.value, cell.key, cellConfig);
             gridHTML += `<div class="usvg-tooltip-cell usvg-tooltip-cell-span${extraClass}" style="grid-row: ${row}; grid-column: ${col} / ${maxCol + 1};">
@@ -3248,7 +3251,11 @@ class UniversalSVGTooltipEngine {
    * Normalizes a raw region name into a consistent key.
    */
   _normalizeKey(rawName) {
-    return rawName.replace(/\s+/g, "").toUpperCase();
+    return rawName
+      .trim()
+      .replace(/[\s-]+/g, "_")
+      .replace(/_+/g, "_")
+      .toUpperCase();
   }
 
   /**
@@ -4084,6 +4091,196 @@ window.universalMapEngine = universalMapEngine;
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = UniversalSVGTooltipEngine;
 }
+
+const lguGridConfig = {
+  R1C1: { key: "NameofLGU", label: "LGU", bold: true, fontsize: 18, fontcolor: "#083f5b" },
+  R2C1: { key: "Summary", label: "Summary", paragraph: true, fontsize: 12 },
+  R3C1: { key: "Mayor", label: "Mayor", bold: true, fontsize: 13, contentType: "text" },
+  R4C1: { key: "ViceMayor", label: "Vice Mayor", bold: true, fontsize: 13, contentType: "text" },
+  R5C1: { key: "BarangayCount", label: "Barangays", bold: true, fontsize: 14, contentType: "text" },
+  R6C1: { key: "PSGC", label: "PSGC", fontsize: 12, contentType: "text" },
+  R7C1: { key: "Map", label: "Map" },
+  R8C1: { key: "Barangays", label: "Barangay List", fontsize: 12, contentType: "text" }
+};
+
+const lguTooltipData = {
+  "ALCANTARA": {"NameofLGU":"Alcantara","Summary":"Alcantara is a Municipality of Cebu Province.","BarangayCount":"Barangays: 9","PSGC":"PSGC: 0702201000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Alcantara%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Cabadiangan, Cabil-isan, Candabong, Lawaan, Manga, Palanas, Poblacion, Polo, Salagmaya"},
+  "ALCOY": {"NameofLGU":"Alcoy","Summary":"Alcoy is a Municipality of Cebu Province.","BarangayCount":"Barangays: 8","PSGC":"PSGC: 0702202000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Alcoy%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Atabay, Daan-Lungsod, Guiwang, Nug-as, Pasol, Poblacion, Pugalo, San Agustin"},
+  "ALEGRIA": {"NameofLGU":"Alegria","Summary":"Alegria is a Municipality of Cebu Province.","BarangayCount":"Barangays: 9","PSGC":"PSGC: 0702203000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Alegria%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Compostela, Guadalupe, Legaspi, Lepanto, Madridejos, Montpeller, Poblacion, Santa Filomena, Valencia"},
+  "ALOGUINSAN": {"NameofLGU":"Aloguinsan","Summary":"Aloguinsan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 15","PSGC":"PSGC: 0702204000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Aloguinsan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Angilan, Bojo, Bonbon, Esperanza, Kandingan, Kantabogon, Kawasan, Olango, Poblacion, Punay, Rosario, Saksak, Tampa-an, Toyokon, Zaragosa"},
+  "ARGAO": {"NameofLGU":"Argao","Summary":"Argao is a Municipality of Cebu Province.","BarangayCount":"Barangays: 45","PSGC":"PSGC: 0702205000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Argao%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alambijud, Anajao, Apo, Balaas, Balisong, Binlod, Bogo, Bug-ot, Bulasa, Butong, Calagasan, Canbantug, Canbanua, Cansuje, Capio-an, Casay, Catang, Colawin, Conalum, Guiwanon, Gutlang, Jampang, Jomgao, Lamacan, Langtad, Langub, Lapay, Lengigon, Linut-od, Mabasa, Mandilikit, Mompeller, Panadtaran, Poblacion, Sua, Sumaguan, Tabayag, Talaga, Talaytay, Talo-ot, Tiguib, Tulang, Tulic, Ubaub, Usmad"},
+  "ASTURIAS": {"NameofLGU":"Asturias","Summary":"Asturias is a Municipality of Cebu Province.","BarangayCount":"Barangays: 27","PSGC":"PSGC: 0702206000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Asturias%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Agbanga, Agtugop, Bago, Bairan, Banban, Baye, Bog-o, Kaluangan, Lanao, Langub, Looc Norte, Lunas, Magcalape, Manguiao, New Bago, Owak, Poblacion, Saksak, San Isidro, San Roque, Santa Lucia, Santa Rita, Tag-amakan, Tagbubonga, Tubigagmanok, Tubod, Ubogon"},
+  "BADIAN": {"NameofLGU":"Badian","Summary":"Badian is a Municipality of Cebu Province.","BarangayCount":"Barangays: 29","PSGC":"PSGC: 0702207000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Badian%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alawijao, Balhaan, Banhigan, Basak, Basiao, Bato, Bugas, Calangcang, Candiis, Dagatan, Dobdob, Ginablan, Lambug, Malabago, Malhiao, Manduyong, Matutinao, Patong, Poblacion, Sanlagan, Santicon, Sohoton, Sulsugan, Talayong, Taytay, Tigbao, Tiguib, Tubod, Zaragosa"},
+  "BALAMBAN": {"NameofLGU":"Balamban","Summary":"Balamban is a Municipality of Cebu Province.","BarangayCount":"Barangays: 28","PSGC":"PSGC: 0702208000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Balamban%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Abucayan, Aliwanay, Arpili, Baliwagan (Pob.), Bayong, Biasong, Buanoy, Cabagdalan, Cabasiangan, Cambuhawe, Cansomoroy, Cantibas, Cantuod, Duangan, Gaas, Ginatilan, Hingatmonan, Lamesa, Liki, Luca, Matun-og, Nangka, Pondol, Prenza, Santa Cruz-Santo Niño (Pob.), Singsing, Sunog, Vito"},
+  "BANTAYAN": {"NameofLGU":"Bantayan","Summary":"Bantayan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 25","PSGC":"PSGC: 0702209000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Bantayan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Atop-atop, Baigad, Bantigue (Pob.), Baod, Binaobao (Pob.), Botigues, Doong, Guiwanon, Hilotongan, Kabac, Kabangbang, Kampingganon, Kangkaibe, Lipayran, Luyongbaybay, Mojon, Obo-ob, Patao, Putian, Sillon, Suba (Pob.), Sulangan, Sungko, Tamiao, Ticad (Pob.)"},
+  "BARILI": {"NameofLGU":"Barili","Summary":"Barili is a Municipality of Cebu Province.","BarangayCount":"Barangays: 42","PSGC":"PSGC: 0702210000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Barili%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Azucena, Bagakay, Balao, Bolocboloc, Budbud, Bugtong Kawayan, Cabcaban, Cagay, Campangga, Candugay, Dakit, Giloctog, Giwanon, Guibuangan, Gunting, Hilasgasan, Japitan, Kalubihan, Kangdampas, Luhod, Lupo, Luyo, Maghanoy, Maigang, Malolos, Mantalongon, Mantayupan, Mayana, Minolos, Nabunturan, Nasipit, Pancil, Pangpang, Paril, Patupat, Poblacion, San Rafael, Santa Ana, Sayaw, Tal-ot, Tubod, Vito"},
+  "BOGO_CITY": {"NameofLGU":"Bogo City","Summary":"Bogo City is a Component City of Cebu Province.","BarangayCount":"Barangays: 29","PSGC":"PSGC: 0702211000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Bogo%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Anonang Norte, Anonang Sur, Banban, Binabag, Bungtod (Pob.), Carbon (Pob.), Cayang, Cogon (Pob.), Dakit, Don Pedro Rodriguez, Gairan, Guadalupe, La Paz, La Purisima Concepcion (Pob.), Libertad, Lourdes (Pob.), Malingin, Marangog, Nailon, Odlot, Pandan, Polambato, Sambag (Pob.), San Vicente (Pob.), Santo Niño, Santo Rosario (Pob.), Siocon, Sudlonon, Taytayan"},
+  "BOLJOON": {"NameofLGU":"Boljoon","Summary":"Boljoon is a Municipality of Cebu Province.","BarangayCount":"Barangays: 11","PSGC":"PSGC: 0702212000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Boljoon%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Arbor, Baclayan, El Pardo, Granada, Lower Becerril, Lunop, Nangka, Poblacion, San Antonio, South Granada, Upper Becerril"},
+  "BORBON": {"NameofLGU":"Borbon","Summary":"Borbon is a Municipality of Cebu Province.","BarangayCount":"Barangays: 19","PSGC":"PSGC: 0702213000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Borbon%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bagacay, Bili, Bingay, Bongdo, Bongdo Gua, Bongoyan, Cadaruhan, Cajel, Campusong, Clavera, Don Gregorio Antigua, Laaw, Lugo, Managase, Poblacion, Sagay, San Jose, Tabunan, Tagnucan"},
+  "CARCAR_CITY": {"NameofLGU":"Carcar City","Summary":"Carcar City is a Component City of Cebu Province.","BarangayCount":"Barangays: 15","PSGC":"PSGC: 0702214000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Carcar%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bolinawan, Buenavista, Calidngan, Can-asujan, Guadalupe, Liburon, Napo, Ocana, Perrelos, Poblacion I, Poblacion II, Poblacion III, Tuyom, Valencia, Valladolid"},
+  "CARMEN": {"NameofLGU":"Carmen","Summary":"Carmen is a Municipality of Cebu Province.","BarangayCount":"Barangays: 21","PSGC":"PSGC: 0702215000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Carmen%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Baring, Cantipay, Cantukong, Cantumog, Caurasan, Cogon East, Cogon West, Corte, Dawis Norte, Dawis Sur, Hagnaya, Ipil, Lanipga, Liboron, Lower Natimao-an, Luyang, Poblacion, Puente, Sac-on, Triumfo, Upper Natimao-an"},
+  "CATMON": {"NameofLGU":"Catmon","Summary":"Catmon is a Municipality of Cebu Province.","BarangayCount":"Barangays: 20","PSGC":"PSGC: 0702216000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Catmon%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Agsuwao, Amancion, Anapog, Bactas, Basak, Binongkalan, Bongyas, Cabungaan, Cambangkaya, Can-ibuang, Catmondaan, Corazon (Pob.), Duyan, Flores (Pob.), Ginabucan, Macaas, Panalipan, San Jose Pob., Tabili, Tinabyonan"},
+  "COMPOSTELA": {"NameofLGU":"Compostela","Summary":"Compostela is a Municipality of Cebu Province.","BarangayCount":"Barangays: 17","PSGC":"PSGC: 0702218000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Compostela%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bagalnga, Basak, Buluang, Cabadiangan, Cambayog, Canamucan, Cogon, Dapdap, Estaca, Lupa, Magay, Mulao, Panangban, Poblacion, Tag-ube, Tamiao, Tubigan"},
+  "CONSOLACION": {"NameofLGU":"Consolacion","Summary":"Consolacion is a Municipality of Cebu Province.","BarangayCount":"Barangays: 21","PSGC":"PSGC: 0702219000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Consolacion%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Cabangahan, Cansaga, Casili, Danglag, Garing, Jugan, Lamac, Lanipga, Nangka, Panas, Panoypoy, Pitogo, Poblacion Occidental, Poblacion Oriental, Polog, Pulpogan, Sacsac, Tayud, Tilhaong, Tolotolo, Tugbongan"},
+  "CORDOVA": {"NameofLGU":"Cordova","Summary":"Cordova is a Municipality of Cebu Province.","BarangayCount":"Barangays: 13","PSGC":"PSGC: 0702220000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Cordova%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alegria, Bangbang, Buagsong, Catarman, Cogon, Dapitan, Day-as, Gabi, Gilutongan, Ibabao, Pilipog, Poblacion, San Miguel"},
+  "DAANBANTAYAN": {"NameofLGU":"Daanbantayan","Summary":"Daanbantayan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 20","PSGC":"PSGC: 0702221000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Daanbantayan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Aguho, Bagay, Bakhawan, Bateria, Bitoon, Calape, Carnaza, Dalingding, Lanao, Logon, Malbago, Malingin, Maya, Pajo, Paypay, Poblacion, Talisay, Tapilon, Tinubdan, Tominjao"},
+  "DALAGUETE": {"NameofLGU":"Dalaguete","Summary":"Dalaguete is a Municipality of Cebu Province.","BarangayCount":"Barangays: 33","PSGC":"PSGC: 0702222000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Dalaguete%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Ablayan, Babayongan, Balud, Banhigan, Bulak, Caleriohan, Caliongan, Casay, Catolohan, Cawayan, Consolacion, Coro, Dugyan, Dumalan, Jolomaynon, Lanao, Langkas, Lumbang, Malones, Maloray, Mananggal, Manlapay, Mantalongon, Nalhub, Obo, Obong, Panas, Poblacion, Sacsac, Salug, Tabon, Tapun, Tuba"},
+  "DANAO_CITY": {"NameofLGU":"Danao City","Summary":"Danao City is a Component City of Cebu Province.","BarangayCount":"Barangays: 42","PSGC":"PSGC: 0702223000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Danao%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Baliang, Bayabas, Binaliw, Cabungahan, Cagat-Lamac, Cahumayan, Cambanay, Cambubho, Cogon-Cruz, Danasan, Dungga, Dunggoan, Guinacot, Guinsay, Ibo, Langosig, Lawaan, Licos, Looc, Magtagobtob, Malapoc, Manlayag, Mantija, Masaba, Maslog, Nangka, Oguis, Pili, Poblacion, Quisol, Sabang, Sacsac, Sandayong Norte, Sandayong Sur, Santa Rosa, Santican, Sibacan, Suba, Taboc, Taytay, Togonon, Tuburan Sur"},
+  "DUMANJUG": {"NameofLGU":"Dumanjug","Summary":"Dumanjug is a Municipality of Cebu Province.","BarangayCount":"Barangays: 37","PSGC":"PSGC: 0702224000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Dumanjug%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Balaygtiki, Bitoon, Bulak, Bullogan, Calaboon, Camboang, Candabong, Cogon, Cotcoton, Doldol, Ilaya (Pob.), Kabalaasnan, Kabatbatan, Kambanog, Kang-actol, Kanghalo, Kanghumaod, Kanguha, Kantangkas, Kanyuko, Kolabtingon, Lamak, Lawaan, Liong, Manlapay, Masa, Matalao, Paculob, Panlaan, Pawa, Poblacion Central, Poblacion Looc, Poblacion Sima, Tangil, Tapon, Tubod-Bitoon, Tubod-Dugoan"},
+  "GINATILAN": {"NameofLGU":"Ginatilan","Summary":"Ginatilan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 14","PSGC":"PSGC: 0702225000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Ginatilan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Anao, Cagsing, Calabawan, Cambagte, Campisong, Canorong, Guiwanon, Looc, Malatbo, Mangaco, Palanas, Poblacion, Salamanca, San Roque"},
+  "LILOAN": {"NameofLGU":"Liloan","Summary":"Liloan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 14","PSGC":"PSGC: 0702227000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Liloan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Cabadiangan, Calero, Catarman, Cotcot, Jubay, Lataban, Mulao, Poblacion, San Roque, San Vicente, Santa Cruz, Tabla, Tayud, Yati"},
+  "MADRIDEJOS": {"NameofLGU":"Madridejos","Summary":"Madridejos is a Municipality of Cebu Province.","BarangayCount":"Barangays: 14","PSGC":"PSGC: 0702228000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Madridejos%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bunakan, Kangwayan, Kaongkod, Kodia, Maalat, Malbago, Mancilang, Pili, Poblacion, San Agustin, Tabagak, Talangnan, Tarong, Tugas"},
+  "MALABUYOC": {"NameofLGU":"Malabuyoc","Summary":"Malabuyoc is a Municipality of Cebu Province.","BarangayCount":"Barangays: 14","PSGC":"PSGC: 0702229000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Malabuyoc%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Armeña, Barangay I (Pob.), Barangay II (Pob.), Cerdeña, Labrador, Lombo, Looc, Mahanlud, Mindanao, Montañeza, Salmeron, Santo Niño, Sorsogon, Tolosa"},
+  "MEDELLIN": {"NameofLGU":"Medellin","Summary":"Medellin is a Municipality of Cebu Province.","BarangayCount":"Barangays: 19","PSGC":"PSGC: 0702231000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Medellin%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Antipolo, Canhabagat, Caputatan Norte, Caputatan Sur, Curva, Daanlungsod, Dalingding Sur, Dayhagon, Don Virgilio Gonzales, Gibitngil, Kawit, Lamintak Norte, Lamintak Sur, Luy-a, Maharuhay, Mahawak, Panugnawan, Poblacion, Tindog"},
+  "MINGLANILLA": {"NameofLGU":"Minglanilla","Summary":"Minglanilla is a Municipality of Cebu Province.","BarangayCount":"Barangays: 19","PSGC":"PSGC: 0702232000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Minglanilla%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Cadulawan, Calajo-an, Camp 7, Camp 8, Cuanos, Guindaruhan, Linao, Manduang, Pakigne, Poblacion Ward I, Poblacion Ward II, Poblacion Ward III, Poblacion Ward IV, Tubod, Tulay, Tunghaan, Tungkil, Tungkop, Vito"},
+  "MOALBOAL": {"NameofLGU":"Moalboal","Summary":"Moalboal is a Municipality of Cebu Province.","BarangayCount":"Barangays: 15","PSGC":"PSGC: 0702233000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Moalboal%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Agbalanga, Bala, Balabagon, Basdiot, Batadbatad, Bugho, Buguil, Busay, Lanao, Poblacion East, Poblacion West, Saavedra, Tomonoy, Tuble, Tunga"},
+  "NAGA_CITY": {"NameofLGU":"Naga City","Summary":"Naga City is a Component City of Cebu Province.","BarangayCount":"Barangays: 28","PSGC":"PSGC: 0702234000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Naga%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alfaco, Bairan, Balirong, Cabungahan, Cantao-an, Central Poblacion, Cogon, Colon, East Poblacion, Inayagan, Inoburan, Jaguimit, Lanas, Langtad, Lutac, Mainit, Mayana, Naalad, North Poblacion, Pangdan, Patag, South Poblacion, Tagjaguimit, Tangke, Tinaan, Tuyan, Uling, West Poblacion"},
+  "OSLOB": {"NameofLGU":"Oslob","Summary":"Oslob is a Municipality of Cebu Province.","BarangayCount":"Barangays: 21","PSGC":"PSGC: 0702235000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Oslob%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alo, Bangcogon, Bonbon, Calumpang, Cañang, Canangca-an, Cansalo-ay, Can-ukban, Daanlungsod, Gawi, Hagdan, Lagunde, Looc, Luka, Mainit, Manlum, Nueva Caceres, Poblacion, Pungtod, Tan-awan, Tumalog"},
+  "PILAR": {"NameofLGU":"Pilar","Summary":"Pilar is a Municipality of Cebu Province.","BarangayCount":"Barangays: 13","PSGC":"PSGC: 0702236000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Pilar%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Biasong, Cawit, Dapdap, Esperanza, Imelda, Lanao, Lower Poblacion, Moabog, Montserrat, San Isidro, San Juan, Upper Poblacion, Villahermosa"},
+  "PINAMUNGAJAN": {"NameofLGU":"Pinamungajan","Summary":"Pinamungajan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 26","PSGC":"PSGC: 0702237000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Pinamungajan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Anislag, Anopog, Binabag, Buhingtubig, Busay, Butong, Cabiangon, Camugao, Duangan, Guimbawian, Lamac, Lut-od, Mangoto, Opao, Pandacan, Poblacion, Punod, Rizal, Sacsac, Sambagon, Sibago, Tajao, Tangub, Tanibag, Tupas, Tutay"},
+  "PORO": {"NameofLGU":"Poro","Summary":"Poro is a Municipality of Cebu Province.","BarangayCount":"Barangays: 17","PSGC":"PSGC: 0702238000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Poro%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Adela, Altavista, Cagcagan, Cansabusab, Daan Paz, Eastern Poblacion, Esperanza, Libertad, Mabini, Mercedes, Pagsa, Paz, Rizal, San Jose, Santa Rita, Teguis, Western Poblacion"},
+  "RONDA": {"NameofLGU":"Ronda","Summary":"Ronda is a Municipality of Cebu Province.","BarangayCount":"Barangays: 14","PSGC":"PSGC: 0702239000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Ronda%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Butong, Can-abuhon, Canduling, Cansalonoy, Cansayahon, Ilaya, Langin, Libo-o, Malalay, Palanas, Poblacion, Santa Cruz, Tupas, Vive"},
+  "SAMBOAN": {"NameofLGU":"Samboan","Summary":"Samboan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 15","PSGC":"PSGC: 0702240000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Samboan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Basak, Bonbon, Bulangsuran, Calatagan, Cambigong, Camburoy, Canorong, Colase, Dalahikan, Jumangpas, Monteverde, Poblacion, San Sebastian, Suba, Tangbo"},
+  "SAN_FERNANDO": {"NameofLGU":"San Fernando","Summary":"San Fernando is a Municipality of Cebu Province.","BarangayCount":"Barangays: 21","PSGC":"PSGC: 0702241000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=San%20Fernando%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Balud, Balungag, Basak, Bugho, Cabatbatan, Greenhills, Ilaya, Lantawan, Liburon, Magsico, Panadtaran, Pitalo, Poblacion North, Poblacion South, San Isidro, Sangat, Tabionan, Tananas, Tinubdan, Tonggo, Tubod"},
+  "SAN_FRANCISCO": {"NameofLGU":"San Francisco","Summary":"San Francisco is a Municipality of Cebu Province.","BarangayCount":"Barangays: 15","PSGC":"PSGC: 0702242000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=San%20Francisco%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Cabunga-an, Campo, Consuelo, Esperanza, Himensulan, Montealegre, Northern Poblacion, San Isidro, Santa Cruz, Santiago, Sonog, Southern Poblacion, Unidos, Union, Western Poblacion"},
+  "SAN_REMIGIO": {"NameofLGU":"San Remigio","Summary":"San Remigio is a Municipality of Cebu Province.","BarangayCount":"Barangays: 27","PSGC":"PSGC: 0702243000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=San%20Remigio%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Anapog, Argawanon, Bagtic, Bancasan, Batad, Busogon, Calambua, Canagahan, Dapdap, Gawaygaway, Hagnaya, Kayam, Kinawahan, Lambusan, Lawis, Libaong, Looc, Luyang, Mano, Poblacion, Punta, Sab-a, San Miguel, Tacup, Tambongon, To-ong, Victoria"},
+  "SANTA_FE": {"NameofLGU":"Santa Fe","Summary":"Santa Fe is a Municipality of Cebu Province.","BarangayCount":"Barangays: 10","PSGC":"PSGC: 0702244000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Santa%20Fe%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Balidbid, Hagdan, Hilantagaan, Kinatarkan, Langub, Maricaban, Okoy, Poblacion, Pooc, Talisay"},
+  "SANTANDER": {"NameofLGU":"Santander","Summary":"Santander is a Municipality of Cebu Province.","BarangayCount":"Barangays: 10","PSGC":"PSGC: 0702245000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Santander%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bunlan, Cabutongan, Candamiang, Canlumacad, Liloan, Lip-tong, Looc, Pasil, Poblacion, Talisay"},
+  "SIBONGA": {"NameofLGU":"Sibonga","Summary":"Sibonga is a Municipality of Cebu Province.","BarangayCount":"Barangays: 25","PSGC":"PSGC: 0702246000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Sibonga%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Abugon, Bae, Bagacay, Bahay, Banlot, Basak, Bato, Cagay, Can-aga, Candaguit, Cantolaroy, Dugoan, Guimbangco-an, Lamacan, Libo, Lindogon, Magcagong, Manatad, Mangyan, Papan, Poblacion, Sabang, Sayao, Simala, Tubod"},
+  "SOGOD": {"NameofLGU":"Sogod","Summary":"Sogod is a Municipality of Cebu Province.","BarangayCount":"Barangays: 18","PSGC":"PSGC: 0702247000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Sogod%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Ampongol, Bagakay, Bagatayam, Bawo, Cabalawan, Cabangahan, Calumboyan, Dakit, Damolog, Ibabao, Liki, Lubo, Mohon, Nahus-an, Pansoy, Poblacion, Tabunok, Takay"},
+  "TABOGON": {"NameofLGU":"Tabogon","Summary":"Tabogon is a Municipality of Cebu Province.","BarangayCount":"Barangays: 25","PSGC":"PSGC: 0702248000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Tabogon%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alang-alang, Caduawan, Camoboan, Canaocanao, Combado, Daantabogon, Ilihan, Kal-anan, Labangon, Libjo, Loong, Mabuli, Managase, Manlagtang, Maslog, Muabog, Pio, Poblacion, Salag, Sambag, San Isidro, San Vicente, Somosa, Taba-ao, Tapul"},
+  "TABUELAN": {"NameofLGU":"Tabuelan","Summary":"Tabuelan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 12","PSGC":"PSGC: 0702249000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Tabuelan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Bongon, Dalid, Kanlim-ao, Kanluhangon, Kantubaon, Mabunao, Maravilla, Olivo, Poblacion, Tabunok, Tigbawan, Villahermosa"},
+  "TALISAY_CITY": {"NameofLGU":"Talisay City","Summary":"Talisay City is a Component City of Cebu Province.","BarangayCount":"Barangays: 22","PSGC":"PSGC: 0702250000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Talisay%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Biasong, Bulacao, Cadulawan, Camp IV, Cansojong, Dumlog, Jaclupan, Lagtang, Lawaan I, Lawaan II, Lawaan III, Linao, Maghaway, Manipis, Mohon, Poblacion, Pooc, San Isidro, San Roque, Tabunoc, Tangke, Tapul"},
+  "TOLEDO_CITY": {"NameofLGU":"Toledo City","Summary":"Toledo City is a Component City of Cebu Province.","BarangayCount":"Barangays: 38","PSGC":"PSGC: 0702251000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Toledo%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Awihao, Bagakay, Bato, Biga, Bulongan, Bunga, Cabitoonan, Calongcalong, Cambang-ug, Camp 8, Canlumampao, Cantabaco, Capitan Claudio, Carmen, Daanglungsod, Don Andres Soriano, Dumlog, Gen. Climaco, Ibo, Ilihan, Juan Climaco, Sr., Landahan, Loay, Luray II, Matab-ang, Media Once, Pangamihan, Poblacion, Poog, Putingbato, Sagay, Sam-ang, Sangi, Santo Niño, Subayon, Talavera, Tubod, Tungkay"},
+  "TUBURAN": {"NameofLGU":"Tuburan","Summary":"Tuburan is a Municipality of Cebu Province.","BarangayCount":"Barangays: 54","PSGC":"PSGC: 0702252000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Tuburan%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Alegria, Amatugan, Antipolo, Apalan, Bagasawe, Bakyawan, Bangkito, Barangay I (Pob.), Barangay II (Pob.), Barangay III (Pob.), Barangay IV (Pob.), Barangay V (Pob.), Barangay VI (Pob.), Barangay VII (Pob.), Barangay VIII (Pob.), Bulwang, Caridad, Carmelo, Cogon, Colonia, Daan Lungsod, Fortaliza, Ga-ang, Gimama-a, Jagbuaya, Kabangkalan, Kabkaban, Kagba-o, Kalangahan, Kamansi, Kampoot, Kan-an, Kanlunsing, Kansi, Kaorasan, Libo, Lusong, Macupa, Mag-alwa, Mag-antoy, Mag-atubang, Maghan-ay, Mangga, Marmol, Molobolo, Montealegre, Putat, San Juan, Sandayong, Santo Niño, Siotes, Sumon, Tominjao, Tomugpa"},
+  "TUDELA": {"NameofLGU":"Tudela","Summary":"Tudela is a Municipality of Cebu Province.","BarangayCount":"Barangays: 11","PSGC":"PSGC: 0702253000","Map":"link:https://www.google.com/maps/search/?api=1\u0026query=Tudela%2C%20Cebu%2C%20Philippines","Barangays":"Barangays: Buenavista, Calmante, Daan Secante, General, McArthur, Northern Poblacion, Puertobello, Santander, Secante Bag-o, Southern Poblacion, Villahermosa"}
+};
+
+const lguSummaries = {
+  "ALCANTARA": "A compact southwestern Cebu town between Ronda and Moalboal, Alcantara is shaped by farming communities, coastal access, and the Bahandi Festival's celebration of local heritage.",
+  "ALCOY": "Alcoy is a southeastern coastal town known for Tingko Beach, upland forest areas, and the Siloy Festival, which promotes pride in Cebu's endemic Black Shama bird.",
+  "ALEGRIA": "Alegria pairs a quiet southwestern coast with mountain scenery, waterfalls, bamboo traditions, and the Kawayan Festival's celebration of local craft and livelihood.",
+  "ALOGUINSAN": "Aloguinsan faces the Tanon Strait and is best known for community-based eco-tourism around Bojo River, mangroves, coastal coves, and fishing culture.",
+  "ARGAO": "Argao is one of Cebu's heritage towns, recognized for Spanish-era landmarks, church and town-center architecture, torta, tablea, and the La Torta Festival.",
+  "ASTURIAS": "Asturias is a western Cebu municipality with coastal and upland barangays, agricultural communities, and the Lalin Festival's story of migration, growth, and local identity.",
+  "BADIAN": "Badian is a southwestern tourism gateway known for Kawasan Falls, canyoneering, Lambug Beach, mat-weaving heritage, and the Banig Festival.",
+  "BALAMBAN": "Balamban blends mountain routes, west-coast access, agriculture, and Cebu's shipbuilding industry, reflected in the Lingaw-Sadya Festival's mix of industry and community pride.",
+  "BANTAYAN": "Bantayan is an island municipality with a strong fishing identity, heritage churches, white-sand beaches, and the Palawod Festival's tribute to life at sea.",
+  "BARILI": "Barili is a southwestern town known for Mantayupan Falls, livestock and dairy traditions, coastal barangays, and the Panumod Festival's thanksgiving for abundance.",
+  "BOGO_CITY": "Bogo City anchors northern Cebu as a service, trade, and transport center, with corn-based food heritage celebrated through the Pintos Festival.",
+  "BOLJOON": "Boljoon is a southeastern heritage town known for its historic church complex, coastal setting, old stone structures, and views along Cebu's southern corridor.",
+  "BORBON": "Borbon is a northern coastal municipality where farming, fishing, and small-town communities face the Camotes Sea and connect Cebu's north coast barangays.",
+  "CARCAR_CITY": "Carcar City is a heritage and food destination famous for ancestral houses, Spanish-era streetscapes, chicharon, lechon, shoes, and the Kabkaban Festival.",
+  "CARMEN": "Carmen is a northern Cebu municipality with agricultural communities, faith-centered celebrations, and growing tourism anchored by Cebu Safari and Adventure Park.",
+  "CATMON": "Catmon is a northern coastal town associated with springs, mountain scenery, coastal livelihood, and food traditions such as budbod kabog.",
+  "COMPOSTELA": "Compostela is a northern Cebu municipality known for queseo native cheese, horse traditions, agriculture, and festivals that highlight livelihood and devotion.",
+  "CONSOLACION": "Consolacion is an urbanizing municipality north of Cebu City, balancing residential growth, coastal barangays, commerce, and the Sarok Festival's craft heritage.",
+  "CORDOVA": "Cordova is a coastal municipality on Mactan Island known for seafood, island barangays, mangrove and marine areas, and its link to mainland Cebu through CCLEX.",
+  "DAANBANTAYAN": "Daanbantayan occupies Cebu's northern tip and is known for Malapascua Island, seafaring communities, dive tourism, and the Haladaya Festival.",
+  "DALAGUETE": "Dalaguete is Cebu's upland vegetable center, home to Mantalongon and Osmena Peak, and celebrates its agricultural strength through the Utanon Festival.",
+  "DANAO_CITY": "Danao City is a northern component city with industrial roots, coastal communities, pottery heritage, and the Karansa Festival's lively thanksgiving tradition.",
+  "DUMANJUG": "Dumanjug is a southwestern town with agricultural barangays, historic church heritage, coastal access, and the Sinanggiyaw Festival's harvest thanksgiving.",
+  "GINATILAN": "Ginatilan is a southwestern coastal town known for waterfalls such as Inambakan, heritage sites, and its connection to Saint Pedro Calungsod.",
+  "LILOAN": "Liloan is known for the Bagacay Point Lighthouse, coastal neighborhoods, and rosquillos, the ring-shaped pastry celebrated in the Rosquillos Festival.",
+  "MADRIDEJOS": "Madridejos is a Bantayan Island municipality with fishing and coastal livelihood at its core, highlighted by Kota Park and the Isda Festival.",
+  "MALABUYOC": "Malabuyoc is a southwestern town with mountain and coastal barangays, hot springs, waterfalls, and the Buyoc Festival's thanksgiving for community livelihood.",
+  "MEDELLIN": "Medellin is a northern Cebu municipality known for sugarcane landscapes, beaches, Gibitngil Island, and growing adventure and island tourism.",
+  "MINGLANILLA": "Minglanilla is an urbanizing southern municipality known as Cebu's Easter capital, centered on the Sugat-Kabanhawan Festival and its strong faith tradition.",
+  "MOALBOAL": "Moalboal is a major southwestern tourism town known for Panagsama, Pescador Island, coral reefs, diving, the sardine run, and marine conservation.",
+  "NAGA_CITY": "Naga City is an industrial and coastal component city south of Metro Cebu, known for its boardwalk, energy sector, and Dagitab Festival.",
+  "OSLOB": "Oslob is a southeastern coastal town known for whale shark tourism, Tumalog Falls, heritage structures, and sea-centered local traditions.",
+  "PILAR": "Pilar is a Camotes Islands municipality with farming and fishing communities, coastal barangays, island landscapes, and a quiet rural identity.",
+  "PINAMUNGAJAN": "Pinamungajan is a west-coast Cebu municipality facing the Tanon Strait, with agricultural barangays, coastal livelihood, springs, caves, and mountain scenery.",
+  "PORO": "Poro is a Camotes Islands municipality with port activity, heritage churches, farming and fishing communities, and a central role in island mobility.",
+  "RONDA": "Ronda is a southwestern coastal municipality with agricultural roots, small-town heritage, and the Humba Festival's celebration of local food culture.",
+  "SAMBOAN": "Samboan is a southern town known for waterfalls such as Aguinid, Dao, and Binalayan, heritage watchtowers, and the Dagayday Festival.",
+  "SAN_FERNANDO": "San Fernando is a growing southern corridor municipality with coastal and upland barangays, agriculture, commerce, and access between Metro Cebu and the south.",
+  "SAN_FRANCISCO": "San Francisco is a Camotes Islands municipality known for Lake Danao, Santiago Bay, beaches, and island communities shaped by farming and fishing.",
+  "SAN_REMIGIO": "San Remigio has one of Cebu's longest coastlines, beach communities, Hagnaya port access to Bantayan Island, and the Lapyahan Festival.",
+  "SANTA_FE": "Santa Fe is Bantayan Island's main tourism gateway, known for its port, white-sand beaches, resorts, and coastal village life.",
+  "SANTANDER": "Santander sits at Cebu's southern tip, serving as a gateway to Negros through Liloan port and celebrating local tostado pastry traditions.",
+  "SIBONGA": "Sibonga is a southern municipality known for the Simala Shrine, fruit-growing communities, and the Bonga Festival's thanksgiving for harvest abundance.",
+  "SOGOD": "Sogod is a northern coastal town with agricultural and fishing communities, mountain scenery, beach areas, and a quieter stop along Cebu's north road.",
+  "TABOGON": "Tabogon is a northern municipality with coastal and upland barangays, farming and fishing livelihoods, and a rugged landscape facing the Camotes Sea.",
+  "TABUELAN": "Tabuelan is a northwestern coastal town known for beaches such as Maravilla, agricultural barangays, and the Ani-Anihan Festival's harvest thanksgiving.",
+  "TALISAY_CITY": "Talisay City is a coastal component city south of Cebu City, famous for lechon, historic landing sites, urban growth, and the Halad Inasal Festival.",
+  "TOLEDO_CITY": "Toledo City is Cebu's major west-coast industrial and port city, known for mining heritage, trade links to Negros, and the Hinulawan Festival.",
+  "TUBURAN": "Tuburan is a northwestern municipality known for natural springs, coffee, sugarcane and corn farms, and festivals celebrating water and harvest.",
+  "TUDELA": "Tudela is a Camotes Islands municipality with cave attractions, coastal barangays, farming and fishing communities, and a calm island-town character."
+};
+
+Object.entries(lguSummaries).forEach(([key, summary]) => {
+  if (lguTooltipData[key]) {
+    lguTooltipData[key].Summary = summary;
+  }
+});
+
+const lguOfficials = {
+  "ALCANTARA": { Mayor: "Mayor: Fritz Lastimoso", ViceMayor: "Vice Mayor: Larry Llenos" },
+  "ALCOY": { Mayor: "Mayor: Ronver Augustin", ViceMayor: "Vice Mayor: Roland Plando" },
+  "ALEGRIA": { Mayor: "Mayor: Gilberto Magallon", ViceMayor: "Vice Mayor: Verna Magallon" },
+  "ALOGUINSAN": { Mayor: "Mayor: Cesare Ignatius Moreno", ViceMayor: "Vice Mayor: Melissa Mandilikit-Moreno" },
+  "ARGAO": { Mayor: "Mayor: Allan Sesaldo", ViceMayor: "Vice Mayor: Monching Soco" },
+  "ASTURIAS": { Mayor: "Mayor: Jose Antonio Pintor", ViceMayor: "Vice Mayor: Junjie Pabalate" },
+  "BADIAN": { Mayor: "Mayor: Jerome Librando", ViceMayor: "Vice Mayor: Doris Minoza-Silvano" },
+  "BALAMBAN": { Mayor: "Mayor: Ace Binghay", ViceMayor: "Vice Mayor: Grant Binghay" },
+  "BANTAYAN": { Mayor: "Mayor: Arthur Despi", ViceMayor: "Vice Mayor: Jun Escario" },
+  "BARILI": { Mayor: "Mayor: Pablo John Garcia", ViceMayor: "Vice Mayor: Bimbo Aparta" },
+  "BOGO_CITY": { Mayor: "Mayor: Mayel Martinez", ViceMayor: "Vice Mayor: Joy Martinez" },
+  "BOLJOON": { Mayor: "Mayor: Jojie Derama", ViceMayor: "Vice Mayor: Dino Oliver Derama" },
+  "BORBON": { Mayor: "Mayor: Noel Dotillos", ViceMayor: "Vice Mayor: Felixberto Gestopa Jr." },
+  "CARCAR_CITY": { Mayor: "Mayor: Patrick Barcenas", ViceMayor: "Vice Mayor: Marvin Alcover" },
+  "CARMEN": { Mayor: "Mayor: Carlo Villamor", ViceMayor: "Vice Mayor: Retchel Arriola" },
+  "CATMON": { Mayor: "Mayor: Avis G. Monleon", ViceMayor: "Vice Mayor: Adrian Cesar A. Escobedo" },
+  "COMPOSTELA": { Mayor: "Mayor: Felijur Quiño", ViceMayor: "Vice Mayor: Josephine Abing" },
+  "CONSOLACION": { Mayor: "Mayor: Nene Alegado", ViceMayor: "Vice Mayor: Teresa Alegado" },
+  "CORDOVA": { Mayor: "Mayor: Cesar Suan", ViceMayor: "Vice Mayor: Lemuel Pogoy" },
+  "DAANBANTAYAN": { Mayor: "Mayor: Sun Shimura", ViceMayor: "Vice Mayor: Alvin E. Alesna" },
+  "DALAGUETE": { Mayor: "Mayor: Ronald Cesante", ViceMayor: "Vice Mayor: Mark Ryan Abienza" },
+  "DANAO_CITY": { Mayor: "Mayor: Mix Durano", ViceMayor: "Vice Mayor: Carmen Remedios Durano" },
+  "DUMANJUG": { Mayor: "Mayor: Efren Guntrano Gica", ViceMayor: "Vice Mayor: Rainero Asentista" },
+  "GINATILAN": { Mayor: "Mayor: Roy Vincent Singco", ViceMayor: "Vice Mayor: Dean Michael Singco" },
+  "LILOAN": { Mayor: "Mayor: Aljew Fernando Frasco", ViceMayor: "Vice Mayor: Niña Mabatid" },
+  "MADRIDEJOS": { Mayor: "Mayor: Salvador Dela Fuente", ViceMayor: "Vice Mayor: Romeo Villaceran" },
+  "MALABUYOC": { Mayor: "Mayor: Edang Piedad", ViceMayor: "Vice Mayor: Ann Allosada" },
+  "MEDELLIN": { Mayor: "Mayor: Julio Lim", ViceMayor: "Vice Mayor: Joven Mondigo Jr." },
+  "MINGLANILLA": { Mayor: "Mayor: Rajiv Enad", ViceMayor: "Vice Mayor: Elanito Pena" },
+  "MOALBOAL": { Mayor: "Mayor: Titing Cabaron", ViceMayor: "Vice Mayor: Jinky Hanika" },
+  "NAGA_CITY": { Mayor: "Mayor: Valdemar Chiong", ViceMayor: "Vice Mayor: Virgilio Chiong" },
+  "OSLOB": { Mayor: "Mayor: Narciso Tumulak", ViceMayor: "Vice Mayor: Roy Yapha" },
+  "PILAR": { Mayor: "Mayor: Manuel Santiago", ViceMayor: "Vice Mayor: Daisy Vegas" },
+  "PINAMUNGAJAN": { Mayor: "Mayor: Glenn Baricuatro", ViceMayor: "Vice Mayor: Matet Yapha" },
+  "PORO": { Mayor: "Mayor: Edgar Rama", ViceMayor: "Vice Mayor: Luciano Rama" },
+  "RONDA": { Mayor: "Mayor: Terrence Mariano Blanco", ViceMayor: "Vice Mayor: Ken Gingoyon" },
+  "SAMBOAN": { Mayor: "Mayor: Emerito Calderon", ViceMayor: "Vice Mayor: Jocelyn Calderon" },
+  "SAN_FERNANDO": { Mayor: "Mayor: Mytha Ann Canoy", ViceMayor: "Vice Mayor: Gerardo Antonio Canoy" },
+  "SAN_FRANCISCO": { Mayor: "Mayor: Alfredo Arquillano Jr.", ViceMayor: "Vice Mayor: Efren de la Peña" },
+  "SAN_REMIGIO": { Mayor: "Mayor: Mariano Martinez", ViceMayor: "Vice Mayor: Alfonso Pestolante" },
+  "SANTA_FE": { Mayor: "Mayor: Joseph Sarona", ViceMayor: "Vice Mayor: Ireneo Cañizares" },
+  "SANTANDER": { Mayor: "Mayor: Wilson Wenceslao", ViceMayor: "Vice Mayor: Geneva Pao" },
+  "SIBONGA": { Mayor: "Mayor: Lionel Bacaltos", ViceMayor: "Vice Mayor: Tony Bacaltos" },
+  "SOGOD": { Mayor: "Mayor: Lissa Marie Durano-Streegan", ViceMayor: "Vice Mayor: Moonyeen Durano-Streegan" },
+  "TABOGON": { Mayor: "Mayor: Francis Salimbangon", ViceMayor: "Vice Mayor: Eduardo Garcia" },
+  "TABUELAN": { Mayor: "Mayor: Rex Gerona", ViceMayor: "Vice Mayor: Raul Gerona" },
+  "TALISAY_CITY": { Mayor: "Mayor: Samsam Gullas", ViceMayor: "Vice Mayor: Richard Francis Aznar" },
+  "TOLEDO_CITY": { Mayor: "Mayor: Marjorie Perales", ViceMayor: "Vice Mayor: Neil Perales" },
+  "TUBURAN": { Mayor: "Mayor: Democrito Diamante", ViceMayor: "Vice Mayor: Danilo Diamante" },
+  "TUDELA": { Mayor: "Mayor: Greman Solante", ViceMayor: "Vice Mayor: Jimmy Holiday" }
+};
+
+Object.entries(lguOfficials).forEach(([key, officials]) => {
+  if (lguTooltipData[key]) {
+    lguTooltipData[key].Mayor = officials.Mayor;
+    lguTooltipData[key].ViceMayor = officials.ViceMayor;
+  }
+});
+
+const activeTooltipData = lguTooltipData;
+universalMapEngine.options.gridConfig = lguGridConfig;
+universalMapEngine.tooltipData = {};
+universalMapEngine._tooltipContentCache.clear();
+universalMapEngine.setTooltipData(activeTooltipData);
+window.lguTooltipData = lguTooltipData;
 
 
 
@@ -5442,9 +5639,9 @@ For more help, ask your developer or contact your website administrator.
   searchBox.style.right = '32px';
   searchBox.style.zIndex = String(SEARCH_TOOLTIP_ZINDEX);
   searchBox.innerHTML = `
-    <label for="usvg-search-tooltip-input" style="font-weight: bold; font-size: 13px; margin-bottom: 2px;">Search LGU or LGOO:</label>
+    <label for="usvg-search-tooltip-input" style="font-weight: bold; font-size: 13px; margin-bottom: 2px;">Search LGU, PSGC, or Barangay:</label>
     <div style="position: relative;">
-      <input id="usvg-search-tooltip-input" type="text" placeholder="Type LGU, LGOO, or keyword..." autocomplete="off" />
+      <input id="usvg-search-tooltip-input" type="text" placeholder="Type LGU, PSGC, barangay, or keyword..." autocomplete="off" />
       <div id="${SEARCH_DROPDOWN_ID}"></div>
     </div>
     <div style="display: flex; gap: 6px;">
@@ -5467,7 +5664,7 @@ For more help, ask your developer or contact your website administrator.
   // Helper: Get all searchable values and their region keys
   function getSearchableEntries() {
     const entries = [];
-    for (const [regionKey, data] of Object.entries(exampleData)) {
+    for (const [regionKey, data] of Object.entries(activeTooltipData)) {
       for (const [field, value] of Object.entries(data)) {
         if (typeof value === 'string' && value.trim() !== '') {
           entries.push({
@@ -5615,7 +5812,7 @@ For more help, ask your developer or contact your website administrator.
     highlightRegion(result.regionKey);
     lastSelectedRegionKey = result.regionKey;
     // Show tooltip for region
-    const regionData = exampleData[result.regionKey];
+    const regionData = activeTooltipData[result.regionKey];
     if (regionData) {
       ignoreNextHover = true;
       universalMapEngine.updatePanel(result.regionKey, regionData);

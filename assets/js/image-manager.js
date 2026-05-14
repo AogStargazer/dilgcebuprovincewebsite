@@ -184,7 +184,6 @@
             this.maxItems = maxItems;
             this.maxMemory = maxMemoryMB * 1024 * 1024; // Convert to bytes
             this.cache = new Map();
-            this.accessOrder = [];
             this.currentMemory = 0;
         }
 
@@ -196,40 +195,39 @@
         }
 
         get(url) {
-            if (this.cache.has(url)) {
-                // Move to end (most recently used)
-                this.accessOrder = this.accessOrder.filter(key => key !== url);
-                this.accessOrder.push(url);
-                return this.cache.get(url);
+            const item = this.cache.get(url);
+            if (item) {
+                this.cache.delete(url);
+                this.cache.set(url, item);
             }
-            return null;
+            return item || null;
         }
 
         set(url, image) {
             const size = this.estimateImageSize(image);
-            
+
             // Remove existing entry if present
-            if (this.cache.has(url)) {
-                const oldSize = this.cache.get(url).size || 0;
+            const existingItem = this.cache.get(url);
+            if (existingItem) {
+                const oldSize = existingItem.size || 0;
                 this.currentMemory -= oldSize;
-                this.accessOrder = this.accessOrder.filter(key => key !== url);
+                this.cache.delete(url);
             }
 
             // Evict items if necessary
-            while ((this.cache.size >= this.maxItems || this.currentMemory + size > this.maxMemory) && this.accessOrder.length > 0) {
+            while ((this.cache.size >= this.maxItems || this.currentMemory + size > this.maxMemory) && this.cache.size > 0) {
                 this.evictLRU();
             }
 
             // Add new item
             this.cache.set(url, { image, size });
-            this.accessOrder.push(url);
             this.currentMemory += size;
         }
 
         evictLRU() {
-            if (this.accessOrder.length === 0) return;
-            
-            const lruKey = this.accessOrder.shift();
+            const lruKey = this.cache.keys().next().value;
+            if (lruKey === undefined) return;
+
             const item = this.cache.get(lruKey);
             if (item) {
                 this.currentMemory -= item.size;
@@ -243,7 +241,6 @@
 
         clear() {
             this.cache.clear();
-            this.accessOrder = [];
             this.currentMemory = 0;
         }
 
@@ -384,7 +381,17 @@
                 return;
             }
 
+            while (!this.paused && this.activeLoads < this.config.concurrency && this.queue.length > 0) {
+                this.processNextTask();
+            }
+        }
+
+        async processNextTask() {
             const task = this.queue.shift();
+            if (!task) {
+                return;
+            }
+
             this.activeLoads++;
             this.metrics.totalLoads++;
 

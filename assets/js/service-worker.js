@@ -78,14 +78,15 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys()
             .then(cacheNames => {
-                const currentCaches = Object.values(CACHE_CONFIG);
+                const currentCaches = new Set(Object.values(CACHE_CONFIG));
                 return Promise.all(
                     cacheNames.map(cacheName => {
                         // Delete old image caches (anything that's not the current version)
-                        if (cacheName.startsWith('image-cache-') && !currentCaches.includes(cacheName)) {
+                        if (cacheName.startsWith('image-cache-') && !currentCaches.has(cacheName)) {
                             console.log('Service Worker: Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
+                        return Promise.resolve(false);
                     })
                 );
             })
@@ -414,32 +415,43 @@ async function performMaintenance() {
 
 // Handle messages from the main thread
 self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
+    const data = event.data;
+    const replyPort = event.ports && event.ports[0];
+
+    if (!data || !data.type) {
+        return;
+    }
+
+    if (data.type === 'SKIP_WAITING') {
         self.skipWaiting();
+        return;
     }
     
-    if (event.data && event.data.type === 'GET_CACHE_STATS') {
+    if (data.type === 'GET_CACHE_STATS' && replyPort) {
         getCacheStats().then(stats => {
-            event.ports[0].postMessage(stats);
+            replyPort.postMessage(stats);
         });
+        return;
     }
     
-    if (event.data && event.data.type === 'CLEAR_CACHE') {
+    if (data.type === 'CLEAR_CACHE' && replyPort) {
         clearImageCache().then(success => {
-            event.ports[0].postMessage({ success });
+            replyPort.postMessage({ success });
         });
+        return;
     }
     
-    if (event.data && event.data.type === 'WARM_CACHE') {
-        const urls = event.data.urls || [];
+    if (data.type === 'WARM_CACHE' && replyPort) {
+        const urls = data.urls || [];
         warmCacheProactively(urls).then(results => {
-            event.ports[0].postMessage({ results });
+            replyPort.postMessage({ results });
         });
+        return;
     }
     
-    if (event.data && event.data.type === 'PERFORM_HEALTH_CHECK') {
+    if (data.type === 'PERFORM_HEALTH_CHECK' && replyPort) {
         performHealthCheck().then(health => {
-            event.ports[0].postMessage({ health });
+            replyPort.postMessage({ health });
         });
     }
 });
