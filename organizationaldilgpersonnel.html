@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <title>DILG Cebu Province – Department of the Interior and Local Government Cebu Province</title>
+    <title>DILG Cebu Province â€“ Department of the Interior and Local Government Cebu Province</title>
     <meta name="robots" content="max-image-preview:large" />
     <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
     <link rel="stylesheet" href="main-index-styles.css" type="text/css" media="all" />
@@ -363,6 +363,182 @@
           max-width: 150px;
         }
       }
+
+      .personnel-page {
+        min-height: calc(100vh - 90px);
+        padding: 34px 20px 56px;
+        background: rgba(255, 255, 255, 0.78);
+        color: #000;
+      }
+
+      .personnel-shell {
+        width: min(1500px, 100%);
+        margin: 0 auto;
+      }
+
+      .personnel-heading {
+        margin: 0 0 18px;
+        text-align: center;
+      }
+
+      .personnel-heading h1 {
+        margin: 0;
+        color: #000;
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+
+      .personnel-heading p {
+        margin: 8px 0 0;
+        color: #000;
+        font-size: 0.95rem;
+      }
+
+      .personnel-toolbar {
+        display: grid;
+        grid-template-columns: 1fr minmax(190px, 280px);
+        gap: 12px;
+        align-items: center;
+        margin: 0 0 30px;
+        padding: 10px;
+        background: rgba(226, 232, 240, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+      }
+
+      .personnel-search,
+      .personnel-filter {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        color: #000;
+        font-size: 15px;
+        outline: none;
+      }
+
+      .personnel-search {
+        padding: 0 14px;
+      }
+
+      .personnel-filter {
+        padding: 0 10px;
+      }
+
+      .personnel-search:focus,
+      .personnel-filter:focus {
+        border-color: #0f6684;
+        box-shadow: 0 0 0 2px rgba(15, 102, 132, 0.16);
+      }
+
+      .personnel-count {
+        margin: -14px 0 22px;
+        color: #000;
+        font-size: 0.9rem;
+        text-align: right;
+      }
+
+      .personnel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 42px 34px;
+        align-items: start;
+      }
+
+      .personnel-card {
+        min-width: 0;
+        text-align: center;
+      }
+
+      .personnel-photo {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 12px;
+        border: 1px solid #4b5563;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .personnel-photo:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .personnel-photo img {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        object-position: center center;
+        display: block;
+      }
+
+      .personnel-name {
+        margin: 0 0 4px;
+        color: #000;
+        font-size: 0.96rem;
+        line-height: 1.25;
+        font-weight: 700;
+      }
+
+      .personnel-position,
+      .personnel-assignment,
+      .personnel-scope {
+        margin: 0;
+        color: #000;
+        font-size: 0.82rem;
+        line-height: 1.35;
+        text-transform: uppercase;
+      }
+
+      .personnel-assignment {
+        color: #000;
+        font-weight: 700;
+      }
+
+      .personnel-empty {
+        display: none;
+        padding: 36px 16px;
+        text-align: center;
+        color: #000;
+      }
+
+      .personnel-empty.is-visible {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .personnel-page {
+          padding: 24px 12px 42px;
+        }
+
+        .personnel-toolbar {
+          grid-template-columns: 1fr;
+        }
+
+        .personnel-count {
+          text-align: center;
+        }
+
+        .personnel-grid {
+          grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+          gap: 30px 18px;
+        }
+
+        .personnel-photo {
+          width: 118px;
+          height: 118px;
+        }
+
+        .personnel-heading h1 {
+          font-size: 1.55rem;
+        }
+      }
     </style>
     <link rel="alternate" type="application/rss+xml" title="DILG Cebu Province &raquo; Feed" href="feed/index.html" />
     <link rel="alternate" type="application/rss+xml" title="DILG Cebu Province &raquo; Comments Feed" href="comments/feed/index.html" />
@@ -717,8 +893,6 @@
 
 
 
-
-
                     <!-- Overlay Date/Time/Weather Widget -->
                     <div class="overlay-widget" id="header-widgets">
                       <div id="date" class="overlay-text"></div>
@@ -761,18 +935,6 @@
                       }
                     }(document,'script','weatherwidget-io-js');
                   </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1115,12 +1277,12 @@
                     <a href="#">LGU Portal</a>
                     <ul class="dropdown-menu">
 
-                      <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
+                      <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS â€“ BPCO Online Monitoring System</a></li>
                       <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
                       <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
                       <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
                       <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
-                      <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
+                      <li><a href="https://pops.dilg.gov.ph/user/login">POPS â€“ PCMS</a></li>
                       <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
                       <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
                       <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
@@ -1214,23 +1376,203 @@
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
 
-                      <div style="padding-top:1000px; padding-bottom:1000px;">
-                      </div>
+
+      <main class="jupiterx-main">
+        <section class="personnel-page">
+          <div class="personnel-shell">
+            <div class="personnel-heading">
+              <h1>DILG Cebu Province Personnel Directory</h1>
+              <p>Search all personnel currently listed in the organizational chart pages.</p>
+            </div>
+            <div class="personnel-toolbar" role="search">
+              <input id="personnelSearch" class="personnel-search" type="search" placeholder="Search by name, position, assignment, or office" autocomplete="off" />
+              <select id="personnelFilter" class="personnel-filter" aria-label="Filter personnel type">
+                <option value="All">All Personnel</option>
+                <option value="Municipal">Municipal</option>
+                <option value="City">City</option>
+                <option value="Provincial">Provincial</option>
+              </select>
+            </div>
+            <div id="personnelCount" class="personnel-count"></div>
+            <div id="personnelGrid" class="personnel-grid" aria-live="polite"></div>
+            <div id="personnelEmpty" class="personnel-empty">No personnel matched your search.</div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const personnelData = [{"name":"WYNDELL G. VALLE","position":"LGOO VII / CLUSTER HEAD BUGSAY / CLUSTER HEAD TIG-A","scope":"Provincial","assignment":"CLUSTER HEAD TIG-A / CLUSTER HEAD BUGSAY","image":"organizationalchart/images/wyndellgvalle_chtribu.png","source":"organizationalchartchief.html / organizationalcharttiga.html / organizationalchartbugsay.html"},{"name":"JOHN MICHAEL B. MONILLAS","position":"LGOO VI / MLGOO ASTURIAS","scope":"Municipal","assignment":"ASTURIAS","image":"organizationalchart/images/mackymoe_asturias.png","source":"organizationalchartbugsay.html"},{"name":"JONALUKE V. TUBAL II","position":"LGOO V / OIC-MLGOO BALAMBAN","scope":"Municipal","assignment":"BALAMBAN","image":"organizationalchart/images/tubal_lgcds.png","source":"organizationalchartbugsay.html"},{"name":"JUPITER E. DAWA","position":"LGOO VI / MLGOO BANTAYAN","scope":"Municipal","assignment":"BANTAYAN","image":"organizationalchart/images/jupz_bantayan.png","source":"organizationalchartbugsay.html"},{"name":"MAE B. DURA","position":"LGOO VI / CLGOO CITY OF BOGO","scope":"City","assignment":"BOGO","image":"organizationalchart/images/maedura_bogocity.png","source":"organizationalchartbugsay.html"},{"name":"GRACE Y.CABURNAY","position":"LGOO VI / MLGOO DAANBANTAYAN","scope":"Municipal","assignment":"DAANBANTAYAN","image":"organizationalchart/images/gracecaburnay_daanbantayan.png","source":"organizationalchartbugsay.html"},{"name":"JOHN MICHAEL M. LEGASPI","position":"LGOO VI / MLGOO MADRIDEJOS","scope":"Municipal","assignment":"MADRIDEJOS","image":"organizationalchart/images/JM_madridejos.png","source":"organizationalchartbugsay.html"},{"name":"JANIEVA A. DANDAN","position":"LGOO V / OIC-MLGOO MEDELLIN","scope":"Municipal","assignment":"MEDELLIN","image":"organizationalchart/images/jan_medellin.png","source":"organizationalchartbugsay.html"},{"name":"NIÃ‘O VINCENT B. FIEL","position":"LGOO V / OIC-MLGOO SANTA FE","scope":"Municipal","assignment":"SANTA FE","image":"organizationalchart/images/ninosenpai_stafe.png","source":"organizationalchartbugsay.html"},{"name":"CLAIRE V. DIAZ","position":"LGOO VI / MLGOO SAN REMIGIO","scope":"Municipal","assignment":"SAN REMIGIO","image":"organizationalchart/images/claire_sanremigio.png","source":"organizationalchartbugsay.html"},{"name":"JERRY BIB PITOGO","position":"LGOO VI / MLGOO TABOGON","scope":"Municipal","assignment":"TABOGON","image":"organizationalchart/images/jerry_tabogon.png","source":"organizationalchartbugsay.html"},{"name":"EASTER-APRIL R. QUIROL","position":"LGOO VI / MLGOO TABUELAN","scope":"Municipal","assignment":"TABUELAN","image":"organizationalchart/images/easterapril_tabuelan.png","source":"organizationalchartbugsay.html"},{"name":"LEO NICHOLAS T. PATRIANA","position":"LGOO VI / MLGOO TUBURAN","scope":"Municipal","assignment":"TUBURAN","image":"organizationalchart/images/leopatz_tuburan.png","source":"organizationalchartbugsay.html"},{"name":"LOUIES MARTIN P. GABUTIN","position":"LGOO II / MLGOO TUBURAN","scope":"Municipal","assignment":"TUBURAN","image":"organizationalchart/images/LMGabutin_lgooii.png","source":"organizationalchartbugsay.html"},{"name":"DR. JESUS ROBEL T. SASTRILLO JR., CESE","position":"PROVINCIAL DIRECTOR","scope":"Provincial","assignment":"","image":"organizationalchart/images/pdrobelalt2.png","source":"organizationalchartchief.html"},{"name":"LELANIE V. LOPEZ","position":"LGOO VII / CLUSTER HEAD TRIBU","scope":"Provincial","assignment":"CLUSTER HEAD TRIBU","image":"organizationalchart/images/lelanilopez_chbugsay.png","source":"organizationalcharttribu.html / organizationalchartchief.html"},{"name":"ROXINE C. COYOCA","position":"LGOO VII / CLUSTER HEAD DASIG","scope":"Provincial","assignment":"CLUSTER HEAD DASIG","image":"organizationalchart/images/roxinecoyoca_chtiga.png","source":"organizationalchartdasig.html / organizationalchartchief.html"},{"name":"RICHARD F. OUANO","position":"LGOO VI / PROGRAM MANAGER","scope":"Provincial","assignment":"PROGRAM MANAGER","image":"organizationalchart/images/ouano_pm.png","source":"organizationalchartchief.html"},{"name":"MICHAEL JICKERIE T. ALVAREZ","position":"LGOO V/LGMES CHIEF","scope":"Provincial","assignment":"LGMES CHIEF","image":"organizationalchart/images/alvarez_lgmes.png","source":"organizationalchartLGMES.html / organizationalchartchief.html"},{"name":"JEAN MARVETTE DEMECILLO DIAZ","position":"LGOO V/LGCDS CHIEF","scope":"Provincial","assignment":"LGCDS CHIEF","image":"organizationalchart/images/JeanMarvetteDiaz_LGCDS.png","source":"organizationalchartLGCDS.html / organizationalchartchief.html"},{"name":"CRESENCIO ANTOLIN ASENIERO","position":"LGOO V/PDMU CHIEF; LGOO V / PDMU CHIEF; LGOO V / LGCDS","scope":"Provincial","assignment":"PDMU CHIEF / LGCDS","image":"organizationalchart/images/cresencio_pdmu.png","source":"organizationalchartPDMU.html / organizationalchartchief.html / organizationalchartLGCDS.html"},{"name":"ANTHONY A. NIEVES","position":"LGOO III/FAS CHIEF; LGOO III / OIC-CLGOO DANAO CITY / FAS SECTION","scope":"Provincial","assignment":"FAS CHIEF / FAS","image":"organizationalchart/images/AnthonyANIeves_Danao.png","source":"organizationalchartFAS.html / organizationalchartchief.html / organizationalcharttiga.html"},{"name":"MARIA LOURDES D. BOONE","position":"LGOO VI / MLGOO ALCOY (RETIRED)","scope":"Municipal","assignment":"ALCOY","image":"organizationalchart/images/MariaLourdesDBoone_Alcoy.png","source":"organizationalchartdasig.html"},{"name":"ABEL JOHN C. PEGUIT","position":"LGOO II / ALCOY","scope":"Municipal","assignment":"ALCOY","image":"organizationalchart/images/avelbrother_tuburan.png","source":"organizationalchartdasig.html"},{"name":"LEWELYN M. ARQUILLANO","position":"LGOO VI / MLGOO ARGAO","scope":"Municipal","assignment":"ARGAO","image":"organizationalchart/images/lewelyn_argao.png","source":"organizationalchartdasig.html"},{"name":"MILDRED C. LASALA","position":"LGOO VI / CLGOO CARCAR","scope":"City","assignment":"CARCAR","image":"organizationalchart/images/mildred_carcar.png","source":"organizationalchartdasig.html"},{"name":"EMMA JOYEVLYN V. CALVO","position":"LGOO VI / CLGOO CITY OF NAGA","scope":"City","assignment":"NAGA","image":"organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png","source":"organizationalchartdasig.html"},{"name":"AILEEN GRACE B. ARGAWANON-PECA","position":"LGOO II / CITY OF NAGA","scope":"City","assignment":"NAGA","image":"organizationalchart/images/AileenPeca_Naga.png","source":"organizationalchartdasig.html"},{"name":"GINABLE M. EJOC","position":"LGOO VI / MLGOO DALAGUETE","scope":"Municipal","assignment":"DALAGUETE","image":"organizationalchart/images/GinableEjoc_Dalaguete.png","source":"organizationalchartdasig.html"},{"name":"DEANNA A. MINGUETO","position":"LGOO VI / MLGOO OSLOB","scope":"Municipal","assignment":"OSLOB","image":"organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png","source":"organizationalchartdasig.html"},{"name":"KYM A. ALBRANDO","position":"LGOO VI / MLGOO SAMBOAN","scope":"Municipal","assignment":"SAMBOAN","image":"organizationalchart/images/KymAlbrando_Samboan.png","source":"organizationalchartdasig.html"},{"name":"JOSEPH ELIZAR F. MERLAS","position":"LGOO VI / MLGOO SAN FERNANDO","scope":"Municipal","assignment":"SAN FERNANDO","image":"organizationalchart/images/JosephElizarMerlas_SanFernando.png","source":"organizationalchartdasig.html"},{"name":"LOPE LIM","position":"LGOO VI / MLGOO SANTANDER","scope":"Municipal","assignment":"SANTANDER","image":"organizationalchart/images/lope_santander.png","source":"organizationalchartdasig.html"},{"name":"SUSAN E. TOLENTINO","position":"LGOO VI / MLGOO SIBONGA","scope":"Municipal","assignment":"SIBONGA","image":"organizationalchart/images/susan_sibonga.png","source":"organizationalchartdasig.html"},{"name":"PAUL MERLO D. PASQUIL","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/PaulMerloDPasquil_FAS.png","source":"organizationalchartFAS.html"},{"name":"RUFIEL M. PALABAY","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RufielOPalabay_FAS.png","source":"organizationalchartFAS.html"},{"name":"ROMEL M. NAVARRO","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RomelMNavarro_FAS.png","source":"organizationalchartFAS.html"},{"name":"VIOLY P. ARNEJO","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/ViolyP.Arnejo_FAS.png","source":"organizationalchartFAS.html"},{"name":"RINA CONSTANCIA R. FORTICH","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/Yenyen_FAS.png","source":"organizationalchartFAS.html"},{"name":"CHRISHIA A. VILLARUBIA","position":"ADAS II / PDMU; ADAS II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/ChrishiaVillarubia_FAS.png","source":"organizationalchartPDMU.html / organizationalchartLGMES.html / organizationalchartFAS.html"},{"name":"DONDON C. REYES","position":"PEO II / PDMU; PEO II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/DondonReyes_PDMU_FAS.png","source":"organizationalchartPDMU.html / organizationalchartLGMES.html / organizationalchartFAS.html"},{"name":"POLSTER NOKSMAN","position":"ISA I / FAS / PROVINCIAL ICTU","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartFAS.html"},{"name":"ALAN JAY V. YAP","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGMES / LGCDS","image":"organizationalchart/images/AlanJayVYap_LGMES_LGCDS.png","source":"organizationalchartLGMES.html / organizationalchartLGCDS.html"},{"name":"JUNNEL O. SARDA","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGMES / LGCDS","image":"organizationalchart/images/JunnelOSarda_LGMES.png","source":"organizationalchartLGMES.html / organizationalchartLGCDS.html"},{"name":"CLARICE KITZ ANDRIN","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/ClariceKitz_LGCDS.png","source":"organizationalchartLGCDS.html"},{"name":"AILEEN GRACE ARGAWANON-PECA","position":"LGOO II / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/AileenPeca_Naga.png","source":"organizationalchartLGMES.html"},{"name":"RANDEL CEDIE J. SAMONTE","position":"LGOO III / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/RandelCedieJSamonte_Boljoon.png","source":"organizationalchartLGMES.html"},{"name":"POL JOSEPH LOUIE L. LACANDULA","position":"LGOO II / LGMES / PROVINCIAL ICTU","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartLGMES.html"},{"name":"BILLY RAY T. PAPA","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/BillyRayTPapa_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"TEODORO M. DAMAYO JR.","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/TeodoroMDamayoJr_PDMU.png","source":"organizationalchartLGCDS.html"},{"name":"JOHN PHILIP P. CORPOSALES","position":"ENGINEER III / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/johnphilipcorposales_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"SHANNON LYN B. BELTRAN","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/shannon_beltran_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"JESSICA A. YRAT","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/jessica_yrat_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"JHUN ARDY CABRERA","position":"PEO II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/JhunArdyCabrera_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"MONICA ANN H. BRAGA","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/MonikaBraga_PDMU.png","source":"organizationalchartLGCDS.html"},{"name":"CECILLE C. BELCINA","position":"LGOO VI / MLGOO BORBON","scope":"Municipal","assignment":"BORBON","image":"organizationalchart/images/cecilleCbelcina_borbon.png","source":"organizationalcharttiga.html"},{"name":"AMMIE MARIE Z. GENERALE","position":"LGOO VI / MLGOO CARMEN","scope":"Municipal","assignment":"CARMEN","image":"organizationalchart/images/ammieMarieZGenerale_carmen.png","source":"organizationalcharttiga.html"},{"name":"EVALYN R. QUIROS","position":"LGOO VI / MLGOO CATMON","scope":"Municipal","assignment":"CATMON","image":"organizationalchart/images/evalyn_balamban.png","source":"organizationalcharttiga.html"},{"name":"MELBOURNE O. NAVALES","position":"LGOO VI / MLGOO COMPOSTELA","scope":"Municipal","assignment":"COMPOSTELA","image":"organizationalchart/images/MelbourneONavales_Compostela.png","source":"organizationalcharttiga.html"},{"name":"SHERYL A. PIDOR","position":"LGOO VI / MLGOO CONSOLACION","scope":"Municipal","assignment":"CONSOLACION","image":"organizationalchart/images/sherylpidor_consolacion.png","source":"organizationalcharttiga.html"},{"name":"SHEVAH TRIXY L. CAOCTOY","position":"LGOO VI / MLGOO CORDOVA","scope":"Municipal","assignment":"CORDOVA","image":"organizationalchart/images/shevahtrixyLcaoctoy_cordova.png","source":"organizationalcharttiga.html"},{"name":"GEMMA M. BERMOY","position":"LGOO VII / OIC-CLGOO DANAO CITY","scope":"City","assignment":"DANAO CITY","image":"organizationalchart/images/gemmabermoydanao.png","source":"organizationalcharttiga.html"},{"name":"JAMES ANDREW G. ANDAYA","position":"LGOO VI / MLGOO LILOAN","scope":"Municipal","assignment":"LILOAN","image":"organizationalchart/images/jamesandrewgandaya_liloan.png","source":"organizationalcharttiga.html"},{"name":"LOVIE B. DE LA CRUZ","position":"LGOO VI / MLGOO PILAR","scope":"Municipal","assignment":"PILAR","image":"organizationalchart/images/lovieBdeLaCruz_pilar.png","source":"organizationalcharttiga.html"},{"name":"CLIFF P. OTADOY","position":"LGOO VI / MLGOO PORO","scope":"Municipal","assignment":"PORO","image":"organizationalchart/images/cliff_poro.png","source":"organizationalcharttiga.html"},{"name":"GREGORY A. SOSMEÃ‘A","position":"LGOO VI / MLGOO SAN FRANCISCO","scope":"Municipal","assignment":"SAN FRANCISCO","image":"organizationalchart/images/sosmena_sanfran.png","source":"organizationalcharttiga.html"},{"name":"SHEILA G. DENDEN","position":"LGOO VI / MLGOO SOGOD","scope":"Municipal","assignment":"SOGOD","image":"organizationalchart/images/sheila_sogod.png","source":"organizationalcharttiga.html"},{"name":"PERSIUS R. BORLASA","position":"LGOO VI / MLGOO TUDELA","scope":"Municipal","assignment":"TUDELA","image":"organizationalchart/images/perseus_tudela.png","source":"organizationalcharttiga.html"},{"name":"JOSE REY A. PACRES","position":"LGOO VI / MLGOO ALEGRIA","scope":"Municipal","assignment":"ALEGRIA","image":"organizationalchart/images/pacres_alegria.png","source":"organizationalcharttribu.html"},{"name":"JUDELYN C. SALINAS","position":"LGOO VI / MLGOO ALCANTARA","scope":"Municipal","assignment":"ALCANTARA","image":"organizationalchart/images/judesalinas_alcantara.png","source":"organizationalcharttribu.html"},{"name":"DENNIS C. ITOM","position":"LGOO VI / MLGOO ALOGUINSAN","scope":"Municipal","assignment":"ALOGUINSAN","image":"organizationalchart/images/dennisitom_aloguinsan.png","source":"organizationalcharttribu.html"},{"name":"IRIS V. ARIAS","position":"LGOO VI / MLGOO BADIAN","scope":"Municipal","assignment":"BADIAN","image":"organizationalchart/images/irisarias_badian.png","source":"organizationalcharttribu.html"},{"name":"DANN MARR P. ANDRINO","position":"LGOO VI / MLGOO BARILI","scope":"Municipal","assignment":"BARILI","image":"organizationalchart/images/attydannmarr_barili.png","source":"organizationalcharttribu.html"},{"name":"GLENDA G. GABUYA","position":"LGOO VI / MLGOO DUMANJUG","scope":"Municipal","assignment":"DUMANJUG","image":"organizationalchart/images/gabuya_dumanjug.png","source":"organizationalcharttribu.html"},{"name":"Emmannuel S. Pedralba","position":"LGOO VI / MLGOO GINATILAN","scope":"Municipal","assignment":"GINATILAN","image":"organizationalchart/images/pedralba_ginatilan.png","source":"organizationalcharttribu.html"},{"name":"ELVIE S. GAUDAN","position":"LGOO VI / MLGOO MALABUYOC","scope":"Municipal","assignment":"MALABUYOC","image":"organizationalchart/images/elviegaudan_malabuyoc.png","source":"organizationalcharttribu.html"},{"name":"LYN N. AGUELO","position":"LGOO VI / MLGOO MOALBOAL","scope":"Municipal","assignment":"MOALBOAL","image":"organizationalchart/images/lynaguelo_moalboal.png","source":"organizationalcharttribu.html"},{"name":"JEFFREY A. LOPEZ","position":"LGOO VI / MLGOO PINAMUNGAJAN","scope":"Municipal","assignment":"PINAMUNGAJAN","image":"organizationalchart/images/lopez_pinamungajan.png","source":"organizationalcharttribu.html"},{"name":"JOSE MENELEO C. AQUINO","position":"LGOO VI / MLGOO RONDA","scope":"Municipal","assignment":"RONDA","image":"organizationalchart/images/aquino_ronda.png","source":"organizationalcharttribu.html"},{"name":"ABRAHAM REY C. DONALDO","position":"LGOO VI / CLGOO CITY OF TOLEDO","scope":"City","assignment":"TOLEDO","image":"organizationalchart/images/abbeydonaldo_toledo.png","source":"organizationalcharttribu.html"},{"name":"DEVON P. PAREDES","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/devon_p_paredes_lgcds.png","source":"organizationalchartLGCDS.html"},{"name":"ROJHELOU G. PATAC","position":"LGOO VI / CLGOO TALISAY CITY","scope":"City","assignment":"TALISAY","image":"organizationalchart/images/patac_talisaycity.png","source":"organizationalchartdasig.html"},{"name":"RICHY FORTICH AMATONG","position":"LGOO III / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/amatong_lgooIII_lgcds.png","source":"organizationalchartLGCDS.html"}];
+
+      const grid = document.getElementById("personnelGrid");
+      const searchInput = document.getElementById("personnelSearch");
+      const typeFilter = document.getElementById("personnelFilter");
+      const countLabel = document.getElementById("personnelCount");
+      const emptyState = document.getElementById("personnelEmpty");
+
+      function normalize(value) {
+        return String(value || "").toLowerCase().trim();
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function getPersonnelRank(person) {
+        const position = String(person.position || "").toUpperCase();
+
+        if (position.includes("PROVINCIAL DIRECTOR")) return 1;
+        if (position.includes("CLUSTER HEAD") || position.includes("LGOO VII")) return 2;
+        if (position.includes("PROGRAM MANAGER")) return 3;
+        if (position.includes("CHIEF")) return 4;
+        if (position.includes("LGOO VI")) return 5;
+        if (position.includes("LGOO V")) return 6;
+        if (position.includes("LGOO IV")) return 7;
+        if (position.includes("LGOO III")) return 8;
+        if (position.includes("LGOO II")) return 9;
+        if (position.includes("ENGINEER III")) return 10;
+        if (position.includes("ENGINEER II")) return 11;
+
+        return 99;
+      }
+
+      function getScopeRank(scope) {
+        if (scope === "Provincial") return 1;
+        if (scope === "City") return 2;
+        if (scope === "Municipal") return 3;
+        return 4;
+      }
+
+      function comparePersonnelRank(a, b) {
+        const rankDifference = getPersonnelRank(a) - getPersonnelRank(b);
+        if (rankDifference !== 0) return rankDifference;
+
+        const scopeDifference = getScopeRank(a.scope) - getScopeRank(b.scope);
+        if (scopeDifference !== 0) return scopeDifference;
+
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      }
+
+      const rankedPersonnelData = personnelData.slice().sort(comparePersonnelRank);
+
+      function cardTemplate(person) {
+        const assignment = person.assignment ? `<p class="personnel-assignment">${escapeHtml(person.assignment)}</p>` : "";
+        return `
+          <article class="personnel-card" data-scope="${escapeHtml(person.scope)}">
+            <div class="personnel-photo">
+              <img src="${escapeHtml(person.image)}" alt="${escapeHtml(person.name)}" loading="lazy" decoding="async">
+            </div>
+            <h2 class="personnel-name">${escapeHtml(person.name)}</h2>
+            <p class="personnel-position">${escapeHtml(person.position)}</p>
+            ${assignment}
+            <p class="personnel-scope">${escapeHtml(person.scope)}</p>
+          </article>`;
+      }
+
+      function renderPersonnel() {
+        const query = normalize(searchInput.value);
+        const selectedType = typeFilter.value;
+        const filtered = rankedPersonnelData.filter((person) => {
+          const haystack = normalize([person.name, person.position, person.scope, person.assignment, person.source].join(" "));
+          const matchesSearch = !query || haystack.includes(query);
+          const matchesType = selectedType === "All" || person.scope === selectedType;
+          return matchesSearch && matchesType;
+        });
+
+        grid.innerHTML = filtered.map(cardTemplate).join("");
+        countLabel.textContent = `Showing ${filtered.length} of ${personnelData.length} personnel`;
+        emptyState.classList.toggle("is-visible", filtered.length === 0);
+      }
+
+      searchInput.addEventListener("input", renderPersonnel);
+      typeFilter.addEventListener("change", renderPersonnel);
+      renderPersonnel();
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+        const navMenu = document.querySelector(".nav-menu");
+        if (mobileMenuToggle && navMenu) {
+          mobileMenuToggle.addEventListener("click", function () {
+            navMenu.classList.toggle("active");
+            mobileMenuToggle.classList.toggle("active");
+          });
+        }
+
+        const dropdownItems = document.querySelectorAll(".main-navigation .has-dropdown");
+        dropdownItems.forEach((item) => {
+          item.addEventListener("click", function (event) {
+            if (window.innerWidth <= 768) {
+              const link = this.querySelector(":scope > a");
+              if (link && event.target === link) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.classList.toggle("open");
+              }
+            }
+          });
+        });
+      });
+    </script>
 
 
 
 
-                      <div class="container grid-layout">
-                        <div class="text-content">
-                          <div class="learn-more-container">
-                            <a class="elementor-button elementor-button-link elementor-size-sm" href="index.html">
-                              <span class="elementor-button-content-wrapper">
-                                <span class="elementor-button-text">GO BACK</span>
-                              </span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                <div class="container grid-layout">
+                                                                                                  <div class="text-content">
+                                                                                                    <div class="learn-more-container">
+                                                                                                      <a class="elementor-button elementor-button-link elementor-size-sm" href="organizationalchartchief.html">
+                                                                                                        <span class="elementor-button-content-wrapper">
+                                                                                                          <span class="elementor-button-text">GO BACK</span>
+                                                                                                        </span>
+                                                                                                      </a>
+                                                                                                    </div>
+                                                                                                  </div>
+                                                                                                </div>
+
+
+
+
+
+
+
+
+                      
+                      
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1365,13 +1707,12 @@
       <div class="row justify-content-center">
         <div class="col-md text-center">
             <div class="jupiterx-subfooter-copyright mb-2" style="color: #f9fafb;">
-              © 2025 - DILG Cebu Province. All rights reserved. Created by: POLSTER NOKSMAN
+              Â© 2025 - DILG Cebu Province. All rights reserved. Created by: POLSTER NOKSMAN
             </div>
         </div>
       </div>
     </div>
   </div>
-</footer>
 </footer>
 
       </main>
