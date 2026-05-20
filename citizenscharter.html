@@ -714,54 +714,13 @@
       <header class="main-header">
 
 
-
-
-
-
-
-
-                    <!-- Overlay Date/Time/Weather Widget -->
-                    <div class="overlay-widget" id="header-widgets">
-                      <div id="date" class="overlay-text"></div>
-                      <div id="time" class="overlay-text"></div>
-                      <a class="weatherwidget-io"
-                        href="https://forecast7.com"
-                        data-label_1="WEATHER"
-                        data-label_2="TODAY"
-                        data-theme="original"
-                        data-basecolor="rgba(255, 255, 255, 0)"
-                        data-textcolor="#ffffff">
-                      </a>
+                    <!-- Header Date/Time/Weather Widget -->
+                    <div class="overlay-widget header-datetime-widget" data-header-clock data-weather-widget data-time-zone="Asia/Manila" aria-label="Current weather, date, and time">
+                      <div class="overlay-text header-weather" data-weather-status>Weather loading...</div>
+                      <time class="overlay-text header-date" data-clock-date></time>
+                      <time class="overlay-text header-time" data-clock-time></time>
                     </div>
-
-                  <!-- Time/Date Script -->
-                  <script>
-                    function updateDateTime() {
-                      const dateElem = document.getElementById("date");
-                      const timeElem = document.getElementById("time");
-                      const now = new Date();
-                      dateElem.textContent = now.toLocaleDateString('en-US', {
-                        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric'
-                      });
-                      timeElem.textContent = now.toLocaleTimeString('en-US', {
-                        hour: '2-digit', minute: '2-digit', second: '2-digit'
-                      });
-                    }
-                    setInterval(updateDateTime, 1000);
-                    updateDateTime();
-                  </script>
-
-                  <!-- Weather Widget Script -->
-                  <script>
-                    !function(d,s,id){
-                      var js, fjs = d.getElementsByTagName(s)[0];
-                      if(!d.getElementById(id)){
-                        js = d.createElement(s); js.id = id;
-                        js.src = 'https://weatherwidget.io/js/widget.min.js';
-                        fjs.parentNode.insertBefore(js,fjs);
-                      }
-                    }(document,'script','weatherwidget-io-js');
-                  </script>
+                    <script src="assets/js/header-clock-weather.js" defer></script>
 
 
 
