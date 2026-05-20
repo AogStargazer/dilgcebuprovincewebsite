@@ -506,6 +506,12 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    .main-header + .jupiterx-main {
+        padding-top: 28px !important;
+    }
+}
+
 /* -------------------- Image Row Styles -------------------- */
 .image-row {
     display: flex;
