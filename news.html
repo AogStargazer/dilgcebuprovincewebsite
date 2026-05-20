@@ -1210,7 +1210,7 @@
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
 
-                      <div style="padding-top:50px; padding-bottom:50px;">
+                      <div style="padding-top:10px; padding-bottom:10px;">
                       </div>
 
 
@@ -1219,95 +1219,269 @@
                         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
                           
                       
-                          <!-- DILG Cebu Province Facebook News Feed -->
-
                           <style>
-                            .news-wrapper {
-                              width: 100%;
-                              padding: 2rem 1rem;
-                              box-sizing: border-box;
+                            @font-face {
+                              font-family: "Moon Time";
+                              src: url("assets/fonts/moon-time-regular.ttf") format("truetype");
+                              font-weight: 400;
+                              font-style: normal;
+                              font-display: swap;
                             }
-
-                            .news-container {
-                              width: min(100%, 760px);
+                            .news-page-content {
+                              width: 100%;
+                              max-width: 1180px;
                               margin: 0 auto;
-                              padding: 1.5rem;
-                              background: rgba(255, 255, 255, 0.92);
-                              border: 1px solid rgba(0, 0, 0, 0.08);
-                              border-radius: 8px;
-                              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                              padding: 20px 18px 42px;
                               box-sizing: border-box;
+                              font-family: Arial, Helvetica, sans-serif;
                             }
-
-                            .news-container h2 {
-                              margin: 0 0 1rem;
-                              color: #0f6684;
-                              font-size: 2rem;
-                              line-height: 1.2;
+                            .news-page-title {
+                              margin: 0 0 22px;
+                              color: #111111;
+                              font-size: 34px;
+                              font-weight: 900;
+                              line-height: 1.1;
                               text-align: center;
+                              text-transform: uppercase;
+                              letter-spacing: 0;
                             }
-
-                            .facebook-feed-frame {
+                            .sugbo-title-script {
+                              color: #111111;
+                              font-family: "Moon Time", Arial, Helvetica, sans-serif;
+                              font-size: 1.45em;
+                              font-weight: 900;
+                              line-height: 0.8;
+                              text-transform: none;
+                            }
+                            .news-slider-wrap {
+                              margin: 0 auto 32px;
+                            }
+                            .news-page-content .main-slider-container {
+                              max-width: 100%;
+                              aspect-ratio: 16 / 7;
+                              background: #f4f6f9;
+                              border: 1px solid #d6dce6;
+                              border-radius: 8px;
+                              box-shadow: 0 6px 18px rgba(18, 59, 122, 0.14);
+                            }
+                            .news-page-content .main-slider {
+                              height: 100%;
+                            }
+                            .news-page-content .main-slide::after {
+                              content: "";
+                              position: absolute;
+                              inset: 0;
+                              background: linear-gradient(90deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.12) 58%, rgba(0, 0, 0, 0.03));
+                            }
+                            .news-slide-caption {
+                              position: absolute;
+                              left: 34px;
+                              bottom: 30px;
+                              z-index: 2;
+                              max-width: 720px;
+                              text-align: left;
+                            }
+                            .news-slide-caption p {
+                              display: inline-block;
+                              margin: 0 0 10px;
+                              padding: 5px 10px;
+                              color: #003a78;
+                              background: #fff4c8;
+                              border: 1px solid #f2b705;
+                              font-size: 12px;
+                              font-weight: 800;
+                              text-transform: uppercase;
+                            }
+                            .news-slide-caption h2 {
+                              margin: 0;
+                              color: #ffffff;
+                              font-size: 30px;
+                              font-weight: 900;
+                              line-height: 1.15;
+                              text-transform: uppercase;
+                              text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+                            }
+                            .sugbo-balita-list {
                               display: flex;
-                              justify-content: center;
-                              width: 100%;
+                              flex-direction: column;
+                              gap: 22px;
+                            }
+                            .sugbo-balita-item {
+                              display: grid;
+                              grid-template-columns: 250px 1fr;
+                              gap: 24px;
+                              align-items: start;
+                              min-height: 218px;
+                              padding: 24px 28px;
+                              background: linear-gradient(90deg, #f7f9fc 0%, #ffffff 100%);
+                              border: 1px solid #d6dce6;
+                              border-left: 7px solid #f2b705;
+                              border-radius: 7px;
+                              box-shadow: 0 5px 15px rgba(18, 59, 122, 0.09);
+                              text-align: left;
+                            }
+                            .sugbo-balita-thumb {
+                              width: 250px;
+                              height: 200px;
+                              padding: 7px;
+                              background: #ffffff;
+                              border: 1px solid #d8d8d8;
+                              box-shadow: 0 3px 8px rgba(0, 0, 0, 0.10);
                               overflow: hidden;
                             }
-
-                            .facebook-feed-fallback {
-                              margin-top: 1rem;
-                              text-align: center;
+                            .sugbo-balita-thumb img {
+                              display: block;
+                              width: 100% !important;
+                              max-width: none !important;
+                              height: 100% !important;
+                              object-fit: cover;
+                              object-position: center;
                             }
-
-                            .facebook-feed-fallback a {
-                              color: #0f6684;
-                              font-weight: 700;
-                              text-decoration: none;
+                            .sugbo-balita-kicker {
+                              display: inline-block;
+                              margin: 0 0 8px;
+                              padding: 4px 9px;
+                              color: #123b7a;
+                              background: #fff4c8;
+                              border: 1px solid #f2b705;
+                              font-size: 12px;
+                              font-weight: 800;
+                              line-height: 1;
+                              text-transform: uppercase;
                             }
-
-                            .facebook-feed-fallback a:hover {
-                              text-decoration: underline;
+                            .sugbo-balita-headline {
+                              margin: 0 0 8px;
+                              color: #003a78;
+                              font-size: 24px;
+                              font-weight: 900;
+                              line-height: 1.2;
+                              letter-spacing: 0;
+                              text-transform: uppercase;
                             }
-
-                            @media (max-width: 768px) {
-                              .news-wrapper {
-                                padding: 1rem 0.75rem;
+                            .sugbo-balita-item:first-child .sugbo-balita-headline {
+                              color: #19d900;
+                            }
+                            .sugbo-balita-date {
+                              margin: 0 0 10px;
+                              color: #d00000;
+                              font-size: 16px;
+                              font-weight: 800;
+                            }
+                            .sugbo-balita-summary {
+                              max-width: 880px;
+                              margin: 0;
+                              color: #333333;
+                              font-size: 15px;
+                              line-height: 1.55;
+                            }
+                            @media (max-width: 700px) {
+                              .news-page-title {
+                                font-size: 26px;
                               }
-
-                              .news-container {
-                                padding: 1rem 0.5rem;
+                              .news-page-content .main-slider-container {
+                                aspect-ratio: 4 / 3;
                               }
-
-                              .news-container h2 {
-                                font-size: 1.5rem;
+                              .news-slide-caption {
+                                left: 18px;
+                                right: 18px;
+                                bottom: 18px;
+                              }
+                              .news-slide-caption h2 {
+                                font-size: 20px;
+                              }
+                              .sugbo-balita-item {
+                                grid-template-columns: 120px 1fr;
+                                gap: 15px;
+                                min-height: 0;
+                                padding: 16px;
+                              }
+                              .sugbo-balita-thumb {
+                                width: 120px;
+                                height: 96px;
+                                padding: 5px;
+                              }
+                              .sugbo-balita-headline {
+                                font-size: 17px;
+                              }
+                              .sugbo-balita-date {
+                                font-size: 14px;
+                              }
+                              .sugbo-balita-summary {
+                                font-size: 14px;
                               }
                             }
                           </style>
 
-                          <div id="fb-root"></div>
-                          <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0"></script>
+                          <div class="news-page-content">
+                            <h1 class="news-page-title">
+                              DILG <span class="sugbo-title-script">Sugbo</span> News and Updates
+                            </h1>
 
-                          <div class="news-wrapper">
-                            <div class="news-container">
-                              <h2>News &amp; Updates</h2>
-                              <div class="facebook-feed-frame">
-                                <div class="fb-page"
-                                     data-href="https://www.facebook.com/DILGCebuProvince"
-                                     data-tabs="timeline"
-                                     data-width="700"
-                                     data-height="850"
-                                     data-small-header="true"
-                                     data-adapt-container-width="true"
-                                     data-hide-cover="false"
-                                     data-show-facepile="false">
-                                  <blockquote cite="https://www.facebook.com/DILGCebuProvince" class="fb-xfbml-parse-ignore">
-                                    <a href="https://www.facebook.com/DILGCebuProvince">DILG Cebu Province</a>
-                                  </blockquote>
+                            <div class="news-slider-wrap">
+                              <div class="main-slider-container" aria-label="Featured DILG Sugbo news images">
+                                <div class="main-slider" id="mainPageSlider">
+                                  <div class="main-slide">
+                                    <img src="images/mainpagealbum/1.jpg?v=2" alt="DILG Cebu Province local governance activity" loading="lazy" decoding="async">
+                                    <div class="news-slide-caption">
+                                      <p>Featured News</p>
+                                      <h2>DILG Cebu Province strengthens LGU partnerships</h2>
+                                    </div>
+                                  </div>
+                                  <div class="main-slide">
+                                    <img src="images/mainpagealbum/2.jpg?v=2" alt="Barangay officials attending a planning session" loading="lazy" decoding="async">
+                                    <div class="news-slide-caption">
+                                      <p>Capacity Building</p>
+                                      <h2>Barangay leaders complete workshop on resilience</h2>
+                                    </div>
+                                  </div>
+                                  <div class="main-slide">
+                                    <img src="images/mainpagealbum/3.jpg?v=2" alt="Cebu local government coordination activity" loading="lazy" decoding="async">
+                                    <div class="news-slide-caption">
+                                      <p>Public Service</p>
+                                      <h2>Cebu LGUs recognized for people-first delivery</h2>
+                                    </div>
+                                  </div>
                                 </div>
+                                <button class="slider-nav prev-slide" type="button" aria-label="Previous news image">&#10094;</button>
+                                <button class="slider-nav next-slide" type="button" aria-label="Next news image">&#10095;</button>
+                                <div class="slider-pagination" id="sliderPagination" aria-label="News slider pagination"></div>
                               </div>
-                              <p class="facebook-feed-fallback">
-                                <a href="https://www.facebook.com/DILGCebuProvince" target="_blank" rel="noopener">Open DILG Cebu Province on Facebook</a>
-                              </p>
+                            </div>
+
+                            <div class="sugbo-balita-list">
+                              <article class="sugbo-balita-item">
+                                <div class="sugbo-balita-thumb">
+                                  <img src="images/mainpagealbum/1.jpg?v=2" alt="DILG Cebu Province local governance activity" loading="lazy" decoding="async">
+                                </div>
+                                <div>
+                                  <p class="sugbo-balita-kicker">Governance</p>
+                                  <h2 class="sugbo-balita-headline">DILG Cebu Province strengthens LGU partnerships for responsive local governance</h2>
+                                  <p class="sugbo-balita-date">May 20, 2026</p>
+                                  <p class="sugbo-balita-summary">Field officers and local officials align priority programs on barangay development, public safety, and citizen-centered service delivery across Cebu Province.</p>
+                                </div>
+                              </article>
+                              <article class="sugbo-balita-item">
+                                <div class="sugbo-balita-thumb">
+                                  <img src="images/mainpagealbum/2.jpg?v=2" alt="Barangay officials attending a planning session" loading="lazy" decoding="async">
+                                </div>
+                                <div>
+                                  <p class="sugbo-balita-kicker">Capacity Building</p>
+                                  <h2 class="sugbo-balita-headline">Barangay leaders complete workshop on peace, order, and community resilience</h2>
+                                  <p class="sugbo-balita-date">May 20, 2026</p>
+                                  <p class="sugbo-balita-summary">Participants reviewed practical tools for planning, reporting, and coordinating local initiatives that support safer and more prepared communities.</p>
+                                </div>
+                              </article>
+                              <article class="sugbo-balita-item">
+                                <div class="sugbo-balita-thumb">
+                                  <img src="images/mainpagealbum/3.jpg?v=2" alt="Cebu local government coordination activity" loading="lazy" decoding="async">
+                                </div>
+                                <div>
+                                  <p class="sugbo-balita-kicker">Public Service</p>
+                                  <h2 class="sugbo-balita-headline">Cebu LGUs recognized for innovative and people-first service delivery</h2>
+                                  <p class="sugbo-balita-date">May 20, 2026</p>
+                                  <p class="sugbo-balita-summary">The recognition highlights local government units that continue to improve frontline services, transparency practices, and community engagement.</p>
+                                </div>
+                              </article>
                             </div>
                           </div>
 
