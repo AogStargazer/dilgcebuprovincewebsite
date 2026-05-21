@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>DILG Cebu Province – Department of the Interior and Local Government Cebu Province</title>
+    <meta name="robots" content="max-image-preview:large" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="main-index-styles.css" type="text/css" media="all" />
+    <style>
+      img:is([sizes="auto" i], [sizes^="auto," i]) {
+        contain-intrinsic-size: 3000px 1500px;
+      }
+      /* Mobile Compatibility - Base Styles */
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
+      /* Consolidated Main Slider CSS */
+      .main-slider-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      /* Main slider now uses aspect-ratio from styles.css instead of fixed heights for better responsiveness */
+      .main-slider {
+        display: flex;
+        transition: transform 0.5s ease;
+        /* height property removed - now using aspect-ratio from styles.css */
+      }
+      .main-slide {
+        min-width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      .main-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        z-index: 10;
+        transition: background 0.3s;
+      }
+      .slider-nav:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+      .prev-slide {
+        left: 20px;
+      }
+      .next-slide {
+        right: 20px;
+      }
+      .slider-pagination {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+      }
+      .pagination-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .pagination-dot.active {
+        background: white;
+      }
+      .slider-note {
+        text-align: center;
+        margin-top: 10px;
+        font-style: italic;
+        color: #666;
+        font-size: 14px;
+      }
+      /* Mobile responsiveness for slider */
+      @media (max-width: 768px) {
+
+        /* Slider now uses aspect-ratio from styles.css instead of fixed heights */
+        
+        /* Adjust slider navigation buttons for a better touch experience */
+        .slider-nav {
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+        
+        /* Adjust pagination dots position for better visibility */
+        .slider-pagination {
+          bottom: 10px;
+        }
+        
+        .pagination-dot {
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      
+      /* Mobile Portrait Orientation */
+      @media screen and (max-width: 768px) and (orientation: portrait) {
+        /* Slider adjustments for portrait */
+        .main-slider-container {
+          max-width: 100%;
+          margin: 0 auto;
+        }
+        
+        /* .main-slider height removed - now using aspect-ratio from styles.css */
+        
+        /* Navigation adjustments */
+        .main-navigation {
+          padding: 10px 5px;
+        }
+        
+        .nav-logo img {
+          max-width: 80px;
+        }
+        
+        /* Grid layout adjustments */
+        .container.grid-layout {
+          display: flex;
+          flex-direction: column;
+          padding: 15px 10px;
+        }
+        
+        .container.grid-layout .logo {
+          max-width: 120px;
+          margin: 0 auto 15px;
+        }
+        
+        .container.grid-layout .text-content {
+          text-align: center;
+          padding: 0 10px;
+        }
+        
+        .container.grid-layout .heading {
+          font-size: 18px;
+          line-height: 1.3;
+          margin-bottom: 10px;
+        }
+        
+        .container.grid-layout .paragraph {
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        
+        .container.grid-layout .button-container {
+          margin-top: 15px;
+          text-align: center;
+        }
+        
+        /* Image row adjustments */
+        .image-row {
+          padding: 5px 0;
+        }
+        
+        .image-row img {
+          max-width: 140px;
+        }
+      }
+      
+      /* Mobile Landscape Orientation */
+      @media screen and (max-width: 900px) and (orientation: landscape) {
+        /* Slider adjustments for landscape */
+        .main-slider-container {
+          max-width: 100%;
+        }
+        
+        /* .main-slider height removed - now using aspect-ratio from styles.css */
+        
+        /* Reduce padding in landscape */
+        body {
+          padding-top: 0;
+        }
+        
+        .main-header {
+          position: relative;
+        }
+        
+        /* Grid layout adjustments for landscape */
+        .container.grid-layout {
+          display: grid;
+          grid-template-columns: 120px 1fr;
+          grid-gap: 15px;
+          padding: 10px;
+          align-items: center;
+        }
+        
+        .container.grid-layout .logo {
+          grid-row: 1;
+          grid-column: 1;
+          max-width: 100px;
+        }
+        
+        .container.grid-layout .text-content {
+          grid-row: 1;
+          grid-column: 2;
+          padding-right: 10px;
+        }
+        
+        .container.grid-layout .heading {
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+        
+        .container.grid-layout .paragraph {
+          font-size: 13px;
+          line-height: 1.3;
+          margin-bottom: 5px;
+        }
+        
+        .container.grid-layout .button-container {
+          grid-row: 2;
+          grid-column: 1 / span 2;
+          margin-top: 10px;
+        }
+        
+        /* Adjust navigation for landscape */
+        .mobile-menu-toggle {
+          top: 10px;
+          right: 10px;
+        }
+        
+        /* Footer adjustments */
+        .jupiterx-footer-widgets {
+          padding: 20px 0;
+        }
+        
+        /* Image row adjustments for landscape */
+        .image-row {
+          overflow-x: auto;
+          justify-content: flex-start;
+          padding: 5px;
+        }
+        
+        .image-row img {
+          max-width: 120px;
+          margin-right: 10px;
+        }
+      }
+
+      /* Consolidated Image Row CSS */
+      .image-row {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        overflow-x: auto;
+      }
+      .image-row a {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+      }
+      
+      .attached-agencies .image-row a {
+        margin: 0 10px;
+      }
+      .image-row a:hover {
+        transform: translateY(-5px);
+      }
+      .image-row img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      @media (max-width: 768px) {
+        .image-row {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        
+        /* Touch-friendly adjustments */
+        .image-row a {
+          padding: 8px;
+          margin: 5px;
+        }
+        
+        .image-row img {
+          max-width: 150px;
+        }
+      }
+      
+      /* Attached image row CSS */
+      .attached-image-row {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        overflow-x: auto;
+      }
+      
+      .attached-image-row a {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+      }
+      
+      .attached-agencies .attached-image-row a {
+        margin: 0 10px;
+      }
+      
+      .attached-image-row a:hover {
+        transform: translateY(-5px);
+      }
+      
+      .attached-image-row img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      
+      @media (max-width: 768px) {
+        .attached-image-row {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        
+        /* Touch-friendly adjustments */
+        .attached-image-row a {
+          padding: 8px;
+          margin: 5px;
+        }
+        
+        .attached-image-row img {
+          max-width: 150px;
+        }
+      }
+    </style>
+    <link rel="alternate" type="application/rss+xml" title="DILG Cebu Province &raquo; Feed" href="feed/index.html" />
+    <link rel="alternate" type="application/rss+xml" title="DILG Cebu Province &raquo; Comments Feed" href="comments/feed/index.html" />
+    <script type="text/javascript">
+      /* <![CDATA[ */
+      /*! This file is auto-generated */
+      !function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}(window,document);
+      /* ]]> */
+    </script>
+    <style id="wp-emoji-styles-inline-css" type="text/css">
+      img.wp-smiley, img.emoji {
+        display: inline !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: 1em !important;
+        width: 1em !important;
+        margin: 0 0.07em !important;
+        vertical-align: -0.1em !important;
+        background: none !important;
+        padding: 0 !important;
+      }
+    </style>
+    <style id="classic-theme-styles-inline-css" type="text/css">
+      /*! This file is auto-generated */
+      .wp-block-button__link {
+        color: #fff;
+        background-color: #32373c;
+        border-radius: 9999px;
+        box-shadow: none;
+        text-decoration: none;
+        padding: calc(.667em + 2px) calc(1.333em + 2px);
+        font-size: 1.125em;
+      }
+      .wp-block-file__button {
+        background: #32373c;
+        color: #fff;
+        text-decoration: none;
+      }
+    </style>
+    <style id="global-styles-inline-css" type="text/css">
+      :root {
+        --wp--preset--aspect-ratio--square: 1;
+        --wp--preset--aspect-ratio--4-3: 4 / 3;
+        --wp--preset--aspect-ratio--3-4: 3 / 4;
+        --wp--preset--aspect-ratio--3-2: 3 / 2;
+        --wp--preset--aspect-ratio--2-3: 2 / 3;
+        --wp--preset--aspect-ratio--16-9: 16 / 9;
+        --wp--preset--aspect-ratio--9-16: 9 / 16;
+        --wp--preset--color--black: #000000;
+        --wp--preset--color--cyan-bluish-gray: #abb8c3;
+        --wp--preset--color--white: #ffffff;
+        --wp--preset--color--pale-pink: #f78da7;
+        --wp--preset--color--vivid-red: #cf2e2e;
+        --wp--preset--color--luminous-vivid-orange: #ff6900;
+        --wp--preset--color--luminous-vivid-amber: #fcb900;
+        --wp--preset--color--light-green-cyan: #7bdcb5;
+        --wp--preset--color--vivid-green-cyan: #00d084;
+        --wp--preset--color--pale-cyan-blue: #8ed1fc;
+        --wp--preset--color--vivid-cyan-blue: #0693e3;
+        --wp--preset--color--vivid-purple: #9b51e0;
+        --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
+        --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
+        --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
+        --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
+        --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
+        --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
+        --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
+        --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
+        --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
+        --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
+        --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
+        --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
+        --wp--preset--font-size--small: 13px;
+        --wp--preset--font-size--medium: 20px;
+        --wp--preset--font-size--large: 36px;
+        --wp--preset--font-size--x-large: 42px;
+        --wp--preset--spacing--20: 0.44rem;
+        --wp--preset--spacing--30: 0.67rem;
+        --wp--preset--spacing--40: 1rem;
+        --wp--preset--spacing--50: 1.5rem;
+        --wp--preset--spacing--60: 2.25rem;
+        --wp--preset--spacing--70: 3.38rem;
+        --wp--preset--spacing--80: 5.06rem;
+        --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+        --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+        --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 1);
+        --wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1),
+          6px 6px rgba(0, 0, 0, 1);
+        --wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);
+      }
+      :where(.is-layout-flex) {
+        gap: 0.5em;
+      }
+      :where(.is-layout-grid) {
+        gap: 0.5em;
+      }
+      body .is-layout-flex {
+        display: flex;
+      }
+      .is-layout-flex {
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .is-layout-flex > :is(*, div) {
+        margin: 0;
+      }
+      body .is-layout-grid {
+        display: grid;
+      }
+      .is-layout-grid > :is(*, div) {
+        margin: 0;
+      }
+      :where(.wp-block-columns.is-layout-flex) {
+        gap: 2em;
+      }
+      :where(.wp-block-columns.is-layout-grid) {
+        gap: 2em;
+      }
+      :where(.wp-block-post-template.is-layout-flex) {
+        gap: 1.25em;
+      }
+      :where(.wp-block-post-template.is-layout-grid) {
+        gap: 1.25em;
+      }
+      .has-black-color {
+        color: var(--wp--preset--color--black) !important;
+      }
+      .has-cyan-bluish-gray-color {
+        color: var(--wp--preset--color--cyan-bluish-gray) !important;
+      }
+      .has-white-color {
+        color: var(--wp--preset--color--white) !important;
+      }
+      .has-pale-pink-color {
+        color: var(--wp--preset--color--pale-pink) !important;
+      }
+      .has-vivid-red-color {
+        color: var(--wp--preset--color--vivid-red) !important;
+      }
+      .has-luminous-vivid-orange-color {
+        color: var(--wp--preset--color--luminous-vivid-orange) !important;
+      }
+      .has-luminous-vivid-amber-color {
+        color: var(--wp--preset--color--luminous-vivid-amber) !important;
+      }
+      .has-light-green-cyan-color {
+        color: var(--wp--preset--color--light-green-cyan) !important;
+      }
+      .has-vivid-green-cyan-color {
+        color: var(--wp--preset--color--vivid-green-cyan) !important;
+      }
+      .has-pale-cyan-blue-color {
+        color: var(--wp--preset--color--pale-cyan-blue) !important;
+      }
+      .has-vivid-cyan-blue-color {
+        color: var(--wp--preset--color--vivid-cyan-blue) !important;
+      }
+      .has-vivid-purple-color {
+        color: var(--wp--preset--color--vivid-purple) !important;
+      }
+      .has-black-background-color {
+        background-color: var(--wp--preset--color--black) !important;
+      }
+      .has-cyan-bluish-gray-background-color {
+        background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+      }
+      .has-white-background-color {
+        background-color: var(--wp--preset--color--white) !important;
+      }
+      .has-pale-pink-background-color {
+        background-color: var(--wp--preset--color--pale-pink) !important;
+      }
+      .has-vivid-red-background-color {
+        background-color: var(--wp--preset--color--vivid-red) !important;
+      }
+      .has-luminous-vivid-orange-background-color {
+        background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+      }
+      .has-luminous-vivid-amber-background-color {
+        background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+      }
+      .has-light-green-cyan-background-color {
+        background-color: var(--wp--preset--color--light-green-cyan) !important;
+      }
+      .has-vivid-green-cyan-background-color {
+        background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+      }
+      .has-pale-cyan-blue-background-color {
+        background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+      }
+      .has-vivid-cyan-blue-background-color {
+        background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+      }
+      .has-vivid-purple-background-color {
+        background-color: var(--wp--preset--color--vivid-purple) !important;
+      }
+      .has-black-border-color {
+        border-color: var(--wp--preset--color--black) !important;
+      }
+      .has-cyan-bluish-gray-border-color {
+        border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+      }
+      .has-white-border-color {
+        border-color: var(--wp--preset--color--white) !important;
+      }
+      .has-pale-pink-border-color {
+        border-color: var(--wp--preset--color--pale-pink) !important;
+      }
+      .has-vivid-red-border-color {
+        border-color: var(--wp--preset--color--vivid-red) !important;
+      }
+      .has-luminous-vivid-orange-border-color {
+        border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+      }
+      .has-luminous-vivid-amber-border-color {
+        border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+      }
+      .has-light-green-cyan-border-color {
+        border-color: var(--wp--preset--color--light-green-cyan) !important;
+      }
+      .has-vivid-green-cyan-border-color {
+        border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+      }
+      .has-pale-cyan-blue-border-color {
+        border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+      }
+      .has-vivid-cyan-blue-border-color {
+        border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+      }
+      .has-vivid-purple-border-color {
+        border-color: var(--wp--preset--color--vivid-purple) !important;
+      }
+      .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+        background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+      }
+      .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+        background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+      }
+      .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+        background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+      }
+      .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+        background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+      }
+      .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+        background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+      }
+      .has-cool-to-warm-spectrum-gradient-background {
+        background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+      }
+      .has-blush-light-purple-gradient-background {
+        background: var(--wp--preset--gradient--blush-light-purple) !important;
+      }
+      .has-blush-bordeaux-gradient-background {
+        background: var(--wp--preset--gradient--blush-bordeaux) !important;
+      }
+      .has-luminous-dusk-gradient-background {
+        background: var(--wp--preset--gradient--luminous-dusk) !important;
+      }
+      .has-pale-ocean-gradient-background {
+        background: var(--wp--preset--gradient--pale-ocean) !important;
+      }
+      .has-electric-grass-gradient-background {
+        background: var(--wp--preset--gradient--electric-grass) !important;
+      }
+      .has-midnight-gradient-background {
+        background: var(--wp--preset--gradient--midnight) !important;
+      }
+      .has-small-font-size {
+        font-size: var(--wp--preset--font-size--small) !important;
+      }
+      .has-medium-font-size {
+        font-size: var(--wp--preset--font-size--medium) !important;
+      }
+      .has-large-font-size {
+        font-size: var(--wp--preset--font-size--large) !important;
+      }
+      .has-x-large-font-size {
+        font-size: var(--wp--preset--font-size--x-large) !important;
+      }
+      :where(.wp-block-post-template.is-layout-flex) {
+        gap: 1.25em;
+      }
+      :where(.wp-block-post-template.is-layout-grid) {
+        gap: 1.25em;
+      }
+    </style>
+    <link rel="stylesheet" id="jupiterx-css" href="/wp-content/themes/jupiterx/lib/assets/dist/css/frontend.min.css?ver=1.5.0" type="text/css" media="all" />
+    <link rel="stylesheet" id="font-awesome-all-css" href="/wp-content/plugins/jet-menu/assets/public/lib/font-awesome/css/all.min.css?ver=5.12.0" type="text/css" media="all" />
+    <link rel="stylesheet" id="font-awesome-v4-shims-css" href="/wp-content/plugins/jet-menu/assets/public/lib/font-awesome/css/v4-shims.min.css?ver=5.12.0" type="text/css" media="all" />
+    <link rel="stylesheet" id="jet-menu-public-styles-css" href="/wp-content/plugins/jet-menu/assets/public/css/public.css?ver=2.1.7" type="text/css" media="all" />
+    <link rel="stylesheet" id="jet-popup-frontend-css" href="/wp-content/plugins/jet-popup/assets/css/jet-popup-frontend.css?ver=1.5.6" type="text/css" media="all" />
+    <style id="akismet-widget-style-inline-css" type="text/css">
+    </style>
+    <link rel="stylesheet" id="elementor-icons-css" href="/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.36.0" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-frontend-css" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-post-3750-css" href="/wp-content/uploads/elementor/css/post-3750.css?ver=1734676525" type="text/css" media="all" />
+    <link rel="stylesheet" id="jet-tabs-frontend-css" href="/wp-content/plugins/jet-tabs/assets/css/jet-tabs-frontend.css?ver=2.1.17" type="text/css" media="all" />
+    <link rel="stylesheet" id="font-awesome-5-all-css" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="font-awesome-4-shim-css" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-spacer-css" href="/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="swiper-css" href="/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=8.4.5" type="text/css" media="all" />
+    <link rel="stylesheet" id="e-swiper-css" href="/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-image-carousel-css" href="/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-divider-css" href="/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-image-css" href="/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-heading-css" href="/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-text-editor-css" href="/wp-content/plugins/elementor/assets/css/widget-text-editor.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-image-gallery-css" href="/wp-content/plugins/elementor/assets/css/widget-image-gallery.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="widget-video-css" href="/wp-content/plugins/elementor/assets/css/widget-video.min.css?ver=3.28.1" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-post-250-css" href="/wp-content/uploads/elementor/css/post-250.css?ver=1737450120" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-gf-local-roboto-css" href="/wp-content/uploads/elementor/google-fonts/css/roboto.css?ver=1742236706" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-gf-local-robotoslab-css" href="/wp-content/uploads/elementor/google-fonts/css/robotoslab.css?ver=1742236710" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-icons-shared-0-css" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3" type="text/css" media="all" />
+    <link rel="stylesheet" id="elementor-icons-fa-solid-css" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=5.15.3" type="text/css" media="all" />
+    <script type="text/javascript" src="/wp-content/themes/jupiterx/lib/admin/assets/lib/webfont/webfont.min.js?ver=1.6.26" id="jupiterx-webfont-js"></script>
+    <script type="text/javascript" id="jupiterx-webfont-js-after">
+      /* <![CDATA[ */
+      WebFont.load({
+        google: {
+          families: [
+            'Droid Serif:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic',
+            'Droid Sans:100,200,300,400,500,600,700,800,900,100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic'
+          ]
+        }
+      });
+      /* ]]> */
+    </script>
+    <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+    <script type="text/javascript" src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js?ver=3.28.1" id="font-awesome-4-shim-js"></script>
+    <link rel="https://api.w.org/" href="wp-json/index.html" />
+    <link rel="alternate" title="JSON" type="application/json" href="wp-json/wp/v2/pages/250" />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="xmlrpc.php?rsd" />
+    <meta name="generator" content="WordPress 6.7.2" />
+    <link rel="canonical" href="index.html" />
+    <link rel="shortlink" href="index.html" />
+     <meta name="generator" content="Elementor 3.28.1; features: additional_custom_breakpoints, e_local_google_fonts; settings: css_print_method-external, google_font-enabled, font_display-auto" />
+    <link rel="stylesheet" href="menu.css" type="text/css" media="all">
+        <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/assets/js/service-worker.js')
+          .catch(console.error);
+      }
+    </script>
+  </head>
+  <body class="home page-template page-template-elementor_header_footer page page-id-250 current_page_item no-js jet-desktop-menu-active elementor-default elementor-template-full-width elementor-kit-3750 elementor-page elementor-page-250 jupiterx-header-fixed jupiterx-header-overlapped jupiterx-header-overlapped-tablet jupiterx-header-overlapped-mobile main-page" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+    <div class="jupiterx-site">
+      <header class="main-header">
+
+
+                    <!-- Header Date/Time/Weather Widget -->
+                    <div class="overlay-widget header-datetime-widget" data-header-clock data-weather-widget data-time-zone="Asia/Manila" aria-label="Current weather, date, and time">
+                      <div class="overlay-text header-weather" data-weather-status>Weather loading...</div>
+                      <time class="overlay-text header-date" data-clock-date></time>
+                      <time class="overlay-text header-time" data-clock-time></time>
+                    </div>
+                    <script src="assets/js/header-clock-weather.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <style>
+          /* Clean cascading flyout menu */
+          .main-navigation .main-menu li.has-dropdown {
+            position: relative;
+          }
+
+          .main-navigation .main-menu li.has-dropdown > .dropdown-menu {
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 250px;
+            max-height: none;
+            overflow: visible;
+            padding: 0;
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: none !important;
+            transition: opacity 0.12s ease;
+            z-index: 1000;
+          }
+
+          .main-navigation .main-menu li.has-dropdown:hover > .dropdown-menu {
+            opacity: 1 !important;
+            visibility: visible !important;
+          }
+
+          .main-navigation .main-menu .dropdown-menu li.has-dropdown > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-left: 0;
+            min-width: 230px;
+            z-index: 1001;
+          }
+
+          .main-navigation .main-menu li.has-dropdown ul.dropdown-menu li.has-dropdown > ul.dropdown-menu {
+            max-height: none !important;
+            overflow: visible !important;
+            overflow-x: visible !important;
+            overflow-y: visible !important;
+          }
+
+          .main-navigation .main-menu .dropdown-menu li.has-dropdown.flyout-positioned > .dropdown-menu {
+            position: fixed !important;
+            left: var(--flyout-left) !important;
+            top: var(--flyout-top) !important;
+          }
+
+          .main-navigation .main-menu .dropdown-menu li {
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+          }
+
+          .main-navigation .main-menu .dropdown-menu li:last-child {
+            border-bottom: 0;
+          }
+
+          .main-navigation .main-menu .dropdown-menu a {
+            display: block;
+            min-height: 36px;
+            padding: 8px 34px 8px 14px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.25;
+            text-decoration: none;
+            white-space: normal;
+          }
+
+          .main-navigation .main-menu .dropdown-menu a:hover,
+          .main-navigation .main-menu .dropdown-menu li.has-dropdown:hover > a {
+            background: #f3f7fb;
+            color: #000000;
+            padding-left: 14px;
+          }
+
+          .main-navigation .main-menu .dropdown-menu li.has-dropdown > a::after {
+            content: ">";
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            font-size: 12px;
+          }
+
+          @media (max-width: 768px) {
+            .main-navigation .main-menu li.has-dropdown > .dropdown-menu,
+            .main-navigation .main-menu .dropdown-menu li.has-dropdown > .dropdown-menu {
+              position: static;
+              display: block;
+              width: 100%;
+              min-width: 0;
+              opacity: 1 !important;
+              visibility: visible !important;
+              box-shadow: none;
+              border: 0;
+              max-height: 0;
+              overflow: hidden;
+              margin: 0;
+              padding: 0;
+              background: transparent;
+              transition: max-height 0.2s ease;
+            }
+
+            .main-navigation .main-menu .dropdown-menu li.has-dropdown.flyout-positioned > .dropdown-menu {
+              position: static !important;
+              left: auto !important;
+              top: auto !important;
+            }
+
+            .main-navigation .main-menu li.has-dropdown.open > .dropdown-menu {
+              max-height: none;
+              overflow: visible;
+            }
+
+            .main-navigation .main-menu .dropdown-menu li {
+              border-bottom: 1px solid #eeeeee;
+              background: transparent;
+            }
+
+            .main-navigation .main-menu .dropdown-menu a {
+              min-height: 0;
+              padding: 10px 24px;
+              text-align: center;
+              white-space: normal;
+            }
+
+            .main-navigation .main-menu .dropdown-menu .dropdown-menu a {
+              font-size: 13px;
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+
+            .main-navigation .main-menu .dropdown-menu .dropdown-menu .dropdown-menu a {
+              padding-left: 40px;
+              padding-right: 40px;
+            }
+
+            .main-navigation .main-menu .dropdown-menu li.has-dropdown > a::after {
+              content: "v";
+            }
+          }
+        </style>
+        <nav class="main-navigation">
+          <div class="nav-logo">
+            <img src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Logo">
+          </div>
+          <div class="nav-menu">
+            <ul class="main-menu">
+              <li><a href="index.html">Home</a></li>
+              <li class="has-dropdown">
+                <a href="#">About Us</a>
+                <ul class="dropdown-menu">
+
+                      <li><a href="aboutus.html">About Us</a></li>
+                      <li><a href="history.html">History</a></li>
+                      <li><a href="mandate.html">Mandate</a></li>
+                      <li><a href="theprovincialdirector.html">The Provincial Director</a></li>
+                      <li><a href="organizationalchartchief.html">DILG Sugbo Family</a></li>
+                      <li><a href="organizationaldilgpersonnel.html">DILG Personnel and Staff</a></li>
+                      <li><a href="cebuprovincemap.html">Cebu Province Field Officers</a></li>
+                      <li><a href="cebuprovincemapLGU.html">Cebu Province LGUs</a></li>
+                      <li><a href="attachedagencies.html">Attached Agencies</a></li>
+
+                  <li class="has-dropdown">
+                    <a href="#">Programs &amp; Services</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="amumasabarangay.html">Amuma sa Barangay</a></li>
+                      <li><a href="bansiwag.html">Bansiwag</a></li>
+                      <li><a href="#">TOBOY</a></li>
+                      <li><a href="#">KSAw sa Sugbo</a></li>
+                      <li><a href="gad.html">Gender and Development (GAD)</a></li>
+
+
+                    </ul>
+                  </li>
+                  <li class="has-dropdown">
+                    <a href="#">Transparency at Work</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="transparency.html">Transparency Seal</a></li>
+                      <li><a href="fdp.html">Provincial Status: LGU Compliance on Full Disclosure</a></li>
+                      <li><a href="fdpLGUs.html">LGU Compliance on Full Disclosure</a></li>
+                      <li><a href="hiring.html">Vacant Positions</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a id="pangatungdanan" class="pangatungdanan" style="font-family: 'EuphoriaScript', cursive;" href="pangatungdanan.html">Pangatungdanan</a></li>
+                  <li><a href="contact-info.html">Contact Information</a></li>
+                  <li class="has-dropdown">
+                    <a href="#">LGRC</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="lgrc.html">LGRC Resouce</a></li>
+                      <li><a href="publicationsandnewsletters.html">DILG Annual Reports and Newsletters</a></li>
+                      <li><a href="resourcelgu.html">Resources for Local Officials</a></li>
+                      <li><a href="localgovtcode.html">Local Government Code of 1991</a></li>
+                      <li><a href="https://gad.dilg.gov.ph/user/login">DILG Programs</a></li>
+
+                    </ul>
+                  </li>
+                  <li class="has-dropdown">
+                    <a href="#">LGU's</a>
+                    <ul class="dropdown-menu">
+
+                     <!-- Existing submenu for LGUs -->
+                      <li class="has-dropdown">
+                        <a href="https://www.cebu.gov.ph/" target="_blank" rel="noopener noreferrer">Cebu</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu-link-228">
+                          <li class="has-dropdown">
+                            <a href="#">Cities</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="https://cityofbogocebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Bogo</a></li>
+                              <li><a href="https://cityofcarcar.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Carcar</a></li>
+                              <li><a href="https://danaocity.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Danao</a></li>
+                              <li><a href="https://cityofnaga-cebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Naga</a></li>
+                              <li><a href="https://www.talisaycitycebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Talisay</a></li>
+                              <li><a href="https://toledocity.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">City of Toledo</a></li>
+                            </ul>
+                          </li>
+                          <li class="has-dropdown">
+                            <a href="#">A-B</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#" class="dropdown-item">Alcantara</a></li>
+                              <li><a href="https://alcoycebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Alcoy</a></li>
+                              <li><a href="#" class="dropdown-item">Alegria</a></li>
+                              <li><a href="#" class="dropdown-item">Aloguinsan</a></li>
+                              <li><a href="https://argaotourism.com/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Argao</a></li>
+                              <li><a href="#" class="dropdown-item">Asturias</a></li>
+                              <li><a href="https://badian.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Badian</a></li>
+                              <li><a href="https://balambancebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Balamban</a></li>
+                              <li><a href="https://bantayancebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Bantayan</a></li>
+                              <li><a href="#" class="dropdown-item">Barili</a></li>
+                              <li><a href="#" class="dropdown-item">Boljoon</a></li>
+                              <li><a href="#" class="dropdown-item">Borbon</a></li>
+                            </ul>
+                          </li>
+                          <li class="has-dropdown">
+                            <a href="#">C-D</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="https://carmencebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Carmen</a></li>
+                              <li><a href="#" class="dropdown-item">Catmon</a></li>
+                              <li><a href="https://compostelacebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Compostela</a></li>
+                              <li><a href="https://consolacion.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Consolacion</a></li>
+                              <li><a href="https://cordova.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Cordova</a></li>
+                              <li><a href="https://daanbantayan.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Daanbantayan</a></li>
+                              <li><a href="https://dalaguete.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Dalaguete</a></li>
+                              <li><a href="#" class="dropdown-item">Dumanjug</a></li>
+                            </ul>
+                          </li>
+                          <li class="has-dropdown">
+                            <a href="#">G-M</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#" class="dropdown-item">Ginatilan</a></li>
+                              <li><a href="https://liloan.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Liloan</a></li>
+                              <li><a href="https://madridejoscebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Madridejos</a></li>
+                              <li><a href="#" class="dropdown-item">Malabuyoc</a></li>
+                              <li><a href="https://medellin.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Medellin</a></li>
+                              <li><a href="https://minglanilla.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Minglanilla</a></li>
+                              <li><a href="https://moalboal.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Moalboal</a></li>
+                            </ul>
+                          </li>
+                          <li class="has-dropdown">
+                            <a href="#">O-S</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="https://oslob.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Oslob</a></li>
+                              <li><a href="#" class="dropdown-item">Pilar</a></li>
+                              <li><a href="https://pinamungajan.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">Pinamungajan</a></li>
+                              <li><a href="#" class="dropdown-item">Poro</a></li>
+                              <li><a href="#" class="dropdown-item">Ronda</a></li>
+                              <li><a href="#" class="dropdown-item">Samboan</a></li>
+                              <li><a href="https://sanfernandocebu.gov.ph/" target="_blank" rel="noopener noreferrer" class="dropdown-item">San Fernando</a></li>
+                              <li><a href="#" class="dropdown-item">San Francisco</a></li>
+                              <li><a href="#" class="dropdown-item">San Remigio</a></li>
+                              <li><a href="#" class="dropdown-item">Santa Fe</a></li>
+                              <li><a href="#" class="dropdown-item">Santander</a></li>
+                              <li><a href="#" class="dropdown-item">Sibonga</a></li>
+                              <li><a href="#" class="dropdown-item">Sogod</a></li>
+                            </ul>
+                          </li>
+                          <li class="has-dropdown">
+                            <a href="#">T</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#" class="dropdown-item">Tabogon</a></li>
+                              <li><a href="#" class="dropdown-item">Tabuelan</a></li>
+                              <li><a href="#" class="dropdown-item">Tuburan</a></li>
+                              <li><a href="#" class="dropdown-item">Tudela</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-dropdown">
+                <a href="#">DILG Portal</a>
+                <ul class="dropdown-menu">
+                  <li class="has-dropdown">
+                    <a href="#">DILG Intranet</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="https://intranet.dilg.gov.ph/">DILG Intranet Homepage</a></li>
+                      <li><a href="https://dms.dilg.gov.ph/">Document Management System (DMS)</a></li>
+                      <li><a href="ip-phonedirectory.html">DILG IP Telephone Directory</a></li>
+                      <li><a href="https://bis.dilg.gov.ph/">Barangay Information System (BIS)</a></li>
+                      <li><a href="https://elopd.dilg.gov.ph/">Elected Local Officials Database System (ELOPDS)</a></li>
+                      <li><a href="https://subaybayan.dilg.gov.ph/">SubayBAYAN (PPMS)</a></li>
+                      <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
+
+                    </ul>
+                  </li>
+                  <li class="has-dropdown">
+                    <a href="#">Issuances</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="https://dilg.gov.ph/issuances-archive/jc/">Joint Circulars</a></li>
+                      <li><a href="https://dilg.gov.ph/issuances-archive/mc/">Memo Circulars</a></li>
+                      <li><a href="https://dilg.gov.ph/issuances-archive/pd/">Presidential Directives</a></li>
+
+                    </ul>
+                  </li>
+                  <li class="has-dropdown">
+                    <a href="#">LGU Portal</a>
+                    <ul class="dropdown-menu">
+
+                      <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
+                      <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
+                      <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
+                      <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
+                      <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
+                      <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
+                      <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
+                      <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
+                      <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
+                      <li><a href="https://bims-admin.dilg.gov.ph/">Barangay Information Management System (BIMS)</a></li>
+                      <li><a href="https://fta.dilg.gov.ph/">Foreign Travel Authority (FTA)</a></li>
+                      <li><a href="https://www.katarungangpambarangay.com/">Katarungang Pambarangay</a></li>
+                      <li><a href="https://gad.dilg.gov.ph/">GAD Plan and Budget Monitoring System</a></li>
+
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="citizenscharter.html">Citizen's Charter</a></li>
+              <li><a href="gad.html" class="custom-link">Gender and Development (GAD)</a></li>
+              <li><a href="news.html">News</a></li>
+            </ul>
+          </div>
+          <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </nav>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const flyoutItems = document.querySelectorAll(".main-navigation .dropdown-menu li.has-dropdown");
+
+            function positionFlyout(item) {
+              const submenu = item.querySelector(":scope > .dropdown-menu");
+              if (!submenu || window.innerWidth <= 768) {
+                return;
+              }
+
+              const edgePadding = 10;
+              const gap = 0;
+              const itemRect = item.getBoundingClientRect();
+              item.classList.add("flyout-positioned");
+              item.style.setProperty("--flyout-left", "0px");
+              item.style.setProperty("--flyout-top", "0px");
+
+              const submenuRect = submenu.getBoundingClientRect();
+              const submenuWidth = submenuRect.width || submenu.offsetWidth || 230;
+              const submenuHeight = submenuRect.height || submenu.scrollHeight || submenu.offsetHeight;
+
+              let left = itemRect.right + gap;
+              if (left + submenuWidth > window.innerWidth - edgePadding) {
+                left = itemRect.left - submenuWidth - gap;
+              }
+
+              let top = itemRect.top;
+              if (top + submenuHeight > window.innerHeight - edgePadding) {
+                top = itemRect.bottom - submenuHeight;
+              }
+
+              top = Math.max(edgePadding, top);
+              left = Math.max(edgePadding, left);
+
+              item.style.setProperty("--flyout-left", left + "px");
+              item.style.setProperty("--flyout-top", top + "px");
+            }
+
+            flyoutItems.forEach((item) => {
+              item.addEventListener("mouseenter", function () {
+                positionFlyout(item);
+              });
+              item.addEventListener("focusin", function () {
+                positionFlyout(item);
+              });
+              item.addEventListener("mouseleave", function () {
+                item.classList.remove("flyout-positioned");
+              });
+            });
+          });
+        </script>
+      </header>
+      <main class="jupiterx-main">
+        <div data-elementor-type="wp-page" data-elementor-id="250" class="elementor elementor-250">
+          <section class="elementor-section elementor-top-section elementor-element elementor-element-4328ca4 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="4328ca4" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-default">
+              <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a35c580" data-id="a35c580" data-element_type="column">
+                <div class="elementor-widget-wrap elementor-element-populated">
+                  <div class="elementor-element elementor-element-4a7ac1e elementor-widget elementor-widget-spacer" data-id="4a7ac1e" data-element_type="widget" data-widget_type="spacer.default">
+                    <div class="elementor-widget-container">
+                      <div class="elementor-spacer">
+                        <div class="elementor-spacer-inner"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="elementor-element elementor-element-a628aca elementor-widget elementor-widget-html" data-id="a628aca" data-element_type="widget" data-widget_type="html.default">
+                    <div class="elementor-widget-container">
+
+
+
+
+
+                      <!-- Main Content Should be Placed Here CHATGPT -->
+                      <!-- Main Content Should be Placed Here CHATGPT -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
+                      <div style="padding-top:1000px; padding-bottom:1000px;">
+                      </div>
+
+
+
+
+
+                      <div class="container grid-layout">
+                        <div class="text-content">
+                          <div class="learn-more-container">
+                            <a class="elementor-button elementor-button-link elementor-size-sm" href="index.html">
+                              <span class="elementor-button-content-wrapper">
+                                <span class="elementor-button-text">GO BACK</span>
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+
+
+                       
+                        <!-- Main Content Should be Placed Here -->
+                         <!-- Main Content Should be Placed Here -->
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<footer class="jupiterx-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+  <div class="jupiterx-footer-widgets jupiterx-footer-layout-04">
+  <div class="container-fluid">
+  <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-3"></div>
+  <div class="col-md-3"></div>
+  <div class="col-md-3"></div>
+  </div>
+  </div>
+  </div>
+  <div class="jupiterx-footer-menu">
+  <nav class="footer-navigation">
+  <ul class="main-menu">
+  <li><a href="index.html">Home</a></li>
+  <li class="has-dropdown">
+  <a href="aboutus.html">About Us</a>
+  <ul class="dropdown-menu">
+  </ul>
+  </li>
+  <li class="has-dropdown">
+  <a href="#">Programs &amp; Services</a>
+  </li>
+  <li class="has-dropdown">
+  <a href="transparencyofwork.html">Transparency at Work</a>
+  <ul class="dropdown-menu">
+  </ul>
+  </li>
+  <li class="has-dropdown">
+  <a href="issuances.html">Issuances</a>
+  <ul class="dropdown-menu">
+  </ul>
+  </li>
+  <li class="has-dropdown">
+  <a href="lguportal.html">LGU Portal</a>
+  <ul class="dropdown-menu">
+  </ul>
+  </li>
+  <li><a href="news.html">News</a></li>
+  <li class="has-dropdown">
+  <a href="#">LGU's</a>
+  <ul class="dropdown-menu">
+
+
+  </ul>
+  </li>
+    <li class="has-dropdown">
+  <a href="lgrc.html">LGRC</a>
+  <ul class="dropdown-menu">
+  </ul>
+  </li>
+  <li><a class="pangatungdanan"   style="font-family: 'EuphoriaScript', cursive;"   href="pangatungdanan.html">Pangatungdanan</a></li>
+              <li class="has-dropdown">
+  <style>
+    .has-dropdown > a:hover {
+      color: purple;
+    }
+  </style>
+
+  <a href="gad.html">Gender and Development (GAD)</a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+
+
+  <li><a href="contact-info.html">Contact Information</a></li>
+  </ul>
+  </nav>
+  </div>
+<footer class="text-center mt-10 bg-gray-500 text-gray-100">
+
+  <!-- Middle Content -->
+  <div class="w-full py-6">
+    <div class="max-w-screen-lg grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Government Seal (left center) -->
+      <div class="flex flex-col items-center">
+        <p class="text-sm font-semibold uppercase mb-2">Republic of the Philippines</p>
+        <img src="./images/govph-seal.png" class="h-34.52 w-32" alt="Government Seal">
+      </div>
+
+      <!-- Government Links (right center) -->
+      <div class="flex flex-col items-center">
+        <p class="text-sm font-semibold uppercase mb-2">Government Links</p>
+        <div class="flex flex-col items-center space-y-1">
+          <a href="https://president.gov.ph/" target="_blank" class="gov-link">Office of the President</a>
+          <a href="https://ovp.gov.ph/" target="_blank" class="gov-link">Office of the Vice President</a>
+          <a href="http://legacy.senate.gov.ph/" target="_blank" class="gov-link">Senate of the Philippines</a>
+          <a href="https://www.congress.gov.ph/" target="_blank" class="gov-link">House of Representatives</a>
+          <a href="https://sc.judiciary.gov.ph/" target="_blank" class="gov-link">Supreme Court</a>
+          <a href="https://ca.judiciary.gov.ph/" target="_blank" class="gov-link">Court of Appeals</a>
+          <a href="https://sb.judiciary.gov.ph/" target="_blank" class="gov-link">Sandiganbayan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subfooter with uniform background -->
+  <div class="jupiterx-subfooter bg-gray-500 text-gray-100 py-6">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md text-center">
+            <div class="jupiterx-subfooter-copyright mb-2 footer-credit" style="color: #f9fafb;">
+              <span>&copy; 2025 - DILG Cebu Province. All rights reserved.</span>
+              <span>Created by: POLSTER NOKSMAN</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</footer>
+
+      </main>
+      <script>
+        /* 
+         * Main JavaScript with mobile compatibility enhancements
+         * - Improved touch handling for mobile devices
+         * - Orientation change handling
+         */
+        document.addEventListener("DOMContentLoaded", function () {
+          // Slider functionality
+          const slider = document.getElementById("mainPageSlider");
+          
+          if (slider) {
+            const slides = document.querySelectorAll(".main-slide");
+            const prevBtn = document.querySelector(".prev-slide");
+            const nextBtn = document.querySelector(".next-slide");
+            const pagination = document.getElementById("sliderPagination");
+            let currentSlide = 0;
+            const slideCount = slides.length;
+            
+            for (let i = 0; i < slideCount; i++) {
+              const dot = document.createElement("div");
+              dot.classList.add("pagination-dot");
+              if (i === 0) dot.classList.add("active");
+              dot.addEventListener("click", () => goToSlide(i));
+              pagination.appendChild(dot);
+            }
+            
+            function updatePagination() {
+              const dots = document.querySelectorAll(".pagination-dot");
+              dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentSlide);
+              });
+            }
+            
+            function goToSlide(index) {
+              currentSlide = index;
+              slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+              updatePagination();
+            }
+            
+            function nextSlide() {
+              currentSlide = (currentSlide + 1) % slideCount;
+              goToSlide(currentSlide);
+            }
+            
+            function prevSlide() {
+              currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+              goToSlide(currentSlide);
+            }
+            
+            prevBtn.addEventListener("click", prevSlide);
+            nextBtn.addEventListener("click", nextSlide);
+            
+            let interval = setInterval(nextSlide, 5000);
+            
+            slider.parentElement.addEventListener("mouseenter", () => {
+              clearInterval(interval);
+            });
+            
+            slider.parentElement.addEventListener("mouseleave", () => {
+              interval = setInterval(nextSlide, 5000);
+            });
+            
+            // Handle touch events for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slider.addEventListener('touchstart', (e) => {
+              touchStartX = e.changedTouches[0].screenX;
+              clearInterval(interval);
+            }, {passive: true});
+            
+            slider.addEventListener('touchend', (e) => {
+              touchEndX = e.changedTouches[0].screenX;
+              handleSwipe();
+              interval = setInterval(nextSlide, 5000);
+            }, {passive: true});
+            
+            function handleSwipe() {
+              if (touchEndX < touchStartX - 50) {
+                // Swipe left
+                nextSlide();
+              } else if (touchEndX > touchStartX + 50) {
+                // Swipe right
+                prevSlide();
+              }
+            }
+            
+            // Handle orientation changes
+            window.addEventListener('orientationchange', function() {
+              // Small delay to allow the browser to complete the orientation change
+              setTimeout(function() {
+                // Adjust any elements that need repositioning after orientation change
+                updateSliderHeight();
+              }, 200);
+            });
+            
+            function updateSliderHeight() {
+              // This function is no longer needed as slider height is controlled by CSS aspect-ratio
+              // Left here for compatibility but doesn't modify any heights
+              console.log("Slider now uses CSS aspect-ratio for responsive sizing");
+            }
+            
+            document.addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") {
+                prevSlide();
+              } else if (e.key === "ArrowRight") {
+                nextSlide();
+              }
+            });
+            
+            // Initial check for orientation
+            updateSliderHeight();
+          }
+          
+          // Mobile menu toggle and dropdown handling - outside slider conditional block
+          const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+          const navMenu = document.querySelector(".nav-menu");
+          if (mobileMenuToggle && navMenu) {
+            mobileMenuToggle.addEventListener("click", function () {
+              navMenu.classList.toggle("active");
+              mobileMenuToggle.classList.toggle("active");
+            });
+          }
+          
+          const dropdownItems = document.querySelectorAll(".main-navigation .has-dropdown");
+          dropdownItems.forEach((item) => {
+            item.addEventListener("click", function (e) {
+              if (window.innerWidth <= 768) {
+                const link = this.querySelector(":scope > a");
+                if (link && e.target === link) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.classList.toggle("open");
+                }
+              }
+            });
+          });
+        });
+      </script>
+      <script src="assets/js/main-background-switcher.js"></script>
+      <script>
+        // Ensure DOM is fully loaded before loading scroll restoration script
+        document.addEventListener('DOMContentLoaded', function() {
+          // Create and load the scroll restoration script
+          const scrollScript = document.createElement('script');
+          scrollScript.src = "assets/js/scroll-restoration.js";
+          scrollScript.async = false; // Ensure script executes in order
+          document.body.appendChild(scrollScript);
+        });
+      </script>
+      <script src="assets/js/image-manager.js" defer></script>
+    </div>
+  </body>
+</html>
