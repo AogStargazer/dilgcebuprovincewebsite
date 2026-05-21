@@ -17,6 +17,9 @@
         overflow-x: hidden;
         width: 100%;
       }
+      #vision-mission {
+        scroll-margin-top: 80px;
+      }
       /* Consolidated Main Slider CSS */
       .main-slider-container {
         width: 100%;
@@ -1246,7 +1249,7 @@
                       </div>
                       
 
-                      <div class="container grid-layout">
+                      <div id="vision-mission" class="container grid-layout">
                         <img src="images/ISAY.png?v=2" alt="PD Portrait" class="portrait">
                         
                         <div class="text-content">
@@ -1704,6 +1707,33 @@
         });
       </script>
       <script src="assets/js/main-background-switcher.js"></script>
+      <script>
+        function scrollToVisionMission() {
+          if (window.location.hash !== "#vision-mission") {
+            return;
+          }
+
+          const target = document.getElementById("vision-mission");
+          const header = document.querySelector(".main-header");
+          if (!target) {
+            return;
+          }
+
+          const headerHeight = header ? header.getBoundingClientRect().height : 0;
+          const extraSpace = 18;
+          const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: Math.max(0, targetTop - headerHeight - extraSpace),
+            behavior: "auto"
+          });
+        }
+
+        window.addEventListener("load", function () {
+          scrollToVisionMission();
+          setTimeout(scrollToVisionMission, 150);
+          setTimeout(scrollToVisionMission, 500);
+        });
+      </script>
       <script>
         // Ensure DOM is fully loaded before loading scroll restoration script
         document.addEventListener('DOMContentLoaded', function() {
