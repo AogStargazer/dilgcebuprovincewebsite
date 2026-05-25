@@ -146,8 +146,9 @@
           padding: 10px 5px;
         }
         
-        .nav-logo img {
-          max-width: 80px;
+        .nav-logo img,
+        .nav-logo video {
+          max-width: none;
         }
         
         /* Grid layout adjustments */
@@ -890,7 +891,10 @@
         </style>
         <nav class="main-navigation">
           <div class="nav-logo">
-            <img src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Logo">
+            <video class="nav-logo-video" autoplay muted loop playsinline preload="metadata" aria-label="DILG Logo animation">
+              <source src="images/videos/logo.mp4" type="video/mp4">
+            </video>
+            <img class="nav-logo-fallback" src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Logo">
           </div>
           <div class="nav-menu">
             <ul class="main-menu">
@@ -3069,6 +3073,7 @@
         });
       </script>
       <script src="assets/js/main-background-switcher.js"></script>
+      <script src="assets/js/nav-logo-video.js" defer></script>
       <script>
         // Ensure DOM is fully loaded before loading scroll restoration script
         document.addEventListener('DOMContentLoaded', function() {
