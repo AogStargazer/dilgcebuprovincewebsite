@@ -1359,6 +1359,12 @@
                 <option value="Municipal">Municipal</option>
                 <option value="City">City</option>
                 <option value="Provincial">Provincial</option>
+                <option value="Provincial Director">Provincial Director</option>
+                <option value="Cluster Heads">Cluster Heads</option>
+                <option value="LGMES">LGMES</option>
+                <option value="LGCDS">LGCDS</option>
+                <option value="FAS">FAS</option>
+                <option value="PDMU">PDMU</option>
               </select>
             </div>
             <div id="personnelCount" class="personnel-count"></div>
@@ -1426,6 +1432,12 @@
       }
 
       const rankedPersonnelData = personnelData.slice().sort(comparePersonnelRank);
+      const sectionSourceMap = {
+        LGMES: "organizationalchartlgmes.html",
+        LGCDS: "organizationalchartlgcds.html",
+        FAS: "organizationalchartfas.html",
+        PDMU: "organizationalchartpdmu.html"
+      };
 
       function cardTemplate(person) {
         const assignment = person.assignment ? `<p class="personnel-assignment">${escapeHtml(person.assignment)}</p>` : "";
@@ -1446,8 +1458,11 @@
         const selectedType = typeFilter.value;
         const filtered = rankedPersonnelData.filter((person) => {
           const haystack = normalize([person.name, person.position, person.scope, person.assignment, person.source].join(" "));
+          const sectionSource = sectionSourceMap[selectedType];
+          const isProvincialDirector = selectedType === "Provincial Director" && normalize(person.position).includes("provincial director");
+          const isClusterHead = selectedType === "Cluster Heads" && haystack.includes("cluster head");
           const matchesSearch = !query || haystack.includes(query);
-          const matchesType = selectedType === "All" || person.scope === selectedType;
+          const matchesType = selectedType === "All" || person.scope === selectedType || isProvincialDirector || isClusterHead || (sectionSource && haystack.includes(sectionSource));
           return matchesSearch && matchesType;
         });
 
