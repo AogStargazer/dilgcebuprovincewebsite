@@ -1181,11 +1181,205 @@
                     <div class="elementor-widget-container">
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
+                      <style>
+                        .pd-content-shell {
+                          width: min(1120px, calc(100% - 36px));
+                          margin: 30px auto 52px;
+                          font-family: Arial, Helvetica, sans-serif;
+                        }
+
+                        .pd-profile-card,
+                        .pd-gallery-card {
+                          background: rgba(255, 255, 255, 0.94);
+                          border: 1px solid #d5dde8;
+                          border-left: 7px solid #f4b400;
+                          border-radius: 8px;
+                          box-shadow: 0 14px 32px rgba(0, 63, 127, 0.12);
+                        }
+
+                        .pd-profile-card.container.grid-layout {
+                          display: grid !important;
+                          grid-template-columns: minmax(400px, 600px) minmax(320px, 440px) !important;
+                          gap: 28px !important;
+                          justify-content: center !important;
+                          align-items: start !important;
+                          width: min(1120px, calc(100% - 36px)) !important;
+                          max-width: 1120px !important;
+                          margin: 0 auto 28px !important;
+                          padding: 24px !important;
+                          overflow: hidden !important;
+                        }
+
+                        .pd-profile-card > .portrait {
+                          width: 100% !important;
+                          max-width: 600px !important;
+                          height: auto !important;
+                          display: block !important;
+                          object-fit: contain !important;
+                        }
+
+                        .pd-profile-card > .text-content {
+                          max-width: 440px !important;
+                          min-width: 0 !important;
+                          padding: 0 !important;
+                          text-align: left !important;
+                        }
+
+                        .pd-profile-card > .text-content .heading {
+                          color: #003f7f !important;
+                          font-family: Arial, Helvetica, sans-serif !important;
+                          font-weight: 900 !important;
+                          line-height: 1.08 !important;
+                          letter-spacing: 0 !important;
+                          text-align: left !important;
+                          text-transform: uppercase;
+                        }
+
+                        .pd-profile-card > .text-content .heading:first-child {
+                          margin: 0 0 8px !important;
+                          font-size: clamp(30px, 3vw, 42px) !important;
+                        }
+
+                        .pd-profile-card > .text-content .heading:nth-child(2) {
+                          margin: 0 0 14px !important;
+                          color: #000000 !important;
+                          font-size: clamp(19px, 1.8vw, 24px) !important;
+                          text-transform: none;
+                        }
+
+                        .pd-profile-card > .text-content .paragraph {
+                          margin: 0 !important;
+                          color: #111111 !important;
+                          font-family: Arial, Helvetica, sans-serif !important;
+                          font-size: 16px !important;
+                          line-height: 1.58 !important;
+                          text-align: justify !important;
+                          text-justify: inter-word;
+                        }
+
+                        .pd-profile-card .learn-more-container {
+                          display: flex !important;
+                          justify-content: center !important;
+                          margin-top: 24px !important;
+                        }
+
+                        .pd-profile-card .elementor-button {
+                          background: #ffffff !important;
+                          border: 1px solid #cfd6df !important;
+                          border-radius: 8px !important;
+                          color: #000000 !important;
+                          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                        }
+
+                        .pd-gallery-card {
+                          width: min(1120px, calc(100% - 36px));
+                          max-width: 1120px;
+                          margin: 0 auto 52px;
+                          padding: 28px;
+                          font-family: Arial, Helvetica, sans-serif;
+                        }
+
+                        .pd-section-kicker {
+                          display: inline-block;
+                          margin: 0 0 12px;
+                          padding: 6px 14px;
+                          border: 1px solid #f4b400;
+                          color: #003f7f;
+                          font-size: 15px;
+                          font-weight: 900;
+                          letter-spacing: 1px;
+                          text-transform: uppercase;
+                          background: #fff8da;
+                        }
+
+                        .pd-gallery-card h2 {
+                          margin: 0 0 8px;
+                          color: #003f7f;
+                          font-size: clamp(30px, 3vw, 42px);
+                          font-weight: 900;
+                          line-height: 1.08;
+                          text-transform: uppercase;
+                        }
+
+                        .pd-gallery-card p {
+                          max-width: 760px;
+                          margin: 0 0 22px;
+                          color: #111111;
+                          font-size: 17px;
+                          line-height: 1.5;
+                        }
+
+                        .pd-photo-grid {
+                          display: grid;
+                          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                          gap: 14px;
+                        }
+
+                        .pd-photo-item {
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          aspect-ratio: 1 / 1;
+                          overflow: hidden;
+                          border: 6px solid #ffffff;
+                          border-radius: 6px;
+                          background: #f8fafc;
+                          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+                          transition: transform 180ms ease, box-shadow 180ms ease;
+                        }
+
+                        .pd-photo-item:hover,
+                        .pd-photo-item:focus-visible {
+                          transform: translateY(-4px);
+                          box-shadow: 0 14px 26px rgba(0, 63, 127, 0.22);
+                        }
+
+                        .pd-photo-item img {
+                          width: 100% !important;
+                          height: auto !important;
+                          max-width: none !important;
+                          max-height: 100% !important;
+                          object-fit: contain !important;
+                          display: block !important;
+                        }
+
+                        @media (max-width: 980px) {
+                          .pd-profile-card.container.grid-layout {
+                            grid-template-columns: 1fr !important;
+                          }
+
+                          .pd-profile-card > .portrait,
+                          .pd-profile-card > .text-content {
+                            max-width: 680px !important;
+                            margin: 0 auto !important;
+                          }
+
+                          .pd-profile-card > .text-content .heading {
+                            text-align: center !important;
+                          }
+                        }
+
+                        @media (max-width: 560px) {
+                          .pd-profile-card.container.grid-layout,
+                          .pd-gallery-card {
+                            width: min(100% - 24px, 720px) !important;
+                            padding: 18px 14px !important;
+                          }
+
+                          .pd-profile-card > .text-content .paragraph {
+                            text-align: left !important;
+                          }
+
+                          .pd-photo-grid {
+                            grid-template-columns: 1fr;
+                          }
+                        }
+                      </style>
                       <div style="padding-top:30px; padding-bottom:30px;">
                       </div>
 
-                      <div class="container grid-layout">
-                        <img src="theprovincialdirector/PDRObel.jpg?v=2" alt="PD Portrait" class="portrait">
+                      <div class="container grid-layout pd-profile-card">
+                        <img src="theprovincialdirector/PDRObel.png?v=2" alt="PD Portrait" class="portrait">
                         
                         <div class="text-content">
                           <h5 class="heading" style="font-size: 1.8em;">DR. JESUS ROBEL T. SASTRILLO JR., CESE</h5>
@@ -1199,6 +1393,34 @@
                               
                               His strong foundation in governance, academic excellence, and steadfast commitment to public service continue to inspire and enhance the delivery of programs and services in Cebu Province.
                             </p>
+
+
+                            <!-- Learn More Button Below Paragraph -->
+
+                        </div>
+                    
+                    </div>
+
+                    <section class="pd-gallery-card" aria-labelledby="pd-gallery-title">
+                      <span class="pd-section-kicker">Provincial Director</span>
+                      <h2 id="pd-gallery-title">In Photos</h2>
+                      <p>A glimpse of the Provincial Director in official engagements, coordination activities, and service moments across DILG Cebu Province.</p>
+                      <div class="pd-photo-grid">
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/4.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/4.jpg" alt="Provincial Director official engagement photo 1" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/6.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/6.jpg" alt="Provincial Director official engagement photo 2" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/8.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/8.jpg" alt="Provincial Director official engagement photo 3" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/10.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/10.jpg" alt="Provincial Director official engagement photo 4" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/11.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/11.jpg" alt="Provincial Director official engagement photo 5" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/12.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/12.jpg" alt="Provincial Director official engagement photo 6" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/13.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/13.jpg" alt="Provincial Director official engagement photo 7" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/16.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/16.jpg" alt="Provincial Director official engagement photo 8" loading="lazy"></a>
+                        <a class="pd-photo-item" href="theprovincialdirector/photos/17.jpg" target="_blank" rel="noopener noreferrer"><img src="theprovincialdirector/photos/17.jpg" alt="Provincial Director official engagement photo 9" loading="lazy"></a>
+                      </div>
+                    </section>
+
+
+
+
                             <div class="container grid-layout">
                               <div class="text-content">
                                 <div class="learn-more-container">
@@ -1210,17 +1432,6 @@
                                 </div>
                               </div>
                             </div>
-
-                            <!-- Learn More Button Below Paragraph -->
-
-                        </div>
-                    
-                    </div>
-
-
-
-
-
 
 
 
