@@ -1,5 +1,5 @@
 (function () {
-  const gallerySelector = '[data-gallery-lightbox], .pd-photo-grid';
+  const gallerySelector = '[data-gallery-lightbox], .pd-photo-grid, .news-article__gallery';
   const imageLinkSelector = 'a[href]';
   const imagePattern = /\.(avif|gif|jpe?g|png|svg|webp)(\?.*)?(#.*)?$/i;
   let lightbox;
@@ -140,16 +140,16 @@
     return imagePattern.test(href);
   }
 
-  function getAlt(link) {
-    const thumbnail = link.querySelector('img');
-    return (thumbnail && thumbnail.alt) || link.getAttribute('aria-label') || 'Gallery image';
+  function getAlt(source) {
+    const thumbnail = source.matches && source.matches('img') ? source : source.querySelector('img');
+    return (thumbnail && thumbnail.alt) || source.getAttribute('aria-label') || 'Gallery image';
   }
 
-  function open(link) {
+  function open(sourceUrl, altSource) {
     ensureLightbox();
     previousFocus = document.activeElement;
-    image.src = link.href;
-    image.alt = getAlt(link);
+    image.src = sourceUrl;
+    image.alt = getAlt(altSource);
     lightbox.classList.add('is-open');
     document.body.classList.add('site-gallery-lightbox-open');
     closeButton.focus({ preventScroll: true });
@@ -176,12 +176,19 @@
     }
 
     const link = event.target.closest(imageLinkSelector);
-    if (!link || !gallery.contains(link) || !isImageLink(link)) {
+    if (link && gallery.contains(link) && isImageLink(link)) {
+      event.preventDefault();
+      open(link.href, link);
+      return;
+    }
+
+    const directImage = event.target.closest('img');
+    if (!directImage || !gallery.contains(directImage)) {
       return;
     }
 
     event.preventDefault();
-    open(link);
+    open(directImage.currentSrc || directImage.src, directImage);
   });
 
   document.addEventListener('keydown', function (event) {
