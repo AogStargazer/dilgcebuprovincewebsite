@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
@@ -302,6 +302,252 @@
         height: auto;
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .gad-modern-content {
+        --gad-blue: #003f7f;
+        --gad-gold: #f2b800;
+        --gad-border: #cbd5e1;
+        --gad-card: rgba(255, 255, 255, 0.94);
+        --gad-text-size: 16px;
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0 54px;
+      }
+
+      .gad-card {
+        background: var(--gad-card);
+        border: 1px solid var(--gad-border);
+        border-left: 7px solid var(--gad-gold);
+        border-radius: 8px;
+        box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
+        margin: 0 auto 28px;
+        padding: clamp(22px, 3vw, 34px);
+      }
+
+      .gad-feature-image {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 4px;
+      }
+
+      .gad-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--gad-gold);
+        color: var(--gad-blue);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        margin-bottom: 12px;
+        padding: 8px 14px;
+        text-transform: uppercase;
+      }
+
+      .gad-card h1,
+      .gad-card h2 {
+        color: var(--gad-blue);
+        font-weight: 900;
+        letter-spacing: 0;
+        line-height: 1.12;
+        margin: 0 0 16px;
+        text-transform: uppercase;
+      }
+
+      .gad-card h1 {
+        font-size: clamp(32px, 5vw, 58px);
+      }
+
+      .gad-card h2 {
+        font-size: clamp(28px, 4vw, 46px);
+      }
+
+      .gad-body-text,
+      .gad-card p,
+      .gad-resource-title {
+        font-size: var(--gad-text-size);
+        line-height: 1.72;
+      }
+
+      .gad-body-text,
+      .gad-card p {
+        text-align: justify;
+        text-justify: inter-word;
+      }
+
+      .gad-hero-card {
+        display: grid;
+        grid-template-columns: minmax(260px, 42%) 1fr;
+        gap: clamp(24px, 4vw, 44px);
+        align-items: center;
+      }
+
+      .gad-resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 14px;
+      }
+
+      .gad-resource-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px 12px;
+        min-height: 132px;
+        align-content: space-between;
+        padding: 18px;
+        background: rgba(248, 251, 255, 0.96);
+        border: 1px solid var(--gad-border);
+        border-radius: 6px;
+        color: #0f172a;
+        text-decoration: none;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .gad-resource-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--gad-gold);
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+      }
+
+      .gad-resource-check {
+        color: #0f9f62;
+        font-weight: 900;
+      }
+
+      .gad-resource-title {
+        color: #0f172a;
+        font-weight: 700;
+      }
+
+      .gad-resource-action {
+        grid-column: 2;
+        justify-self: start;
+        background: var(--gad-blue);
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1;
+        padding: 11px 18px;
+        text-transform: uppercase;
+      }
+
+      .gad-media-card {
+        text-align: center;
+      }
+
+      .gad-video-frame,
+      .gad-form-frame {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid var(--gad-border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .gad-video-frame iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        height: auto;
+      }
+
+      .gad-youtube-card {
+        display: grid;
+        grid-template-columns: minmax(240px, 46%) 1fr;
+        align-items: center;
+        gap: 24px;
+        background: #111827;
+        color: #fff;
+        text-decoration: none;
+        min-height: 260px;
+      }
+
+      .gad-youtube-thumb {
+        position: relative;
+        min-height: 260px;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.42)),
+          url("https://img.youtube.com/vi/wLGZDL3Fw38/hqdefault.jpg") center / cover no-repeat;
+      }
+
+      .gad-youtube-play {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        transform: translate(-50%, -50%);
+        width: 82px;
+        height: 58px;
+        border-radius: 16px;
+        background: #ff0000;
+      }
+
+      .gad-youtube-play::after {
+        content: "";
+        position: absolute;
+        left: 33px;
+        top: 17px;
+        border-left: 22px solid #fff;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+      }
+
+      .gad-youtube-copy {
+        padding: 24px 26px 24px 0;
+      }
+
+      .gad-youtube-copy p {
+        color: #e5e7eb;
+        margin: 0 0 18px;
+        text-align: left;
+      }
+
+      .gad-youtube-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 6px;
+        color: #111827;
+        font-weight: 900;
+        padding: 12px 18px;
+        text-transform: uppercase;
+      }
+
+      .gad-form-frame iframe {
+        display: block;
+        width: 100%;
+      }
+
+      .gad-back-card {
+        text-align: center;
+      }
+
+      @media (max-width: 820px) {
+        .gad-modern-content {
+          width: min(100% - 20px, 720px);
+          padding: 28px 0 36px;
+        }
+
+        .gad-hero-card {
+          grid-template-columns: 1fr;
+        }
+
+        .gad-card {
+          padding: 20px;
+        }
+
+        .gad-resource-card {
+          min-height: auto;
+        }
+
+        .gad-youtube-card {
+          grid-template-columns: 1fr;
+        }
+
+        .gad-youtube-copy {
+          padding: 0 20px 22px;
+        }
       }
       @media (max-width: 768px) {
         .image-row {
@@ -1077,12 +1323,12 @@
                     <a href="#">LGU Portal</a>
                     <ul class="dropdown-menu">
 
-                      <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS – BPCO Online Monitoring System</a></li>
+                      <li><a href="https://ratemyservice.dilg.gov.ph/user/login">BPLS â€“ BPCO Online Monitoring System</a></li>
                       <li><a href="https://eclip.dilg.gov.ph/user/login">E-CLIP Information System</a></li>
                       <li><a href="https://fdpp.dilg.gov.ph/">FDP Portal</a></li>
                       <li><a href="https://gad.dilg.gov.ph/user/login">GAD Plan and Budget System</a></li>
                       <li><a href="https://www.lguvscovid.ph/">LGU vs COVID Information System</a></li>
-                      <li><a href="https://pops.dilg.gov.ph/user/login">POPS – PCMS</a></li>
+                      <li><a href="https://pops.dilg.gov.ph/user/login">POPS â€“ PCMS</a></li>
                       <li><a href="https://rssa.dilg.gov.ph/">RSSA System</a></li>
                       <li><a href="https://subaybayan.dilg.gov.ph/">SUBAYBAYAN System</a></li>
                       <li><a href="https://telco.dilg.gov.ph/user/login">Telco Permit Monitoring System</a></li>
@@ -1176,309 +1422,126 @@
                       <!-- Main Content Should be Placed Here -->
                       <!-- Main Content Should be Placed Here -->
 
-                      <div style="padding-top:50px; padding-bottom:50px;">
+                      <div class="gad-modern-content">
+                        <article class="gad-card gad-hero-card">
+                          <div>
+                            <img class="gad-feature-image" src="gad/images/gad.jpg" alt="Gender and Development logo">
+                          </div>
+                          <div>
+                            <span class="gad-eyebrow">GAD Corner</span>
+                            <h1>Gender and Development Corner</h1>
+                            <p class="gad-body-text">Republic Act No. 7192, also known as the Women in Development and Nation Building Act, recognizes the role of women in nation-building and promotes the fundamental equality of women and men before the law.</p>
+                            <p class="gad-body-text">Gender and Development, or GAD, is a development perspective that identifies and removes gender biases that prevent people from attaining their full potential. It supports inclusive planning, equal participation, protection from discrimination and violence, and responsive public service for every community.</p>
+                          </div>
+                        </article>
+
+                        <article class="gad-card">
+                          <h2>GAD Plan, Budget &amp; Accomplishment</h2>
+                          <div class="gad-resource-grid">
+                            <a class="gad-resource-card" href="https://docs.google.com/spreadsheets/d/1hNo-KgfICJHPUExFLBhdtHK7vaMlQfR_/edit?usp=drive_link&amp;ouid=113652067332563670380&amp;rtpof=true&amp;sd=true">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">Accomplished Gender Mainstreaming Evaluation Framework (GMEF)</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://drive.google.com/file/d/1MG55BODD6VZejxpEBflnYzZbkJ39Qu1l/view?usp=drive_link">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">GAD Accomplishment Reports</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://drive.google.com/file/d/1bZGrVTAg9ZeEzrvXyWPSCN1RSL65gn4X/view?usp=drive_link">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">GAD Plan and Budget</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://drive.google.com/drive/folders/18dvyGGFCJ85HFgBp_BpRzCZ58vta0bvi">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">Initiated Adoption of the GAD Seal in RGADC 7</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://docs.google.com/presentation/d/196pNTUvh05Oy-u2-oTjpmDYm7ibwzMnb/edit?usp=sharing&amp;ouid=104721375861023665393&amp;rtpof=true&amp;sd=true%20">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">Republic Act 11313 or the Safe Spaces Act of 2019</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://drive.google.com/file/d/1_7Pg8_XyLPE5037K59mWKHo0bl4YgQwW/view?usp=sharing%20">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">Rules and Regulations Implementing RA 7877, otherwise known as the Anti-Sexual Harassment Act of 1995</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://drive.google.com/file/d/1rJ2v8JMIvSQxi5sxlOoTd0RH0hzqZnOq/view?usp=sharing%20">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">Amendments to PCW-DILG-DBM-NEDA JMC No. 2013-01: Guidelines on the Localization of the Magna Carta of Women</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                          </div>
+                        </article>
+
+                        <article class="gad-card" id="gad-brochure">
+                          <h2>GAD Brochure</h2>
+                          <div class="gad-resource-grid">
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-8353-Anti-rape-Law-Filipino-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 8353 Anti Rape Law Filipino 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-9262-Anti-VAWC-Act-English-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Anti VAWC Act English 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-RA-9262-Labanan-ang-Karahasan-2020.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Labanan ang Karahasan 2020</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-Republic-Act-7877-Anti-Sexual-Harassment-Act-of-1995-Filipino-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure Republic Act 7877 Anti Sexual-Harassment Act of 1995 Filipino 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/Your-Anti-VAWC-Legal-Rights.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure Your Anti-VAWC Legal Rights</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                          </div>
+                        </article>
+
+                        <article class="gad-card gad-media-card">
+                          <img class="gad-feature-image" src="gad/images/AMUMA-Progress-1086x1536.png?v=2" alt="AMUMA progress poster">
+                        </article>
+
+                        <article class="gad-card">
+                          <h2>DILG Cebu Province GAD on Youtube</h2>
+                          <div class="gad-video-frame" id="gad-youtube">
+                            <a class="gad-youtube-card" href="https://www.youtube.com/watch?v=wLGZDL3Fw38" target="_blank" rel="noopener noreferrer" aria-label="Watch DILG Cebu Province GAD video on YouTube">
+                              <span class="gad-youtube-thumb" aria-hidden="true">
+                                <span class="gad-youtube-play"></span>
+                              </span>
+                              <span class="gad-youtube-copy">
+                                <span class="gad-eyebrow">YouTube Video</span>
+                                <p>YouTube embeds may be blocked when this static page is opened locally, so this card opens the official video directly on YouTube.</p>
+                                <span class="gad-youtube-action">Watch on YouTube</span>
+                              </span>
+                            </a>
+                          </div>
+                        </article>
+
+                        <article class="gad-card" id="gad-database">
+                          <h2>GAD Database</h2>
+                          <div class="gad-form-frame">
+                            <iframe id="myGoogleForm" src="https://docs.google.com/forms/d/e/1FAIpQLSdRSH_6BkDKu332Whm9240_SvcMmV9YYawwPCXVt2i33UIaEQ/viewform?fbclid=IwY2xjawOxjr5leHRuA2FlbQIxMABicmlkETFsNUt2THBDdDRZQjRxdEdyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhEOsgLqAEV9V3Ha32IaGx5-TVSm3mrNDJP8IS6T7ni-0cvBejK9ilc954So_aem_U0OSMrNHhMW6kJ0jem966g/viewform?embedded=true" width="100%" height="4680" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe>
+                          </div>
+                        </article>
+
+                        <article class="gad-card gad-back-card">
+                          <a class="elementor-button elementor-button-link elementor-size-sm" href="index.html">
+                            <span class="elementor-button-content-wrapper">
+                              <span class="elementor-button-text">GO BACK</span>
+                            </span>
+                          </a>
+                        </article>
                       </div>
-
-
-
-
-                      <div style="text-align: center;">
-                        <img src="gad/images/gad.jpg"
-                             alt="Map"
-                             style="max-width: 50%; width: 50%; height: auto;">
-                      </div>
-
-
-                      
-
-
-                        <div class="container grid-layout">
-                          
-                          <div class="text-content">
-                            <h5 class="heading" style="font-size: 2em;">GENDER AND DEVELOPMENT CORNER</h5>
-                            <p class="paragraph">
-                              What is Gender and Development
-    
-                              Republic Act No. 7192 or Women in Development and Nation Building Act recognizes the role of women in nation-building and promotes the fundamental equality before the law of women and men.
-                              
-                              GAD is a development perspective that recognizes that there are blocks/ gender biases that prevent people from attaining their full potentials. GAD works to remove gender biases in individual, families, and institutions. GAD enables women and men to do productive work and have control of and benefit from the income; and able to be knowledgeable, skilled, confident with abilities and comfortable with achievements, independence, and power.
-                            </p>
-                      <div style="padding-top:50px; padding-bottom:50px;">
-                      </div>
-
-      <p class="heading" style="font-size: 2em;">GAD Plan, Budget & Accomplishment</p>
-
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ Accomplished Gender Mainstreaming Evaluation Framework (GMEF)</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://docs.google.com/spreadsheets/d/1hNo-KgfICJHPUExFLBhdtHK7vaMlQfR_/edit?usp=drive_link&ouid=113652067332563670380&rtpof=true&sd=true" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ GAD Accomplishment Reports</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://drive.google.com/file/d/1MG55BODD6VZejxpEBflnYzZbkJ39Qu1l/view?usp=drive_link" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ GAD Plan and Budget</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://drive.google.com/file/d/1bZGrVTAg9ZeEzrvXyWPSCN1RSL65gn4X/view?usp=drive_link" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ Initiated Adoption of the GAD Seal in RGADC 7</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://drive.google.com/drive/folders/18dvyGGFCJ85HFgBp_BpRzCZ58vta0bvi" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ Republic Act 11313 or the “Safe Space Act of 2019”</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://docs.google.com/presentation/d/196pNTUvh05Oy-u2-oTjpmDYm7ibwzMnb/edit?usp=sharing&ouid=104721375861023665393&rtpof=true&sd=true%20" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ Rules and Regulations Implementing RA 7877 Otherwise knowns as the “Anti-Sexual Harassment Act of 1995”</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://drive.google.com/file/d/1_7Pg8_XyLPE5037K59mWKHo0bl4YgQwW/view?usp=sharing%20" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ Amendments to PCW-DILG-DBM-NEDA JMC No 2013-01: Guidelines on the Localization of the Magna Carta of Women</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://drive.google.com/file/d/1rJ2v8JMIvSQxi5sxlOoTd0RH0hzqZnOq/view?usp=sharing%20" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-                      <div style="padding-top:50px; padding-bottom:50px;">
-                      </div>
-                      <section id="gad-brochure">
-      <p class="heading" style="font-size: 2em;">GAD Brochure</p>
-</section>
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ PCW Brochure R.A. 8353 Anti Rape Law Filipino 2024</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-8353-Anti-rape-Law-Filipino-2024.pdf" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ PCW Brochure R.A. 9262 Anti VAWC Act English 2024</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-9262-Anti-VAWC-Act-English-2024.pdf" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ PCW Brochure R.A. 9262 Labanan ang Karahasan 2020</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-RA-9262-Labanan-ang-Karahasan-2020.pdf" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ PCW Brochure Republic Act 7877 Anti Sexual-Harassment Act of 1995 Filipino 2024</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-Republic-Act-7877-Anti-Sexual-Harassment-Act-of-1995-Filipino-2024.pdf" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-  <!-- Item 1 -->
-  <div style="display: flex; justify-content: space-between; align-items: left; padding: 1rem 0; border-bottom: 1px solid #ccc;">
-    <span    style="font-size: 1.3rem; flex: 1 1 auto; min-width: 0; max-width: 52ch; word-break: break-word;"  >✅ PCW Brochure Your Anti-VAWC Legal Rights</span>
-    <div class="learn-more-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <a href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/Your-Anti-VAWC-Legal-Rights.pdf" download
-         style="display: inline-block; background-color: #17497a; color: white; padding: 10px 24px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s ease;">
-        PREVIEW
-      </a>
-    </div>
-  </div>
-
-
-                      <div style="padding-top:50px; padding-bottom:50px;">
-                      </div>
-
-
-                      <div style="text-align: center;">
-                        <img src="gad/images/AMUMA-Progress-1086x1536.png?v=2"
-                             alt="Map"
-                             style="max-width: 100%; width: 100%; height: auto;">
-                      </div>
-
-
-
-
-
-                      <div style="padding-top:50px; padding-bottom:50px;">
-                      </div>
-      <p class="heading" style="font-size: 2em;">DILG Cebu Province GAD on Youtube</p>
-<section id="gad-youtube" class="elementor-section elementor-top-section elementor-element elementor-element-fbc49c3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="fbc49c3" data-element_type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}">
-	<div class="elementor-container elementor-column-gap-default">
-
-		<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-ec5437b" data-id="ec5437b" data-element_type="column">
-			<div class="elementor-widget-wrap elementor-element-populated">
-
-				<!-- NEWEST VIDEO (TOP MOST) -->
-				<div class="elementor-element elementor-element-addedvideo elementor-widget elementor-widget-video" data-element_type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/wLGZDL3Fw38&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
-					<div class="elementor-widget-container">
-						<div class="elementor-wrapper elementor-open-inline">
-							<iframe class="elementor-video" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-							src="https://www.youtube.com/embed/wLGZDL3Fw38?controls=1&amp;rel=0"
-							width="640" height="360"></iframe>
-						</div>
-					</div>
-				</div>
-      </div>
-		</div>
-
-
-<section id="gad-database">
-
-                        <div style="padding-top:50px; padding-bottom:50px;">
-                      </div>
-      <p class="heading" style="font-size: 2em;">GAD Database</p>
-</section>
-<!-- Your Google Form iframe -->
- <div class="full-width-mobile">
-<iframe 
-  id="myGoogleForm"
-  src="https://docs.google.com/forms/d/e/1FAIpQLSdRSH_6BkDKu332Whm9240_SvcMmV9YYawwPCXVt2i33UIaEQ/viewform?fbclid=IwY2xjawOxjr5leHRuA2FlbQIxMABicmlkETFsNUt2THBDdDRZQjRxdEdyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhEOsgLqAEV9V3Ha32IaGx5-TVSm3mrNDJP8IS6T7ni-0cvBejK9ilc954So_aem_U0OSMrNHhMW6kJ0jem966g/viewform?embedded=true"
-  width="100%"
-  height="4680"
-  frameborder="0"
-  marginheight="0"
-  marginwidth="0"
-  scrolling="no">
-  Loading…
-</iframe>
-</div>
-
-
-
-
-
-
-
-<!-- 		<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-94623d5" data-id="94623d5" data-element_type="column">
-			<div class="elementor-widget-wrap elementor-element-populated">
-				<div class="elementor-element elementor-element-bd628a9 elementor-widget elementor-widget-video" data-id="bd628a9" data-element_type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/i0F5op6MGsg&quot;,&quot;loop&quot;:&quot;yes&quot;,&quot;cc_load_policy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
-					<div class="elementor-widget-container">
-						<div class="elementor-wrapper elementor-open-inline">
-							<iframe class="elementor-video" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="DILG 7 Women's Month Celebration 2025 AVP" width="640" height="360" src="https://www.youtube.com/embed/i0F5op6MGsg?controls=1&amp;rel=0&amp;playsinline=0&amp;cc_load_policy=1&amp;autoplay=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Fregion7.dilg.gov.ph&amp;widgetid=1&amp;forigin=http%3A%2F%2Fregion7.dilg.gov.ph%2Fnews%2Fgad%2F%3Ffbclid%3DIwZXh0bgNhZW0CMTEAAR7ER-ZapcOr-mL-czxhf92-gsbLkWh0dS4SXrSAfZJzeEmRGO-1yBselVM_JA_aem__eRUFyfEMx3mbi58Q_itaA&amp;aoriginsup=1&amp;vf=1" id="widget2"></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-
-				<div class="elementor-element elementor-element-5821693 elementor-widget elementor-widget-video" data-id="5821693" data-element_type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/IzdLbhS7cHU&quot;,&quot;loop&quot;:&quot;yes&quot;,&quot;cc_load_policy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
-					<div class="elementor-widget-container">
-						<div class="elementor-wrapper elementor-open-inline">
-							<iframe class="elementor-video" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="AMUMA AVP" width="640" height="360" src="https://www.youtube.com/embed/IzdLbhS7cHU?controls=1&amp;rel=0&amp;playsinline=0&amp;cc_load_policy=1&amp;autoplay=0&amp;enablejsapi=1&amp;origin=http%3A%2F%2Fregion7.dilg.gov.ph&amp;widgetid=7&amp;forigin=http%3A%2F%2Fregion7.dilg.gov.ph%2Fnews%2Fgad%2F%3Ffbclid%3DIwZXh0bgNhZW0CMTEAAR7ER-ZapcOr-mL-czxhf92-gsbLkWh0dS4SXrSAfZJzeEmRGO-1yBselVM_JA_aem__eRUFyfEMx3mbi58Q_itaA&amp;aoriginsup=1&amp;vf=1" id="widget8"></iframe>
-						</div>
-					</div>
-				</div> -->
-
-			</div>
-		</div>
-
-	</div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                              <div class="container grid-layout">
-                                <div class="text-content">
-                                  <div class="learn-more-container">
-                                    <a class="elementor-button elementor-button-link elementor-size-sm" href="index.html">
-                                      <span class="elementor-button-content-wrapper">
-                                        <span class="elementor-button-text">GO BACK</span>
-                                      </span>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
 
 
 
