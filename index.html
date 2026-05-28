@@ -1180,6 +1180,12 @@
                       <!-- Main slider container - now using aspect-ratio from styles.css for responsive sizing -->
                       <div class="main-slider-container full-width">
                         <div class="main-slider" id="mainPageSlider">
+                          <a class="main-slide">
+                            <img src="images/mainpagealbum/dilglogo.jpg?v=2" alt="DILG and NAPC conduct LPRAP orientation for Cebu LGUs" loading="lazy" decoding="async">
+                          </a>
+                          <a class="main-slide" href="theprovincialdirector.html" aria-label="The Provincial Director">
+                            <img src="images/mainpagealbum/dilgPD.jpg?v=2" alt="DILG and NAPC conduct LPRAP orientation for Cebu LGUs" loading="lazy" decoding="async">
+                          </a>
                           <a class="main-slide" href="NEWS/news-may-20-2026-001/news-may-20-2026-001.html" aria-label="Read May 20, 2026 LPRAP orientation news article">
                             <img src="NEWS/news-may-20-2026-001/FORINDEXMAINSLIDER.JPG" alt="DILG and NAPC conduct LPRAP orientation for Cebu LGUs" loading="lazy" decoding="async">
                           </a>
@@ -1554,39 +1560,7 @@
         </div>
       </article>
     </a>
-    <article class="sugbo-balita-item">
-      <div class="sugbo-balita-thumb">
-        <img src="images/mainpagealbum/1.jpg?v=2" alt="DILG Cebu Province local governance activity" loading="lazy" decoding="async">
-      </div>
-      <div>
-        <p class="sugbo-balita-kicker">Governance</p>
-        <h3 class="sugbo-balita-headline">DILG Cebu Province strengthens LGU partnerships for responsive local governance</h3>
-        <p class="sugbo-balita-date">May 20, 2026</p>
-        <p class="sugbo-balita-summary">Field officers and local officials align priority programs on barangay development, public safety, and citizen-centered service delivery across Cebu Province.</p>
-      </div>
-    </article>
-    <article class="sugbo-balita-item">
-      <div class="sugbo-balita-thumb">
-        <img src="images/mainpagealbum/2.jpg?v=2" alt="Barangay officials attending a planning session" loading="lazy" decoding="async">
-      </div>
-      <div>
-        <p class="sugbo-balita-kicker">Capacity Building</p>
-        <h3 class="sugbo-balita-headline">Barangay leaders complete workshop on peace, order, and community resilience</h3>
-        <p class="sugbo-balita-date">May 20, 2026</p>
-        <p class="sugbo-balita-summary">Participants reviewed practical tools for planning, reporting, and coordinating local initiatives that support safer and more prepared communities.</p>
-      </div>
-    </article>
-    <article class="sugbo-balita-item">
-      <div class="sugbo-balita-thumb">
-        <img src="images/mainpagealbum/3.jpg?v=2" alt="Cebu local government coordination activity" loading="lazy" decoding="async">
-      </div>
-      <div>
-        <p class="sugbo-balita-kicker">Public Service</p>
-        <h3 class="sugbo-balita-headline">Cebu LGUs recognized for innovative and people-first service delivery</h3>
-        <p class="sugbo-balita-date">May 20, 2026</p>
-        <p class="sugbo-balita-summary">The recognition highlights local government units that continue to improve frontline services, transparency practices, and community engagement.</p>
-      </div>
-    </article>
+
   </div>
   <div class="sugbo-more-news-container">
     <a class="sugbo-more-news-button elementor-button elementor-button-link elementor-size-md" href="news.html" style="display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; color: #000000 !important; background: #ffffff !important; border: 1px solid #d5d5d5 !important; border-radius: 5px; text-decoration: none !important;">
@@ -1817,7 +1791,10 @@
 <section aria-labelledby="pangatungdanan-feature-title" style="max-width: 1180px; margin: 18px auto; padding: 0 18px; font-family: Arial, Helvetica, sans-serif;">
   <style>
     .pangatungdanan-feature {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
       padding: 22px 24px;
       color: #111111;
       background: linear-gradient(90deg, #ffffff 0%, #f7f9fc 100%);
@@ -1833,6 +1810,31 @@
       background: #ffffff;
       box-shadow: 0 8px 20px rgba(18, 59, 122, 0.14);
       transform: translateY(-1px);
+    }
+    .pangatungdanan-feature-media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 210px;
+      max-width: 210px;
+      min-height: 140px;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid #d6dce6;
+      box-shadow: 0 8px 18px rgba(0, 58, 120, 0.1);
+    }
+    .pangatungdanan-feature-media img {
+      display: block;
+      max-width: 100%;
+      max-height: 140px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .pangatungdanan-feature-content {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
     }
     .pangatungdanan-feature-kicker {
       display: inline-block;
@@ -1865,14 +1867,25 @@
     }
     @media (max-width: 640px) {
       .pangatungdanan-feature {
+        flex-direction: column;
+        gap: 14px;
         padding: 20px 16px;
+      }
+      .pangatungdanan-feature-media {
+        flex-basis: auto;
+        width: min(100%, 220px);
       }
     }
   </style>
   <a class="pangatungdanan-feature" href="pangatungdanan.html">
-    <span class="pangatungdanan-feature-kicker">Official Newsletter</span>
-    <span id="pangatungdanan-feature-title" class="pangatungdanan-feature-title">Pangatungdanan</span>
-    <span class="pangatungdanan-feature-copy">Is the Official Newsletter of DILG Cebu Province.</span>
+    <span class="pangatungdanan-feature-media">
+      <img src="images/LGRC/pangatungdanan.png" alt="Pangatungdanan newsletter logo" loading="lazy" decoding="async">
+    </span>
+    <span class="pangatungdanan-feature-content">
+      <span class="pangatungdanan-feature-kicker">Official Newsletter</span>
+      <span id="pangatungdanan-feature-title" class="pangatungdanan-feature-title">Pangatungdanan</span>
+      <span class="pangatungdanan-feature-copy">Is the Official Newsletter of DILG Cebu Province.</span>
+    </span>
   </a>
 </section>
 
@@ -1893,7 +1906,10 @@
 <section aria-labelledby="gad-feature-title" style="max-width: 1180px; margin: 18px auto; padding: 0 18px; font-family: Arial, Helvetica, sans-serif;">
   <style>
     .gad-feature {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
       padding: 22px 24px;
       color: #111111;
       background: linear-gradient(90deg, #ffffff 0%, #f7f9fc 100%);
@@ -1909,6 +1925,31 @@
       background: #ffffff;
       box-shadow: 0 8px 20px rgba(18, 59, 122, 0.14);
       transform: translateY(-1px);
+    }
+    .gad-feature-media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 210px;
+      max-width: 210px;
+      min-height: 140px;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid #d6dce6;
+      box-shadow: 0 8px 18px rgba(0, 58, 120, 0.1);
+    }
+    .gad-feature-media img {
+      display: block;
+      max-width: 100%;
+      max-height: 140px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .gad-feature-content {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
     }
     .gad-feature-kicker {
       display: inline-block;
@@ -1951,15 +1992,26 @@
     }
     @media (max-width: 640px) {
       .gad-feature {
+        flex-direction: column;
+        gap: 14px;
         padding: 20px 16px;
+      }
+      .gad-feature-media {
+        flex-basis: auto;
+        width: min(100%, 220px);
       }
     }
   </style>
   <a class="gad-feature" href="gad.html">
-    <span class="gad-feature-kicker">GAD Corner</span>
-    <span id="gad-feature-title" class="gad-feature-title">Gender and Development (GAD)</span>
-    <span class="gad-feature-copy">A dedicated space for gender-responsive governance, inclusive public service, and empowering programs across DILG Cebu Province.</span>
-    <span class="gad-feature-accent">Open Gender and Development Corner</span>
+    <span class="gad-feature-media">
+      <img src="gad/logo/gad_gender_logo.svg" alt="Gender and Development logo" loading="lazy" decoding="async">
+    </span>
+    <span class="gad-feature-content">
+      <span class="gad-feature-kicker">GAD Corner</span>
+      <span id="gad-feature-title" class="gad-feature-title">Gender and Development (GAD)</span>
+      <span class="gad-feature-copy">A dedicated space for gender-responsive governance, inclusive public service, and empowering programs across DILG Cebu Province.</span>
+      <span class="gad-feature-accent">Open Gender and Development Corner</span>
+    </span>
   </a>
 </section>
 
@@ -2562,9 +2614,17 @@
     <span class="dilg-family-kicker">Partner Agencies</span>
     <h2 id="dilg-family-title" class="dilg-family-title">DILG Cebu Province Family</h2>
     <div class="dilg-family-logos" aria-label="DILG Cebu Province family agencies">
+      <a class="dilg-family-logo-link" href="https://lga.gov.ph/">
+        <span class="dilg-family-logo-frame"><img src="images/lga.png?v=2" alt="LGA logo"></span>
+        <span>LGA</span>
+      </a>
       <a class="dilg-family-logo-link" href="https://r7.napolcom.gov.ph/">
         <span class="dilg-family-logo-frame"><img src="images/napolcom.png" alt="NAPOLCOM logo"></span>
         <span>NAPOLCOM</span>
+      </a>
+      <a class="dilg-family-logo-link" href="https://ppsc.gov.ph/">
+        <span class="dilg-family-logo-frame"><img src="images/ppsc.png?v=2" alt="PPSC logo"></span>
+        <span>PPSC</span>
       </a>
       <a class="dilg-family-logo-link" href="https://region7.bfp.gov.ph/">
         <span class="dilg-family-logo-frame"><img src="images/bfp.png" alt="BFP logo"></span>
@@ -2929,36 +2989,6 @@
           </a>
         </div>
         
-<!-- +++++++++++++++++++++++++++++++Attached Agencies++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<h2 style="text-align: left; margin-bottom: 10px; margin-left: 20%;">Attached Agencies</h2>
-<div class="attached-agencies">
-  <div class="attached-image-row">
-    <a href="https://lga.gov.ph/">
-      <img src="images/lga.png?v=2" alt="Local Government Academy" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-    <a href="https://pnp.gov.ph/">
-      <img src="images/pnp.png?v=2" alt="Philippine National Police" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-    <a href="https://ppsc.gov.ph/">
-      <img src="images/ppsc.png?v=2" alt="Philippine Public Safety College" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-    <a href="https://bjmp.gov.ph/">
-      <img src="images/bjmp.png?v=2" alt="Bureau of Jail Management and Penology" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-    <a href="https://bfp.gov.ph/">
-      <img src="images/bfp.png?v=2" alt="Bureau of Fire Protection" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-    <a href="https://napolcom.gov.ph/">
-      <img src="images/napolcom.png?v=2" alt="National Police Commission" loading="lazy" decoding="async" width="120" height="143" style="max-width: 100%; height: auto;">
-    </a>
-  </div>
-</div>
-
-
-
-
-
-
 
 
 <footer class="jupiterx-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">

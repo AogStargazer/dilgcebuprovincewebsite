@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4096" height="4096" viewBox="0 0 555 555" role="img" aria-label="Remastered gender equality logo">
+  <defs>
+    <linearGradient id="pinkGrad" gradientUnits="userSpaceOnUse" x1="83" y1="394" x2="306" y2="174">
+      <stop offset="0" stop-color="#d51b85"/>
+      <stop offset="0.50" stop-color="#f02a99"/>
+      <stop offset="1" stop-color="#ff45a8"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" gradientUnits="userSpaceOnUse" x1="280" y1="385" x2="437" y2="140">
+      <stop offset="0" stop-color="#1f5fda"/>
+      <stop offset="0.52" stop-color="#2f80ee"/>
+      <stop offset="1" stop-color="#48a9ff"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1.25" stdDeviation="1.0" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Transparent background by default. Place on white or colored backgrounds as needed. -->
+  <g filter="url(#softShadow)" stroke-linejoin="miter">
+    <!-- Male symbol -->
+    <g opacity="0.96" fill="url(#blueGrad)" stroke="url(#blueGrad)">
+      <circle cx="286" cy="293" r="69.5" fill="none" stroke-width="47"/>
+      <path d="M322.5 227.5 L395.5 154.5 L428 187 L355 260 Z" stroke="none"/>
+      <path d="M325 140 H437 V252 H397.5 V207.5 L350 255 L322 227 L369.5 179.5 H325 Z" stroke="none"/>
+    </g>
+
+    <!-- Female symbol -->
+    <g opacity="0.92" fill="none" stroke="url(#pinkGrad)" stroke-width="42.5" stroke-linecap="butt">
+      <circle cx="216" cy="266" r="69.5"/>
+      <line x1="164" y1="318" x2="95" y2="387"/>
+      <line x1="83" y1="329" x2="153" y2="399"/>
+    </g>
+  </g>
+</svg>
