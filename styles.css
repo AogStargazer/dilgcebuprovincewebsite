@@ -281,12 +281,29 @@ img {
     white-space: nowrap; /* Prevent text wrapping */
 }
 
+.main-navigation > .nav-menu > .main-menu > li > a {
+    border-radius: 18px;
+    padding: 12px 14px;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
 .main-navigation > .nav-menu > .main-menu > li:hover > a,
 .main-navigation > .nav-menu > .main-menu > li > a:hover,
 .main-navigation > .nav-menu > .main-menu > li > a:focus-visible {
-    color: #000000;
-    font-weight: 600;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.18);
+    background-color: rgba(235, 238, 244, 0.96);
+    color: #111827;
+    font-weight: 400;
+    text-shadow: none;
+}
+
+.main-navigation > .nav-menu > .main-menu > li.has-dropdown:hover > a,
+.main-navigation > .nav-menu > .main-menu > li.has-dropdown > a:focus-visible {
+    background-color: rgba(235, 238, 244, 0.96);
+}
+
+.main-navigation > .nav-menu > .main-menu > li > a:focus-visible {
+    outline: 2px solid rgba(17, 24, 39, 0.18);
+    outline-offset: 3px;
 }
 
 /* Dropdown Menu Styles */

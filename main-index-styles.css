@@ -9,25 +9,27 @@ html body.home .container.grid-layout {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: clamp(10px, 2vw, 15px);
+  gap: clamp(24px, 3vw, 36px);
   width: 100%;
+  max-width: 1100px;
   justify-content: center;
-  padding: 1rem;
+  margin: 0 auto;
+  padding: 1.4rem 0;
   box-sizing: border-box;
 }
 
 /* Logo styling with responsive dimensions */
 html body.home .container.grid-layout .logo {
-  width: clamp(150px, 20vw, 200px);
+  width: clamp(170px, 16vw, 200px);
   height: auto;
-  max-height: clamp(150px, 20vw, 200px);
+  max-height: clamp(170px, 16vw, 200px);
   object-fit: contain;
   flex-shrink: 0;
 }
 
 /* Text content container */
 html body.home .container.grid-layout .text-content {
-  max-width: min(600px, 90%);
+  max-width: 540px;
   flex-grow: 1;
 }
 
@@ -45,7 +47,7 @@ html body.home .container.grid-layout .paragraph {
   font-family: Helvetica, sans-serif;
   font-size: clamp(0.95rem, 2vw, 1.05rem);
   line-height: 1.6;
-  text-align: left;
+  text-align: justify;
   margin-bottom: 1rem;
 }
 
@@ -57,9 +59,18 @@ html body.home .container.grid-layout .paragraph {
 html body.home .container.grid-layout .button-container,
 html body.home .container.grid-layout .learn-more-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0;
+}
+
+html body.home .container.grid-layout .intro-actions {
+  display: flex;
+  flex: 0 0 260px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+  margin-left: clamp(8px, 1.5vw, 18px);
 }
 
 /* Common button styles */
@@ -71,27 +82,28 @@ html body.home .container.grid-layout .elementor-button {
   color: #000000;
   border-radius: 5px;
   text-decoration: none;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-size: 18px;
   font-weight: bold;
+  line-height: 1.2;
   transition: background-color 0.2s ease;
   border: none;
   cursor: pointer;
+  width: 260px;
+  height: 50px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Standard button with icon */
 html body.home .container.grid-layout .button-container .elementor-button {
-  padding: 0.75rem 1.5rem;
-  display: flex;
-  align-items: center;
   gap: 10px;
 }
 
 /* Learn more button specific styles */
 html body.home .container.grid-layout .learn-more-container .elementor-button {
-  padding: 0.5rem 1rem;
-  display: inline-block;
-  text-align: center;
-  width: auto;
   white-space: nowrap;
 }
 
@@ -122,9 +134,12 @@ html body.home .container.grid-layout .elementor-button:hover {
     padding-right: 5px;
   }
   
-  html body.home .container.grid-layout .heading,
-  html body.home .container.grid-layout .paragraph {
+  html body.home .container.grid-layout .heading {
     text-align: center;
+  }
+
+  html body.home .container.grid-layout .paragraph {
+    text-align: justify;
   }
   
   /* Ensure button containers work properly with full-width layout */
@@ -133,6 +148,18 @@ html body.home .container.grid-layout .elementor-button:hover {
     justify-content: center;
     padding-left: 5px;
     padding-right: 5px;
+  }
+
+  html body.home .container.grid-layout .intro-actions {
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: 260px;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  html body.home .container.grid-layout .elementor-button {
+    width: 100%;
   }
   
   /* ========================================================================== 
