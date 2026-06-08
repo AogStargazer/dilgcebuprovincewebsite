@@ -1643,3 +1643,18 @@ body a:focus,
 body a:active {
     color: #000000;
 }
+.footer-visit-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: #f9fafb;
+  font-size: 13px;
+}
+
+.footer-stats-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
