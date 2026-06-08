@@ -1,180 +1,205 @@
-# DILG Cebu Province Website 2026
+# DILG Cebu Province Website
 
-This repository contains the official website for the Department of the Interior and Local Government (DILG) Cebu Province. The site is a static export of a WordPress site built with Elementor, optimized for GitHub Pages hosting.
+Static website for the Department of the Interior and Local Government (DILG) Cebu Province. The repository contains the public site pages, Cebu Province/LGU map pages, organizational chart pages, resource pages, news articles, PDF viewer assets, and supporting images/scripts used for GitHub Pages-style hosting.
 
 ## Project Overview
 
-The DILG Cebu Province website provides information about the department's services, programs, and initiatives. It features a responsive design with dynamic elements like day/night background switching and scroll position restoration.
+The site is a static HTML/CSS/JavaScript build. Most pages share the same header/navigation pattern, common stylesheet, local image assets, and local font files. The homepage includes a main image slider and time-based background switching for Cebu Capitol imagery.
 
-## File Structure
+No build step is required for normal content updates. Edit the HTML, CSS, JavaScript, image, or PDF files directly and preview through a local static server.
 
-The website follows this organization:
+## Main Pages
 
+### Home and Office Information
+
+- `index.html` - Homepage with image slider, navigation, and homepage sections
+- `aboutus.html` - About DILG Cebu Province
+- `history.html` - Office history
+- `mandate.html` - Mandate
+- `contact-info.html` - Contact information
+- `ip-phonedirectory.html` - IP phone directory
+- `theprovincialdirector.html` - Provincial Director page
+- `maintenanceindex.html` - Maintenance page
+
+### Transparency, Citizen Services, and Procurement
+
+- `transparency.html` - Transparency Seal
+- `fdp.html` - Full Disclosure Policy
+- `fdpLGUs.html` - LGU compliance on Full Disclosure Policy
+- `citizenscharter.html` - Citizen's Charter page
+- `citizenscharterencoded.html` - Encoded Citizen's Charter page
+- `hiring.html` - Vacant positions
+- `invitationtobid.html` - Invitation to Bid
+- `noticetoproceed.html` - Notice to Proceed
+
+### Programs, Resources, and Publications
+
+- `lgrc.html` - Local Governance Resource Center
+- `resourcelgu.html` - Resources for Local Government Units
+- `dilgprogramsresource.html` - DILG programs and resources
+- `localgovtcode.html` - Local Government Code resource
+- `annualreport.html` - Annual reports
+- `publicationsandnewsletters.html` - Publications and newsletters
+- `pangatungdanan.html` - Pangatungdanan
+- `kalambuan.html` - Kalambuan
+- `bansiwag.html` - Bansiwag
+- `amumasabarangay.html` - Amuma sa Barangay
+- `gad.html` - Gender and Development
+
+### LGU and Map Pages
+
+- `lgus.html` - Cebu Province LGUs
+- `cebuprovincemap.html` - Cebu Province map
+- `cebuprovincemapLGU.html` - Cebu Province LGU map
+- `assets/interactivemap/index.html` - Interactive map support page
+- `CebuProvince.svg` and `CebuProvince.txt` - Map/source data assets
+- `MapTooltipinsideHTML.js` and `svgmaptooltipengine.js` - Map tooltip behavior
+
+### Organization and Personnel Pages
+
+- `organizationalstructure.html` - Organizational structure
+- `organizationaldilgpersonnel.html` - DILG personnel
+- `organizationalchartchief.html` - Key officials and management
+- `organizationalchartFAS.html` - FAS organizational chart
+- `organizationalchartLGCDS.html` - LGCDS organizational chart
+- `organizationalchartLGMES.html` - LGMES organizational chart
+- `organizationalchartPDMU.html` - PDMU organizational chart
+- `organizationalchartbugsay.html` - BUGSAY cluster organizational chart
+- `organizationalchartdasig.html` - DASIG cluster organizational chart
+- `organizationalcharttiga.html` - TIGA cluster organizational chart
+- `organizationalcharttribu.html` - TRIBU cluster organizational chart
+
+### News and Media
+
+- `news.html` - News index
+- `dilgsugbobalita.html` - DILG Sugbo Balita
+- `NEWS/` - Individual dated news article folders and article images
+
+### Supporting and Utility Pages
+
+- `attachedagencies.html` - Attached agencies
+- `template.html` - Template for creating new pages
+- `test.html` - Test/demo page
+- `assets/pdfjs/web/viewer.html` - PDF.js viewer used for local PDF viewing
+
+## Repository Structure
+
+```text
+/
+├── *.html                         # Top-level static pages
+├── NEWS/                          # Individual news articles and article images
+├── DILGPROGRAMSRESOURCE/          # Downloadable program/resource PDFs
+├── assets/
+│   ├── fonts/                     # Local display fonts
+│   ├── interactivemap/            # Interactive map page
+│   ├── js/                        # Site JavaScript
+│   └── pdfjs/                     # Local PDF.js distribution
+├── css/                           # Page-specific CSS
+├── images/
+│   ├── LGRC/                      # LGRC/resource thumbnails
+│   ├── LGU/                       # LGU images
+│   ├── mainpagealbum/             # Homepage slider images
+│   └── *.png, *.jpg               # Shared background and branding images
+├── organizationalchart/           # Organizational chart assets
+├── theprovincialdirector/         # Provincial Director media
+├── wp-content/, wp-includes/      # Static WordPress-exported assets
+├── styles.css                     # Main shared stylesheet
+├── main-index-styles.css          # Homepage-specific stylesheet
+├── menu.css                       # Navigation styles
+├── security-config.js             # Client-side security/config helpers
+├── CNAME                          # Custom domain configuration
+├── robots.txt                     # Crawling rules
+└── README.md                      # This documentation
 ```
-/ (root)
-├── index.html                # Landing page
-├── aboutus.html              # About Us page
-├── amumasabarangay.html      # Amuma sa Barangay program page
-├── attachedagencies.html     # Attached Agencies page
-├── bansiwag.html             # Bansiwag program page
-├── contact-info.html         # Contact Information page
-├── fdp.html                  # Full Disclosure Policy page
-├── fdpLGUs.html              # LGU Compliance on Full Disclosure page
-├── gad.html                  # Gender and Development page
-├── hiring.html               # Vacant Positions page
-├── history.html              # History page
-├── invitationtobid.html      # Invitation to Bid page
-├── issuances.html            # Issuances page
-├── lguportal.html            # LGU Portal page
-├── maintenanceindex.html     # Maintenance page
-├── mandate.html              # Mandate page
-├── news.html                 # News page
-├── noticetoproceed.html      # Notice to Proceed page
-├── organizationalchartchief.html # Key Officials & Management page
-├── organizationalstructure.html # Organizational Structure page
-├── template.html             # Template for new pages
-├── theprovincialdirector.html # Provincial Director page
-├── transparency.html         # Transparency Seal page
-├── transparencyofwork.html   # Transparency at Work page
-├── styles.css                # Main CSS file
-├── main-index-styles.css     # Styles for main index
-├── menu.css                  # Navigation menu styles
-├── CNAME                     # Custom domain configuration
-├── archive/                  # Archived content
-│   └── index.html
-├── assets/                   # Asset files
-│   ├── fonts/                # Custom fonts
-│   │   └── Whitehella.otf    # Only font file currently present
-│   └── js/                   # JavaScript files
-│       ├── main-background-switcher.js  # Day/night background switching for main page
-│       └── background-switcher.js       # General background switching functionality
-├── css/                      # Additional CSS files
-│   └── attached-agencies.css # Styles for attached agencies page
-└── README.md                 # This file
-```
 
-## CSS Structure
+## Stylesheets
 
-The website uses multiple CSS files:
+- `styles.css` - Main shared stylesheet used by most site pages
+- `main-index-styles.css` - Homepage-specific layout and visual styling
+- `menu.css` - Navigation menu styling
+- `css/attached-agencies.css` - Attached agencies page styling
+- `wp-content/` and `wp-includes/` CSS files - Static assets retained from the WordPress export
 
-1. **styles.css** - Main stylesheet at the repository root for optimal compatibility with GitHub Pages
-2. **main-index-styles.css** - Specific styles for the main index page
-3. **menu.css** - Navigation menu styles
-4. **css/attached-agencies.css** - Styles for the attached agencies page
+## JavaScript
 
-This organization ensures that styles are properly applied regardless of which page is being viewed.
+- `assets/js/main-background-switcher.js` - Homepage day/night Capitol background switcher
+- `assets/js/main-background-switcher-GAD.js` - GAD-specific background switcher
+- `assets/js/background-switcher.js` - General background switcher
+- `assets/js/header-clock-weather.js` - Header clock/weather behavior
+- `assets/js/nav-logo-video.js` - Navigation logo/video behavior
+- `assets/js/gallery-lightbox.js` - Gallery lightbox behavior
+- `assets/js/goatcounter-stats.js` - GoatCounter statistics display helpers
+- `assets/js/image-manager.js` - Image management helpers
+- `assets/js/service-worker.js` - Service worker/cache handling
+- `assets/js/standalone-config.js` - Standalone site configuration
+- `MapTooltipinsideHTML.js` and `svgmaptooltipengine.js` - SVG/map tooltip support
 
-## JavaScript Files
+Some pages also include inline JavaScript for page-specific behavior. When updating shared behavior, check whether the logic is centralized in `assets/js/` or embedded in the related page.
 
-The website uses three JavaScript files for dynamic functionality:
+## Images and Media
 
-1. **assets/js/image-preloader.js** - Utility module for preloading and caching background images to ensure smooth transitions
-2. **assets/js/main-background-switcher.js** - Handles background image switching for the main/index page based on time of day
-3. **assets/js/background-switcher.js** - General background switching functionality for all pages
+- Homepage slider images live in `images/mainpagealbum/`.
+- Shared Capitol background images live in `images/`, including day, night, alternate night, and GAD variants.
+- LGU photos live in `images/LGU/`.
+- LGRC/resource thumbnails live in `images/LGRC/`.
+- Organizational chart portraits and chart images live in `organizationalchart/` and `organizationalchart/images/`.
+- Provincial Director photos live in `theprovincialdirector/`.
+- News article images live beside each article under `NEWS/<article-folder>/`.
 
-**Note:** The image-preloader.js must be included before the background switcher scripts in your HTML files to ensure proper image caching. The code also references a `scroll-restoration.js` file that is not currently present in the repository. This file should either be added to the `assets/js/` directory or the reference to it should be removed from the HTML files.
+When adding images, keep filenames and path casing consistent with the HTML references. GitHub Pages is case-sensitive even if local Windows previews are more forgiving.
 
-## Background Images
+## Fonts
 
-The website features dynamic background images that change based on the time of day in the Philippines (daytime: 6:00 AM to 6:00 PM; nighttime: 6:00 PM to 6:00 AM). The images are preloaded using the image-preloader.js utility to ensure smooth transitions without loading delays.
+Local fonts are stored in `assets/fonts/`:
 
-**IMPORTANT:** The JavaScript files reference background images that are not currently in the repository. You need to:
+- `EuphoriaScript-Regular.ttf`
+- `Whitehella.ttf`
+- `Whitehella.otf`
+- `moon-time-regular.ttf`
 
-1. Create an `images/` directory in the root folder
-2. Add the following background images to this directory:
-   - `Cebu_Capitol_Compound.png` (daytime)
-   - `Cebu_Capitol_Compound_Night.png` (nighttime)
-   - `Cebu_Capitol_Compound_Night_Alternate.png` (alternate nighttime)
+The root also contains legacy font copies (`EuphoriaScript-Regular.ttf`, `Whitehella.ttf`, and `Whitehella.otf`). Prefer `assets/fonts/` for new CSS references.
 
-**Note:** The filenames are case-sensitive and must match exactly as shown above. The background switcher scripts use the image preloader to cache these images in memory for optimal performance.
+## PDF Resources
 
-## Image Slider
-
-The main page features a centered image slider that displays images from the `images/mainpagealbum/` directory. To add or update images in the slider:
-
-1. Create the `images/mainpagealbum/` directory if it doesn't exist
-2. Place your slider images in this folder, numbered sequentially (1.jpg, 2.jpg, etc.)
-3. The slider will automatically display all images from this location
-4. For best results, use landscape-oriented images with consistent dimensions
-
-## Font Usage
-
-Currently, only the `Whitehella.otf` font is present in the `assets/fonts/` directory. The CSS references an `EuphoriaScript` font that is not in the repository. To complete the font setup:
-
-1. Add the `EuphoriaScript-Regular.ttf` font to the `assets/fonts/` directory, or
-2. Update the CSS to use an alternative font or web font
-
-The website currently uses:
-- Whitehella: For headings and emphasis text
-- System fonts: As fallbacks
-
-## Deployment on GitHub Pages
-
-To deploy this website on GitHub Pages:
-
-1. **Repository Setup**:
-   - Ensure your repository is named `username.github.io` for a user site, or configure GitHub Pages in repository settings for a project site.
-
-2. **Branch Configuration**:
-   - Go to your repository on GitHub
-   - Navigate to Settings > Pages
-   - Select the branch to deploy (usually `main` or `master`)
-   - Save the settings
-
-3. **Path Configuration**:
-   - The site uses both absolute paths (starting with `/`) and relative paths (starting with `./`) for CSS and assets to ensure compatibility with GitHub Pages.
-   - The main CSS file should remain at the repository root.
-   - **Important:** Create the `images/` directory and add the required background images as specified in the "Background Images" section above.
-   - Double-check that all filenames match exactly, including capitalization.
-
-4. **Testing**:
-   - After deployment, verify all pages render correctly
-   - Check that fonts, images, and styles load properly
-   - Test navigation links to ensure they work as expected
-
-## Setup Instructions
-
-To set up this website for development or deployment:
-
-1. **Clone and prepare the repository:**
-   ```bash
-   git clone https://github.com/yourusername/dilgcebuprovincewebsite-1.git
-   cd dilgcebuprovincewebsite-1
-   ```
-
-2. **Add required background images:**
-   - Create an `images/` directory in the root folder
-   - Place the three background PNGs (`Cebu_Capitol_Compound.png`, `Cebu_Capitol_Compound_Night.png`, `Cebu_Capitol_Compound_Night_Alternate.png`) in this directory
-
-3. **Include image preloader in HTML:**
-   - Ensure `assets/js/image-preloader.js` is included before each background switcher script in your HTML files
-   - The preloader handles image caching for smooth background transitions
-
-4. **Deploy:**
-   - Push to GitHub for GitHub Pages deployment, or
-   - Use a local server for development testing
+PDF resources are stored mainly in `DILGPROGRAMSRESOURCE/`. The repo also includes a local PDF.js copy under `assets/pdfjs/` so PDFs can be opened with the bundled viewer when needed.
 
 ## Local Development
 
-To work on this website locally:
+Because the site is static, any simple local HTTP server will work:
 
-1. Follow the setup instructions above
+```bash
+python -m http.server
+```
 
-2. Open the project in your preferred code editor
+Then open:
 
-3. Use a local server to preview changes (to avoid CORS issues with fonts):
-   - With Python: `python -m http.server`
-   - With Node.js: `npx serve`
-   - Or use extensions like Live Server for VS Code
+```text
+http://localhost:8000/
+```
 
-4. Make changes and test locally before pushing to GitHub
+Using a local server is preferred over opening files directly because fonts, PDF viewer assets, service-worker behavior, and some relative paths behave more consistently over HTTP.
+
+## Updating Content
+
+1. Edit the relevant `.html` page or asset file.
+2. Keep navigation links consistent across pages that share the header/menu.
+3. Add new images to the matching asset folder (`images/mainpagealbum/`, `images/LGU/`, `organizationalchart/images/`, or the relevant `NEWS/` article folder).
+4. Use relative paths unless a page already follows a different local pattern.
+5. Preview locally and check desktop and mobile widths before publishing.
+
+For new pages, start from `template.html` or copy the closest existing page with the same layout pattern.
+
+## Deployment
+
+The repository is ready for static hosting. For GitHub Pages:
+
+1. Push changes to the deployment branch.
+2. In the GitHub repository, open Settings > Pages.
+3. Select the configured branch/source.
+4. Confirm the custom domain remains aligned with `CNAME`.
+5. After deployment, verify key pages, images, fonts, PDFs, and navigation links.
 
 ## Responsive Design
 
-The website is designed to be responsive across different screen sizes:
-- Desktop (>768px)
-- Tablet (480px-768px)
-- Mobile (<480px)
-
-Media queries in the CSS adjust layouts, font sizes, and navigation for each screen size.
+The site uses CSS media queries for desktop, tablet, and mobile layouts. When changing navigation, organizational charts, maps, tables, or slider content, test narrow mobile widths as well as desktop layouts.
 
