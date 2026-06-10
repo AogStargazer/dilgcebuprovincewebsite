@@ -415,10 +415,14 @@ a[href="index.html?p=1853.html"] {
 
 /* Dropdown indicator styles */
 .main-menu > li.has-dropdown > a::after {
-    content: "\25BC";
+    content: "";
     display: inline-block;
-    margin-left: 5px;
-    font-size: 9px;
+    width: 0;
+    height: 0;
+    margin-left: 7px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     vertical-align: middle;
     opacity: 0.7;
@@ -895,13 +899,34 @@ a[href="index.html?p=1853.html"] {
     align-items: center;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 0;
     z-index: 10;
     transition: background 0.3s;
 }
 
 .slider-nav:hover {
     background: rgba(0,0,0,0.8);
+}
+
+.slider-nav::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.prev-slide::before {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 11px solid currentColor;
+    margin-left: -2px;
+}
+
+.next-slide::before {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 11px solid currentColor;
+    margin-right: -2px;
 }
 
 .prev-slide {
@@ -951,7 +976,6 @@ a[href="index.html?p=1853.html"] {
     .slider-nav {
         width: 40px;
         height: 40px;
-        font-size: 20px;
     }
 }
 
@@ -959,7 +983,18 @@ a[href="index.html?p=1853.html"] {
     .slider-nav {
         width: 30px;
         height: 30px;
-        font-size: 16px;
+    }
+
+    .prev-slide::before {
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+        border-right-width: 9px;
+    }
+
+    .next-slide::before {
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+        border-left-width: 9px;
     }
     
     .pagination-dot {
@@ -1327,6 +1362,48 @@ input[type="reset"]:focus-visible,
 .elementor-button .elementor-button-text,
 .slider-nav i {
     color: inherit !important;
+}
+
+.elementor-swiper-button,
+.swiper-button-prev,
+.swiper-button-next,
+.elementor-lightbox .elementor-swiper-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.elementor-swiper-button i,
+.swiper-button-prev::after,
+.swiper-button-next::after,
+.elementor-lightbox .elementor-swiper-button i {
+    display: none !important;
+}
+
+.elementor-swiper-button::before,
+.swiper-button-prev::before,
+.swiper-button-next::before,
+.elementor-lightbox .elementor-swiper-button::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.elementor-swiper-button-prev::before,
+.swiper-button-prev::before,
+.elementor-lightbox .elementor-swiper-button-prev::before {
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 12px solid currentColor;
+}
+
+.elementor-swiper-button-next::before,
+.swiper-button-next::before,
+.elementor-lightbox .elementor-swiper-button-next::before {
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 12px solid currentColor;
 }
 
 /* -------------------- Footer Menu Flex Layout for Desktop -------------------- */
