@@ -291,7 +291,7 @@ img {
 
 .main-navigation > .nav-menu > .main-menu > li > a {
     border-radius: 18px;
-    padding: 12px 14px;
+    padding: 6px 7px;
     transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
@@ -840,17 +840,24 @@ a[href="index.html?p=1853.html"] {
 
 /* 
  * NEW RULES: Top Main Menu Grid Layout & Footer Menu Grid Layout
- * These rules convert the existing flex layout into a grid layout with fixed columns on desktop screens (min-width: 769px).
- * The top main menu will have 7 columns and the footer menu 5 columns.
+ * These rules keep the top main menu compact and centered on desktop screens (min-width: 769px).
+ * The footer menu keeps its separate flex layout.
  */
 @media screen and (min-width: 769px) {
-    /* Top Main Menu: Two rows with 7 items per row (if more items are added, the grid will enforce 7 columns) */
+    /* Top Main Menu: compact, content-sized row centered between the logo and header edge. */
     .main-navigation .nav-menu .main-menu {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
+        grid-auto-flow: column;
+        grid-auto-columns: max-content;
+        gap: 8px;
         justify-items: center;
         justify-content: center;
+        width: max-content;
+        margin: 0 auto;
+    }
+
+    .main-navigation .nav-menu .main-menu > li:first-child {
+        transform: translateX(-22px);
     }
 
     /* Footer Menu: Removed grid layout to use flex layout instead */
