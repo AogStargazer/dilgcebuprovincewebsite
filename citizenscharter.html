@@ -1305,7 +1305,7 @@
 .citizens-charter-lite .cover-year{position:absolute;left:0;top:382px;width:100%;font-weight:900;font-size:18px;color:#111}
 .citizens-charter-lite .cover-tagline{position:absolute;left:0;top:784px;width:100%;font-size:11px;color:#fff}
 .citizens-charter-lite .search-hit{outline:4px solid rgba(206,17,38,.45);outline-offset:-4px;background:#fffdf3}
-.citizens-charter-lite .charter-fab{position:fixed;right:24px;bottom:24px;z-index:70;border:0;border-radius:999px;background:var(--brand);color:#fff;padding:13px 18px;font:inherit;font-weight:800;box-shadow:var(--shadow);cursor:pointer}
+.citizens-charter-lite .charter-fab{position:fixed;right:24px;bottom:24px;z-index:70;border:0;border-radius:999px;background:var(--brand);color:#fff;padding:16px 24px;font:inherit;font-size:18px;font-weight:800;box-shadow:var(--shadow);cursor:pointer}
 .charter-dialog-layer{position:fixed;left:0;right:0;top:var(--charter-dialog-top,0px);bottom:0;z-index:2147483000;background:rgba(15,23,42,.35);display:flex;align-items:flex-start;justify-content:center;padding:44px 0 24px}
 .charter-dialog-layer[hidden]{display:none}
 .charter-dialog-layer .charter-dialog{width:min(1740px,calc(100% - 160px));min-height:min(720px,calc(100vh - var(--charter-dialog-top,0px) - 120px));max-height:100%;overflow:auto;background:#fff;border:1px solid #d0d7e2;border-radius:8px;box-shadow:0 18px 45px rgba(15,23,42,.18);font-family:Arial,system-ui,sans-serif}
@@ -1316,8 +1316,10 @@
 .charter-dialog-layer .dialog-body{padding:22px 28px 30px}
 .charter-dialog-layer .dialog-body input{width:100%;font:inherit;font-size:16px;border:1px solid #d0d7e2;border-radius:8px;padding:12px 14px;margin-bottom:14px}
 .charter-dialog-layer .service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.charter-dialog-layer .service-pill{display:flex;align-items:center;gap:14px;border:1px solid #d0d7e2;border-radius:8px;padding:14px 15px;text-decoration:none;color:#111827;background:#fff;min-height:118px}
-.charter-dialog-layer .service-icon{width:76px;height:76px;flex:0 0 76px;object-fit:contain;border-radius:8px}
+.charter-dialog-layer .service-pill{display:flex;align-items:center;gap:14px;border:1px solid #d0d7e2;border-radius:8px;padding:14px 15px;text-decoration:none;color:#111827;background:#fff;min-height:118px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease}
+.charter-dialog-layer .service-pill:hover,.charter-dialog-layer .service-pill:focus-visible{transform:translateY(-3px);border-color:#2f63d8;background:#f8fbff;box-shadow:0 12px 26px rgba(15,35,75,.14);outline:0}
+.charter-dialog-layer .service-icon{width:76px;height:76px;flex:0 0 76px;object-fit:contain;border-radius:8px;transition:transform .18s ease,filter .18s ease}
+.charter-dialog-layer .service-pill:hover .service-icon,.charter-dialog-layer .service-pill:focus-visible .service-icon{transform:scale(1.06);filter:drop-shadow(0 7px 10px rgba(15,35,75,.18))}
 .charter-dialog-layer .service-copy{display:block;min-width:0}
 .charter-dialog-layer .service-pill strong{display:block;color:#00245f;font-size:13px;line-height:1.25}
 .charter-dialog-layer .service-desc{display:block;margin-top:4px;color:#667085;font-size:12px;line-height:1.3}
@@ -1333,7 +1335,7 @@
   <section class="charter-dialog" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
     <div class="dialog-head"><div><h2 id="guideTitle">Welcome to the DILG Cebu Province Citizen's Charter</h2><p>Utilize the Search Box and search what services you need in this esteemed agency.</p></div><button class="dialog-close" id="closeGuide" type="button" aria-label="Close service finder">&times;</button></div>
     <div class="dialog-body">
-      <input id="serviceFilter" type="search" placeholder="Filter services"/>
+      <input id="serviceFilter" type="search" placeholder="Find services"/>
       <div class="service-list">
         <a class="service-pill" href="#external-01-foreign-travel-authority" data-service="foreign travel authority local government officials employees travel abroad"><img class="service-icon" src="images/citizenscharter/ForeignTravelAuthority.png" alt="" loading="lazy"/><span class="service-copy"><strong>Foreign Travel Authority</strong><span class="service-desc">Authority to travel abroad for local government officials and employees.</span></span></a>
         <a class="service-pill" href="#external-02-full-disclosure-policy" data-service="full disclosure policy fdp certification compliance"><img class="service-icon" src="images/citizenscharter/FullDisclosurePolicyCertification.png" alt="" loading="lazy"/><span class="service-copy"><strong>Full Disclosure Policy Certification</strong><span class="service-desc">Certification of compliance to FDP posting requirements.</span></span></a>
