@@ -15,6 +15,7 @@ import argparse
 import html
 import json
 import re
+import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -27,12 +28,16 @@ EXCLUDED_DIR_PARTS = {
     ".git",
     ".agents",
     ".codex",
+    "assets/interactivemap",
     "assets/pdfjs",
     "wp-content",
     "wp-includes",
 }
 
 EXCLUDED_FILES = {
+    "citizenscharterencodedold.html",
+    "citizenschartermodern.html",
+    "citizenscharterpdfold.html",
     "maintenanceindex.html",
     "test.html",
     "template.html",
@@ -76,6 +81,7 @@ ATTRIBUTE_TEXT = ("alt", "title", "aria-label")
 
 def normalize_space(value: str) -> str:
     value = html.unescape(value)
+    value = unicodedata.normalize("NFKC", value)
     value = value.replace("\xa0", " ")
     value = re.sub(r"\s+", " ", value)
     return value.strip()
@@ -228,22 +234,54 @@ class VisibleTextParser(HTMLParser):
         return strip_repeated_phrases(" ".join(self.text_parts))
 
 
-def parse_page(path: Path) -> dict[str, str] | None:
+class SearchRecordParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.records: list[dict[str, str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attr_map = {name.lower(): value or "" for name, value in attrs}
+        if "data-search-record" not in attr_map:
+            return
+
+        href = normalize_space(attr_map.get("href", ""))
+        title = normalize_space(attr_map.get("data-search-title", "") or attr_map.get("title", ""))
+        text = normalize_space(attr_map.get("data-search-text", "") or title)
+        if href and title and text:
+            self.records.append({"url": href, "title": title, "text": text})
+
+
+def parse_page(path: Path) -> list[dict[str, str]]:
     parser = VisibleTextParser()
-    parser.feed(read_text(path))
+    source = read_text(path)
+    parser.feed(source)
 
     text = parser.text
     if len(text) < 20:
-        return None
+        return []
 
     rel = path.relative_to(ROOT).as_posix()
     title = parser.title or infer_title_from_text(text) or rel
 
-    return {
+    page_record = {
         "url": rel,
         "title": title,
         "text": text,
     }
+
+    search_record_parser = SearchRecordParser()
+    search_record_parser.feed(source)
+    shortcut_records = []
+    for record in search_record_parser.records:
+        shortcut_records.append(
+            {
+                "url": rel + record["url"],
+                "title": record["title"],
+                "text": record["text"],
+            }
+        )
+
+    return [page_record, *shortcut_records]
 
 
 def infer_title_from_text(text: str) -> str:
@@ -263,9 +301,7 @@ def discover_pages() -> list[Path]:
 def build_index() -> list[dict[str, str]]:
     records: list[dict[str, str]] = []
     for page in discover_pages():
-        record = parse_page(page)
-        if record:
-            records.append(record)
+        records.extend(parse_page(page))
     return records
 
 
