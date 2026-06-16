@@ -911,7 +911,7 @@
                       <li><a href="theprovincialdirector.html">The Provincial Director</a></li>
                       <li><a href="organizationalchartchief.html">DILG Sugbo Family</a></li>
                       <li><a href="organizationaldilgpersonnel.html">DILG Personnel and Staff</a></li>
-                      <li><a href="cebuprovincemap.html">Cebu Province Field Officers</a></li>
+                      <li><a href="dilgcebuprovinceofficesmap.html">DILG Field Offices</a></li>
                       <li><a href="cebuprovincemapLGU.html">Cebu Province LGUs</a></li>
                       <li><a href="attachedagencies.html">Attached Agencies</a></li>
 
@@ -3695,14 +3695,16 @@ This will use the default font size and color for this cell.
 
 // --- BEGIN USER GRID CONFIG ---
 const gridConfig = {
-  R1C1: { key: "NameofLGU", label: "LGU Name", bold: true, fontsize: 15 },
+  R1C1: { key: "fieldOfficeName", label: "Field Office", bold: true, fontsize: 15 },
   R2C1: { key: "descriptionLGU", label: "Description", paragraph: true, wrapchar: 74, fontsize: 12 },
-  R3R4C1: { key: "lgooImage", label: "LGOO Photo" },
-  R3C2: { key: "lgooName", label: "LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
-  R4C2: { key: "lgooDesignation", label: "LGOO Designation", fontsize: 12, wrapchar: 30 },
-  R5R6C1: { key: "lgoo2Image", label: "2nd LGOO Photo" },
-  R5C2: { key: "lgoo2Name", label: "2nd LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
-  R6C2: { key: "lgoo2Designation", label: "2nd LGOO Designation", fontsize: 12, wrapchar: 30 }
+  R3R5C1: { key: "lgooImage", label: "LGOO Photo" },
+  R3C2: { key: "fieldOfficerLabel", label: "Field Officer Label", bold: true, fontsize: 12 },
+  R4C2: { key: "lgooName", label: "LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
+  R5C2: { key: "lgooDesignation", label: "LGOO Designation", fontsize: 12, wrapchar: 30 },
+  R6R8C1: { key: "lgoo2Image", label: "2nd LGOO Photo" },
+  R6C2: { key: "fieldOfficer2Label", label: "2nd Field Officer Label", bold: true, fontsize: 12 },
+  R7C2: { key: "lgoo2Name", label: "2nd LGOO Name", bold: true, wrapchar: 20, fontsize: 14 },
+  R8C2: { key: "lgoo2Designation", label: "2nd LGOO Designation", fontsize: 12, wrapchar: 30 }
 };
 // --- END USER GRID CONFIG ---
 
@@ -4075,6 +4077,17 @@ const exampleData = {
 };
 
 // --- END USER DATA ---
+Object.values(exampleData).forEach((lguData) => {
+  if (lguData.NameofLGU) {
+    lguData.fieldOfficeName = `DILG ${lguData.NameofLGU} Field Office`;
+  }
+  if (lguData.lgooName) {
+    lguData.fieldOfficerLabel = "Field Officer Assigned:";
+  }
+  if (lguData.lgoo2Name) {
+    lguData.fieldOfficer2Label = "Field Officer Assigned:";
+  }
+});
 
 /*
 ==================== EXAMPLE: PROFILE CARD LAYOUT WITH MERGED CELLS ====================
@@ -5809,7 +5822,7 @@ For more help, ask your developer or contact your website administrator.
   <li><a href="theprovincialdirector.html">Provincial Director</a></li>
   <li><a href="organizationalstructure.html">Organizational Structure</a></li>
   <li><a href="organizationaldilgpersonnel.html">Personnel Directory</a></li>
-  <li><a href="cebuprovincemap.html">Field Officer Locator</a></li>
+  <li><a href="dilgcebuprovinceofficesmap.html">Field Officer Locator</a></li>
   <li><a href="lgus.html">Cebu Province LGUs</a></li>
   <li><a href="organizationalchartchief.html">DILG Sugbo Family</a></li>
   <li><a href="attachedagencies.html">Attached Agencies</a></li>
