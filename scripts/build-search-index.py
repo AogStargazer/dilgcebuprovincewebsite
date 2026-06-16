@@ -78,6 +78,33 @@ SKIP_CLASS_OR_ID_PARTS = {
 
 ATTRIBUTE_TEXT = ("alt", "title", "aria-label")
 
+PAGE_SEARCH_METADATA = {
+    "dilgcebuprovinceofficesmap.html": {
+        "title": "DILG Cebu Province Field Offices Map",
+        "text": (
+            "DILG Cebu Province Field Offices Map dilgcebuprovinceofficesmap "
+            "Cebu Province offices map field offices interactive map MLGOO CLGOO "
+            "local government operations officers municipal city field officers"
+        ),
+    },
+    "organizationalchartchief.html": {
+        "title": "DILG Sugbo Family Organizational Chart",
+        "text": (
+            "DILG Sugbo Family Organizational Chart organizationalchartchief "
+            "chief provincial director cluster heads section chiefs LGMES LGCDS "
+            "FAS PDMU DILG Cebu Province personnel leadership"
+        ),
+    },
+    "organizationaldilgpersonnel.html": {
+        "title": "DILG Cebu Province Personnel Directory",
+        "text": (
+            "DILG Cebu Province Personnel Directory organizationaldilgpersonnel "
+            "DILG personnel staff directory MLGOO CLGOO provincial director "
+            "cluster heads LGMES LGCDS FAS PDMU"
+        ),
+    },
+}
+
 
 def normalize_space(value: str) -> str:
     value = html.unescape(value)
@@ -261,7 +288,12 @@ def parse_page(path: Path) -> list[dict[str, str]]:
         return []
 
     rel = path.relative_to(ROOT).as_posix()
-    title = parser.title or infer_title_from_text(text) or rel
+    metadata = PAGE_SEARCH_METADATA.get(rel)
+    title = metadata.get("title") if metadata else ""
+    if not title:
+        title = parser.title or infer_title_from_text(text) or rel
+    if metadata:
+        text = normalize_space(f"{metadata['text']} {text}")
 
     page_record = {
         "url": rel,

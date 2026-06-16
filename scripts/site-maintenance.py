@@ -29,6 +29,11 @@ def rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
+def console_print(value: str = "") -> None:
+    encoding = sys.stdout.encoding or "utf-8"
+    print(value.encode(encoding, errors="replace").decode(encoding))
+
+
 def cmd_search_rebuild(args: argparse.Namespace) -> int:
     builder = load_script("build_search_index", "build-search-index.py")
     records = builder.build_index()
@@ -83,11 +88,11 @@ def cmd_search_find(args: argparse.Namespace) -> int:
 
     matches.sort(key=lambda item: (-item[0], item[1].get("title", "")))
     for score, record in matches[: args.limit]:
-        print(f"{score:>3}  {record.get('title', '')}")
-        print(f"     {record.get('url', '')}")
-        print(f"     {snippet(record.get('text', ''), terms)}")
+        console_print(f"{score:>3}  {record.get('title', '')}")
+        console_print(f"     {record.get('url', '')}")
+        console_print(f"     {snippet(record.get('text', ''), terms)}")
 
-    print(f"Found {len(matches)} result(s).")
+    console_print(f"Found {len(matches)} result(s).")
     return 0 if matches else 1
 
 
