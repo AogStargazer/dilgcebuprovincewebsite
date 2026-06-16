@@ -180,6 +180,63 @@ img {
     z-index: 2147483602;
 }
 
+.citizens-charter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 0;
+    border: 1px solid rgba(17, 24, 39, 0.2);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    cursor: pointer;
+    overflow: hidden;
+    text-decoration: none;
+    transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.citizens-charter-button:hover,
+.citizens-charter-button:focus-visible {
+    background: #ffffff;
+    border-color: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+}
+
+.citizens-charter-button:focus-visible {
+    outline: 2px solid rgba(17, 24, 39, 0.24);
+    outline-offset: 3px;
+}
+
+.citizens-charter-button img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+}
+
+.header-action-menu {
+    position: absolute;
+    top: 50%;
+    right: clamp(252px, 15vw, 310px);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2147483604;
+}
+
+.header-action-menu .site-search-menu {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-left: -1px;
+    transform: none;
+}
+
 .site-search-menu {
     position: absolute;
     top: 50%;
@@ -359,6 +416,10 @@ img {
 
 @media screen and (max-width: 1100px) {
     .site-search-menu {
+        right: 78px;
+    }
+
+    .header-action-menu {
         right: 78px;
     }
 }
@@ -717,6 +778,24 @@ a[href="index.html?p=1853.html"] {
         justify-content: center;
         align-items: center;
         text-align: center;
+    }
+
+    .citizens-charter-button {
+        width: 42px;
+        height: 42px;
+        margin-right: 0;
+    }
+
+    .citizens-charter-button img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .header-action-menu {
+        position: static;
+        transform: none;
+        width: 100%;
+        padding: 8px 0;
     }
 
     .site-search-menu {
