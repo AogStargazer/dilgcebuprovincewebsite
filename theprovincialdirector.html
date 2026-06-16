@@ -1198,30 +1198,72 @@
 
                         .pd-history-link {
                           display: inline-flex;
+                          flex-direction: column;
                           align-items: center;
-                          gap: 10px;
-                          min-height: 44px;
-                          padding: 10px 16px;
-                          border: 1px solid #cfd6df;
-                          border-radius: 8px;
-                          background: #ffffff;
-                          color: #003f7f;
-                          font-size: 14px;
+                          justify-content: center;
+                          gap: 8px;
+                          min-width: 58px;
+                          color: #000000;
+                          font-size: 18px;
                           font-weight: 800;
                           line-height: 1.2;
                           text-decoration: none;
-                          text-transform: uppercase;
-                          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-                          transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
                         }
 
                         .pd-history-link:hover,
                         .pd-history-link:focus-visible {
-                          background: #fff8da;
-                          color: #003f7f;
+                          color: #000000;
                           text-decoration: none;
+                        }
+
+                        .pd-history-link__icon {
+                          display: inline-flex;
+                          align-items: center;
+                          justify-content: center;
+                          width: 58px;
+                          height: 58px;
+                          border: 1px solid #cfd6df;
+                          border-radius: 8px;
+                          background: #ffffff;
+                          color: #000000;
+                          font-size: 34px;
+                          font-weight: 900;
+                          line-height: 1;
+                          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                          transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+                        }
+
+                        .pd-history-link__label {
+                          max-height: 0;
+                          max-width: 190px;
+                          overflow: hidden;
+                          padding: 0 14px;
+                          border: 0 solid #000000;
+                          border-radius: 16px;
+                          background: #ffffff;
+                          color: #000000;
+                          font-size: 0;
+                          font-weight: 900;
+                          line-height: 1.25;
+                          text-align: center;
+                          opacity: 0;
+                          transition: max-height 200ms ease, padding 200ms ease, border-width 200ms ease, opacity 180ms ease, font-size 180ms ease;
+                        }
+
+                        .pd-history-link:hover .pd-history-link__icon,
+                        .pd-history-link:focus-visible .pd-history-link__icon {
+                          background: #fff8da;
                           transform: translateY(-2px);
                           box-shadow: 0 12px 24px rgba(0, 63, 127, 0.16);
+                        }
+
+                        .pd-history-link:hover .pd-history-link__label,
+                        .pd-history-link:focus-visible .pd-history-link__label {
+                          max-height: 120px;
+                          padding: 8px 16px;
+                          border-width: 3px;
+                          font-size: 18px;
+                          opacity: 1;
                         }
 
                         .pd-profile-card,
@@ -1409,7 +1451,7 @@
 
                           .pd-history-link {
                             justify-content: center;
-                            width: 100%;
+                            width: auto;
                           }
 
                           .pd-profile-card > .text-content .paragraph {
@@ -1425,10 +1467,102 @@
                       <div style="padding-top:30px; padding-bottom:30px;">
                       </div>
 
+                      <style>
+                        .pd-history-link-wrap {
+                          position: fixed !important;
+                          top: 55%;
+                          left: 26px;
+                          z-index: 80;
+                          display: flex;
+                          justify-content: center;
+                          width: auto !important;
+                          max-width: none !important;
+                          margin: 0 !important;
+                          transform: translateY(-50%);
+                        }
+
+                        .pd-history-link,
+                        .pd-history-link:visited {
+                          display: inline-flex;
+                          flex-direction: column;
+                          align-items: center;
+                          justify-content: center;
+                          gap: 7px;
+                          width: 132px;
+                          color: #000;
+                          font-size: 18px;
+                          font-weight: 800;
+                          line-height: 1.2;
+                          text-align: center;
+                          text-decoration: none;
+                        }
+
+                        .pd-history-link:hover,
+                        .pd-history-link:focus-visible {
+                          color: #000;
+                          text-decoration: none;
+                          outline: none;
+                        }
+
+                        .pd-history-link__icon {
+                          display: grid;
+                          place-items: center;
+                          width: 62px;
+                          height: 92px;
+                          border: 1px solid #cfd6df;
+                          border-radius: 12px;
+                          background: rgba(255, 255, 255, .94);
+                          box-shadow: 0 14px 32px rgba(0, 0, 0, .08);
+                          color: #000;
+                          font-size: 42px;
+                          font-weight: 900;
+                          transition: transform .22s ease, border-color .22s ease, background .22s ease;
+                        }
+
+                        .pd-history-link__label {
+                          max-height: 0;
+                          padding: 0 12px;
+                          overflow: hidden;
+                          border: 0 solid #000;
+                          border-radius: 18px;
+                          background: rgba(255, 255, 255, .97);
+                          box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
+                          color: #000;
+                          font-size: 0;
+                          line-height: 1.18;
+                          opacity: 0;
+                          transition: max-height .24s ease, padding .24s ease, opacity .18s ease, font-size .24s ease, border-width .24s ease;
+                        }
+
+                        .pd-history-link:hover .pd-history-link__icon,
+                        .pd-history-link:focus-visible .pd-history-link__icon {
+                          border-color: #000;
+                          background: #fff8da;
+                          transform: translateY(-2px);
+                        }
+
+                        .pd-history-link:hover .pd-history-link__label,
+                        .pd-history-link:focus-visible .pd-history-link__label {
+                          max-height: 130px;
+                          padding: 8px 12px 10px;
+                          border-width: 3px;
+                          font-size: 19px;
+                          opacity: 1;
+                        }
+
+                        @media (max-width: 760px) {
+                          .pd-history-link-wrap {
+                            top: auto;
+                            bottom: 18px;
+                            left: 14px;
+                            transform: none;
+                          }
+                        }
+                      </style>
                       <div class="pd-history-link-wrap">
                         <a class="pd-history-link" href="theprovincialdirector/thepastprovincialdirectors.html" aria-label="Go to previous Provincial Directors">
-                          <span aria-hidden="true">&lt;-</span>
-                          <span>Previous Provincial Directors</span>
+                          <span class="pd-history-link__icon" aria-hidden="true">&lt;</span>
+                          <span class="pd-history-link__label">Previous Provincial Directors</span>
                         </a>
                       </div>
 

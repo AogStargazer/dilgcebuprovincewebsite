@@ -1183,49 +1183,71 @@
                       <!-- Main Content Should be Placed Here -->
                       <style>
                         .past-pd-shell {
+                          position: relative;
                           width: min(1120px, calc(100% - 36px));
-                          margin: 30px auto 56px;
+                          margin: 15px auto 56px;
                           font-family: Arial, Helvetica, sans-serif;
                           color: #101828;
                         }
 
                         .past-pd-header {
+                          position: absolute;
+                          top: 9px;
+                          left: 28px;
+                          z-index: 35;
                           display: flex;
-                          align-items: end;
-                          justify-content: space-between;
-                          gap: 18px;
-                          margin-bottom: 24px;
+                          align-items: center;
+                          justify-content: flex-start;
+                          gap: 10px;
+                          margin: 0;
+                          padding: 12px 18px 14px 18px;
+                          border: 1px solid rgba(0, 63, 127, 0.14);
+                          border-left: 6px solid #f4b400;
+                          border-radius: 7px;
+                          background: rgba(255, 255, 255, 0.96);
+                          box-shadow: 0 12px 26px rgba(0, 63, 127, 0.12);
+                          backdrop-filter: blur(6px);
                         }
 
                         .past-pd-kicker {
-                          display: inline-block;
-                          margin: 0 0 12px;
-                          padding: 6px 14px;
-                          border: 1px solid #f4b400;
+                          display: inline-flex;
+                          align-items: center;
+                          min-height: 0;
+                          margin: 0;
+                          padding: 4px 10px;
+                          border: 0;
+                          border-radius: 3px;
                           color: #003f7f;
-                          font-size: 15px;
+                          font-size: 14px;
                           font-weight: 900;
-                          letter-spacing: 1px;
+                          line-height: 1;
+                          letter-spacing: 1.6px;
                           text-transform: uppercase;
-                          background: #fff8da;
+                          background: #fff200;
                         }
 
                         .past-pd-title {
+                          display: inline-flex;
+                          align-items: center;
+                          min-height: 0;
                           margin: 0;
+                          padding: 0;
                           color: #003f7f;
-                          font-size: clamp(30px, 3.2vw, 46px);
+                          font-size: clamp(22px, 2vw, 31px);
                           font-weight: 900;
                           line-height: 1.05;
-                          letter-spacing: 0;
+                          letter-spacing: 1.2px;
                           text-transform: uppercase;
+                          background: transparent;
+                          border-bottom: 4px solid #003f7f;
                         }
 
                         .past-pd-copy {
-                          max-width: 660px;
-                          margin: 10px 0 0;
-                          color: #1f2937;
-                          font-size: 17px;
-                          line-height: 1.55;
+                          display: none;
+                        }
+
+                        .past-pd-header .pd-page-arrow {
+                          display: none;
                         }
 
                         .pd-page-arrow {
@@ -1257,10 +1279,77 @@
                           box-shadow: 0 12px 24px rgba(0, 63, 127, 0.16);
                         }
 
+                        .pd-side-link {
+                          display: inline-flex;
+                          flex-direction: column;
+                          align-items: center;
+                          justify-content: center;
+                          gap: 8px;
+                          min-width: 58px;
+                          color: #000000;
+                          font-family: Arial, Helvetica, sans-serif;
+                          font-weight: 900;
+                          text-decoration: none;
+                        }
+
+                        .pd-side-link__icon {
+                          display: inline-flex;
+                          align-items: center;
+                          justify-content: center;
+                          width: 58px;
+                          height: 58px;
+                          border: 1px solid #cfd6df;
+                          border-radius: 8px;
+                          background: #ffffff;
+                          color: #000000;
+                          font-size: 34px;
+                          line-height: 1;
+                          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                          transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+                        }
+
+                        .pd-side-link__label {
+                          max-height: 0;
+                          max-width: 180px;
+                          overflow: hidden;
+                          padding: 0 14px;
+                          border: 0 solid #000000;
+                          border-radius: 16px;
+                          background: #ffffff;
+                          color: #000000;
+                          font-size: 0;
+                          line-height: 1.25;
+                          text-align: center;
+                          opacity: 0;
+                          transition: max-height 200ms ease, padding 200ms ease, border-width 200ms ease, opacity 180ms ease, font-size 180ms ease;
+                        }
+
+                        .pd-side-link:hover,
+                        .pd-side-link:focus-visible {
+                          color: #000000;
+                          text-decoration: none;
+                        }
+
+                        .pd-side-link:hover .pd-side-link__icon,
+                        .pd-side-link:focus-visible .pd-side-link__icon {
+                          background: #fff8da;
+                          transform: translateY(-2px);
+                          box-shadow: 0 12px 24px rgba(0, 63, 127, 0.16);
+                        }
+
+                        .pd-side-link:hover .pd-side-link__label,
+                        .pd-side-link:focus-visible .pd-side-link__label {
+                          max-height: 120px;
+                          padding: 8px 16px;
+                          border-width: 3px;
+                          font-size: 18px;
+                          opacity: 1;
+                        }
+
                         .past-pd-stage {
                           position: relative;
                           min-height: 690px;
-                          padding: 28px;
+                          padding: 76px 28px 28px;
                           border: 1px solid #d5dde8;
                           border-left: 7px solid #f4b400;
                           border-radius: 8px;
@@ -1392,13 +1481,17 @@
 
                         @media (max-width: 860px) {
                           .past-pd-header {
-                            align-items: start;
-                            flex-direction: column;
+                            top: 14px;
+                            left: 14px;
+                            right: 14px;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            padding: 10px 12px;
                           }
 
                           .past-pd-stage {
                             min-height: 0;
-                            padding: 20px 14px;
+                            padding: 88px 14px 20px;
                           }
 
                           .past-pd-ring {
@@ -1445,7 +1538,8 @@
                           }
 
                           .past-pd-title {
-                            font-size: 28px;
+                            font-size: 17px;
+                            border-bottom-width: 3px;
                           }
 
                           .past-pd-actions {
@@ -1984,6 +2078,177 @@
                         }
                       </style>
 
+                      <style>
+                        .past-pd-shell .past-pd-header {
+                          position: absolute;
+                          top: 9px;
+                          left: 22px;
+                          z-index: 35;
+                          display: flex;
+                          align-items: flex-start;
+                          justify-content: space-between;
+                          width: fit-content;
+                          max-width: min(960px, calc(100% - 44px));
+                          padding: 5px 16px 6px 14px;
+                          border: 1px solid rgba(0, 63, 127, .16);
+                          border-left: 7px solid #f4b400;
+                          border-radius: 7px;
+                          background: rgba(255, 255, 255, .96);
+                          box-shadow: 0 12px 28px rgba(0, 63, 127, .09);
+                          backdrop-filter: blur(5px);
+                        }
+
+                        .past-pd-shell .past-pd-header > div {
+                          display: grid;
+                          gap: 2px;
+                          min-width: 0;
+                        }
+
+                        .past-pd-shell .past-pd-kicker {
+                          display: inline-block;
+                          width: fit-content;
+                          padding: 2px 9px 3px;
+                          border: 1px solid rgba(244, 180, 0, .75);
+                          border-radius: 3px;
+                          color: #003f7f;
+                          font-size: 14px;
+                          font-weight: 900;
+                          line-height: 1.05;
+                          letter-spacing: 1.8px;
+                          text-transform: uppercase;
+                          background: #fff8da;
+                        }
+
+                        .past-pd-shell .past-pd-title {
+                          display: inline-flex;
+                          align-items: center;
+                          margin: 0;
+                          padding-bottom: 0;
+                          border-bottom: 0;
+                          color: #003f7f;
+                          font-size: clamp(25px, 2.25vw, 34px);
+                          font-weight: 900;
+                          line-height: .98;
+                          letter-spacing: 1.1px;
+                          text-transform: uppercase;
+                          white-space: nowrap;
+                          background: transparent;
+                        }
+
+                        .past-pd-shell .past-pd-stage {
+                          padding-top: 72px;
+                        }
+
+                        .past-pd-shell .past-pd-actions {
+                          position: fixed;
+                          top: 55%;
+                          right: 26px;
+                          z-index: 80;
+                          display: flex;
+                          justify-content: center;
+                          width: auto;
+                          margin: 0;
+                          transform: translateY(-50%);
+                        }
+
+                        .past-pd-shell .pd-side-link,
+                        .past-pd-shell .pd-side-link:visited {
+                          display: inline-flex;
+                          flex-direction: column;
+                          align-items: center;
+                          justify-content: center;
+                          gap: 7px;
+                          width: 122px;
+                          color: #000;
+                          font-size: 18px;
+                          font-weight: 800;
+                          line-height: 1.2;
+                          text-align: center;
+                          text-decoration: none;
+                        }
+
+                        .past-pd-shell .pd-side-link:hover,
+                        .past-pd-shell .pd-side-link:focus-visible {
+                          color: #000;
+                          text-decoration: none;
+                          outline: none;
+                        }
+
+                        .past-pd-shell .pd-side-link__icon {
+                          display: grid;
+                          place-items: center;
+                          width: 62px;
+                          height: 92px;
+                          border: 1px solid #cfd6df;
+                          border-radius: 12px;
+                          background: rgba(255, 255, 255, .94);
+                          box-shadow: 0 14px 32px rgba(0, 0, 0, .08);
+                          color: #000;
+                          font-size: 42px;
+                          font-weight: 900;
+                          transition: transform .22s ease, border-color .22s ease, background .22s ease;
+                        }
+
+                        .past-pd-shell .pd-side-link__label {
+                          position: relative;
+                          max-height: 0;
+                          padding: 0 12px;
+                          overflow: hidden;
+                          border: 0 solid #000;
+                          border-radius: 18px;
+                          background: rgba(255, 255, 255, .97);
+                          box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
+                          color: #000;
+                          font-size: 0;
+                          line-height: 1.18;
+                          opacity: 0;
+                          transition: max-height .24s ease, padding .24s ease, opacity .18s ease, font-size .24s ease, border-width .24s ease;
+                        }
+
+                        .past-pd-shell .pd-side-link:hover .pd-side-link__icon,
+                        .past-pd-shell .pd-side-link:focus-visible .pd-side-link__icon {
+                          border-color: #000;
+                          background: #fff8da;
+                          transform: translateY(-2px);
+                        }
+
+                        .past-pd-shell .pd-side-link:hover .pd-side-link__label,
+                        .past-pd-shell .pd-side-link:focus-visible .pd-side-link__label {
+                          max-height: 130px;
+                          padding: 8px 12px 10px;
+                          border-width: 3px;
+                          font-size: 19px;
+                          opacity: 1;
+                        }
+
+                        @media (max-width: 860px) {
+                          .past-pd-shell .past-pd-header {
+                            top: 7px;
+                            left: 14px;
+                            right: 14px;
+                            width: auto;
+                            padding: 5px 12px 6px;
+                          }
+
+                          .past-pd-shell .past-pd-stage {
+                            padding-top: 82px;
+                          }
+
+                          .past-pd-shell .past-pd-actions {
+                            top: auto;
+                            right: 14px;
+                            bottom: 18px;
+                            transform: none;
+                          }
+                        }
+
+                        @media (max-width: 560px) {
+                          .past-pd-shell .past-pd-title {
+                            font-size: 18px;
+                            white-space: normal;
+                          }
+                        }
+                      </style>
                       <section class="past-pd-shell" aria-labelledby="past-pd-title">
                         <div class="past-pd-header">
                           <div>
@@ -2047,9 +2312,9 @@
                           <button class="past-pd-control past-pd-control-next" type="button" aria-label="Show next Provincial Director">&gt;</button>
 
                           <div class="past-pd-actions">
-                            <a class="pd-page-arrow" href="theprovincialdirector.html" aria-label="Go to the current Provincial Director">
-                              <span>Current Provincial Director</span>
-                              <span aria-hidden="true">-&gt;</span>
+                            <a class="pd-side-link pd-side-link--next" href="theprovincialdirector.html" aria-label="Go to the current Provincial Director">
+                              <span class="pd-side-link__icon" aria-hidden="true">&gt;</span>
+                              <span class="pd-side-link__label">To Current Provincial Director</span>
                             </a>
                           </div>
                         </div>
