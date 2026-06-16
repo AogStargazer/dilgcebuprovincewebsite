@@ -1,0 +1,78 @@
+# Codex Instructions For This Repo
+
+This is a static HTML website for DILG Cebu Province. Read the live files before editing. Do not guess page structure from memory.
+
+## Safe Workflow
+
+1. Run the context helper before changing news placements:
+   ```powershell
+   python scripts/news-maintenance.py inspect NEWS/<news-folder>
+   ```
+2. Read the hook lines reported by the helper in `index.html` and `news.html`.
+3. Make focused edits only in the reported sections.
+4. Normalize text and rebuild the search index:
+   ```powershell
+   python scripts/site-maintenance.py text fix NEWS index.html news.html
+   python scripts/site-maintenance.py search rebuild
+   ```
+5. Verify:
+   ```powershell
+   python scripts/site-maintenance.py doctor
+   python scripts/site-maintenance.py search find "<important search term>"
+   ```
+
+## News Update Rules
+
+News article folders live under `NEWS/<news-folder>/`. Each news folder should contain one article HTML file and image assets.
+
+Use `scripts/news-maintenance.py` to inspect the new folder. The helper is intentionally read-only by default. It prints the article title, date, suggested summary, available preview images, existing insertion hooks, and snippets that can be copied into `index.html` and `news.html`.
+
+Asset naming conventions:
+
+- `*FORSLIDERPREVIEW*` is used for news cards and news-page sliders.
+- `*FORMAINSLIDERPREVIEW*` is used for the homepage main slider in `index.html`.
+- If `FORMAINSLIDERPREVIEW` is absent, do not invent one. Use the reported `FORSLIDERPREVIEW` image for news cards only, unless the user explicitly approves another image.
+
+Current hook areas:
+
+- `index.html`
+  - Homepage main slider: look for `<div class="main-slider-container full-width">`.
+  - DILG Sugbo Balita list: look for `<div class="sugbo-balita-list">` under the `dilg-sugbo-balita-title` section.
+- `news.html`
+  - Featured news image slider: look for `<div class="news-slider-wrap">`.
+  - News page list: look for `<div class="sugbo-balita-list">`.
+
+When adding a new article to the top, insert it before the first existing `<a class="sugbo-balita-link"...>` inside the target list. Preserve the existing card structure, classes, indentation style, lazy-loading attributes, and `data-news-photo-slider` behavior.
+
+## Search And Text Maintenance
+
+Static search is generated. Do not hand-edit generated search files unless debugging.
+
+Use:
+
+```powershell
+python scripts/site-maintenance.py search rebuild
+```
+
+The generated files are:
+
+- `assets/search-index.json`
+- `assets/js/search-index.js`
+
+Fancy Unicode text is not allowed in HTML/JSON content because it breaks normal search. Emojis are allowed. Use:
+
+```powershell
+python scripts/site-maintenance.py text check
+python scripts/site-maintenance.py text fix
+```
+
+The text normalizer touches only `.html` and `.json`. It intentionally does not touch `.js` or `.css`.
+
+## Editing Discipline
+
+- Read first, then edit.
+- Keep changes scoped to the requested page sections.
+- Do not rewrite whole HTML pages.
+- Do not touch JS/CSS for a news placement unless the user explicitly asks.
+- Do not change old news entries except as needed to keep ordering or valid HTML.
+- After broad or generated changes, run the maintenance checks listed above.
