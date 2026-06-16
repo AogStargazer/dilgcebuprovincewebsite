@@ -180,6 +180,190 @@ img {
     z-index: 2147483602;
 }
 
+.site-search-menu {
+    position: absolute;
+    top: 50%;
+    right: clamp(252px, 15vw, 310px);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2147483604;
+}
+
+.site-search-toggle {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(17, 24, 39, 0.2);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.site-search-toggle:hover,
+.site-search-toggle:focus-visible,
+.site-search-menu.is-open .site-search-toggle {
+    background: #ffffff;
+    border-color: rgba(17, 24, 39, 0.32);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+}
+
+.site-search-toggle:focus-visible {
+    outline: 2px solid rgba(17, 24, 39, 0.24);
+    outline-offset: 3px;
+}
+
+.site-search-toggle img {
+    width: 19px;
+    height: 19px;
+    display: block;
+    transform: scale(1.7);
+    transform-origin: center;
+}
+
+.site-search-panel {
+    position: absolute;
+    top: calc(100% + 11px);
+    right: 0;
+    width: min(390px, calc(100vw - 40px));
+    padding: 8px;
+    border: 1px solid rgba(17, 24, 39, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index: 2147483603;
+}
+
+.site-search-menu:hover .site-search-panel,
+.site-search-menu:focus-within .site-search-panel,
+.site-search-menu.is-open .site-search-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.site-search-form {
+    display: grid;
+    grid-template-columns: 1fr 46px;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+}
+
+.site-search-input {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    border: 1px solid rgba(17, 24, 39, 0.18);
+    border-radius: 6px;
+    padding: 0 5px;
+    color: #111827;
+    font: 17px/1.2 Arial, Helvetica, sans-serif;
+    letter-spacing: 0;
+    outline: none;
+}
+
+.site-search-input:focus {
+    border-color: rgba(17, 24, 39, 0.42);
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+.site-search-submit {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(17, 24, 39, 0.16);
+    border-radius: 6px;
+    background: #f8fafc;
+    cursor: pointer;
+}
+
+.site-search-submit:hover,
+.site-search-submit:focus-visible {
+    background: #eef2f7;
+}
+
+.site-search-submit img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    transform: scale(1.7);
+    transform-origin: center;
+}
+
+.site-search-status {
+    min-height: 0;
+    margin: 6px 0 0;
+    color: #4b5563;
+    font: 12px/1.4 Arial, Helvetica, sans-serif;
+}
+
+.site-search-status:empty {
+    display: none;
+    margin: 0;
+}
+
+.site-search-results {
+    display: grid;
+    gap: 6px;
+    max-height: min(360px, calc(100vh - 190px));
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.site-search-result a {
+    display: block;
+    border-radius: 6px;
+    padding: 9px 10px;
+    color: #1f2937;
+    text-decoration: none;
+}
+
+.site-search-result a:hover,
+.site-search-result a:focus-visible {
+    background: #f3f4f6;
+    outline: none;
+}
+
+.site-search-result-title {
+    display: block;
+    color: #111827;
+    font: 600 13px/1.25 Arial, Helvetica, sans-serif;
+}
+
+.site-search-result-url,
+.site-search-result-snippet {
+    display: block;
+    margin-top: 3px;
+    color: #4b5563;
+    font: 12px/1.35 Arial, Helvetica, sans-serif;
+    white-space: normal;
+}
+
+.site-search-result-url {
+    color: #2563eb;
+}
+
+@media screen and (max-width: 1100px) {
+    .site-search-menu {
+        right: 78px;
+    }
+}
+
+
 /* Navigation bar */
 .main-navigation {
     display: flex;
@@ -534,6 +718,29 @@ a[href="index.html?p=1853.html"] {
         align-items: center;
         text-align: center;
     }
+
+    .site-search-menu {
+        position: static;
+        transform: none;
+        width: 100%;
+        padding: 8px 0;
+    }
+
+    .site-search-toggle {
+        width: 42px;
+        height: 42px;
+    }
+
+    .site-search-panel {
+        position: static;
+        width: min(420px, calc(100vw - 36px));
+        margin-top: 8px;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+    }
+
     
     /* Center dropdown containers and items on mobile */
     .main-navigation .dropdown-menu {

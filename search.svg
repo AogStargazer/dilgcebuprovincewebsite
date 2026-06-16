@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Black Magnifying Lens Logo</title>
+  <desc id="desc">A simple black magnifying glass logo with transparent background, designed for white backgrounds.</desc>
+
+  <!-- Transparent background: no background rectangle is used -->
+
+  <g fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lens ring -->
+    <circle cx="217" cy="217" r="132" stroke-width="42"/>
+
+    <!-- Handle -->
+    <path d="M314 314 L438 438" stroke-width="58"/>
+
+    <!-- Subtle inner accent, still black/transparent -->
+    <path d="M145 194 C153 160 181 136 216 132" stroke-width="22" opacity="0.35"/>
+  </g>
+</svg>
