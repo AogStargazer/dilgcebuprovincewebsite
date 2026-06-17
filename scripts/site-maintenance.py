@@ -4,6 +4,7 @@ import argparse
 import importlib.util
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from types import ModuleType
@@ -11,6 +12,26 @@ from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH_JSON = ROOT / "assets" / "search-index.json"
+DEFAULT_MAINTENANCE_SUFFIXES = {
+    ".html",
+    ".css",
+    ".js",
+    ".json",
+    ".md",
+    ".py",
+    ".txt",
+}
+DEFAULT_EXCLUDED_DIR_PARTS = {
+    ".git",
+    ".agents",
+    ".codex",
+    "__pycache__",
+    "node_modules",
+    "vendor",
+    "assets/pdfjs",
+    "wp-content",
+    "wp-includes",
+}
 
 
 def load_script(name: str, filename: str) -> ModuleType:
@@ -32,6 +53,77 @@ def rel(path: Path) -> str:
 def console_print(value: str = "") -> None:
     encoding = sys.stdout.encoding or "utf-8"
     print(value.encode(encoding, errors="replace").decode(encoding))
+
+
+def run_command(args: list[str], check: bool = False) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(args, cwd=ROOT, text=True, capture_output=True, check=check)
+
+
+def path_is_excluded(path: Path) -> bool:
+    try:
+        relative = path.relative_to(ROOT)
+    except ValueError:
+        relative = path
+    parts = relative.as_posix().lower()
+    return any(part in parts for part in DEFAULT_EXCLUDED_DIR_PARTS)
+
+
+def discover_maintenance_files(paths: list[str] | None = None) -> list[Path]:
+    roots = text_roots(paths or ["."])
+    files: list[Path] = []
+    for root in roots:
+        if root.is_file():
+            if root.suffix.lower() in DEFAULT_MAINTENANCE_SUFFIXES and not path_is_excluded(root):
+                files.append(root)
+            continue
+
+        if not root.exists():
+            continue
+
+        for path in root.rglob("*"):
+            if path.is_file() and path.suffix.lower() in DEFAULT_MAINTENANCE_SUFFIXES and not path_is_excluded(path):
+                files.append(path)
+
+    return sorted(set(files), key=lambda path: rel(path))
+
+
+def normalize_trailing_whitespace(value: str) -> str:
+    value = re.sub(r"[ \t]+(?=\r?\n)", "", value)
+    value = re.sub(r"[ \t]+\Z", "", value)
+    return value
+
+
+def collect_whitespace_changes(path: Path) -> tuple[str, list[int]]:
+    original = path.read_text(encoding="utf-8-sig")
+    normalized = normalize_trailing_whitespace(original)
+    changed_lines: list[int] = []
+    original_lines = original.splitlines(keepends=True)
+    normalized_lines = normalized.splitlines(keepends=True)
+    for index, (before, after) in enumerate(zip(original_lines, normalized_lines), start=1):
+        if before != after:
+            changed_lines.append(index)
+    if len(original_lines) != len(normalized_lines):
+        changed_lines.append(max(len(original_lines), len(normalized_lines)))
+    return normalized, changed_lines
+
+
+def clean_pycache_files() -> tuple[int, int]:
+    restored = 0
+    removed = 0
+    for pycache in ROOT.rglob("__pycache__"):
+        if not pycache.is_dir() or path_is_excluded(pycache.parent):
+            continue
+        for path in pycache.glob("*.pyc"):
+            relative = rel(path)
+            tracked = run_command(["git", "ls-files", "--error-unmatch", relative])
+            if tracked.returncode == 0:
+                restored_result = run_command(["git", "restore", "--", relative])
+                if restored_result.returncode == 0:
+                    restored += 1
+            else:
+                path.unlink(missing_ok=True)
+                removed += 1
+    return restored, removed
 
 
 def cmd_search_rebuild(args: argparse.Namespace) -> int:
@@ -146,17 +238,103 @@ def cmd_text_fix(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_whitespace_check(args: argparse.Namespace) -> int:
+    files = discover_maintenance_files(args.paths)
+    changed_files = 0
+    changed_lines = 0
+    for path in files:
+        _normalized, lines = collect_whitespace_changes(path)
+        if not lines:
+            continue
+        changed_files += 1
+        changed_lines += len(lines)
+        if not args.quiet:
+            for line in lines[: args.limit]:
+                print(f"{rel(path)}:{line}: trailing whitespace")
+            if len(lines) > args.limit:
+                print(f"{rel(path)}: ... {len(lines) - args.limit} more line(s)")
+
+    print(f"Found {changed_lines} whitespace issue(s) in {changed_files} file(s).")
+    return 1 if changed_files else 0
+
+
+def cmd_whitespace_fix(args: argparse.Namespace) -> int:
+    files = discover_maintenance_files(args.paths)
+    changed_files = 0
+    changed_lines = 0
+    for path in files:
+        normalized, lines = collect_whitespace_changes(path)
+        if not lines:
+            continue
+        changed_files += 1
+        changed_lines += len(lines)
+        if not args.quiet:
+            print(f"{rel(path)}: removed trailing whitespace on {len(lines)} line(s)")
+        path.write_text(normalized, encoding="utf-8", newline="\n")
+
+    print(f"Fixed {changed_lines} whitespace issue(s) in {changed_files} file(s).")
+    return 0
+
+
+def cmd_cache_clean(_args: argparse.Namespace) -> int:
+    restored, removed = clean_pycache_files()
+    print(f"Cache clean: restored {restored} tracked pycache file(s), removed {removed} untracked pycache file(s).")
+    return 0
+
+
+def cmd_git_diff_check(_args: argparse.Namespace) -> int:
+    result = run_command(["git", "diff", "--check"])
+    if result.stdout:
+        print(result.stdout.rstrip())
+    if result.stderr:
+        print(result.stderr.rstrip())
+    if result.returncode == 0:
+        print("Git diff check passed.")
+    return result.returncode
+
+
+def cmd_hygiene(args: argparse.Namespace) -> int:
+    status = 0
+    print("Hygiene: fixing fancy text...")
+    status |= cmd_text_fix(argparse.Namespace(paths=args.paths, quiet=args.quiet))
+
+    print("Hygiene: fixing trailing whitespace...")
+    status |= cmd_whitespace_fix(argparse.Namespace(paths=args.paths, quiet=args.quiet))
+
+    print("Hygiene: rebuilding search index...")
+    status |= cmd_search_rebuild(argparse.Namespace(check=False))
+
+    print("Hygiene: cleaning Python cache side effects...")
+    status |= cmd_cache_clean(argparse.Namespace())
+
+    print("Hygiene: running doctor...")
+    status |= cmd_doctor(argparse.Namespace(paths=args.paths, include_git=False))
+
+    if args.git:
+        print("Hygiene: running git diff --check...")
+        status |= cmd_git_diff_check(argparse.Namespace())
+
+    return 1 if status else 0
+
+
 def cmd_doctor(args: argparse.Namespace) -> int:
     text_status = cmd_text_check(argparse.Namespace(paths=args.paths, quiet=True))
+    whitespace_status = cmd_whitespace_check(argparse.Namespace(paths=args.paths, quiet=True, limit=20))
     search_status = cmd_search_rebuild(argparse.Namespace(check=True))
+    git_status = cmd_git_diff_check(argparse.Namespace()) if getattr(args, "include_git", False) else 0
 
     if text_status:
         print("Doctor: fancy text was found. Run: python scripts/site-maintenance.py text fix")
     else:
         print("Doctor: text normalization check passed.")
 
+    if whitespace_status:
+        print("Doctor: trailing whitespace was found. Run: python scripts/site-maintenance.py whitespace fix")
+    else:
+        print("Doctor: whitespace check passed.")
+
     print("Doctor: search index can be rebuilt.")
-    return 1 if text_status or search_status else 0
+    return 1 if text_status or whitespace_status or search_status or git_status else 0
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -190,8 +368,41 @@ def build_parser() -> argparse.ArgumentParser:
     text_fix.add_argument("--quiet", action="store_true", help="only print summary")
     text_fix.set_defaults(func=cmd_text_fix)
 
+    whitespace = subparsers.add_parser("whitespace", help="trailing whitespace utilities")
+    whitespace_sub = whitespace.add_subparsers(dest="whitespace_command", required=True)
+
+    whitespace_check = whitespace_sub.add_parser("check", help="find trailing spaces and tabs")
+    whitespace_check.add_argument("paths", nargs="*", help="optional files or folders to scan")
+    whitespace_check.add_argument("--quiet", action="store_true", help="only print summary")
+    whitespace_check.add_argument("--limit", type=int, default=20, help="maximum line findings per file")
+    whitespace_check.set_defaults(func=cmd_whitespace_check)
+
+    whitespace_fix = whitespace_sub.add_parser("fix", help="remove trailing spaces and tabs")
+    whitespace_fix.add_argument("paths", nargs="*", help="optional files or folders to scan")
+    whitespace_fix.add_argument("--quiet", action="store_true", help="only print summary")
+    whitespace_fix.set_defaults(func=cmd_whitespace_fix)
+
+    cache = subparsers.add_parser("cache", help="maintenance cache utilities")
+    cache_sub = cache.add_subparsers(dest="cache_command", required=True)
+
+    cache_clean = cache_sub.add_parser("clean", help="restore tracked pycache files and remove untracked pycache files")
+    cache_clean.set_defaults(func=cmd_cache_clean)
+
+    git = subparsers.add_parser("git", help="git hygiene utilities")
+    git_sub = git.add_subparsers(dest="git_command", required=True)
+
+    git_diff_check = git_sub.add_parser("diff-check", help="run git diff --check")
+    git_diff_check.set_defaults(func=cmd_git_diff_check)
+
+    hygiene = subparsers.add_parser("hygiene", help="run common cleanup after site edits")
+    hygiene.add_argument("paths", nargs="*", help="optional files or folders for text and whitespace checks")
+    hygiene.add_argument("--quiet", action="store_true", help="only print summaries where supported")
+    hygiene.add_argument("--git", action="store_true", help="also run git diff --check")
+    hygiene.set_defaults(func=cmd_hygiene)
+
     doctor = subparsers.add_parser("doctor", help="run the quick maintenance checks")
     doctor.add_argument("paths", nargs="*", help="optional files or folders for text checks")
+    doctor.add_argument("--git", action="store_true", dest="include_git", help="also run git diff --check")
     doctor.set_defaults(func=cmd_doctor)
 
     return parser
