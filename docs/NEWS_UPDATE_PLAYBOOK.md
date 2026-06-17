@@ -9,6 +9,8 @@ This repository has a repeatable workflow for adding DILG Sugbo News articles. F
 - Each news folder should have one article HTML file. The preferred file name is `<news-folder>.html`.
 - `FORSLIDERPREVIEW` is the first preview image for `news.html` featured slider and news cards.
 - `index.html` and `news.html` DILG Sugbo Balita cards use the automatic no-arrow gallery slider and must include all regular photos from the article folder, with `FORSLIDERPREVIEW` first.
+- The card badge/kicker must match the office or program label visible in the `FORSLIDERPREVIEW` artwork when one is present. Kickers can be arbitrary, so do not depend only on a fixed list.
+- If the preview artwork shows a custom kicker that the workflow cannot infer from the article body, add `NEWS/<folder>/news.json` with `{ "kicker": "LABEL" }`, or run the workflow with `--kicker NEWS/<folder>=LABEL`.
 - `FORMAINSLIDERPREVIEW` is the preview image for the homepage main slider in `index.html`.
 - Add homepage main slider news only when a `FORMAINSLIDERPREVIEW` image exists.
 - Insert homepage main slider news directly after the Provincial Director slide in `index.html`.
@@ -25,6 +27,13 @@ Use the workflow script for new work:
 python scripts/news-workflow.py plan NEWS/news-june-16-2026-001 NEWS/news-june-10-2026-001
 python scripts/news-workflow.py apply NEWS/news-june-16-2026-001 NEWS/news-june-10-2026-001
 python scripts/news-workflow.py doctor
+```
+
+For arbitrary or visual-only kickers:
+
+```powershell
+python scripts/news-workflow.py plan NEWS/<news-folder> --kicker NEWS/<news-folder>=CUSTOM
+python scripts/news-workflow.py apply NEWS/<news-folder> --kicker NEWS/<news-folder>=CUSTOM
 ```
 
 For a read-only inspection of one folder:
@@ -108,6 +117,8 @@ This restores tracked Python cache files under `scripts/__pycache__/` if they ch
 - Do not use `FORSLIDERPREVIEW` in the homepage main slider unless the user explicitly approves it.
 - Do not let `index.html` DILG Sugbo Balita grow past five cards.
 - Do not delete old news cards from `news.html`; if a card disappears there, the article can become hard to access from the site.
+- Do not blindly default a card badge to `LGCDD`; inspect the `FORSLIDERPREVIEW` image and article body for the correct office or program label.
+- Do not assume the list of kickers is complete. New labels can appear at any time.
 - Do not leave any DILG Sugbo Balita card slider with only one image when the article folder has more regular photos.
 - Do not forget to rebuild `assets/search-index.json` and `assets/js/search-index.js`.
 - Do not leave accidental `scripts/__pycache__` changes in the diff.

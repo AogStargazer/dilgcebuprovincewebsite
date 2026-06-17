@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import html
 import importlib.util
+import json
 import re
 import subprocess
 import sys
@@ -32,6 +33,15 @@ MONTHS = {
     "november": 11,
     "december": 12,
 }
+KNOWN_KICKERS = (
+    "PDMS",
+    "PDMU",
+    "LGCDD",
+    "EODB",
+    "LGMED",
+    "LGCDS",
+    "FAD",
+)
 
 
 @dataclass
@@ -45,6 +55,7 @@ class Article:
     title: str
     card_title: str
     kicker: str
+    kicker_source: str
     summary: str
     hero_image: str
     slider_images: list[str]
@@ -151,7 +162,53 @@ def split_kicker(title: str) -> tuple[str, str]:
     return helper.split_kicker(title)
 
 
-def build_article(folder_value: str | Path, date_source: str = "folder") -> Article:
+def load_manifest(folder: Path) -> dict[str, object]:
+    for name in ("news.json", "news-workflow.json"):
+        path = folder / name
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8-sig"))
+    return {}
+
+
+def parse_kicker_overrides(values: list[str] | None) -> dict[str, str]:
+    overrides = {}
+    for value in values or []:
+        if "=" not in value:
+            raise ValueError(f"Invalid --kicker value {value!r}. Use NEWS/folder=KICKER.")
+        folder_value, kicker = value.split("=", 1)
+        folder_name = Path(folder_value.strip()).name
+        kicker = kicker.strip()
+        if not folder_name or not kicker:
+            raise ValueError(f"Invalid --kicker value {value!r}. Use NEWS/folder=KICKER.")
+        overrides[folder_name] = kicker
+    return overrides
+
+
+def infer_kicker(title: str, source: str, folder: Path, overrides: dict[str, str] | None = None) -> tuple[str, str]:
+    if overrides and folder.name in overrides:
+        return overrides[folder.name], "cli"
+
+    manifest = load_manifest(folder)
+    manifest_kicker = str(manifest.get("kicker", "")).strip()
+    if manifest_kicker:
+        return manifest_kicker, "manifest"
+
+    explicit, _card_title = split_kicker(title)
+    if "|" in title:
+        return explicit, "title"
+
+    haystack = normalize_space(source).upper()
+    for kicker in KNOWN_KICKERS:
+        if re.search(rf"\b{re.escape(kicker)}\b", haystack):
+            return kicker, "article"
+    return explicit or "LGCDD", "default"
+
+
+def build_article(
+    folder_value: str | Path,
+    date_source: str = "folder",
+    kicker_overrides: dict[str, str] | None = None,
+) -> Article:
     folder = (ROOT / folder_value).resolve() if not isinstance(folder_value, Path) else folder_value.resolve()
     html_path = find_article_html(folder)
     source = read_text(html_path)
@@ -164,7 +221,8 @@ def build_article(folder_value: str | Path, date_source: str = "folder") -> Arti
     title = h1_title or first_match(source, r"<title\b[^>]*>(.*?)</title>")
     title = title or html_path.stem.replace("-", " ").title()
     title = plain(title)
-    kicker, card_title = split_kicker(title)
+    _default_kicker, card_title = split_kicker(title)
+    kicker, kicker_source = infer_kicker(title, source, folder, overrides=kicker_overrides)
     page_date = first_match(
         source,
         r"<p\b[^>]*class=[\"'][^\"']*news-article__date[^\"']*[\"'][^>]*>(.*?)</p>",
@@ -197,6 +255,7 @@ def build_article(folder_value: str | Path, date_source: str = "folder") -> Arti
         title=title,
         card_title=plain(card_title),
         kicker=plain(kicker or "LGCDD"),
+        kicker_source=kicker_source,
         summary=summary,
         hero_image=hero_image,
         slider_images=slider_images,
@@ -206,13 +265,13 @@ def build_article(folder_value: str | Path, date_source: str = "folder") -> Arti
     )
 
 
-def discover_articles(date_source: str = "folder") -> list[Article]:
+def discover_articles(date_source: str = "folder", kicker_overrides: dict[str, str] | None = None) -> list[Article]:
     articles = []
     for folder in sorted(NEWS_ROOT.iterdir()):
         if not folder.is_dir():
             continue
         try:
-            articles.append(build_article(folder, date_source=date_source))
+            articles.append(build_article(folder, date_source=date_source, kicker_overrides=kicker_overrides))
         except (FileNotFoundError, RuntimeError):
             continue
     return sorted(articles, key=lambda item: date_key(item.effective_date, item.folder.name), reverse=True)
@@ -495,8 +554,12 @@ def validate_pages(articles: list[Article]) -> list[str]:
 
 
 def cmd_plan(args: argparse.Namespace) -> int:
-    supplied = [build_article(folder, date_source=args.date_source) for folder in args.folders]
-    articles = discover_articles(date_source=args.date_source)
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    supplied = [
+        build_article(folder, date_source=args.date_source, kicker_overrides=kicker_overrides)
+        for folder in args.folders
+    ]
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
     print("# NEWS Workflow Plan\n")
     for article in supplied:
         print(f"- `{article.url}`")
@@ -504,6 +567,7 @@ def cmd_plan(args: argparse.Namespace) -> int:
         print(f"  page date: {article.page_date or 'missing'}")
         print(f"  folder date: {article.folder_date or 'missing'}")
         print(f"  effective date: {article.effective_date or 'missing'}")
+        print(f"  kicker: {article.kicker} ({article.kicker_source})")
         print(f"  FORSLIDERPREVIEW: {len(article.slider_images)}")
         print(f"  FORMAINSLIDERPREVIEW: {len(article.main_slider_images)}")
         print(f"  index/news card photos: {len(card_images(article, include_all_folder_photos=True))}")
@@ -523,10 +587,14 @@ def cmd_plan(args: argparse.Namespace) -> int:
 
 
 def cmd_apply(args: argparse.Namespace) -> int:
-    supplied = [build_article(folder, date_source=args.date_source) for folder in args.folders]
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    supplied = [
+        build_article(folder, date_source=args.date_source, kicker_overrides=kicker_overrides)
+        for folder in args.folders
+    ]
     for article in supplied:
         update_article_page(article)
-    articles = discover_articles(date_source=args.date_source)
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
     update_index(articles, supplied)
     update_news_page(articles)
     if not args.no_maintenance:
@@ -537,7 +605,8 @@ def cmd_apply(args: argparse.Namespace) -> int:
 
 def cmd_doctor(args: argparse.Namespace) -> int:
     issues = []
-    articles = discover_articles(date_source=args.date_source)
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
     folders = [Path(folder).name for folder in args.folders] if args.folders else []
     selected = [article for article in articles if not folders or article.folder.name in folders]
     for article in selected:
@@ -588,15 +657,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     plan = subparsers.add_parser("plan", help="print a dry-run NEWS update plan")
     plan.add_argument("folders", nargs="+", help="NEWS folders to plan")
+    plan.add_argument("--kicker", action="append", help="override arbitrary kicker, for example NEWS/news-june-10-2026-001=PDMS")
     plan.set_defaults(func=cmd_plan)
 
     apply = subparsers.add_parser("apply", help="apply article, index.html, news.html, and search-index updates")
     apply.add_argument("folders", nargs="+", help="NEWS folders to apply")
+    apply.add_argument("--kicker", action="append", help="override arbitrary kicker, for example NEWS/news-june-10-2026-001=PDMS")
     apply.add_argument("--no-maintenance", action="store_true", help="skip text normalization and search rebuild")
     apply.set_defaults(func=cmd_apply)
 
     doctor = subparsers.add_parser("doctor", help="validate NEWS workflow invariants")
     doctor.add_argument("folders", nargs="*", help="optional NEWS folders to validate specifically")
+    doctor.add_argument("--kicker", action="append", help="override arbitrary kicker while validating")
     doctor.set_defaults(func=cmd_doctor)
 
     clean = subparsers.add_parser("clean", help="remove predictable maintenance side effects")
