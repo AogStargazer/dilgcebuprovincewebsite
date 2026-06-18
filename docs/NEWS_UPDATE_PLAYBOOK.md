@@ -10,7 +10,7 @@ This repository has a repeatable workflow for adding DILG Sugbo News articles. F
 - `FORSLIDERPREVIEW` is the first preview image for `news.html` featured slider and news cards.
 - `index.html` and `news.html` DILG Sugbo Balita cards use the automatic no-arrow gallery slider and must include all regular photos from the article folder, with `FORSLIDERPREVIEW` first.
 - The card badge/kicker must match the office or program label visible in the `FORSLIDERPREVIEW` artwork when one is present. Kickers can be arbitrary, so do not depend only on a fixed list.
-- If the preview artwork shows a custom kicker that the workflow cannot infer from the article body, add `NEWS/<folder>/news.json` with `{ "kicker": "LABEL" }`, or run the workflow with `--kicker NEWS/<folder>=LABEL`.
+- If the preview artwork shows a custom kicker that the workflow cannot infer from the article body, add `NEWS/<folder>/news.json` with `{ "kicker": "LABEL" }`, or run `apply` with `--kicker NEWS/<folder>=LABEL`. The `apply` command saves that custom value into `news.json`, so future runs remember it.
 - `FORMAINSLIDERPREVIEW` is the preview image for the homepage main slider in `index.html`.
 - Add homepage main slider news only when a `FORMAINSLIDERPREVIEW` image exists.
 - Insert homepage main slider news directly after the Provincial Director slide in `index.html`.
@@ -81,6 +81,24 @@ This command:
 - Runs text normalization and search rebuild.
 - Removes accidental `scripts/__pycache__` tracked changes when possible.
 
+The command is fail-closed and transactional:
+
+- It renders every proposed change in memory before saving.
+- It requires unique, intact structural hooks in `index.html` and `news.html`.
+- It fingerprints non-news content and rejects any change outside approved news slider and card regions.
+- It writes files atomically.
+- It snapshots article pages, `index.html`, `news.html`, and generated search-index files.
+- If maintenance or validation fails, it restores every snapshot automatically.
+
+The script owns only content between these explicit HTML comments:
+
+- `NEWS_WORKFLOW_INDEX_MAIN_SLIDES_BEGIN` / `NEWS_WORKFLOW_INDEX_MAIN_SLIDES_END`
+- `NEWS_WORKFLOW_INDEX_CARDS_BEGIN` / `NEWS_WORKFLOW_INDEX_CARDS_END`
+- `NEWS_WORKFLOW_FEATURED_SLIDES_BEGIN` / `NEWS_WORKFLOW_FEATURED_SLIDES_END`
+- `NEWS_WORKFLOW_NEWS_CARDS_BEGIN` / `NEWS_WORKFLOW_NEWS_CARDS_END`
+
+Do not delete, duplicate, rename, or reorder these comments. The workflow refuses to write when their structure is invalid.
+
 ### `doctor`
 
 Checks the current repository state:
@@ -101,6 +119,18 @@ It validates:
 - `FORSLIDERPREVIEW` and `FORMAINSLIDERPREVIEW` assets are detected.
 - Text normalization and search-index rebuild checks pass.
 - `git diff --check` has no whitespace errors.
+
+The doctor checks only the workflow pages and selected article files, so unrelated legacy whitespace elsewhere does not hide a real news failure.
+
+### `self-test`
+
+Runs in-memory regression tests for the mutation guardrails:
+
+```powershell
+python scripts/news-workflow.py self-test
+```
+
+It proves that approved news-region changes are accepted, protected homepage deletion and duplicate structural markers are blocked, and transaction snapshots restore files correctly.
 
 ### `clean`
 

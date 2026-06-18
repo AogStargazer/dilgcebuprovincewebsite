@@ -10,16 +10,21 @@ This is a static HTML website for DILG Cebu Province. Read the live files before
    ```
 2. Read the hook lines reported by the helper in `index.html` and `news.html`.
 3. Make focused edits only in the reported sections.
-4. Normalize text and rebuild the search index:
+4. Use the guarded workflow for news placement:
    ```powershell
-   python scripts/site-maintenance.py text fix NEWS index.html news.html
-   python scripts/site-maintenance.py search rebuild
+   python scripts/news-workflow.py plan NEWS/<news-folder>
+   python scripts/news-workflow.py apply NEWS/<news-folder>
    ```
 5. Verify:
    ```powershell
-   python scripts/site-maintenance.py doctor
+   python scripts/news-workflow.py self-test
+   python scripts/news-workflow.py doctor NEWS/<news-folder>
    python scripts/site-maintenance.py search find "<important search term>"
    ```
+
+The workflow must abort and roll back if anything outside the approved news regions in `index.html` or `news.html` changes. Do not bypass this guardrail with manual whole-page rewrites.
+
+The approved regions are explicitly enclosed by `NEWS_WORKFLOW_*_BEGIN` and `NEWS_WORKFLOW_*_END` HTML comments. Treat those markers as part of the repository contract. Custom `apply --kicker NEWS/<folder>=LABEL` values are persisted to `NEWS/<folder>/news.json`.
 
 ## News Update Rules
 

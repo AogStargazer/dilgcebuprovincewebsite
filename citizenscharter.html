@@ -1471,6 +1471,24 @@
   function hideGuide(){
     guideDialog.hidden=true;
   }
+  function navigateToCharterHash(){
+    if(!location.hash) return false;
+    let targetId='';
+    try{
+      targetId=decodeURIComponent(location.hash.slice(1));
+    }catch(_error){
+      targetId=location.hash.slice(1);
+    }
+    const target=document.getElementById(targetId);
+    if(!target) return false;
+    hideGuide();
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        target.scrollIntoView({block:'start'});
+      });
+    });
+    return true;
+  }
   q.addEventListener('input',rebuild);
   q.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
   prev.addEventListener('click',()=>go(-1));
@@ -1496,6 +1514,9 @@
   window.addEventListener('resize',syncGuideOffset);
   window.addEventListener('resize',refreshResponsiveZoom);
   window.addEventListener('scroll',syncGuideOffset,{passive:true});
+  window.addEventListener('hashchange',()=>{
+    if(!navigateToCharterHash()) showGuide();
+  });
   toggleSidebar.addEventListener('click',()=>{
     const collapsed=charterRoot.classList.toggle('sidebar-collapsed');
     toggleSidebar.setAttribute('aria-expanded',String(!collapsed));
@@ -1503,7 +1524,7 @@
     toggleSidebar.innerHTML=collapsed?'&rsaquo;':'&lsaquo;';
   });
   resetZoomToFit();
-  showGuide();
+  if(!navigateToCharterHash()) showGuide();
 })();
 </script>
 </section>
