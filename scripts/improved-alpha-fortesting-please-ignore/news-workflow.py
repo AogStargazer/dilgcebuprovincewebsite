@@ -1,0 +1,1157 @@
+"""End-to-end NEWS update workflow for the DILG Cebu Province static site.
+
+Usage (from repo root):
+
+    python scripts/news-workflow.py plan  NEWS/<folder> [--kicker FOLDER=KICKER]
+    python scripts/news-workflow.py apply NEWS/<folder> [--kicker FOLDER=KICKER]
+    python scripts/news-workflow.py doctor [folders…]
+    python scripts/news-workflow.py self-test
+    python scripts/news-workflow.py clean
+
+The workflow reads every NEWS folder, sorts articles by date, then atomically
+rewrites the managed regions in index.html and news.html.  A guardrail check
+prevents any content outside those regions from being modified, and a full
+transaction snapshot allows automatic rollback on error.
+"""
+
+from __future__ import annotations
+
+import argparse
+import html
+import importlib.util
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from types import ModuleType
+
+
+ROOT = Path(__file__).resolve().parents[1]
+INDEX_HTML = ROOT / "index.html"
+NEWS_HTML = ROOT / "news.html"
+NEWS_ROOT = ROOT / "NEWS"
+SEARCH_INDEX_JSON = ROOT / "assets" / "search-index.json"
+SEARCH_INDEX_JS = ROOT / "assets" / "js" / "search-index.js"
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+ARTICLE_DATE_RE = re.compile(r"news-([a-z]+)-(\d{2})-(\d{4})-(\d+)", re.IGNORECASE)
+INDEX_NEWS_LIST_MARKER = '<div class="sugbo-balita-list">'
+INDEX_MAIN_SLIDER_MARKER = '<div class="main-slider" id="mainPageSlider">'
+PROVINCIAL_DIRECTOR_SLIDE_MARKER = '<a class="main-slide" href="theprovincialdirector.html"'
+INDEX_MAIN_BEGIN = "<!-- NEWS_WORKFLOW_INDEX_MAIN_SLIDES_BEGIN -->"
+INDEX_MAIN_END = "<!-- NEWS_WORKFLOW_INDEX_MAIN_SLIDES_END -->"
+INDEX_CARDS_BEGIN = "<!-- NEWS_WORKFLOW_INDEX_CARDS_BEGIN -->"
+INDEX_CARDS_END = "<!-- NEWS_WORKFLOW_INDEX_CARDS_END -->"
+NEWS_FEATURED_BEGIN = "<!-- NEWS_WORKFLOW_FEATURED_SLIDES_BEGIN -->"
+NEWS_FEATURED_END = "<!-- NEWS_WORKFLOW_FEATURED_SLIDES_END -->"
+NEWS_CARDS_BEGIN = "<!-- NEWS_WORKFLOW_NEWS_CARDS_BEGIN -->"
+NEWS_CARDS_END = "<!-- NEWS_WORKFLOW_NEWS_CARDS_END -->"
+MONTHS = {
+    "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "june": 6,
+    "july": 7,
+    "august": 8,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12,
+}
+KNOWN_KICKERS = (
+    "PDMS",
+    "PDMU",
+    "LGCDD",
+    "EODB",
+    "LGMED",
+    "LGCDS",
+    "FAD",
+)
+
+
+@dataclass
+class Article:
+    folder: Path
+    html_path: Path
+    url: str
+    folder_date: str
+    page_date: str
+    effective_date: str
+    title: str
+    card_title: str
+    kicker: str
+    kicker_source: str
+    summary: str
+    hero_image: str
+    slider_images: list[str]
+    main_slider_images: list[str]
+    gallery_images: list[str]
+    all_images: list[str]
+
+
+class GuardrailError(RuntimeError):
+    pass
+
+
+def load_script(name: str, filename: str) -> ModuleType:
+    """Load a sibling script as a module, caching it in sys.modules."""
+    if name in sys.modules:
+        return sys.modules[name]
+    path = ROOT / "scripts" / filename
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Could not load {path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _news_maintenance() -> ModuleType:
+    """Return the news-maintenance helper module (loaded once, cached)."""
+    return load_script("news_workflow_news_maintenance", "news-maintenance.py")
+
+
+def rel(path: Path) -> str:
+    return path.resolve().relative_to(ROOT).as_posix()
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8-sig")
+
+
+def write_text(path: Path, value: str) -> None:
+    write_bytes_atomic(path, value.encode("utf-8"))
+
+
+def write_bytes_atomic(path: Path, value: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_name = ""
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.news-workflow-",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary.write(value)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+            temporary_name = temporary.name
+        os.replace(temporary_name, path)
+    finally:
+        if temporary_name:
+            Path(temporary_name).unlink(missing_ok=True)
+
+
+def normalize_space(value: str) -> str:
+    return _news_maintenance().normalize_space(value)
+
+
+def plain(value: str) -> str:
+    value = html.unescape(value)
+    value = value.replace("\u20b1", "P")
+    value = re.sub(r"\s+", " ", value)
+    return value.strip()
+
+
+def parse_folder_date(folder_name: str) -> str:
+    match = ARTICLE_DATE_RE.search(folder_name)
+    if not match:
+        return ""
+    month_name, day, year, _seq = match.groups()
+    month = MONTHS.get(month_name.lower())
+    if not month:
+        return ""
+    parsed = datetime(int(year), month, int(day))
+    return f"{parsed.strftime('%B')} {parsed.day}, {parsed.year}"
+
+
+def date_key(date_value: str, folder_name: str = "") -> tuple[int, int, int, str]:
+    for pattern in ("%B %d, %Y", "%B %-d, %Y") if sys.platform != "win32" else ("%B %d, %Y", "%B %#d, %Y"):
+        try:
+            parsed = datetime.strptime(date_value, pattern)
+            return (parsed.year, parsed.month, parsed.day, folder_name)
+        except ValueError:
+            continue
+    folder_date = parse_folder_date(folder_name)
+    if folder_date and folder_date != date_value:
+        return date_key(folder_date, folder_name)
+    return (0, 0, 0, folder_name)
+
+
+def same_date(left: str, right: str) -> bool:
+    if not left or not right:
+        return False
+    return date_key(left)[:3] == date_key(right)[:3]
+
+
+def find_article_html(folder: Path) -> Path:
+    return _news_maintenance().find_article_html(folder)
+
+
+def discover_images(folder: Path) -> list[Path]:
+    return sorted(
+        [path for path in folder.iterdir() if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES],
+        key=lambda path: path.name.lower(),
+    )
+
+
+def first_match(source: str, pattern: str) -> str:
+    match = re.search(pattern, source, flags=re.IGNORECASE | re.DOTALL)
+    return normalize_space(match.group(1)) if match else ""
+
+
+def extract_paragraphs(source: str) -> list[str]:
+    return _news_maintenance().extract_paragraphs(source)
+
+
+def sentence_summary(paragraphs: list[str]) -> str:
+    return _news_maintenance().sentence_summary(paragraphs)
+
+
+def split_kicker(title: str) -> tuple[str, str]:
+    return _news_maintenance().split_kicker(title)
+
+
+def load_manifest(folder: Path) -> dict[str, object]:
+    for name in ("news.json", "news-workflow.json"):
+        path = folder / name
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8-sig"))
+    return {}
+
+
+def manifest_path(folder: Path) -> Path:
+    return folder / "news.json"
+
+
+def render_manifest(folder: Path, kicker: str) -> str:
+    manifest = load_manifest(folder)
+    manifest["kicker"] = kicker
+    return json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
+
+
+def parse_kicker_overrides(values: list[str] | None) -> dict[str, str]:
+    overrides = {}
+    for value in values or []:
+        if "=" not in value:
+            raise ValueError(f"Invalid --kicker value {value!r}. Use NEWS/folder=KICKER.")
+        folder_value, kicker = value.split("=", 1)
+        folder_name = Path(folder_value.strip()).name
+        kicker = kicker.strip()
+        if not folder_name or not kicker:
+            raise ValueError(f"Invalid --kicker value {value!r}. Use NEWS/folder=KICKER.")
+        overrides[folder_name] = kicker
+    return overrides
+
+
+def infer_kicker(title: str, source: str, folder: Path, overrides: dict[str, str] | None = None) -> tuple[str, str]:
+    if overrides and folder.name in overrides:
+        return overrides[folder.name], "cli"
+
+    manifest = load_manifest(folder)
+    manifest_kicker = str(manifest.get("kicker", "")).strip()
+    if manifest_kicker:
+        return manifest_kicker, "manifest"
+
+    explicit, _card_title = split_kicker(title)
+    if "|" in title:
+        return explicit, "title"
+
+    haystack = normalize_space(source).upper()
+    for kicker in KNOWN_KICKERS:
+        if re.search(rf"\b{re.escape(kicker)}\b", haystack):
+            return kicker, "article"
+    return explicit or "LGCDD", "default"
+
+
+def build_article(
+    folder_value: str | Path,
+    date_source: str = "folder",
+    kicker_overrides: dict[str, str] | None = None,
+) -> Article:
+    folder = (ROOT / folder_value).resolve() if not isinstance(folder_value, Path) else folder_value.resolve()
+    html_path = find_article_html(folder)
+    source = read_text(html_path)
+    images = [rel(path) for path in discover_images(folder)]
+
+    h1_title = first_match(
+        source,
+        r"<h1\b[^>]*class=[\"'][^\"']*news-article__title[^\"']*[\"'][^>]*>(.*?)</h1>",
+    )
+    title = h1_title or first_match(source, r"<title\b[^>]*>(.*?)</title>")
+    title = title or html_path.stem.replace("-", " ").title()
+    title = plain(title)
+    _default_kicker, card_title = split_kicker(title)
+    kicker, kicker_source = infer_kicker(title, source, folder, overrides=kicker_overrides)
+    page_date = first_match(
+        source,
+        r"<p\b[^>]*class=[\"'][^\"']*news-article__date[^\"']*[\"'][^>]*>(.*?)</p>",
+    )
+    folder_date = parse_folder_date(folder.name)
+    effective_date = folder_date if date_source == "folder" and folder_date else page_date or folder_date
+
+    paragraphs = extract_paragraphs(source)
+    summary = plain(sentence_summary(paragraphs))
+    hero_image = first_match(
+        source,
+        r"<img\b[^>]*class=[\"'][^\"']*news-article__hero[^\"']*[\"'][^>]*\bsrc=[\"']([^\"']+)[\"']",
+    )
+    slider_images = [path for path in images if "FORSLIDERPREVIEW" in path.upper()]
+    main_slider_images = [path for path in images if "FORMAINSLIDERPREVIEW" in path.upper()]
+    gallery_images = [
+        path
+        for path in images
+        if "FORSLIDERPREVIEW" not in path.upper() and "FORMAINSLIDERPREVIEW" not in path.upper()
+    ]
+    hero_image = slider_images[0] if slider_images else hero_image or (images[0] if images else "")
+
+    return Article(
+        folder=folder,
+        html_path=html_path,
+        url=rel(html_path),
+        folder_date=folder_date,
+        page_date=page_date,
+        effective_date=effective_date,
+        title=title,
+        card_title=plain(card_title),
+        kicker=plain(kicker or "LGCDD"),
+        kicker_source=kicker_source,
+        summary=summary,
+        hero_image=hero_image,
+        slider_images=slider_images,
+        main_slider_images=main_slider_images,
+        gallery_images=gallery_images,
+        all_images=images,
+    )
+
+
+def discover_articles(date_source: str = "folder", kicker_overrides: dict[str, str] | None = None) -> list[Article]:
+    articles = []
+    for folder in sorted(NEWS_ROOT.iterdir()):
+        if not folder.is_dir():
+            continue
+        try:
+            articles.append(build_article(folder, date_source=date_source, kicker_overrides=kicker_overrides))
+        except (FileNotFoundError, RuntimeError):
+            continue
+    return sorted(articles, key=lambda item: date_key(item.effective_date, item.folder.name), reverse=True)
+
+
+def img_tag(image: str, alt: str, indent: str, active: bool = False) -> str:
+    class_attr = ' class="active"' if active else ""
+    return f'{indent}<img{class_attr} src="{image}" alt="{html.escape(alt, quote=True)}" loading="lazy" decoding="async">'
+
+
+def card_images(article: Article, include_all_folder_photos: bool) -> list[str]:
+    images = []
+    for image in article.slider_images or [article.hero_image]:
+        if image and image not in images:
+            images.append(image)
+    if include_all_folder_photos:
+        for image in article.gallery_images:
+            if image not in images:
+                images.append(image)
+    return images
+
+
+def card(article: Article, heading: str, indent: str, include_all_folder_photos: bool = False) -> str:
+    images = card_images(article, include_all_folder_photos)
+    image_tags = "\n".join(
+        img_tag(image, article.card_title, f"{indent}            ", active=index == 0)
+        for index, image in enumerate(images)
+    )
+    return "\n".join(
+        [
+            f'{indent}<a class="sugbo-balita-link" href="{article.url}">',
+            f'{indent}  <article class="sugbo-balita-item">',
+            f'{indent}    <div class="sugbo-balita-thumb">',
+            f'{indent}      <div class="sugbo-balita-photo-slider" data-news-photo-slider>',
+            image_tags,
+            f'{indent}      </div>',
+            f'{indent}    </div>',
+            f'{indent}    <div>',
+            f'{indent}      <p class="sugbo-balita-kicker">{html.escape(article.kicker)}</p>',
+            f'{indent}      <{heading} class="sugbo-balita-headline">{html.escape(article.card_title)}</{heading}>',
+            f'{indent}      <p class="sugbo-balita-date">{html.escape(article.effective_date)}</p>',
+            f'{indent}      <p class="sugbo-balita-summary">{html.escape(article.summary)}</p>',
+            f'{indent}    </div>',
+            f'{indent}  </article>',
+            f'{indent}</a>',
+        ]
+    )
+
+
+def news_slide(article: Article) -> str:
+    image = (article.slider_images or [article.hero_image])[0]
+    return "\n".join(
+        [
+            f'                                  <a class="main-slide" href="{article.url}" aria-label="Read {html.escape(article.effective_date)} {html.escape(article.card_title)} news article">',
+            img_tag(image, article.card_title, "                                    "),
+            '                                    <div class="news-slide-caption">',
+            f'                                      <p>{html.escape(article.kicker)}</p>',
+            f'                                      <h2>{html.escape(article.card_title)}</h2>',
+            '                                    </div>',
+            '                                  </a>',
+        ]
+    )
+
+
+def index_main_slide(article: Article) -> str:
+    image = article.main_slider_images[0]
+    return "\n".join(
+        [
+            f'                          <a class="main-slide" href="{article.url}" aria-label="Read {html.escape(article.effective_date)} {html.escape(article.card_title)} news article">',
+            img_tag(image, article.card_title, "                            "),
+            '                          </a>',
+        ]
+    )
+
+
+def find_matching_close(source: str, start: int, open_token: str, close_token: str) -> int:
+    depth = 0
+    pos = start
+    while True:
+        next_open = source.find(open_token, pos)
+        next_close = source.find(close_token, pos)
+        if next_close == -1:
+            raise RuntimeError(f"Could not find closing token {close_token!r}")
+        if next_open != -1 and next_open < next_close:
+            depth += 1
+            pos = next_open + len(open_token)
+            continue
+        depth -= 1
+        pos = next_close + len(close_token)
+        if depth == 0:
+            return next_close
+
+
+def require_unique_marker(source: str, marker: str, page: str) -> int:
+    count = source.count(marker)
+    if count != 1:
+        raise GuardrailError(f"{page}: expected exactly one {marker!r} marker, found {count}")
+    return source.find(marker)
+
+
+def replace_managed_region(
+    source: str,
+    begin_marker: str,
+    end_marker: str,
+    new_content: str,
+    page: str,
+) -> str:
+    begin = require_unique_marker(source, begin_marker, page)
+    end = require_unique_marker(source, end_marker, page)
+    if end <= begin:
+        raise GuardrailError(f"{page}: managed region markers are out of order")
+    content_start = begin + len(begin_marker)
+    return (
+        source[:content_start]
+        + "\n"
+        + new_content
+        + "\n"
+        + source[end:]
+    )
+
+
+def mask_managed_region(
+    source: str,
+    begin_marker: str,
+    end_marker: str,
+    placeholder: str,
+    page: str,
+) -> str:
+    return replace_managed_region(
+        source,
+        begin_marker,
+        end_marker,
+        placeholder,
+        page,
+    )
+
+
+def replace_div_content(source: str, div_marker: str, new_content: str) -> str:
+    start = require_unique_marker(source, div_marker, "HTML page")
+    open_end = source.find(">", start)
+    close_start = find_matching_close(source, start, "<div", "</div>")
+    close_line_start = source.rfind("\n", open_end, close_start) + 1
+    closing_indent = source[close_line_start:close_start]
+    if closing_indent.strip():
+        line_start = source.rfind("\n", 0, start) + 1
+        closing_indent = source[line_start:start]
+        if closing_indent.strip():
+            closing_indent = ""
+    return (
+        source[: open_end + 1]
+        + "\n"
+        + new_content
+        + "\n"
+        + closing_indent
+        + source[close_start:]
+    )
+
+
+def replace_between(source: str, start_marker: str, end_marker: str, new_content: str, after_start: bool = True) -> str:
+    start = source.find(start_marker)
+    if start == -1:
+        raise RuntimeError(f"Could not find start marker: {start_marker}")
+    content_start = source.find(">", start) + 1 if after_start else start + len(start_marker)
+    end = source.find(end_marker, content_start)
+    if end == -1:
+        raise RuntimeError(f"Could not find end marker: {end_marker}")
+    return source[:content_start] + "\n" + new_content + "\n" + source[end:]
+
+
+def replace_featured_slider_content(source: str, new_content: str) -> str:
+    marker = INDEX_MAIN_SLIDER_MARKER
+    start = require_unique_marker(source, marker, "news.html")
+    open_end = source.find(">", start)
+    button_start = source.find('<button class="slider-nav prev-slide"', open_end)
+    if button_start == -1:
+        raise RuntimeError("Could not find news featured slider navigation.")
+    close_start = source.rfind("</div>", open_end, button_start)
+    if close_start == -1:
+        raise RuntimeError("Could not find news featured slider closing div.")
+    return source[: open_end + 1] + "\n" + new_content + "\n" + source[close_start:]
+
+
+def mask_div_content(source: str, marker: str, placeholder: str, page: str) -> str:
+    start = require_unique_marker(source, marker, page)
+    open_end = source.find(">", start)
+    close_start = find_matching_close(source, start, "<div", "</div>")
+    close_line_start = source.rfind("\n", open_end, close_start) + 1
+    closing_indent = source[close_line_start:close_start]
+    if closing_indent.strip():
+        line_start = source.rfind("\n", 0, start) + 1
+        closing_indent = source[line_start:start]
+        if closing_indent.strip():
+            closing_indent = ""
+    return (
+        source[: open_end + 1]
+        + f"\n{placeholder}\n"
+        + closing_indent
+        + source[close_start:]
+    )
+
+
+def validate_page_shell(source: str, page: str, required_markers: tuple[str, ...]) -> None:
+    if "<!doctype html" not in source[:200].lower():
+        raise GuardrailError(f"{page}: missing HTML doctype")
+    if "</body>" not in source.lower() or "</html>" not in source.lower():
+        raise GuardrailError(f"{page}: missing closing body or html tag")
+    for marker in required_markers:
+        require_unique_marker(source, marker, page)
+
+
+def index_guard_view(source: str) -> str:
+    validate_page_shell(
+        source,
+        "index.html",
+        (
+            INDEX_MAIN_SLIDER_MARKER,
+            PROVINCIAL_DIRECTOR_SLIDE_MARKER,
+            INDEX_NEWS_LIST_MARKER,
+            INDEX_MAIN_BEGIN,
+            INDEX_MAIN_END,
+            INDEX_CARDS_BEGIN,
+            INDEX_CARDS_END,
+        ),
+    )
+    masked_main = mask_managed_region(
+        source,
+        INDEX_MAIN_BEGIN,
+        INDEX_MAIN_END,
+        "<!-- NEWS_WORKFLOW_INDEX_MAIN_SLIDES -->",
+        "index.html",
+    )
+    return mask_managed_region(
+        masked_main,
+        INDEX_CARDS_BEGIN,
+        INDEX_CARDS_END,
+        "<!-- NEWS_WORKFLOW_INDEX_CARDS -->",
+        "index.html",
+    )
+
+
+def news_guard_view(source: str) -> str:
+    validate_page_shell(
+        source,
+        "news.html",
+        (
+            INDEX_MAIN_SLIDER_MARKER,
+            INDEX_NEWS_LIST_MARKER,
+            NEWS_FEATURED_BEGIN,
+            NEWS_FEATURED_END,
+            NEWS_CARDS_BEGIN,
+            NEWS_CARDS_END,
+        ),
+    )
+    masked_slider = mask_managed_region(
+        source,
+        NEWS_FEATURED_BEGIN,
+        NEWS_FEATURED_END,
+        "<!-- NEWS_WORKFLOW_FEATURED_SLIDES -->",
+        "news.html",
+    )
+    return mask_managed_region(
+        masked_slider,
+        NEWS_CARDS_BEGIN,
+        NEWS_CARDS_END,
+        "<!-- NEWS_WORKFLOW_NEWS_CARDS -->",
+        "news.html",
+    )
+
+
+def assert_allowed_page_changes(
+    page: str,
+    before: str,
+    after: str,
+    guard_view,
+) -> None:
+    before_view = guard_view(before)
+    after_view = guard_view(after)
+    if before_view != after_view:
+        raise GuardrailError(
+            f"{page}: content outside approved NEWS regions changed; no files were saved"
+        )
+
+
+def render_article_page(article: Article, source: str) -> str:
+    source = re.sub(
+        r"<title\b[^>]*>.*?</title>",
+        f"<title>{html.escape(article.title)}</title>",
+        source,
+        count=1,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    source = re.sub(
+        r'(<img\b[^>]*class=["\'][^"\']*news-article__hero[^"\']*["\'][^>]*\bsrc=["\'])[^"\']+(["\'][^>]*\balt=["\'])[^"\']*(["\'])',
+        rf"\1{article.hero_image}\2{html.escape(article.title, quote=True)}\3",
+        source,
+        count=1,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    source = re.sub(
+        r'(<p\b[^>]*class=["\'][^"\']*news-article__date[^"\']*["\'][^>]*>).*?(</p>)',
+        rf"\1{html.escape(article.effective_date)}\2",
+        source,
+        count=1,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    source = re.sub(
+        r'(<h1\b[^>]*class=["\'][^"\']*news-article__title[^"\']*["\'][^>]*>).*?(</h1>)',
+        rf"\1{html.escape(article.title)}\2",
+        source,
+        count=1,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if article.gallery_images and "news-article__gallery" in source:
+        gallery = "\n".join(
+            f'                            <img src="{image}" alt="{html.escape(article.card_title, quote=True)} activity photo {index}">'
+            for index, image in enumerate(article.gallery_images, start=1)
+        )
+        source = replace_div_content(source, '<div class="news-article__gallery">', gallery)
+    return source
+
+
+def render_index(source: str, articles: list[Article], supplied: list[Article]) -> str:
+    index_guard_view(source)
+    del supplied
+    main_slides = "\n".join(
+        index_main_slide(article)
+        for article in articles
+        if article.main_slider_images
+    )
+    source = replace_managed_region(
+        source,
+        INDEX_MAIN_BEGIN,
+        INDEX_MAIN_END,
+        main_slides,
+        "index.html",
+    )
+
+    top_five = articles[:5]
+    list_html = "\n".join(card(article, "h3", "    ", include_all_folder_photos=True) for article in top_five)
+    source = replace_managed_region(
+        source,
+        INDEX_CARDS_BEGIN,
+        INDEX_CARDS_END,
+        list_html,
+        "index.html",
+    )
+    return source
+
+
+def render_news_page(source: str, articles: list[Article]) -> str:
+    news_guard_view(source)
+    slides = "\n\n".join(news_slide(article) for article in articles if article.slider_images or article.hero_image)
+    source = replace_managed_region(
+        source,
+        NEWS_FEATURED_BEGIN,
+        NEWS_FEATURED_END,
+        slides,
+        "news.html",
+    )
+    list_html = "\n".join(
+        card(article, "h2", "                              ", include_all_folder_photos=True)
+        for article in articles
+    )
+    source = replace_managed_region(
+        source,
+        NEWS_CARDS_BEGIN,
+        NEWS_CARDS_END,
+        list_html,
+        "news.html",
+    )
+    return source
+
+
+def run_command(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
+    """Run *args* in the repo root, capturing output.  Raises on non-zero exit by default."""
+    return subprocess.run(args, cwd=ROOT, text=True, capture_output=True, check=check)
+
+
+def clean_pycache() -> None:
+    pycache = ROOT / "scripts" / "__pycache__"
+    if not pycache.exists():
+        return
+    for path in pycache.glob("*.pyc"):
+        relative = rel(path)
+        tracked = run_command(["git", "ls-files", "--error-unmatch", relative], check=False)
+        if tracked.returncode == 0:
+            run_command(["git", "restore", "--", relative], check=False)
+        else:
+            path.unlink(missing_ok=True)
+
+
+def run_post_maintenance(article_paths: list[Path]) -> None:
+    if article_paths:
+        relative_paths = [rel(path) for path in article_paths]
+        run_command(
+            [
+                sys.executable,
+                "scripts/site-maintenance.py",
+                "text",
+                "fix",
+                *relative_paths,
+            ]
+        )
+        run_command(
+            [
+                sys.executable,
+                "scripts/site-maintenance.py",
+                "whitespace",
+                "fix",
+                *relative_paths,
+            ]
+        )
+    run_command([sys.executable, "scripts/site-maintenance.py", "search", "rebuild"])
+    clean_pycache()
+
+
+def snapshot_files(paths: list[Path]) -> dict[Path, bytes | None]:
+    return {
+        path: path.read_bytes() if path.exists() else None
+        for path in dict.fromkeys(paths)
+    }
+
+
+def restore_snapshot(snapshot: dict[Path, bytes | None]) -> None:
+    for path, value in snapshot.items():
+        if value is None:
+            path.unlink(missing_ok=True)
+        else:
+            write_bytes_atomic(path, value)
+
+
+def write_planned_files(planned: dict[Path, str]) -> None:
+    for path, source in planned.items():
+        write_text(path, source)
+
+
+def validate_article(article: Article) -> list[str]:
+    issues = []
+    if not article.title:
+        issues.append(f"{article.url}: missing title")
+    if article.page_date and article.folder_date and not same_date(article.page_date, article.folder_date):
+        issues.append(f"{article.url}: page date {article.page_date!r} differs from folder date {article.folder_date!r}")
+    if not article.slider_images:
+        issues.append(f"{article.url}: no FORSLIDERPREVIEW image detected")
+    if article.hero_image and not (ROOT / article.hero_image).exists():
+        issues.append(f"{article.url}: hero image does not exist: {article.hero_image}")
+    for image in article.gallery_images + article.slider_images + article.main_slider_images:
+        if not (ROOT / image).exists():
+            issues.append(f"{article.url}: image does not exist: {image}")
+
+    source = read_text(article.html_path)
+    page_title = first_match(source, r"<title\b[^>]*>(.*?)</title>")
+    visible_title = first_match(
+        source,
+        r"<h1\b[^>]*class=[\"'][^\"']*news-article__title[^\"']*[\"'][^>]*>(.*?)</h1>",
+    )
+    if page_title and visible_title and plain(page_title) != plain(visible_title):
+        issues.append(f"{article.url}: <title> and visible article title differ")
+    return issues
+
+
+def validate_pages(articles: list[Article]) -> list[str]:
+    issues = []
+    index_source = read_text(INDEX_HTML)
+    news_source = read_text(NEWS_HTML)
+    index_cards = re.findall(r'<a class="sugbo-balita-link" href="NEWS/[^"]+">', index_source)
+    if len(index_cards) != 5:
+        issues.append(f"index.html: expected exactly 5 homepage news cards, found {len(index_cards)}")
+
+    for article in articles[:5]:
+        if article.url not in index_source:
+            issues.append(f"index.html: expected top-five article missing: {article.url}")
+        expected_images = card_images(article, include_all_folder_photos=True)
+        for image in expected_images:
+            if image not in index_source:
+                issues.append(f"index.html: expected homepage card image missing for {article.url}: {image}")
+            if image not in news_source:
+                issues.append(f"news.html: expected news card image missing for {article.url}: {image}")
+    for article in articles:
+        if article.url not in news_source:
+            issues.append(f"news.html: must preserve every discoverable article card; missing {article.url}")
+    featured_block = ""
+    slider_start = news_source.find('<div class="main-slider" id="mainPageSlider">')
+    if slider_start != -1:
+        slider_end = find_matching_close(news_source, slider_start, "<div", "</div>")
+        featured_block = news_source[slider_start:slider_end]
+    featured_urls = re.findall(r'<a class="main-slide" href="(NEWS/[^"]+)"', featured_block)
+    duplicate_featured = sorted({url for url in featured_urls if featured_urls.count(url) > 1})
+    for url in duplicate_featured:
+        issues.append(f"news.html: duplicate featured slider article: {url}")
+    return issues
+
+
+def cmd_plan(args: argparse.Namespace) -> int:
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    supplied = [
+        build_article(folder, date_source=args.date_source, kicker_overrides=kicker_overrides)
+        for folder in args.folders
+    ]
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
+    print("# NEWS Workflow Plan\n")
+    for article in supplied:
+        print(f"- `{article.url}`")
+        print(f"  title: {article.title}")
+        print(f"  page date: {article.page_date or 'missing'}")
+        print(f"  folder date: {article.folder_date or 'missing'}")
+        print(f"  effective date: {article.effective_date or 'missing'}")
+        print(f"  kicker: {article.kicker} ({article.kicker_source})")
+        print(f"  FORSLIDERPREVIEW: {len(article.slider_images)}")
+        print(f"  FORMAINSLIDERPREVIEW: {len(article.main_slider_images)}")
+        print(f"  index/news card photos: {len(card_images(article, include_all_folder_photos=True))}")
+        if article.page_date and article.folder_date and not same_date(article.page_date, article.folder_date):
+            print("  warning: page date differs from folder date")
+    print("\nHomepage DILG Sugbo Balita top five after apply:")
+    for index, article in enumerate(articles[:5], start=1):
+        print(f"{index}. {article.effective_date} - {article.card_title}")
+    print("\nHomepage main-slider additions:")
+    additions = [article for article in supplied if article.main_slider_images]
+    if additions:
+        for article in additions:
+            print(f"- {article.card_title}: {article.main_slider_images[0]}")
+    else:
+        print("- none; no supplied FORMAINSLIDERPREVIEW images detected")
+    return 0
+
+
+def cmd_apply(args: argparse.Namespace) -> int:
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    supplied = [
+        build_article(folder, date_source=args.date_source, kicker_overrides=kicker_overrides)
+        for folder in args.folders
+    ]
+    supplied_by_folder = {article.folder.name: article for article in supplied}
+    unknown_overrides = sorted(set(kicker_overrides) - set(supplied_by_folder))
+    if unknown_overrides:
+        print(
+            "NEWS workflow aborted: --kicker must target a folder supplied to apply: "
+            + ", ".join(unknown_overrides),
+            file=sys.stderr,
+        )
+        return 1
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
+
+    index_before = read_text(INDEX_HTML)
+    news_before = read_text(NEWS_HTML)
+    planned = {
+        article.html_path: render_article_page(article, read_text(article.html_path))
+        for article in supplied
+    }
+    for folder_name, kicker in kicker_overrides.items():
+        article = supplied_by_folder[folder_name]
+        planned[manifest_path(article.folder)] = render_manifest(article.folder, kicker)
+    planned[INDEX_HTML] = render_index(index_before, articles, supplied)
+    planned[NEWS_HTML] = render_news_page(news_before, articles)
+
+    assert_allowed_page_changes(
+        "index.html",
+        index_before,
+        planned[INDEX_HTML],
+        index_guard_view,
+    )
+    assert_allowed_page_changes(
+        "news.html",
+        news_before,
+        planned[NEWS_HTML],
+        news_guard_view,
+    )
+
+    protected_paths = [
+        *planned.keys(),
+        SEARCH_INDEX_JSON,
+        SEARCH_INDEX_JS,
+    ]
+    snapshot = snapshot_files(protected_paths)
+    try:
+        write_planned_files(planned)
+        if not args.no_maintenance:
+            run_post_maintenance([article.html_path for article in supplied])
+
+        index_after = read_text(INDEX_HTML)
+        news_after = read_text(NEWS_HTML)
+        assert_allowed_page_changes(
+            "index.html",
+            index_before,
+            index_after,
+            index_guard_view,
+        )
+        assert_allowed_page_changes(
+            "news.html",
+            news_before,
+            news_after,
+            news_guard_view,
+        )
+        issues = validate_pages(articles)
+        if issues:
+            raise GuardrailError("; ".join(issues))
+    except Exception as error:
+        restore_snapshot(snapshot)
+        clean_pycache()
+        print("NEWS workflow aborted and rolled back every touched file.", file=sys.stderr)
+        print(f"Reason: {error}", file=sys.stderr)
+        return 1
+
+    print(f"Applied NEWS workflow to {len(supplied)} article(s).")
+    for folder_name, kicker in kicker_overrides.items():
+        print(f"Saved custom kicker {kicker!r} to NEWS/{folder_name}/news.json.")
+    return 0
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    issues = []
+    kicker_overrides = parse_kicker_overrides(args.kicker)
+    articles = discover_articles(date_source=args.date_source, kicker_overrides=kicker_overrides)
+    try:
+        index_guard_view(read_text(INDEX_HTML))
+        news_guard_view(read_text(NEWS_HTML))
+    except GuardrailError as error:
+        issues.append(str(error))
+    folders = [Path(folder).name for folder in args.folders] if args.folders else []
+    selected = [article for article in articles if not folders or article.folder.name in folders]
+    for article in selected:
+        issues.extend(validate_article(article))
+    issues.extend(validate_pages(articles))
+
+    maintenance_targets = [
+        "index.html",
+        "news.html",
+        *(rel(article.html_path) for article in selected),
+    ]
+    text = run_command(
+        [
+            sys.executable,
+            "scripts/site-maintenance.py",
+            "doctor",
+            *maintenance_targets,
+        ],
+        check=False,
+    )
+    if text.returncode:
+        issues.append("site-maintenance doctor failed")
+    diff = run_command(["git", "diff", "--check"], check=False)
+    if diff.returncode:
+        issues.append("git diff --check failed")
+
+    if issues:
+        print("NEWS workflow doctor found issues:")
+        for issue in issues:
+            print(f"- {issue}")
+        if text.stdout:
+            print("\nsite-maintenance output:")
+            print(text.stdout.rstrip())
+        if diff.stdout:
+            print("\ngit diff --check output:")
+            print(diff.stdout.rstrip())
+        return 1
+
+    print("NEWS workflow doctor passed.")
+    print(text.stdout.rstrip())
+    if diff.stderr:
+        print(diff.stderr.rstrip())
+    return 0
+
+
+def cmd_self_test(_args: argparse.Namespace) -> int:
+    index_source = read_text(INDEX_HTML)
+    news_source = read_text(NEWS_HTML)
+
+    index_candidate = replace_managed_region(
+        index_source,
+        INDEX_CARDS_BEGIN,
+        INDEX_CARDS_END,
+        '<a class="sugbo-balita-link" href="NEWS/test/test.html"></a>',
+        "index.html",
+    )
+    assert_allowed_page_changes(
+        "index.html",
+        index_source,
+        index_candidate,
+        index_guard_view,
+    )
+
+    news_candidate = replace_managed_region(
+        news_source,
+        NEWS_FEATURED_BEGIN,
+        NEWS_FEATURED_END,
+        '<a class="main-slide" href="NEWS/test/test.html"></a>',
+        "news.html",
+    )
+    assert_allowed_page_changes(
+        "news.html",
+        news_source,
+        news_candidate,
+        news_guard_view,
+    )
+
+    protected_marker = "Vision and Mission"
+    if protected_marker not in index_candidate:
+        raise GuardrailError(
+            f"self-test requires the protected marker {protected_marker!r} in index.html"
+        )
+    damaged_index = index_candidate.replace(protected_marker, "", 1)
+    try:
+        assert_allowed_page_changes(
+            "index.html",
+            index_source,
+            damaged_index,
+            index_guard_view,
+        )
+    except GuardrailError:
+        pass
+    else:
+        raise GuardrailError("self-test failed: protected homepage deletion was not blocked")
+
+    try:
+        replace_managed_region(
+            index_source + "\n" + INDEX_CARDS_BEGIN,
+            INDEX_CARDS_BEGIN,
+            INDEX_CARDS_END,
+            "",
+            "index.html",
+        )
+    except GuardrailError:
+        pass
+    else:
+        raise GuardrailError("self-test failed: duplicate marker was not blocked")
+
+    with tempfile.TemporaryDirectory(prefix="news-workflow-self-test-") as directory:
+        manifest_folder = Path(directory) / "article"
+        manifest_folder.mkdir()
+        manifest_path(manifest_folder).write_text(
+            '{"summary": "keep me"}\n',
+            encoding="utf-8",
+        )
+        rendered_manifest = json.loads(render_manifest(manifest_folder, "CUSTOM OFFICE"))
+        if rendered_manifest != {
+            "summary": "keep me",
+            "kicker": "CUSTOM OFFICE",
+        }:
+            raise GuardrailError("self-test failed: custom kicker manifest persistence")
+
+        existing = Path(directory) / "existing.html"
+        created = Path(directory) / "created.html"
+        existing.write_bytes(b"original")
+        snapshot = snapshot_files([existing, created])
+        write_bytes_atomic(existing, b"damaged")
+        write_bytes_atomic(created, b"unexpected")
+        restore_snapshot(snapshot)
+        if existing.read_bytes() != b"original" or created.exists():
+            raise GuardrailError("self-test failed: transaction snapshot did not roll back")
+
+    print("NEWS workflow guardrail self-test passed.")
+    print("- approved NEWS-region edits were accepted")
+    print("- protected homepage deletion was blocked")
+    print("- duplicate structural markers were blocked")
+    print("- transaction snapshot rollback was verified")
+    print("- arbitrary custom kicker persistence was verified")
+    return 0
+
+
+def cmd_clean(_args: argparse.Namespace) -> int:
+    clean_pycache()
+    print("Cleaned predictable Python cache side effects.")
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="End-to-end NEWS update workflow for the DILG Cebu Province static site.")
+    parser.add_argument(
+        "--date-source",
+        choices=("folder", "article"),
+        default="folder",
+        help="date source used for ordering and article page date updates; default: folder",
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    plan = subparsers.add_parser("plan", help="print a dry-run NEWS update plan")
+    plan.add_argument("folders", nargs="+", help="NEWS folders to plan")
+    plan.add_argument("--kicker", action="append", help="override arbitrary kicker, for example NEWS/news-june-10-2026-001=PDMS")
+    plan.set_defaults(func=cmd_plan)
+
+    apply = subparsers.add_parser("apply", help="apply article, index.html, news.html, and search-index updates")
+    apply.add_argument("folders", nargs="+", help="NEWS folders to apply")
+    apply.add_argument(
+        "--kicker",
+        action="append",
+        help="set and persist an arbitrary kicker in NEWS/<folder>/news.json, for example NEWS/news-june-10-2026-001=PDMS",
+    )
+    apply.add_argument("--no-maintenance", action="store_true", help="skip text normalization and search rebuild")
+    apply.set_defaults(func=cmd_apply)
+
+    doctor = subparsers.add_parser("doctor", help="validate NEWS workflow invariants")
+    doctor.add_argument("folders", nargs="*", help="optional NEWS folders to validate specifically")
+    doctor.add_argument("--kicker", action="append", help="override arbitrary kicker while validating")
+    doctor.set_defaults(func=cmd_doctor)
+
+    clean = subparsers.add_parser("clean", help="remove predictable maintenance side effects")
+    clean.set_defaults(func=cmd_clean)
+
+    self_test = subparsers.add_parser(
+        "self-test",
+        help="run in-memory regression tests for NEWS mutation guardrails",
+    )
+    self_test.set_defaults(func=cmd_self_test)
+
+    return parser
+
+
+def main() -> int:
+    args = build_parser().parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
