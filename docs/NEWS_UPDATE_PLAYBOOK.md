@@ -16,6 +16,7 @@ This repository has a repeatable workflow for adding DILG Sugbo News articles. F
 - Insert homepage main slider news directly after the Provincial Director slide in `index.html`.
 - The homepage DILG Sugbo Balita list in `index.html` must always contain exactly five news cards.
 - The `news.html` news list is never capped. Do not delete old news cards from `news.html`; this page is the repo-wide access point for all news articles.
+- The `news.html` featured image slider is capped at 50 newest eligible articles. New slides replace the oldest slides; article cards remain available in the uncapped news list.
 - Keep `news.html` ordered newest first while preserving every discoverable article card.
 - After edits, normalize text and rebuild the generated search index.
 
@@ -74,10 +75,12 @@ python scripts/news-workflow.py apply NEWS/<news-folder> [NEWS/<another-folder> 
 This command:
 
 - Updates each supplied article page title, visible title, date, hero image, and gallery image list.
+- Keeps the browser `<title>` equal to the visible article title.
+- Replaces the article gallery with regular photos from its own folder. If no regular photos exist, it clears copied or stale gallery entries.
 - Updates `index.html` DILG Sugbo Balita to the five most recent article cards, each with the automatic no-arrow gallery slider using every regular photo in that article folder.
 - Updates `news.html` DILG Sugbo Balita cards with the same automatic no-arrow gallery behavior, without capping or deleting news cards.
 - Adds any supplied `FORMAINSLIDERPREVIEW` item to the homepage main slider after the Provincial Director slide.
-- Updates `news.html` featured slider and news list by recency while preserving every discoverable article card.
+- Updates `news.html` featured slider with the 50 newest eligible articles and keeps the full news list ordered by recency.
 - Runs text normalization and search rebuild.
 - Removes accidental `scripts/__pycache__` tracked changes when possible.
 
@@ -116,6 +119,9 @@ It validates:
 - New article folders have one article HTML page.
 - Article `<title>` and visible `<h1 class="news-article__title">` match.
 - Hero images and gallery images exist.
+- Article hero and gallery paths match assets from that article's own folder.
+- Empty-photo folders do not retain copied gallery images from older articles.
+- Featured slider contains no more than 50 slides and matches the newest eligible articles in order.
 - `FORSLIDERPREVIEW` and `FORMAINSLIDERPREVIEW` assets are detected.
 - Text normalization and search-index rebuild checks pass.
 - `git diff --check` has no whitespace errors.

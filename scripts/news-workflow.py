@@ -34,6 +34,7 @@ NEWS_FEATURED_BEGIN = "<!-- NEWS_WORKFLOW_FEATURED_SLIDES_BEGIN -->"
 NEWS_FEATURED_END = "<!-- NEWS_WORKFLOW_FEATURED_SLIDES_END -->"
 NEWS_CARDS_BEGIN = "<!-- NEWS_WORKFLOW_NEWS_CARDS_BEGIN -->"
 NEWS_CARDS_END = "<!-- NEWS_WORKFLOW_NEWS_CARDS_END -->"
+NEWS_FEATURED_SLIDE_LIMIT = 50
 MONTHS = {
     "january": 1,
     "february": 2,
@@ -185,6 +186,24 @@ def discover_images(folder: Path) -> list[Path]:
 def first_match(source: str, pattern: str) -> str:
     match = re.search(pattern, source, flags=re.IGNORECASE | re.DOTALL)
     return normalize_space(match.group(1)) if match else ""
+
+
+def gallery_srcs(source: str) -> list[str]:
+    match = re.search(
+        r'<div\b[^>]*class=["\'][^"\']*news-article__gallery[^"\']*["\'][^>]*>(.*?)</div>',
+        source,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if not match:
+        return []
+    return [
+        html.unescape(src.group(1))
+        for src in re.finditer(
+            r'<img\b[^>]*\bsrc=["\']([^"\']+)["\']',
+            match.group(1),
+            flags=re.IGNORECASE,
+        )
+    ]
 
 
 def extract_paragraphs(source: str) -> list[str]:
@@ -384,6 +403,11 @@ def news_slide(article: Article) -> str:
             '                                  </a>',
         ]
     )
+
+
+def featured_articles(articles: list[Article]) -> list[Article]:
+    eligible = [article for article in articles if article.slider_images or article.hero_image]
+    return eligible[:NEWS_FEATURED_SLIDE_LIMIT]
 
 
 def index_main_slide(article: Article) -> str:
@@ -634,7 +658,7 @@ def render_article_page(article: Article, source: str) -> str:
         count=1,
         flags=re.IGNORECASE | re.DOTALL,
     )
-    if article.gallery_images and "news-article__gallery" in source:
+    if "news-article__gallery" in source:
         gallery = "\n".join(
             f'                            <img src="{image}" alt="{html.escape(article.card_title, quote=True)} activity photo {index}">'
             for index, image in enumerate(article.gallery_images, start=1)
@@ -673,7 +697,7 @@ def render_index(source: str, articles: list[Article], supplied: list[Article]) 
 
 def render_news_page(source: str, articles: list[Article]) -> str:
     news_guard_view(source)
-    slides = "\n\n".join(news_slide(article) for article in articles if article.slider_images or article.hero_image)
+    slides = "\n\n".join(news_slide(article) for article in featured_articles(articles))
     source = replace_managed_region(
         source,
         NEWS_FEATURED_BEGIN,
@@ -779,6 +803,30 @@ def validate_article(article: Article) -> list[str]:
     )
     if page_title and visible_title and plain(page_title) != plain(visible_title):
         issues.append(f"{article.url}: <title> and visible article title differ")
+    actual_hero = first_match(
+        source,
+        r"<img\b[^>]*class=[\"'][^\"']*news-article__hero[^\"']*[\"'][^>]*\bsrc=[\"']([^\"']+)[\"']",
+    )
+    if actual_hero != article.hero_image:
+        issues.append(
+            f"{article.url}: article hero does not match folder preview: "
+            f"{actual_hero or 'missing'} (expected {article.hero_image or 'missing'})"
+        )
+    has_gallery = bool(
+        re.search(
+            r'<div\b[^>]*class=["\'][^"\']*news-article__gallery[^"\']*["\']',
+            source,
+            flags=re.IGNORECASE,
+        )
+    )
+    actual_gallery = gallery_srcs(source)
+    if article.gallery_images and not has_gallery:
+        issues.append(f"{article.url}: missing news-article__gallery container")
+    elif actual_gallery != article.gallery_images:
+        issues.append(
+            f"{article.url}: article gallery does not match folder photos: "
+            f"{actual_gallery or 'empty'} (expected {article.gallery_images or 'empty'})"
+        )
     return issues
 
 
@@ -808,6 +856,17 @@ def validate_pages(articles: list[Article]) -> list[str]:
         slider_end = find_matching_close(news_source, slider_start, "<div", "</div>")
         featured_block = news_source[slider_start:slider_end]
     featured_urls = re.findall(r'<a class="main-slide" href="(NEWS/[^"]+)"', featured_block)
+    expected_featured_urls = [article.url for article in featured_articles(articles)]
+    if len(featured_urls) > NEWS_FEATURED_SLIDE_LIMIT:
+        issues.append(
+            f"news.html: featured slider exceeds {NEWS_FEATURED_SLIDE_LIMIT} slides; "
+            f"found {len(featured_urls)}"
+        )
+    if featured_urls != expected_featured_urls:
+        issues.append(
+            "news.html: featured slider must contain the newest "
+            f"{len(expected_featured_urls)} eligible articles in order"
+        )
     duplicate_featured = sorted({url for url in featured_urls if featured_urls.count(url) > 1})
     for url in duplicate_featured:
         issues.append(f"news.html: duplicate featured slider article: {url}")
@@ -1071,12 +1130,55 @@ def cmd_self_test(_args: argparse.Namespace) -> int:
         if existing.read_bytes() != b"original" or created.exists():
             raise GuardrailError("self-test failed: transaction snapshot did not roll back")
 
+        article = Article(
+            folder=manifest_folder,
+            html_path=existing,
+            url="NEWS/test/test.html",
+            folder_date="June 23, 2026",
+            page_date="June 23, 2026",
+            effective_date="June 23, 2026",
+            title="Current Article Title",
+            card_title="Current Article Title",
+            kicker="TEST",
+            kicker_source="test",
+            summary="Summary",
+            hero_image="NEWS/test/FORSLIDERPREVIEW.jpg",
+            slider_images=["NEWS/test/FORSLIDERPREVIEW.jpg"],
+            main_slider_images=[],
+            gallery_images=[],
+            all_images=["NEWS/test/FORSLIDERPREVIEW.jpg"],
+        )
+        stale_article_source = """
+<html><head><title>Copied Article Title</title></head><body>
+<article class="news-article">
+<img class="news-article__hero" src="NEWS/old/FORSLIDERPREVIEW.jpg" alt="Copied Article">
+<p class="news-article__date">June 1, 2026</p>
+<h1 class="news-article__title">Current Article Title</h1>
+<div class="news-article__gallery">
+  <img src="NEWS/old/copied-photo.jpg" alt="Copied photo">
+</div>
+</article>
+</body></html>
+"""
+        rendered_article = render_article_page(article, stale_article_source)
+        if gallery_srcs(rendered_article):
+            raise GuardrailError("self-test failed: stale gallery photos were not cleared")
+        if "<title>Current Article Title</title>" not in rendered_article:
+            raise GuardrailError("self-test failed: browser title was not aligned with article title")
+        if 'src="NEWS/test/FORSLIDERPREVIEW.jpg"' not in rendered_article:
+            raise GuardrailError("self-test failed: article hero was not aligned with folder preview")
+        if len(featured_articles([article] * (NEWS_FEATURED_SLIDE_LIMIT + 1))) != NEWS_FEATURED_SLIDE_LIMIT:
+            raise GuardrailError("self-test failed: featured slider limit was not enforced")
+
     print("NEWS workflow guardrail self-test passed.")
     print("- approved NEWS-region edits were accepted")
     print("- protected homepage deletion was blocked")
     print("- duplicate structural markers were blocked")
     print("- transaction snapshot rollback was verified")
     print("- arbitrary custom kicker persistence was verified")
+    print("- stale article galleries are cleared when a folder has no gallery photos")
+    print("- browser title and hero image are aligned with article content")
+    print(f"- news featured slider is capped at {NEWS_FEATURED_SLIDE_LIMIT} newest images")
     return 0
 
 

@@ -30,6 +30,10 @@ The approved regions are explicitly enclosed by `NEWS_WORKFLOW_*_BEGIN` and `NEW
 
 News article folders live under `NEWS/<news-folder>/`. Each news folder should contain one article HTML file and image assets.
 
+For supplied folders, the workflow keeps the browser `<title>` equal to the visible article title, uses the folder's `FORSLIDERPREVIEW` as the article hero, replaces gallery entries with regular photos from that same folder, and clears stale gallery entries when no regular photos exist.
+
+The `news.html` featured image slider is limited to 50 newest eligible articles. New slides replace oldest slides. The news-card list remains uncapped.
+
 Use `scripts/news-maintenance.py` to inspect the new folder. The helper is intentionally read-only by default. It prints the article title, date, suggested summary, available preview images, existing insertion hooks, and snippets that can be copied into `index.html` and `news.html`.
 
 Asset naming conventions:
