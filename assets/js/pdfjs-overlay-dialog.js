@@ -16,6 +16,12 @@
     "docs.google.com",
     "drive.google.com"
   ]);
+  const YOUTUBE_HOSTS = new Set([
+    "youtube.com",
+    "www.youtube.com",
+    "m.youtube.com",
+    "youtu.be"
+  ]);
 
   let lastTrigger = null;
 
@@ -142,6 +148,33 @@
     return "";
   }
 
+  function getYouTubeEmbedUrl(linkUrl) {
+    const host = linkUrl.hostname.toLowerCase();
+    if (!YOUTUBE_HOSTS.has(host)) {
+      return "";
+    }
+
+    let videoId = "";
+    if (host === "youtu.be") {
+      videoId = linkUrl.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (linkUrl.pathname === "/watch") {
+      videoId = linkUrl.searchParams.get("v") || "";
+    } else {
+      const embedMatch = linkUrl.pathname.match(/^\/(?:embed|shorts)\/([^/?#]+)/);
+      videoId = embedMatch ? embedMatch[1] : "";
+    }
+
+    if (!/^[A-Za-z0-9_-]{6,}$/.test(videoId)) {
+      return "";
+    }
+
+    const embedUrl = new URL("https://www.youtube.com/embed/" + videoId);
+    embedUrl.searchParams.set("autoplay", "1");
+    embedUrl.searchParams.set("rel", "0");
+    embedUrl.searchParams.set("playsinline", "1");
+    return embedUrl.href;
+  }
+
   function getOverlayTarget(linkUrl) {
     const viewerUrl = buildViewerUrl(linkUrl);
     const pdfUrl = getPdfUrl(linkUrl);
@@ -160,6 +193,16 @@
         viewerUrl: googleEmbedUrl,
         resourceUrl: linkUrl.href,
         fallbackTitle: "Document Preview",
+        canDownload: false
+      };
+    }
+
+    const youtubeEmbedUrl = getYouTubeEmbedUrl(linkUrl);
+    if (youtubeEmbedUrl) {
+      return {
+        viewerUrl: youtubeEmbedUrl,
+        resourceUrl: linkUrl.href,
+        fallbackTitle: "Video Preview",
         canDownload: false
       };
     }
@@ -222,10 +265,10 @@
           <div class="pdfjs-overlay-actions">
             <a class="pdfjs-overlay-action pdfjs-overlay-open" href="#" target="_blank" rel="noopener">Open</a>
             <a class="pdfjs-overlay-action pdfjs-overlay-download" href="#" download>Download</a>
-            <button class="pdfjs-overlay-action pdfjs-overlay-close" type="button" aria-label="Close PDF preview">x</button>
+            <button class="pdfjs-overlay-action pdfjs-overlay-close" type="button" aria-label="Close preview">x</button>
           </div>
         </div>
-        <iframe class="pdfjs-overlay-frame" title="Document preview"></iframe>
+        <iframe class="pdfjs-overlay-frame" title="Document preview" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; clipboard-write" allowfullscreen></iframe>
       </section>
     `;
 
