@@ -310,7 +310,7 @@
         --gad-border: #cbd5e1;
         --gad-card: rgba(255, 255, 255, 0.94);
         --gad-text-size: 16px;
-        width: min(1080px, calc(100% - 32px));
+        width: min(1200px, calc(100% - 32px));
         margin: 0 auto;
         padding: 48px 0 54px;
       }
@@ -320,6 +320,7 @@
         border: 1px solid var(--gad-border);
         border-left: 7px solid var(--gad-gold);
         border-radius: 8px;
+        box-sizing: border-box;
         box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
         margin: 0 auto 28px;
         padding: clamp(22px, 3vw, 34px);
@@ -339,6 +340,7 @@
         border: 1px solid var(--gad-gold);
         color: var(--gad-blue);
         font-weight: 800;
+        justify-self: start;
         letter-spacing: 0.08em;
         line-height: 1;
         margin-bottom: 12px;
@@ -379,9 +381,38 @@
 
       .gad-hero-card {
         display: grid;
-        grid-template-columns: minmax(260px, 42%) 1fr;
-        gap: clamp(24px, 4vw, 44px);
-        align-items: center;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: clamp(26px, 2.5vw, 34px);
+      }
+
+      .gad-hero-image {
+        width: 100%;
+        height: clamp(220px, 20vw, 270px);
+        object-fit: cover;
+        object-position: center;
+        margin: 8px 0 24px;
+      }
+
+      .gad-hero-copy {
+        display: grid;
+        grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
+        gap: clamp(28px, 4vw, 52px);
+        align-items: start;
+      }
+
+      .gad-hero-copy h1 {
+        font-size: clamp(36px, 4.1vw, 58px);
+        line-height: 1.04;
+        margin-bottom: 0;
+      }
+
+      .gad-hero-text {
+        padding-top: 10px;
+      }
+
+      .gad-hero-text .gad-body-text {
+        margin: 0 0 8px;
       }
 
       .gad-resource-grid {
@@ -531,6 +562,14 @@
 
         .gad-hero-card {
           grid-template-columns: 1fr;
+        }
+
+        .gad-hero-copy {
+          grid-template-columns: 1fr;
+        }
+
+        .gad-hero-image {
+          height: clamp(180px, 46vw, 240px);
         }
 
         .gad-card {
@@ -1444,14 +1483,45 @@
 
                       <div class="gad-modern-content">
                         <article class="gad-card gad-hero-card">
-                          <div>
-                            <img class="gad-feature-image" src="gad/images/gad.jpg" alt="Gender and Development logo">
-                          </div>
-                          <div>
-                            <span class="gad-eyebrow">GAD Corner</span>
+                          <span class="gad-eyebrow">GAD Corner</span>
+                          <img class="gad-feature-image gad-hero-image" src="gad/images/gad.png" alt="Gender and Development logo">
+                          <div class="gad-hero-copy">
                             <h1>Gender and Development Corner</h1>
-                            <p class="gad-body-text">Republic Act No. 7192, also known as the Women in Development and Nation Building Act, recognizes the role of women in nation-building and promotes the fundamental equality of women and men before the law.</p>
-                            <p class="gad-body-text">Gender and Development, or GAD, is a development perspective that identifies and removes gender biases that prevent people from attaining their full potential. It supports inclusive planning, equal participation, protection from discrimination and violence, and responsive public service for every community.</p>
+                            <div class="gad-hero-text">
+                              <p class="gad-body-text">Republic Act No. 7192, also known as the Women in Development and Nation Building Act, recognizes the role of women in nation-building and promotes the fundamental equality of women and men before the law.</p>
+                              <p class="gad-body-text">Gender and Development, or GAD, is a development perspective that identifies and removes gender biases that prevent people from attaining their full potential. It supports inclusive planning, equal participation, protection from discrimination and violence, and responsive public service for every community.</p>
+                            </div>
+                          </div>
+                        </article>
+
+                        <article class="gad-card" id="gad-brochure">
+                          <h2>GAD Brochure</h2>
+                          <div class="gad-resource-grid">
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-8353-Anti-rape-Law-Filipino-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 8353 Anti Rape Law Filipino 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-9262-Anti-VAWC-Act-English-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Anti VAWC Act English 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-RA-9262-Labanan-ang-Karahasan-2020.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Labanan ang Karahasan 2020</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-Republic-Act-7877-Anti-Sexual-Harassment-Act-of-1995-Filipino-2024.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure Republic Act 7877 Anti Sexual-Harassment Act of 1995 Filipino 2024</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
+                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/Your-Anti-VAWC-Legal-Rights.pdf">
+                              <span class="gad-resource-check">&#10003;</span>
+                              <span class="gad-resource-title">PCW Brochure Your Anti-VAWC Legal Rights</span>
+                              <span class="gad-resource-action">Preview</span>
+                            </a>
                           </div>
                         </article>
 
@@ -1491,37 +1561,6 @@
                             <a class="gad-resource-card" href="https://drive.google.com/file/d/1rJ2v8JMIvSQxi5sxlOoTd0RH0hzqZnOq/view?usp=sharing%20">
                               <span class="gad-resource-check">&#10003;</span>
                               <span class="gad-resource-title">Amendments to PCW-DILG-DBM-NEDA JMC No. 2013-01: Guidelines on the Localization of the Magna Carta of Women</span>
-                              <span class="gad-resource-action">Preview</span>
-                            </a>
-                          </div>
-                        </article>
-
-                        <article class="gad-card" id="gad-brochure">
-                          <h2>GAD Brochure</h2>
-                          <div class="gad-resource-grid">
-                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-8353-Anti-rape-Law-Filipino-2024.pdf">
-                              <span class="gad-resource-check">&#10003;</span>
-                              <span class="gad-resource-title">PCW Brochure R.A. 8353 Anti Rape Law Filipino 2024</span>
-                              <span class="gad-resource-action">Preview</span>
-                            </a>
-                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-R.A-9262-Anti-VAWC-Act-English-2024.pdf">
-                              <span class="gad-resource-check">&#10003;</span>
-                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Anti VAWC Act English 2024</span>
-                              <span class="gad-resource-action">Preview</span>
-                            </a>
-                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-RA-9262-Labanan-ang-Karahasan-2020.pdf">
-                              <span class="gad-resource-check">&#10003;</span>
-                              <span class="gad-resource-title">PCW Brochure R.A. 9262 Labanan ang Karahasan 2020</span>
-                              <span class="gad-resource-action">Preview</span>
-                            </a>
-                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/PCW-Brochure-Republic-Act-7877-Anti-Sexual-Harassment-Act-of-1995-Filipino-2024.pdf">
-                              <span class="gad-resource-check">&#10003;</span>
-                              <span class="gad-resource-title">PCW Brochure Republic Act 7877 Anti Sexual-Harassment Act of 1995 Filipino 2024</span>
-                              <span class="gad-resource-action">Preview</span>
-                            </a>
-                            <a class="gad-resource-card" href="https://cebuprovincedilg.duckdns.org/assets/GAD-Brochure/Your-Anti-VAWC-Legal-Rights.pdf">
-                              <span class="gad-resource-check">&#10003;</span>
-                              <span class="gad-resource-title">PCW Brochure Your Anti-VAWC Legal Rights</span>
                               <span class="gad-resource-action">Preview</span>
                             </a>
                           </div>
@@ -1842,6 +1881,7 @@
               async src="//gc.zgo.at/count.js"></script>
       <script src="assets/js/goatcounter-stats.js" defer></script>
       <script src="assets/js/citizens-charter-dialog.js" defer></script>
+      <script src="assets/js/pdfjs-overlay-dialog.js" defer></script>
       <script src="assets/js/search-index.js" defer></script>
       <script src="assets/js/site-search.js" defer></script>
 </body>
