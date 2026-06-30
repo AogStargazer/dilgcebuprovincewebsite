@@ -9,8 +9,8 @@
   const VIEWER_URL = new URL("../pdfjs/web/viewer.html", SCRIPT_URL);
   const VIEWER_MARKER = "assets/pdfjs/web/viewer.html";
   const SITE_HOSTS = new Set([
-    "cebuprovincedilg.duckdns.org",
-    "www.cebuprovincedilg.duckdns.org"
+    "cebuprovincedilgregion7.info",
+    "www.cebuprovincedilgregion7.info"
   ]);
   const GOOGLE_HOSTS = new Set([
     "docs.google.com",
