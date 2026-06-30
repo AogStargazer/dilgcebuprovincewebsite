@@ -173,11 +173,11 @@ img {
 }
 
 .main-header .main-navigation .dropdown-menu {
-    z-index: 2147483601;
+    z-index: 2147483646;
 }
 
 .main-header .main-navigation .dropdown-menu .dropdown-menu {
-    z-index: 2147483602;
+    z-index: 2147483647;
 }
 
 .citizens-charter-button {
@@ -523,6 +523,11 @@ img {
     white-space: nowrap; /* Prevent text wrapping */
 }
 
+.main-menu > li.has-dropdown:hover,
+.main-menu > li.has-dropdown:focus-within {
+    z-index: 2147483645;
+}
+
 .main-menu > li > a {
     display: block;
     padding: 4px 4px;
@@ -571,7 +576,7 @@ img {
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 2147483646;
     list-style: none;
 }
 
@@ -587,7 +592,7 @@ img {
     visibility: visible;
     transform: translateY(0);
     transition-delay: 0.05s;
-    z-index: 110;
+    z-index: 2147483647;
 }
 
 .dropdown-menu li {
@@ -619,7 +624,7 @@ img {
     border-radius: 4px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     border-left: 3px solid #000000;
-    z-index: 110;
+    z-index: 2147483647;
 }
 
 /* Custom scrollbar for nested dropdowns */

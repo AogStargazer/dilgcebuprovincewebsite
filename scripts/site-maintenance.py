@@ -32,6 +32,17 @@ DEFAULT_EXCLUDED_DIR_PARTS = {
     "wp-content",
     "wp-includes",
 }
+NAV_LAYER_RULES = [
+    ("styles.css", ".main-menu > li.has-dropdown:hover", "z-index", 2147483604),
+    ("styles.css", ".main-header .main-navigation .dropdown-menu", "z-index", 2147483604),
+    ("styles.css", ".main-header .main-navigation .dropdown-menu .dropdown-menu", "z-index", 2147483604),
+    ("menu.css", ".dropdown-menu", "z-index", 2147483604),
+    ("menu.css", ".drop-right-menu", "z-index", 2147483604),
+]
+NAV_LAYER_FORBIDDEN_SELECTORS = [
+    ".main-navigation:hover",
+    ".main-navigation:focus-within",
+]
 
 
 def load_script(name: str, filename: str) -> ModuleType:
@@ -293,6 +304,70 @@ def cmd_git_diff_check(_args: argparse.Namespace) -> int:
     return result.returncode
 
 
+def css_block(source: str, selector: str) -> str | None:
+    for match in re.finditer(r"(?P<selectors>[^{}]+)\{(?P<body>[^{}]*)\}", source, re.MULTILINE):
+        selector_source = re.sub(r"/\*.*?\*/", "", match.group("selectors"), flags=re.DOTALL)
+        selectors = [value.strip() for value in selector_source.split(",")]
+        if selector in selectors:
+            return match.group("body")
+    return None
+
+
+def css_property_value(block: str, property_name: str) -> str | None:
+    pattern = re.compile(rf"{re.escape(property_name)}\s*:\s*([^;]+);")
+    match = pattern.search(block)
+    return match.group(1).strip() if match else None
+
+
+def css_int_value(block: str, property_name: str) -> int | None:
+    value = css_property_value(block, property_name)
+    if value is None:
+        return None
+    match = re.search(r"-?\d+", value)
+    return int(match.group(0)) if match else None
+
+
+def selector_sets_z_index(source: str, selector: str) -> bool:
+    block = css_block(source, selector)
+    return block is not None and css_property_value(block, "z-index") is not None
+
+
+def cmd_nav_layer_check(_args: argparse.Namespace) -> int:
+    issues: list[str] = []
+    styles_source = (ROOT / "styles.css").read_text(encoding="utf-8-sig")
+
+    for selector in NAV_LAYER_FORBIDDEN_SELECTORS:
+        if selector_sets_z_index(styles_source, selector):
+            issues.append(
+                f"styles.css: do not put z-index on {selector}; it lifts the whole nav over header icons."
+            )
+
+    for file_name, selector, property_name, minimum in NAV_LAYER_RULES:
+        path = ROOT / file_name
+        source = path.read_text(encoding="utf-8-sig")
+        block = css_block(source, selector)
+        if block is None:
+            issues.append(f"{file_name}: missing navigation layer guard selector: {selector}")
+            continue
+        value = css_int_value(block, property_name)
+        if value is None:
+            issues.append(f"{file_name}: {selector} must define {property_name}.")
+            continue
+        if value <= minimum:
+            issues.append(
+                f"{file_name}: {selector} {property_name} must stay above header icons/widgets."
+            )
+
+    if issues:
+        print("Navigation layer guard found issues:")
+        for issue in issues:
+            print(f"- {issue}")
+        return 1
+
+    print("Navigation layer guard passed.")
+    return 0
+
+
 def cmd_hygiene(args: argparse.Namespace) -> int:
     status = 0
     print("Hygiene: fixing fancy text...")
@@ -321,6 +396,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     text_status = cmd_text_check(argparse.Namespace(paths=args.paths, quiet=True))
     whitespace_status = cmd_whitespace_check(argparse.Namespace(paths=args.paths, quiet=True, limit=20))
     search_status = cmd_search_rebuild(argparse.Namespace(check=True))
+    nav_layer_status = cmd_nav_layer_check(argparse.Namespace())
     git_status = cmd_git_diff_check(argparse.Namespace()) if getattr(args, "include_git", False) else 0
 
     if text_status:
@@ -334,7 +410,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         print("Doctor: whitespace check passed.")
 
     print("Doctor: search index can be rebuilt.")
-    return 1 if text_status or whitespace_status or search_status or git_status else 0
+    return 1 if text_status or whitespace_status or search_status or nav_layer_status or git_status else 0
 
 
 def build_parser() -> argparse.ArgumentParser:

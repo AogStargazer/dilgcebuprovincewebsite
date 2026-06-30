@@ -150,9 +150,9 @@ python scripts/site-maintenance.py cache clean
 git status --short
 ```
 
-`doctor --git` runs text checks, whitespace checks, search index scan, and
-`git diff --check`. Git may print LF/CRLF warnings on Windows. Treat them as
-line-ending warnings unless the command exits nonzero.
+`doctor --git` runs text checks, whitespace checks, search index scan, the
+navigation layer guard, and `git diff --check`. Git may print LF/CRLF warnings
+on Windows. Treat them as line-ending warnings unless the command exits nonzero.
 
 ## Script Reference
 
@@ -304,6 +304,11 @@ Prefer `doctor --git` for verification. Use `hygiene --git` only when you want
 the script to actively fix text, whitespace, rebuild search, clean cache, and
 then run checks.
 
+`doctor` also checks the top-menu layer guard. Dropdown layers must stay above
+header widgets, but Citizen's Charter and search icons must keep their original
+position. Do not raise the whole `.main-navigation` stack on hover/focus; raise
+only the active dropdown branch.
+
 ### `build-search-index.py`
 
 Lower-level generator used by `site-maintenance.py search rebuild`.
@@ -383,6 +388,13 @@ Do not manually edit `.pyc` files.
 - Do not rewrite whole pages for menu, footer, search, or NEWS changes.
 - Do not hand-edit generated search indexes unless debugging.
 - Do not bypass NEWS workflow markers.
+- For top-menu z-index fixes, do not move or resize Citizen's Charter/search
+  icons unless the user explicitly asks. Read `styles.css` and `menu.css`
+  first, then keep the change scoped to dropdown layering.
+- Do not add z-index to `.main-navigation:hover` or
+  `.main-navigation:focus-within`; that dislocates/overlaps the header icons.
+  Promote only `.main-menu > li.has-dropdown:hover` /
+  `.main-menu > li.has-dropdown:focus-within` or the dropdown menu itself.
 - Preserve existing classes, indentation style, lazy-loading attributes, and
   `data-news-photo-slider` behavior when touching NEWS cards.
 - After broad HTML edits, rebuild search and run doctor.

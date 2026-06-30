@@ -41,7 +41,7 @@ body {
   background: white;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-  z-index: 120;
+  z-index: 2147483647;
   list-style: none;
   padding: 0;
 }
@@ -53,7 +53,7 @@ body {
 /* Base styles for dropdown menus */
 .dropdown-menu {
   position: absolute;
-  z-index: 1000;
+  z-index: 2147483646;
   background: white;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
@@ -83,11 +83,11 @@ body {
 
 /* Improved styling for deeper nested menus (3+ levels) */
 .drop-right-menu .drop-right-menu {
-  z-index: 130; /* Increase z-index for deeper levels to ensure proper stacking */
+  z-index: 2147483647; /* Keep deeper levels above site overlays */
 }
 
 .drop-right-menu .drop-right-menu .drop-right-menu {
-  z-index: 140; /* Further increase for even deeper levels */
+  z-index: 2147483647; /* Keep deeper levels above site overlays */
 }
 
 /* Positioning for standard drop-right menus */
