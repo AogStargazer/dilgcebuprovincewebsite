@@ -25,20 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         // Initialize ImageManager
         ImageManager.init();
-        
+
         // Build full URLs for all images that need to be preloaded
         const imagesToPreload = [];
-        
+
         // Add daytime image URLs for both root and main pages
         imagesToPreload.push(ROOT_IMAGES_PATH + DAYTIME_IMAGE);
         imagesToPreload.push(MAIN_IMAGES_PATH + DAYTIME_IMAGE);
-        
+
         // Add nighttime image URLs for both root and main pages
         NIGHTTIME_IMAGES.forEach(nightImage => {
             imagesToPreload.push(ROOT_IMAGES_PATH + nightImage);
             imagesToPreload.push(MAIN_IMAGES_PATH + nightImage);
         });
-        
+
         // Preload all images, then update background
         ImageManager.preload(imagesToPreload)
             .then(loadedImages => {
@@ -89,7 +89,7 @@ function isDaytime() {
  */
 function updateBackgroundBasedOnTime() {
     const isDaytimeNow = isDaytime();
-    
+
     // Find all elements that need background updates
     document.querySelectorAll('.root-page, .main-page').forEach(element => {
         // Determine which base path to use based on the element's class
@@ -106,16 +106,16 @@ function updateBackgroundBasedOnTime() {
         // Select the appropriate image based on time of day
         const imageFile = isDaytimeNow ? DAYTIME_IMAGE : NIGHTTIME_IMAGES[Math.floor(Math.random() * NIGHTTIME_IMAGES.length)];
         const fullImagePath = imagePath + imageFile;
-        
+
         try {
             // Get current cache stats for diagnostics
             const currentCacheStats = ImageManager.getCacheStats();
-            
+
             // Check if image is available in ImageManager cache by checking URLs in cache stats
-            const imageInCache = currentCacheStats.urls.some(url => 
+            const imageInCache = currentCacheStats.urls.some(url =>
                 url.includes(imageFile) || url.endsWith(fullImagePath)
             );
-            
+
             if (imageInCache) {
                 // Use the cached image
                 element.style.backgroundImage = `url('${fullImagePath}')`;
@@ -123,7 +123,7 @@ function updateBackgroundBasedOnTime() {
                 // Fallback to direct path if image not found in cache
                 element.style.backgroundImage = `url('${fullImagePath}')`;
                 console.warn('Image not found in cache, using direct path:', fullImagePath);
-                
+
                 // Add error handling for background images
                 const tempImg = new Image();
                 tempImg.addEventListener('error', () => {

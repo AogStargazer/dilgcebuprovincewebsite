@@ -1,4 +1,4 @@
-/* 
+/*
  * DILG Cebu Province Website
  * Dynamic Drop-right Submenu Styles
  */
@@ -6,7 +6,7 @@
 /* Prevent horizontal scrolling when submenus expand */
 body {
   overflow-x: hidden;
-  
+
   /* Ensure submenus can be accessed via keyboard navigation */
   .has-dropdown:focus-within > .dropdown-menu,
   .has-dropright:focus-within > .dropdown-menu,
@@ -185,12 +185,12 @@ body {
     border: none;
     background-color: transparent;
   }
-  
+
   .has-dropright.drop-left > .dropdown-menu {
     right: auto;
     left: auto;
   }
-  
+
   /* Mobile adjustments for drop-right menus */
   .drop-right-menu {
     position: static;
@@ -201,20 +201,20 @@ body {
     width: 100%;
     background-color: transparent;
   }
-  
+
   /* Improved indentation for nested mobile menus */
   .drop-right-menu .drop-right-menu {
     margin-left: 1.5rem;
   }
-  
+
   .drop-right-menu .drop-right-menu .drop-right-menu {
     margin-left: 2rem;
   }
-  
+
   .has-drop-right:hover .drop-right-menu {
     display: block;
   }
-  
+
   /* Mobile accordion style for top-menu dropdowns using pure CSS */
   .main-navigation .main-menu .has-dropdown > .dropdown-menu {
     display: none;
@@ -232,14 +232,14 @@ body {
   .main-navigation .main-menu .has-dropdown:focus-within > a::after {
     transform: rotate(90deg);
   }
-  
+
   /* Support for tap-to-expand on mobile */
   .main-navigation .main-menu .has-dropdown > a,
   .has-dropright > a,
   .has-drop-right > a {
     position: relative;
   }
-  
+
   /* Add a larger tap area for mobile navigation */
   .main-navigation .main-menu .has-dropdown > a::before,
   .has-dropright > a::before,

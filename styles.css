@@ -27,7 +27,7 @@
     .root-page {
         background-image: url('./images/Cebu_Capitol_Compound_Night.png');
     }
-    
+
     .main-page {
         background-image: url('images/Cebu_Capitol_Compound_Night.png');
     }
@@ -122,15 +122,15 @@ img {
     .container {
         padding: 1rem;
     }
-    
+
     .coming-soon {
         font-size: 2rem;
     }
-    
+
     .image-row {
         gap: 15px;
     }
-    
+
     .image-row img {
         max-width: 120px;
     }
@@ -140,21 +140,21 @@ img {
     .coming-soon {
         font-size: 1.5rem;
     }
-    
+
     .logo-container {
         flex-direction: column;
         gap: 10px;
         margin-bottom: 1rem;
     }
-    
+
     img {
         max-width: 30%;
     }
-    
+
     .image-row {
         gap: 10px;
     }
-    
+
     .image-row img {
         max-width: 100px;
     }
@@ -653,10 +653,10 @@ a[href="index.html?p=1853.html"] {
 }
 
 /* More specific selectors for PANGATUNGDANAN in navigation menus */
-.main-navigation a[href="index.html?p=1853.html"], 
+.main-navigation a[href="index.html?p=1853.html"],
 .footer-navigation a[href="index.html?p=1853.html"] {
     font-size: 20px !important;
-    font-weight: bold !important; 
+    font-weight: bold !important;
 }
 
 /* Responsive adjustment for PANGATUNGDANAN menu item */
@@ -717,16 +717,16 @@ a[href="index.html?p=1853.html"] {
     body {
         padding-top: 60px;
     }
-    
+
     .main-navigation {
         padding: 10px;
     }
-    
+
     .nav-logo img,
     .nav-logo video {
         max-width: none;
     }
-    
+
     .mobile-menu-toggle {
         display: flex;
         position: absolute;
@@ -734,7 +734,7 @@ a[href="index.html?p=1853.html"] {
         right: 20px;
         z-index: 1002;
     }
-    
+
     .nav-menu {
         position: fixed;
         top: 60px;
@@ -747,32 +747,32 @@ a[href="index.html?p=1853.html"] {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         z-index: 1001;
     }
-    
+
     .nav-menu.active {
         height: calc(100vh - 60px);
         overflow-y: auto;
     }
-    
+
     .main-menu {
         flex-direction: column;
         padding: 20px;
         justify-content: center;
         align-items: center;
     }
-    
+
     .main-menu > li {
         margin: 0;
         /* border-bottom: 1px solid #f0f0f0; */
     }
-    
+
     .dropdown-menu li {
         border-bottom: none;
     }
-    
+
     .main-menu > li > a {
         padding: 15px 0;
     }
-    
+
     /* Center main menu links on mobile */
     .main-navigation .main-menu {
         justify-content: center;
@@ -820,20 +820,20 @@ a[href="index.html?p=1853.html"] {
         box-shadow: none;
     }
 
-    
+
     /* Center dropdown containers and items on mobile */
     .main-navigation .dropdown-menu {
         text-align: center;
         width: 100%;
     }
-    
+
     /* Reset left padding and make links full width */
     .main-navigation .dropdown-menu a {
         display: block;
         width: 100%;
         padding-left: 0;
     }
-    
+
     .dropdown-menu {
         position: static;
         opacity: 1;
@@ -845,33 +845,33 @@ a[href="index.html?p=1853.html"] {
         transition: max-height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         border-radius: 0;
     }
-    
+
     .has-dropdown.open .dropdown-menu {
         max-height: 500px;
         overflow-y: auto;
         /* Removed border-left and background color to eliminate unnecessary lines */
         background-color: transparent;
     }
-    
+
     .has-dropdown.open > a .dropdown-indicator,
     .has-dropdown.open > a::after {
         transform: rotate(180deg);
         opacity: 1;
         color: #000000;
     }
-    
+
     .dropdown-menu a {
         padding-left: 30px;
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(1) {
         transform: translateY(9px) rotate(45deg);
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(2) {
         opacity: 0;
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(3) {
         transform: translateY(-9px) rotate(-45deg);
     }
@@ -1063,13 +1063,13 @@ a[href="index.html?p=1853.html"] {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .footer-navigation .main-menu > li {
         margin: 5px 0;
         width: 100%;
         text-align: center;
     }
-    
+
     .footer-navigation .dropdown-menu {
         position: static;
         opacity: 1;
@@ -1081,20 +1081,20 @@ a[href="index.html?p=1853.html"] {
         transition: max-height 0.3s ease;
         width: 100%;
     }
-    
+
     .footer-navigation .has-dropdown.open .dropdown-menu {
         max-height: 500px;
         overflow-y: auto;
     }
-    
+
     .footer-navigation .dropdown-menu a {
         padding-left: 30px;
     }
-    
+
     .jupiterx-footer-widgets .row {
         flex-direction: column;
     }
-    
+
     .jupiterx-footer-widgets .col-md-3 {
         width: 100%;
         margin-bottom: 20px;
@@ -1124,7 +1124,7 @@ a[href="index.html?p=1853.html"] {
     }
 }
 
-/* 
+/*
  * NEW RULES: Top Main Menu Grid Layout & Footer Menu Grid Layout
  * These rules keep the top main menu compact and centered on desktop screens (min-width: 769px).
  * The footer menu keeps its separate flex layout.
@@ -1297,7 +1297,7 @@ a[href="index.html?p=1853.html"] {
         border-bottom-width: 6px;
         border-left-width: 9px;
     }
-    
+
     .pagination-dot {
         width: 8px;
         height: 8px;
@@ -1479,7 +1479,7 @@ a[href="index.html?p=1853.html"] {
 }
 
 /* -------------------- Organizational Chart Image Styles -------------------- */
-/* 
+/*
  * This class provides consistent sizing for organizational chart images
  * Apply this class to all <img> tags within the organizational chart section
  * to ensure uniform dimensions and appearance across the chart
@@ -1570,7 +1570,7 @@ a[href="index.html?p=1853.html"] {
 }
 
 /* -------------------- MAP IMAGE -------------------- */
-/* 
+/*
  * This class provides consistent sizing for organizational chart images
  * Apply this class to all <img> tags within the organizational chart section
  * to ensure uniform dimensions and appearance across the chart

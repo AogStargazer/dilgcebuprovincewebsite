@@ -47,14 +47,14 @@ const CACHE_STRATEGIES = {
 // Install event - pre-cache critical images
 self.addEventListener('install', event => {
     console.log('Service Worker: Installing...');
-    
+
     // Check if precaching should be skipped
     if (config.cache.skipPrecache) {
         console.log('Service Worker: Skipping precache as configured');
         event.waitUntil(self.skipWaiting());
         return;
     }
-    
+
     event.waitUntil(
         caches.open(CACHE_CONFIG.CRITICAL)
             .then(cache => {
@@ -74,7 +74,7 @@ self.addEventListener('install', event => {
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
     console.log('Service Worker: Activating...');
-    
+
     event.waitUntil(
         caches.keys()
             .then(cacheNames => {
@@ -124,12 +124,12 @@ function getNetworkInfo() {
 async function adaptiveImageFetch(request) {
     const networkInfo = getNetworkInfo();
     const timeout = CACHE_STRATEGIES.NETWORK_TIMEOUT[networkInfo.effectiveType] || CACHE_STRATEGIES.NETWORK_TIMEOUT.default;
-    
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
-    
+
     try {
-        const response = await fetch(request, { 
+        const response = await fetch(request, {
             signal: controller.signal,
             cache: 'default'
         });
@@ -143,23 +143,23 @@ async function adaptiveImageFetch(request) {
 
 async function staleWhileRevalidate(request) {
     const url = request.url;
-    
+
     // Try to get from dynamic cache first
     const dynamicCache = await caches.open(CACHE_CONFIG.DYNAMIC);
     const cachedResponse = await dynamicCache.match(request);
-    
+
     if (cachedResponse) {
         const cacheDate = new Date(cachedResponse.headers.get('sw-cached-date') || 0);
         const isStale = Date.now() - cacheDate.getTime() > CACHE_STRATEGIES.STALE_WHILE_REVALIDATE_AGE_MS;
-        
+
         if (!isStale) {
             console.log('Service Worker: Serving fresh from cache:', url);
             return cachedResponse;
         }
-        
+
         // Serve stale content immediately, then update in background
         console.log('Service Worker: Serving stale from cache, updating in background:', url);
-        
+
         // Background update
         retryWithBackoff(async () => {
             const networkResponse = await adaptiveImageFetch(request);
@@ -169,10 +169,10 @@ async function staleWhileRevalidate(request) {
         }, CACHE_STRATEGIES.RETRY_CONFIG).catch(error => {
             console.warn('Service Worker: Background update failed:', url, error);
         });
-        
+
         return cachedResponse;
     }
-    
+
     // Not in cache, fetch from network
     const networkResponse = await adaptiveImageFetch(request);
     if (networkResponse.ok) {
@@ -191,7 +191,7 @@ async function updateCacheWithLRU(cache, request, response) {
             'sw-cached-date': new Date().toISOString()
         }
     });
-    
+
     // Check cache size and evict if necessary
     const keys = await cache.keys();
     if (keys.length >= CACHE_STRATEGIES.MAX_DYNAMIC_SIZE) {
@@ -199,7 +199,7 @@ async function updateCacheWithLRU(cache, request, response) {
         const entriesToRemove = keys.slice(0, Math.floor(CACHE_STRATEGIES.MAX_DYNAMIC_SIZE * 0.1));
         await Promise.all(entriesToRemove.map(key => cache.delete(key)));
     }
-    
+
     await cache.put(request, responseWithTimestamp);
 }
 
@@ -211,7 +211,7 @@ async function getUltimateFallback(url) {
     if (errorResponse) {
         return errorResponse;
     }
-    
+
     // Try fallback cache
     const fallbackCache = await caches.open(CACHE_CONFIG.FALLBACK);
     const placeholderImagePath = config.getImagePath ? config.getImagePath('placeholder.svg') : 'images/placeholder.svg';
@@ -219,7 +219,7 @@ async function getUltimateFallback(url) {
     if (fallbackResponse) {
         return fallbackResponse;
     }
-    
+
     // Generate contextual fallback
     return generateContextualFallback(url);
 }
@@ -229,7 +229,7 @@ function generateContextualFallback(url) {
     let context = 'image';
     let color = '#f0f0f0';
     let textColor = '#999';
-    
+
     if (url.includes('mainpagealbum') || url.includes('slider')) {
         context = 'gallery';
         color = '#e8f4f8';
@@ -243,7 +243,7 @@ function generateContextualFallback(url) {
         color = '#fafafa';
         textColor = '#ccc';
     }
-    
+
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
         <rect width="400" height="300" fill="${color}" stroke="#ddd" stroke-width="2"/>
         <circle cx="200" cy="120" r="30" fill="${textColor}" opacity="0.3"/>
@@ -255,7 +255,7 @@ function generateContextualFallback(url) {
             Check your connection
         </text>
     </svg>`;
-    
+
     return new Response(svg, {
         headers: {
             'Content-Type': 'image/svg+xml',
@@ -266,33 +266,33 @@ function generateContextualFallback(url) {
 
 async function retryWithBackoff(operation, config = CACHE_STRATEGIES.RETRY_CONFIG) {
     let lastError;
-    
+
     for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
         try {
             return await operation();
         } catch (error) {
             lastError = error;
-            
+
             if (attempt === config.maxRetries) {
                 break;
             }
-            
+
             // Exponential backoff with jitter
             const delay = Math.min(
                 config.baseDelay * Math.pow(2, attempt) * (0.8 + Math.random() * 0.4),
                 config.maxDelay
             );
-            
+
             await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
-    
+
     throw lastError;
 }
 
 async function handleImageRequest(request) {
     const url = request.url;
-    
+
     try {
         return await retryWithBackoff(async () => {
             return await staleWhileRevalidate(request);
@@ -307,15 +307,15 @@ async function warmCacheProactively(urls) {
     if (!Array.isArray(urls)) {
         urls = [urls];
     }
-    
+
     const dynamicCache = await caches.open(CACHE_CONFIG.DYNAMIC);
     const results = [];
-    
+
     for (const url of urls) {
         try {
             const request = new Request(url);
             const cachedResponse = await dynamicCache.match(request);
-            
+
             if (!cachedResponse) {
                 const response = await adaptiveImageFetch(request);
                 if (response.ok) {
@@ -331,7 +331,7 @@ async function warmCacheProactively(urls) {
             results.push({ url, status: 'error', error: error.message });
         }
     }
-    
+
     return results;
 }
 
@@ -341,7 +341,7 @@ async function performHealthCheck() {
         caches: {},
         network: getNetworkInfo()
     };
-    
+
     // Check each cache
     for (const [name, cacheName] of Object.entries(CACHE_CONFIG)) {
         try {
@@ -359,7 +359,7 @@ async function performHealthCheck() {
             };
         }
     }
-    
+
     return health;
 }
 
@@ -367,14 +367,14 @@ async function cleanupExpiredEntries() {
     const dynamicCache = await caches.open(CACHE_CONFIG.DYNAMIC);
     const keys = await dynamicCache.keys();
     let cleanedCount = 0;
-    
+
     for (const request of keys) {
         try {
             const response = await dynamicCache.match(request);
             if (response) {
                 const cacheDate = new Date(response.headers.get('sw-cached-date') || 0);
                 const isExpired = Date.now() - cacheDate.getTime() > CACHE_STRATEGIES.MAX_AGE_MS;
-                
+
                 if (isExpired) {
                     await dynamicCache.delete(request);
                     cleanedCount++;
@@ -384,18 +384,18 @@ async function cleanupExpiredEntries() {
             console.warn('Service Worker: Error during cleanup:', error);
         }
     }
-    
+
     console.log(`Service Worker: Cleaned up ${cleanedCount} expired entries`);
     return cleanedCount;
 }
 
 async function performMaintenance() {
     console.log('Service Worker: Performing scheduled maintenance');
-    
+
     try {
         const cleanedCount = await cleanupExpiredEntries();
         const healthCheck = await performHealthCheck();
-        
+
         // Broadcast maintenance results to clients
         const clients = await self.clients.matchAll();
         clients.forEach(client => {
@@ -407,7 +407,7 @@ async function performMaintenance() {
                 }
             });
         });
-        
+
     } catch (error) {
         console.error('Service Worker: Maintenance failed:', error);
     }
@@ -426,21 +426,21 @@ self.addEventListener('message', event => {
         self.skipWaiting();
         return;
     }
-    
+
     if (data.type === 'GET_CACHE_STATS' && replyPort) {
         getCacheStats().then(stats => {
             replyPort.postMessage(stats);
         });
         return;
     }
-    
+
     if (data.type === 'CLEAR_CACHE' && replyPort) {
         clearImageCache().then(success => {
             replyPort.postMessage({ success });
         });
         return;
     }
-    
+
     if (data.type === 'WARM_CACHE' && replyPort) {
         const urls = data.urls || [];
         warmCacheProactively(urls).then(results => {
@@ -448,7 +448,7 @@ self.addEventListener('message', event => {
         });
         return;
     }
-    
+
     if (data.type === 'PERFORM_HEALTH_CHECK' && replyPort) {
         performHealthCheck().then(health => {
             replyPort.postMessage({ health });
@@ -464,7 +464,7 @@ async function getCacheStats() {
             totalSize: 0,
             network: getNetworkInfo()
         };
-        
+
         for (const [name, cacheName] of Object.entries(CACHE_CONFIG)) {
             const cache = await caches.open(cacheName);
             const keys = await cache.keys();
@@ -475,7 +475,7 @@ async function getCacheStats() {
             };
             stats.totalSize += keys.length;
         }
-        
+
         return stats;
     } catch (error) {
         console.error('Service Worker: Failed to get cache stats:', error);
@@ -488,13 +488,13 @@ async function clearImageCache() {
     try {
         const deletePromises = Object.values(CACHE_CONFIG).map(cacheName => caches.delete(cacheName));
         const results = await Promise.all(deletePromises);
-        
+
         // Recreate critical cache with critical images (unless precaching is disabled)
         if (!config.cache.skipPrecache) {
             const criticalCache = await caches.open(CACHE_CONFIG.CRITICAL);
             await criticalCache.addAll(CACHE_STRATEGIES.CRITICAL_IMAGES.map(url => new Request(url, { cache: 'reload' })));
         }
-        
+
         return results.some(result => result);
     } catch (error) {
         console.error('Service Worker: Failed to clear cache:', error);

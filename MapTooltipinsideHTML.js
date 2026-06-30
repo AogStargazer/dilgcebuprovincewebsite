@@ -63,7 +63,7 @@ class CebuMapTooltipSystem {
         lgooImg2: "organizationalchart/images/AileenPeca_Naga.png"
       }
     };
-    
+
     this.init();
   }
 
@@ -95,7 +95,7 @@ class CebuMapTooltipSystem {
         </div>
         <h3 id="panelPlaceName" style="margin: 0 0 15px 0 !important; color: #333 !important; border-bottom: 1px solid #eee; padding-bottom: 10px;">Select a Region</h3>
         <p id="panelProfile" style="margin: 0 0 15px 0 !important; color: #555 !important; line-height: 1.4;">Click or hover over any region on the map to view detailed information about that area.</p>
-        
+
         <div id="panelOfficials" style="display: none;">
           <div id="mayorSection" style="display: none; margin-bottom: 15px;">
             <div style="display: flex; gap: 15px; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 6px;">
@@ -106,7 +106,7 @@ class CebuMapTooltipSystem {
               </div>
             </div>
           </div>
-          
+
           <div id="lgooSection" style="display: none; margin-bottom: 15px;">
             <div style="display: flex; gap: 15px; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 6px;">
               <img id="panelLgooImg" src="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd;" />
@@ -176,16 +176,16 @@ class CebuMapTooltipSystem {
     }
 
     // Show officials container if any official data exists
-    const hasAnyOfficials = (data.mayor && data.mayor.trim() !== '') || 
-                           (data.lgoo && data.lgoo.trim() !== '') || 
+    const hasAnyOfficials = (data.mayor && data.mayor.trim() !== '') ||
+                           (data.lgoo && data.lgoo.trim() !== '') ||
                            (data.lgoo2 && data.lgoo2.trim() !== '');
-    
+
     document.querySelector('#panelOfficials').style.display = hasAnyOfficials ? 'block' : 'none';
   }
 
   setupPathEvents() {
     const paths = document.querySelectorAll('svg path');
-    
+
     paths.forEach((path) => {
       const title = path.querySelector('title');
       if (!title) return;
@@ -228,7 +228,7 @@ class CebuMapTooltipSystem {
     const doInit = () => {
       // Create persistent info panel
       this.createInfoPanel();
-      
+
       // Setup path events
       this.setupPathEvents();
     };

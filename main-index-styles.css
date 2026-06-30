@@ -77,7 +77,7 @@ html body.home .container.grid-layout .intro-actions {
 html body.home .container.grid-layout .elementor-button {
   --button-bg-color: #ffffff;
   --button-hover-color: #f7f7f7;
-  
+
   background-color: var(--button-bg-color);
   color: #000000;
   border-radius: 5px;
@@ -127,13 +127,13 @@ html body.home .container.grid-layout .elementor-button:hover {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
-  
+
   /* Add minimal horizontal padding to text content for readability */
   html body.home .container.grid-layout .text-content {
     padding-left: 5px;
     padding-right: 5px;
   }
-  
+
   html body.home .container.grid-layout .heading {
     text-align: center;
   }
@@ -141,7 +141,7 @@ html body.home .container.grid-layout .elementor-button:hover {
   html body.home .container.grid-layout .paragraph {
     text-align: justify;
   }
-  
+
   /* Ensure button containers work properly with full-width layout */
   html body.home .container.grid-layout .button-container,
   html body.home .container.grid-layout .learn-more-container {
@@ -161,17 +161,17 @@ html body.home .container.grid-layout .elementor-button:hover {
   html body.home .container.grid-layout .elementor-button {
     width: 100%;
   }
-  
-  /* ========================================================================== 
+
+  /* ==========================================================================
      COMPREHENSIVE MOBILE FULL-WIDTH OVERRIDES
      Enhanced rules to ensure all content sections behave like the slider
      ========================================================================== */
-  
+
   /* Universal container width overrides with high specificity */
   html body * {
     box-sizing: border-box !important;
   }
-  
+
   /* Override inline max-width styles that constrain content */
   html body div[style*="max-width: calc(100% - 5in)"],
   html body div[style*="max-width:calc(100% - 5in)"] {
@@ -182,12 +182,12 @@ html body.home .container.grid-layout .elementor-button:hover {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  
+
   /* Target all divs with constraining max-width styles */
   html body div[style*="max-width"] {
     max-width: 100% !important;
   }
-  
+
   /* Universal padding removal for all containers */
   html body .container,
   html body .elementor-container,
@@ -201,7 +201,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
-  
+
   /* Ensure all content divs span full width */
   html body div[style*="margin: 0 auto"],
   html body div[style*="margin:0 auto"] {
@@ -209,7 +209,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     margin-right: 0 !important;
     width: 100% !important;
   }
-  
+
   /* Override any remaining width constraints */
   html body .container-fluid,
   html body .jupiterx-container {
@@ -218,7 +218,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  
+
   /* Ensure image rows and attached agencies span full width */
   html body .image-row,
   html body .attached-image-row,
@@ -229,7 +229,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
-  
+
   /* Override any flex or grid containers that might constrain width */
   html body .elementor-column,
   html body .elementor-widget-wrap {
@@ -267,7 +267,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     flex-wrap: nowrap;
     overflow-x: auto;
   }
-  
+
   .image-row.no-wrap img {
     width: auto;
     flex: 0 0 150px;
@@ -318,7 +318,7 @@ html body.home .container.grid-layout .elementor-button:hover {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  
+
   /* Ensure child elements don't overflow */
   .mobile-full-width * {
     max-width: 100% !important;

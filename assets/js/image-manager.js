@@ -38,7 +38,7 @@
                 this.currentConnection = navigator.connection;
                 navigator.connection.addEventListener('change', this.handleConnectionChange.bind(this));
             }
-            
+
             window.addEventListener('online', this.handleOnlineChange.bind(this));
             window.addEventListener('offline', this.handleOnlineChange.bind(this));
         }
@@ -102,17 +102,17 @@
             try {
                 const testUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                 const startTime = performance.now();
-                
+
                 const response = await fetch(testUrl, { cache: 'no-cache' });
                 await response.blob();
-                
+
                 const endTime = performance.now();
                 const duration = endTime - startTime;
                 const bytes = 43; // Size of the test image
-                
+
                 this.bandwidth = (bytes * 8) / (duration / 1000); // bits per second
                 this.lastMeasurement = now;
-                
+
                 return this.bandwidth;
             } catch (error) {
                 console.warn('Bandwidth measurement failed:', error);
@@ -162,7 +162,7 @@
         onFailure() {
             this.failureCount++;
             this.lastFailureTime = Date.now();
-            
+
             if (this.failureCount >= this.threshold) {
                 this.state = 'OPEN';
             }
@@ -282,7 +282,7 @@
         async loadProgressive(url) {
             // Try to load a lower quality version first if available
             const progressiveUrl = this.getProgressiveUrl(url);
-            
+
             if (progressiveUrl !== url) {
                 try {
                     const lowQualityImage = await this.loadImmediate(progressiveUrl);
@@ -294,7 +294,7 @@
                     return this.loadImmediate(url);
                 }
             }
-            
+
             return this.loadImmediate(url);
         }
 
@@ -398,32 +398,32 @@
             try {
                 const domain = this.getDomain(task.url);
                 const circuitBreaker = this.getCircuitBreaker(domain);
-                
-                const image = await circuitBreaker.execute(() => 
+
+                const image = await circuitBreaker.execute(() =>
                     this.progressiveLoader.loadWithStrategy(task.url, 'progressive')
                 );
-                
+
                 const loadTime = Date.now() - task.startTime;
                 this.updateMetrics(true, loadTime);
-                
+
                 if (task.element) {
                     task.element.dispatchEvent(new CustomEvent('imageComplete', {
                         detail: { url: task.url, loadTime, retries: task.retries }
                     }));
                 }
-                
+
                 task.resolve(image);
             } catch (error) {
                 if (task.retries < this.config.retryCount) {
                     task.retries++;
                     const delay = this.config.retryDelay * Math.pow(2, task.retries) * (0.8 + Math.random() * 0.4);
-                    
+
                     if (task.element) {
                         task.element.dispatchEvent(new CustomEvent('imageProgress', {
                             detail: { url: task.url, retries: task.retries, delay }
                         }));
                     }
-                    
+
                     setTimeout(() => {
                         this.queue.unshift(task);
                         this.processQueue();
@@ -444,11 +444,11 @@
             } else {
                 this.metrics.failedLoads++;
             }
-            
+
             // Update average load time
             const totalSuccessful = this.metrics.successfulLoads;
             if (totalSuccessful > 0) {
-                this.metrics.averageLoadTime = 
+                this.metrics.averageLoadTime =
                     (this.metrics.averageLoadTime * (totalSuccessful - 1) + loadTime) / totalSuccessful;
             }
         }
@@ -475,7 +475,7 @@
         enqueue(item, priority) {
             const queueItem = { item, priority };
             let added = false;
-            
+
             for (let i = 0; i < this.items.length; i++) {
                 if (queueItem.priority > this.items[i].priority) {
                     this.items.splice(i, 0, queueItem);
@@ -483,7 +483,7 @@
                     break;
                 }
             }
-            
+
             if (!added) {
                 this.items.push(queueItem);
             }
@@ -545,27 +545,27 @@
                     this.observer.unobserve(entry.target);
                 }
             });
-            
+
             this.processQueue();
         }
 
         calculatePriority(entry) {
             let priority = 0;
-            
+
             // Higher priority for more visible elements
             priority += entry.intersectionRatio * 100;
-            
+
             // Higher priority for elements closer to viewport center
             const rect = entry.boundingClientRect;
             const viewportCenter = window.innerHeight / 2;
             const elementCenter = rect.top + rect.height / 2;
             const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
             priority += Math.max(0, 100 - (distanceFromCenter / viewportCenter) * 100);
-            
+
             // Higher priority for larger elements
             const area = rect.width * rect.height;
             priority += Math.min(50, area / 10000);
-            
+
             return priority;
         }
 
@@ -573,14 +573,14 @@
             if (this.processing || this.priorityQueue.isEmpty()) {
                 return;
             }
-            
+
             this.processing = true;
-            
+
             while (!this.priorityQueue.isEmpty()) {
                 const element = this.priorityQueue.dequeue();
                 await this.loadElement(element);
             }
-            
+
             this.processing = false;
         }
 
@@ -641,11 +641,11 @@
 
             } catch (error) {
                 console.warn('Failed to load image:', url, error);
-                
+
                 if (element.dataset.lqip) {
                     element.style.filter = '';
                 }
-                
+
                 if (this.config.errorImage && element.tagName === 'IMG') {
                     element.src = this.config.errorImage;
                 } else if (element.dataset.bgSrc && this.config.errorImage) {
@@ -671,44 +671,44 @@
     // Utility function to parse srcset and select best URL
     function parseSrcset(srcset, viewportWidth = window.innerWidth, devicePixelRatio = window.devicePixelRatio || 1) {
         if (!srcset) return null;
-        
+
         const candidates = srcset.split(',').map(candidate => {
             const parts = candidate.trim().split(/\s+/);
             const url = parts[0];
             const descriptor = parts[1] || '1x';
-            
+
             let width = 0;
             let density = 1;
-            
+
             if (descriptor.endsWith('w')) {
                 width = parseInt(descriptor.slice(0, -1));
             } else if (descriptor.endsWith('x')) {
                 density = parseFloat(descriptor.slice(0, -1));
             }
-            
+
             return { url, width, density };
         });
-        
+
         // Find best candidate based on viewport width and device pixel ratio
         let bestCandidate = candidates[0];
         const targetWidth = viewportWidth * devicePixelRatio;
-        
+
         for (const candidate of candidates) {
             if (candidate.width > 0) {
                 // Width-based selection
-                if (candidate.width >= targetWidth && 
+                if (candidate.width >= targetWidth &&
                     (bestCandidate.width === 0 || candidate.width < bestCandidate.width)) {
                     bestCandidate = candidate;
                 }
             } else {
                 // Density-based selection
-                if (candidate.density >= devicePixelRatio && 
+                if (candidate.density >= devicePixelRatio &&
                     candidate.density < bestCandidate.density) {
                     bestCandidate = candidate;
                 }
             }
         }
-        
+
         return bestCandidate.url;
     }
 
@@ -723,14 +723,14 @@
             this.imageLoader = new RobustImageLoader(this.config);
             this.lazyLoader = new ViewportAwareLazyLoader(this.config, this.imageCache, this.imageLoader);
             this.initialized = false;
-            
+
             // Subscribe to network changes
             this.networkMonitor.subscribe(this.adaptToNetwork.bind(this));
         }
 
         adaptToNetwork(networkInfo) {
             const config = { ...this.config };
-            
+
             // Adjust configuration based on network conditions
             switch (networkInfo.effectiveType) {
                 case 'slow-2g':
@@ -756,13 +756,13 @@
                     this.imageLoader.resume();
                     break;
             }
-            
+
             // Apply save data mode
             if (networkInfo.saveData) {
                 config.concurrency = Math.max(1, Math.floor(config.concurrency / 2));
                 this.imageLoader.pause();
             }
-            
+
             // Update config
             this.config = config;
             this.imageLoader.config = config;
@@ -771,21 +771,21 @@
         async init(customConfig = {}) {
             // Merge custom config with defaults
             this.config = { ...DEFAULT_CONFIG, ...customConfig };
-            
+
             // Measure bandwidth
             await this.bandwidthMonitor.measureBandwidth();
-            
+
             // Adapt to current network conditions
             const networkInfo = this.networkMonitor.getNetworkInfo();
             this.adaptToNetwork(networkInfo);
-            
+
             // Reinitialize components with new config
             this.imageLoader = new RobustImageLoader(this.config);
             this.lazyLoader = new ViewportAwareLazyLoader(this.config, this.imageCache, this.imageLoader);
-            
+
             // Register service worker
             await this.registerServiceWorker();
-            
+
             this.initialized = true;
             return this;
         }
@@ -814,14 +814,14 @@
         scanDOM() {
             // Scan for lazy loading images
             const lazyImages = document.querySelectorAll('img[loading="lazy"], [data-src], [data-bg-src]');
-            
+
             lazyImages.forEach(element => {
                 // Convert native lazy loading to our system
                 if (element.tagName === 'IMG' && element.loading === 'lazy' && element.src && !element.dataset.src) {
                     element.dataset.src = element.src;
                     element.src = this.config.placeholder || '';
                 }
-                
+
                 this.lazyLoader.observe(element);
             });
         }

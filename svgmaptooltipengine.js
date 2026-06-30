@@ -48,7 +48,7 @@ class UniversalSVGTooltipEngine {
       customRenderers: {}, // User can provide custom renderers
       ...options
     };
-    
+
     this.tooltipData = {};
     this._tooltipContentCache = new Map();
     this._boundPaths = [];
@@ -225,12 +225,12 @@ class UniversalSVGTooltipEngine {
       'profile': 'R1C1',
       'description': 'R1C2',
       'summary': 'R1C3',
-      
+
       // Name mappings
       'name': 'R2C1',
       'lguname': 'R2C2',
       'title': 'R2C3',
-      
+
       // Mayor mappings
       'mayor': 'R3C1',
       'mayorname': 'R3C1',
@@ -238,7 +238,7 @@ class UniversalSVGTooltipEngine {
       'mayortitle': 'R3C2',
       'mayorimg': 'R3C3',
       'mayorphoto': 'R3C3',
-      
+
       // LGOO mappings
       'lgoo': 'R4C1',
       'lgooname': 'R4C1',
@@ -246,7 +246,7 @@ class UniversalSVGTooltipEngine {
       'lgootitle': 'R4C2',
       'lgooimg': 'R4C3',
       'lgoophoto': 'R4C3',
-      
+
       // Secondary LGOO mappings
       'lgoo2': 'R5C1',
       'lgoo2name': 'R5C1',
@@ -254,19 +254,19 @@ class UniversalSVGTooltipEngine {
       'lgoo2title': 'R5C2',
       'lgooimg2': 'R5C3',
       'lgoo2photo': 'R5C3',
-      
+
       // Contact info
       'email': 'R6C1',
       'phone': 'R6C2',
       'website': 'R6C3',
       'address': 'R6C4',
-      
+
       // Additional info
       'population': 'R7C1',
       'area': 'R7C2',
       'established': 'R7C3',
       'zipcode': 'R7C4',
-      
+
       // Custom fields
       'logo': 'R1C4',
       'flag': 'R1C5',
@@ -295,7 +295,7 @@ class UniversalSVGTooltipEngine {
     const allMappings = { ...this.getDefaultSemanticMappings(), ...semanticMappings };
     const lowerKey = key.toLowerCase();
     const gridPos = allMappings[lowerKey];
-    
+
     if (gridPos) {
       const gridMatch = gridPos.match(/^R(\d+)C(\d+)$/i);
       if (gridMatch) {
@@ -318,7 +318,7 @@ class UniversalSVGTooltipEngine {
     // Strategy 1: Direct type indicators (prefixes)
     if (typeof value === 'string') {
       const lowerValue = value.toLowerCase().trim();
-      
+
       // Direct type prefixes
       if (lowerValue.startsWith('img:')) return 'image';
       if (lowerValue.startsWith('video:')) return 'video';
@@ -401,7 +401,7 @@ class UniversalSVGTooltipEngine {
     }
 
     // Strategy 13: Color detection (hex, rgb, hsl)
-    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value) || 
+    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value) ||
         /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/i.test(value) ||
         /^hsl\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*\)$/i.test(value)) {
       return 'color';
@@ -538,25 +538,25 @@ class UniversalSVGTooltipEngine {
       case 'link':
         const displayUrl = cleanValue.length > 30 ? cleanValue.substring(0, 30) + '...' : cleanValue;
         return { html: wrapWithFormat(`<a href="${sanitize(cleanValue)}" target="_blank" style="
-          color: #2196F3; 
-          text-decoration: none; 
+          color: #2196F3;
+          text-decoration: none;
           border-bottom: 1px dashed #2196F3;
           word-break: break-all;
-        " text-align: left;" onmouseover="this.style.textDecoration='underline'" 
+        " text-align: left;" onmouseover="this.style.textDecoration='underline'"
         onmouseout="this.style.textDecoration='none'">
           🔗 ${sanitize(displayUrl)}
         </a>`), extraClass };
 
       case 'email':
         return { html: wrapWithFormat(`<a href="mailto:${sanitize(cleanValue)}" style="
-          color: #2196F3; 
+          color: #2196F3;
           text-decoration: none;
           border-bottom: 1px dashed #2196F3;
         " text-align: left;">📧 ${sanitize(cleanValue)}</a>`), extraClass };
 
       case 'phone':
         return { html: wrapWithFormat(`<a href="tel:${sanitize(cleanValue)}" style="
-          color: #2196F3; 
+          color: #2196F3;
           text-decoration: none;
           border-bottom: 1px dashed #2196F3;
         " text-align: left;">📞 ${sanitize(cleanValue)}</a>`), extraClass };
@@ -604,8 +604,8 @@ class UniversalSVGTooltipEngine {
       case 'number':
         const num = parseFloat(cleanValue);
         return { html: wrapWithFormat(`<span style="
-          font-family: monospace; 
-          font-weight: bold; 
+          font-family: monospace;
+          font-weight: bold;
           color: #4CAF50;
           background: #E8F5E8;
           padding: 2px 6px;
@@ -625,10 +625,10 @@ class UniversalSVGTooltipEngine {
       case 'color':
         return { html: `<div style="display: flex; align-items: center; gap: 8px;">
           <div style="
-            width: 20px; 
-            height: 20px; 
-            background-color: ${sanitize(cleanValue)}; 
-            border: 1px solid #ccc; 
+            width: 20px;
+            height: 20px;
+            background-color: ${sanitize(cleanValue)};
+            border: 1px solid #ccc;
             border-radius: 3px;
           "></div>
           <code style="font-size: 12px; color: #666;">${sanitize(cleanValue)}</code>
@@ -651,10 +651,10 @@ class UniversalSVGTooltipEngine {
         return { html: wrapWithFormat(`<details open style="cursor: pointer;">
           <summary style="font-size: 12px; color: #666; margin-bottom: 5px; text-align: left;">📄 Full Text</summary>
           <div style="
-            margin: 0; 
-            line-height: 1.5; 
-            color: #555; 
-            word-wrap: break-word; 
+            margin: 0;
+            line-height: 1.5;
+            color: #555;
+            word-wrap: break-word;
             hyphens: auto;
             max-height: 150px;
             overflow-y: auto;
@@ -667,10 +667,10 @@ class UniversalSVGTooltipEngine {
 
       case 'paragraph':
         return { html: wrapWithFormat(`<p style="
-          margin: 0; 
-          line-height: 1.4; 
-          color: #555; 
-          word-wrap: break-word; 
+          margin: 0;
+          line-height: 1.4;
+          color: #555;
+          word-wrap: break-word;
           hyphens: auto;
           text-align: left;
         ">${safeValue}</p>`), extraClass };
@@ -791,7 +791,7 @@ class UniversalSVGTooltipEngine {
 
     // Build grid
     const { grid, maxRow, maxCol } = this.buildGrid(data);
-    
+
     if (maxRow === 0) {
       // No grid data found, show raw data
       content.innerHTML = `<div style="color: #555;">
@@ -901,7 +901,7 @@ class UniversalSVGTooltipEngine {
       }
     }
     gridHTML += '</div>';
-    
+
     // Handle overflow columns if any
     // No overflow column warning needed for unlimited columns
 
@@ -945,19 +945,19 @@ class UniversalSVGTooltipEngine {
     paths.forEach((path) => {
       const title = path.querySelector('title');
       if (!title) return;
-  
+
       const rawName = title.textContent.trim();
       const regionKey = this._normalizeKey(rawName);
       const data = this.tooltipData[regionKey];
-  
+
       if (!data) return;
-  
+
       // Style the interactive paths
       path.style.cssText += `
         cursor: pointer !important;
         transition: all 0.2s ease !important;
       `;
-  
+
       // Add hover events
       const mouseenter = debounce(() => {
         // Remove glow from previous region
@@ -967,7 +967,7 @@ class UniversalSVGTooltipEngine {
         // Add glow to current region
         path.classList.add('usvg-search-highlight');
         this._lastHoveredRegion = path;
-  
+
         // Only update panel if not just closed for this region
         if (!(this._panelClosed && this._activeRegionKey === regionKey)) {
           this.updatePanel(rawName, data);
