@@ -433,7 +433,7 @@ img {
     --nav-vertical-padding: 0px;
     --nav-logo-height: 82px;
     --nav-logo-scale: 1;
-    padding: var(--nav-vertical-padding) 20px;
+    padding: var(--nav-vertical-padding) 14px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -519,7 +519,7 @@ img {
 
 .main-menu > li {
     position: relative;
-    margin: 0 5px;
+    margin: 0 2px;
     white-space: nowrap; /* Prevent text wrapping */
 }
 
@@ -536,7 +536,7 @@ img {
 
 .main-navigation > .nav-menu > .main-menu > li > a {
     border-radius: 18px;
-    padding: 6px 7px;
+    padding: 5px 5px;
     transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
@@ -1135,7 +1135,7 @@ a[href="index.html?p=1853.html"] {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: max-content;
-        gap: 8px;
+        gap: 4px;
         justify-items: center;
         justify-content: center;
         width: max-content;
