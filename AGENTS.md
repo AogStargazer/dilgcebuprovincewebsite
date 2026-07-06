@@ -84,4 +84,7 @@ The text normalizer touches only `.html` and `.json`. It intentionally does not 
 - Do not rewrite whole HTML pages.
 - Do not touch JS/CSS for a news placement unless the user explicitly asks.
 - Do not change old news entries except as needed to keep ordering or valid HTML.
+- Do not update historical `NEWS/` article pages for current personnel position
+  or cluster-assignment changes. Article text is history; update current org
+  chart/personnel pages and generated search only.
 - After broad or generated changes, run the maintenance checks listed above.

@@ -388,6 +388,9 @@ Do not manually edit `.pyc` files.
 - Do not rewrite whole pages for menu, footer, search, or NEWS changes.
 - Do not hand-edit generated search indexes unless debugging.
 - Do not bypass NEWS workflow markers.
+- Do not update historical `NEWS/` article pages when changing current personnel
+  positions or cluster assignments. Treat article text as history. Keep those
+  edits scoped to organizational chart/personnel pages and generated search.
 - For top-menu z-index fixes, do not move or resize Citizen's Charter/search
   icons unless the user explicitly asks. Read `styles.css` and `menu.css`
   first, then keep the change scoped to dropdown layering.

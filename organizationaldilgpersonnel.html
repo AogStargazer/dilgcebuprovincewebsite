@@ -526,92 +526,6 @@
         font-weight: 700;
       }
 
-      .personnel-focal {
-        width: 100%;
-        margin-top: 12px;
-        border: 1px solid rgba(0, 0, 0, 0.16);
-        border-radius: 8px;
-        background: rgba(248, 250, 252, 0.92);
-        text-align: left;
-        overflow: hidden;
-      }
-
-      .personnel-focal-summary {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        min-height: 40px;
-        padding: 8px 10px;
-        cursor: pointer;
-        list-style: none;
-        user-select: none;
-      }
-
-      .personnel-focal-summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .personnel-focal-title {
-        display: block;
-        margin: 0;
-        color: #000;
-        font-size: 0.78rem;
-        font-weight: 800;
-        line-height: 1.25;
-        text-transform: uppercase;
-      }
-
-      .personnel-focal-count {
-        flex: 0 0 auto;
-        min-width: 26px;
-        padding: 3px 7px;
-        border-radius: 999px;
-        background: #0f5f9f;
-        color: #fff;
-        font-size: 0.72rem;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-      }
-
-      .personnel-focal-toggle {
-        flex: 0 0 auto;
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 7px solid #000;
-      }
-
-      .personnel-focal[open] .personnel-focal-toggle {
-        border-top: 0;
-        border-bottom: 7px solid #000;
-      }
-
-      .personnel-focal-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin: 0;
-        padding: 0 10px 10px;
-        list-style: none;
-      }
-
-      .personnel-focal-list li {
-        display: inline-flex;
-        align-items: center;
-        min-height: 24px;
-        padding: 4px 8px;
-        border: 1px solid rgba(0, 0, 0, 0.18);
-        border-radius: 999px;
-        background: #fff;
-        color: #000;
-        font-size: 0.72rem;
-        font-weight: 700;
-        line-height: 1.25;
-      }
-
       .personnel-empty {
         display: none;
         padding: 36px 16px;
@@ -1521,159 +1435,8 @@
       </main>
     </div>
     <script>
-      const personnelData = [{"name":"WYNDELL G. VALLE","position":"LGOO VII / CLUSTER HEAD BUGSAY / CLUSTER HEAD TIG-A","scope":"Provincial","assignment":"CLUSTER HEAD TIG-A / CLUSTER HEAD BUGSAY","image":"organizationalchart/images/wyndellgvalle_chtribu.png","source":"organizationalchartchief.html / organizationalcharttiga.html / organizationalchartbugsay.html"},{"name":"JOHN MICHAEL B. MONILLAS","position":"LGOO VI / MLGOO ASTURIAS","scope":"Municipal","assignment":"ASTURIAS","image":"organizationalchart/images/mackymoe_asturias.png","source":"organizationalchartbugsay.html"},{"name":"JONALUKE V. TUBAL II","position":"LGOO V / OIC-MLGOO BALAMBAN","scope":"Municipal","assignment":"BALAMBAN","image":"organizationalchart/images/tubal_lgcds.png","source":"organizationalchartbugsay.html"},{"name":"JUPITER E. DAWA","position":"LGOO VI / MLGOO BANTAYAN","scope":"Municipal","assignment":"BANTAYAN","image":"organizationalchart/images/jupz_bantayan.png","source":"organizationalchartbugsay.html"},{"name":"MAE B. DURA","position":"LGOO VI / CLGOO CITY OF BOGO","scope":"City","assignment":"BOGO","image":"organizationalchart/images/maedura_bogocity.png","source":"organizationalchartbugsay.html"},{"name":"GRACE Y.CABURNAY","position":"LGOO VI / MLGOO DAANBANTAYAN","scope":"Municipal","assignment":"DAANBANTAYAN","image":"organizationalchart/images/gracecaburnay_daanbantayan.png","source":"organizationalchartbugsay.html"},{"name":"JOHN MICHAEL M. LEGASPI","position":"LGOO VI / MLGOO MADRIDEJOS","scope":"Municipal","assignment":"MADRIDEJOS","image":"organizationalchart/images/JM_madridejos.png","source":"organizationalchartbugsay.html"},{"name":"JANIEVA A. DANDAN","position":"LGOO V / OIC-MLGOO MEDELLIN","scope":"Municipal","assignment":"MEDELLIN","image":"organizationalchart/images/jan_medellin.png","source":"organizationalchartbugsay.html"},{"name":"NIÃ‘O VINCENT B. FIEL","position":"LGOO V / OIC-MLGOO SANTA FE","scope":"Municipal","assignment":"SANTA FE","image":"organizationalchart/images/ninosenpai_stafe.png","source":"organizationalchartbugsay.html"},{"name":"CLAIRE V. DIAZ","position":"LGOO VI / MLGOO SAN REMIGIO","scope":"Municipal","assignment":"SAN REMIGIO","image":"organizationalchart/images/claire_sanremigio.png","source":"organizationalchartbugsay.html"},{"name":"JERRY BIB PITOGO","position":"LGOO VI / MLGOO TABOGON","scope":"Municipal","assignment":"TABOGON","image":"organizationalchart/images/jerry_tabogon.png","source":"organizationalchartbugsay.html"},{"name":"EASTER-APRIL R. QUIROL","position":"LGOO VI / MLGOO TABUELAN","scope":"Municipal","assignment":"TABUELAN","image":"organizationalchart/images/easterapril_tabuelan.png","source":"organizationalchartbugsay.html"},{"name":"LEO NICHOLAS T. PATRIANA","position":"LGOO VI / MLGOO TUBURAN","scope":"Municipal","assignment":"TUBURAN","image":"organizationalchart/images/leopatz_tuburan.png","source":"organizationalchartbugsay.html"},{"name":"LOUIES MARTIN P. GABUTIN","position":"LGOO II / MLGOO TUBURAN","scope":"Municipal","assignment":"TUBURAN","image":"organizationalchart/images/LMGabutin_lgooii.png","source":"organizationalchartbugsay.html"},{"name":"DR. JESUS ROBEL T. SASTRILLO JR., CESE","position":"PROVINCIAL DIRECTOR","scope":"Provincial","assignment":"","image":"organizationalchart/images/pdrobelalt2.png","source":"organizationalchartchief.html"},{"name":"LELANIE V. LOPEZ","position":"LGOO VII / CLUSTER HEAD TRIBU","scope":"Provincial","assignment":"CLUSTER HEAD TRIBU","image":"organizationalchart/images/lelanilopez_chbugsay.png","source":"organizationalcharttribu.html / organizationalchartchief.html"},{"name":"ROXINE C. COYOCA","position":"LGOO VII / CLUSTER HEAD DASIG","scope":"Provincial","assignment":"CLUSTER HEAD DASIG","image":"organizationalchart/images/roxinecoyoca_chtiga.png","source":"organizationalchartdasig.html / organizationalchartchief.html"},{"name":"RICHARD F. OUANO","position":"LGOO VI / PROGRAM MANAGER","scope":"Provincial","assignment":"PROGRAM MANAGER","image":"organizationalchart/images/ouano_pm.png","source":"organizationalchartchief.html"},{"name":"MICHAEL JICKERIE T. ALVAREZ","position":"LGOO V/LGMES CHIEF","scope":"Provincial","assignment":"LGMES CHIEF","image":"organizationalchart/images/alvarez_lgmes.png","source":"organizationalchartLGMES.html / organizationalchartchief.html"},{"name":"JEAN MARVETTE DEMECILLO DIAZ","position":"LGOO V/LGCDS CHIEF","scope":"Provincial","assignment":"LGCDS CHIEF","image":"organizationalchart/images/JeanMarvetteDiaz_LGCDS.png","source":"organizationalchartLGCDS.html / organizationalchartchief.html"},{"name":"CRESENCIO ANTOLIN ASENIERO","position":"LGOO V/PDMU CHIEF; LGOO V / PDMU CHIEF; LGOO V / LGCDS","scope":"Provincial","assignment":"PDMU CHIEF / LGCDS","image":"organizationalchart/images/cresencio_pdmu.png","source":"organizationalchartPDMU.html / organizationalchartchief.html / organizationalchartLGCDS.html"},{"name":"ANTHONY A. NIEVES","position":"LGOO III/FAS CHIEF; LGOO III / OIC-CLGOO DANAO CITY / FAS SECTION","scope":"Provincial","assignment":"FAS CHIEF / FAS","image":"organizationalchart/images/AnthonyANIeves_Danao.png","source":"organizationalchartFAS.html / organizationalchartchief.html / organizationalcharttiga.html"},{"name":"MARIA LOURDES D. BOONE","position":"LGOO VI / MLGOO ALCOY (RETIRED)","scope":"Municipal","assignment":"ALCOY","image":"organizationalchart/images/MariaLourdesDBoone_Alcoy.png","source":"organizationalchartdasig.html"},{"name":"ABEL JOHN C. PEGUIT","position":"LGOO II / ALCOY","scope":"Municipal","assignment":"ALCOY","image":"organizationalchart/images/avelbrother_tuburan.png","source":"organizationalchartdasig.html"},{"name":"LEWELYN M. ARQUILLANO","position":"LGOO VI / MLGOO ARGAO","scope":"Municipal","assignment":"ARGAO","image":"organizationalchart/images/lewelyn_argao.png","source":"organizationalchartdasig.html"},{"name":"MILDRED C. LASALA","position":"LGOO VI / CLGOO CARCAR","scope":"City","assignment":"CARCAR","image":"organizationalchart/images/mildred_carcar.png","source":"organizationalchartdasig.html"},{"name":"EMMA JOYEVLYN V. CALVO","position":"LGOO VI / CLGOO CITY OF NAGA","scope":"City","assignment":"NAGA","image":"organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png","source":"organizationalchartdasig.html"},{"name":"AILEEN GRACE B. ARGAWANON-PECA","position":"LGOO II / CITY OF NAGA","scope":"City","assignment":"NAGA","image":"organizationalchart/images/AileenPeca_Naga.png","source":"organizationalchartdasig.html"},{"name":"GINABLE M. EJOC","position":"LGOO VI / MLGOO DALAGUETE","scope":"Municipal","assignment":"DALAGUETE","image":"organizationalchart/images/GinableEjoc_Dalaguete.png","source":"organizationalchartdasig.html"},{"name":"DEANNA A. MINGUETO","position":"LGOO VI / MLGOO OSLOB","scope":"Municipal","assignment":"OSLOB","image":"organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png","source":"organizationalchartdasig.html"},{"name":"KYM A. ALBRANDO","position":"LGOO VI / MLGOO SAMBOAN","scope":"Municipal","assignment":"SAMBOAN","image":"organizationalchart/images/KymAlbrando_Samboan.png","source":"organizationalchartdasig.html"},{"name":"JOSEPH ELIZAR F. MERLAS","position":"LGOO VI / MLGOO SAN FERNANDO","scope":"Municipal","assignment":"SAN FERNANDO","image":"organizationalchart/images/JosephElizarMerlas_SanFernando.png","source":"organizationalchartdasig.html"},{"name":"LOPE LIM","position":"LGOO VI / MLGOO SANTANDER","scope":"Municipal","assignment":"SANTANDER","image":"organizationalchart/images/lope_santander.png","source":"organizationalchartdasig.html"},{"name":"SUSAN E. TOLENTINO","position":"LGOO VI / MLGOO SIBONGA","scope":"Municipal","assignment":"SIBONGA","image":"organizationalchart/images/susan_sibonga.png","source":"organizationalchartdasig.html"},{"name":"PAUL MERLO D. PASQUIL","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/PaulMerloDPasquil_FAS.png","source":"organizationalchartFAS.html"},{"name":"RUFIEL M. PALABAY","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RufielOPalabay_FAS.png","source":"organizationalchartFAS.html"},{"name":"ROMEL M. NAVARRO","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RomelMNavarro_FAS.png","source":"organizationalchartFAS.html"},{"name":"VIOLY P. ARNEJO","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/ViolyP.Arnejo_FAS.png","source":"organizationalchartFAS.html"},{"name":"RINA CONSTANCIA R. FORTICH","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/Yenyen_FAS.png","source":"organizationalchartFAS.html"},{"name":"CHRISHIA A. VILLARUBIA","position":"ADAS II / PDMU; ADAS II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/ChrishiaVillarubia_FAS.png","source":"organizationalchartPDMU.html / organizationalchartLGMES.html / organizationalchartFAS.html"},{"name":"DONDON C. REYES","position":"PEO II / PDMU; PEO II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/DondonReyes_PDMU_FAS.png","source":"organizationalchartPDMU.html / organizationalchartLGMES.html / organizationalchartFAS.html"},{"name":"POLSTER NOKSMAN","position":"ISA I / FAS / PROVINCIAL ICTU","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartFAS.html"},{"name":"ALAN JAY V. YAP","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGMES / LGCDS","image":"organizationalchart/images/AlanJayVYap_LGMES_LGCDS.png","source":"organizationalchartLGMES.html / organizationalchartLGCDS.html"},{"name":"JUNNEL O. SARDA","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGMES / LGCDS","image":"organizationalchart/images/JunnelOSarda_LGMES.png","source":"organizationalchartLGMES.html / organizationalchartLGCDS.html"},{"name":"CLARICE KITZ ANDRIN","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/ClariceKitz_LGCDS.png","source":"organizationalchartLGCDS.html"},{"name":"AILEEN GRACE ARGAWANON-PECA","position":"LGOO II / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/AileenPeca_Naga.png","source":"organizationalchartLGMES.html"},{"name":"RANDEL CEDIE J. SAMONTE","position":"LGOO III / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/RandelCedieJSamonte_Boljoon.png","source":"organizationalchartLGMES.html"},{"name":"POL JOSEPH LOUIE L. LACANDULA","position":"LGOO II / LGMES / PROVINCIAL ICTU","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartLGMES.html"},{"name":"BILLY RAY T. PAPA","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/BillyRayTPapa_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"TEODORO M. DAMAYO JR.","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/TeodoroMDamayoJr_PDMU.png","source":"organizationalchartLGCDS.html"},{"name":"JOHN PHILIP P. CORPOSALES","position":"ENGINEER III / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/johnphilipcorposales_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"SHANNON LYN B. BELTRAN","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/shannon_beltran_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"JESSICA A. YRAT","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/jessica_yrat_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"JHUN ARDY CABRERA","position":"PEO II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/JhunArdyCabrera_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"MONICA ANN H. BRAGA","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/MonikaBraga_PDMU.png","source":"organizationalchartLGCDS.html"},{"name":"CECILLE C. BELCINA","position":"LGOO VI / MLGOO BORBON","scope":"Municipal","assignment":"BORBON","image":"organizationalchart/images/cecilleCbelcina_borbon.png","source":"organizationalcharttiga.html"},{"name":"AMMIE MARIE Z. GENERALE","position":"LGOO VI / MLGOO CARMEN","scope":"Municipal","assignment":"CARMEN","image":"organizationalchart/images/ammieMarieZGenerale_carmen.png","source":"organizationalcharttiga.html"},{"name":"EVALYN R. QUIROS","position":"LGOO VI / MLGOO CATMON","scope":"Municipal","assignment":"CATMON","image":"organizationalchart/images/evalyn_balamban.png","source":"organizationalcharttiga.html"},{"name":"MELBOURNE O. NAVALES","position":"LGOO VI / MLGOO COMPOSTELA","scope":"Municipal","assignment":"COMPOSTELA","image":"organizationalchart/images/MelbourneONavales_Compostela.png","source":"organizationalcharttiga.html"},{"name":"SHERYL A. PIDOR","position":"LGOO VI / MLGOO CONSOLACION","scope":"Municipal","assignment":"CONSOLACION","image":"organizationalchart/images/sherylpidor_consolacion.png","source":"organizationalcharttiga.html"},{"name":"SHEVAH TRIXY L. CAOCTOY","position":"LGOO VI / MLGOO CORDOVA","scope":"Municipal","assignment":"CORDOVA","image":"organizationalchart/images/shevahtrixyLcaoctoy_cordova.png","source":"organizationalcharttiga.html"},{"name":"GEMMA M. BERMOY","position":"LGOO VI / OIC-CLGOO DANAO CITY","scope":"City","assignment":"DANAO CITY","image":"organizationalchart/images/gemmabermoydanao.png","source":"organizationalcharttiga.html"},{"name":"JAMES ANDREW G. ANDAYA","position":"LGOO VI / MLGOO LILOAN","scope":"Municipal","assignment":"LILOAN","image":"organizationalchart/images/jamesandrewgandaya_liloan.png","source":"organizationalcharttiga.html"},{"name":"LOVIE B. DE LA CRUZ","position":"LGOO VI / MLGOO PILAR","scope":"Municipal","assignment":"PILAR","image":"organizationalchart/images/lovieBdeLaCruz_pilar.png","source":"organizationalcharttiga.html"},{"name":"CLIFF P. OTADOY","position":"LGOO VI / MLGOO PORO","scope":"Municipal","assignment":"PORO","image":"organizationalchart/images/cliff_poro.png","source":"organizationalcharttiga.html"},{"name":"GREGORY A. SOSMEÃ‘A","position":"LGOO VI / MLGOO SAN FRANCISCO","scope":"Municipal","assignment":"SAN FRANCISCO","image":"organizationalchart/images/sosmena_sanfran.png","source":"organizationalcharttiga.html"},{"name":"SHEILA G. DENDEN","position":"LGOO VI / MLGOO SOGOD","scope":"Municipal","assignment":"SOGOD","image":"organizationalchart/images/sheila_sogod.png","source":"organizationalcharttiga.html"},{"name":"PERSIUS R. BORLASA","position":"LGOO VI / MLGOO TUDELA","scope":"Municipal","assignment":"TUDELA","image":"organizationalchart/images/perseus_tudela.png","source":"organizationalcharttiga.html"},{"name":"JOSE REY A. PACRES","position":"LGOO VI / MLGOO ALEGRIA","scope":"Municipal","assignment":"ALEGRIA","image":"organizationalchart/images/pacres_alegria.png","source":"organizationalcharttribu.html"},{"name":"JUDELYN C. SALINAS","position":"LGOO VI / MLGOO ALCANTARA","scope":"Municipal","assignment":"ALCANTARA","image":"organizationalchart/images/judesalinas_alcantara.png","source":"organizationalcharttribu.html"},{"name":"DENNIS C. ITOM","position":"LGOO VI / MLGOO ALOGUINSAN","scope":"Municipal","assignment":"ALOGUINSAN","image":"organizationalchart/images/dennisitom_aloguinsan.png","source":"organizationalcharttribu.html"},{"name":"IRIS V. ARIAS","position":"LGOO VI / MLGOO BADIAN","scope":"Municipal","assignment":"BADIAN","image":"organizationalchart/images/irisarias_badian.png","source":"organizationalcharttribu.html"},{"name":"DANN MARR P. ANDRINO","position":"LGOO VI / MLGOO BARILI","scope":"Municipal","assignment":"BARILI","image":"organizationalchart/images/attydannmarr_barili.png","source":"organizationalcharttribu.html"},{"name":"GLENDA G. GABUYA","position":"LGOO VI / MLGOO DUMANJUG","scope":"Municipal","assignment":"DUMANJUG","image":"organizationalchart/images/gabuya_dumanjug.png","source":"organizationalcharttribu.html"},{"name":"Emmannuel S. Pedralba","position":"LGOO VI / MLGOO GINATILAN","scope":"Municipal","assignment":"GINATILAN","image":"organizationalchart/images/pedralba_ginatilan.png","source":"organizationalcharttribu.html"},{"name":"ELVIE S. GAUDAN","position":"LGOO VI / MLGOO MALABUYOC","scope":"Municipal","assignment":"MALABUYOC","image":"organizationalchart/images/elviegaudan_malabuyoc.png","source":"organizationalcharttribu.html"},{"name":"LYN N. AGUELO","position":"LGOO VI / MLGOO MOALBOAL","scope":"Municipal","assignment":"MOALBOAL","image":"organizationalchart/images/lynaguelo_moalboal.png","source":"organizationalcharttribu.html"},{"name":"JEFFREY A. LOPEZ","position":"LGOO VI / MLGOO PINAMUNGAJAN","scope":"Municipal","assignment":"PINAMUNGAJAN","image":"organizationalchart/images/lopez_pinamungajan.png","source":"organizationalcharttribu.html"},{"name":"JOSE MENELEO C. AQUINO","position":"LGOO VI / MLGOO RONDA","scope":"Municipal","assignment":"RONDA","image":"organizationalchart/images/aquino_ronda.png","source":"organizationalcharttribu.html"},{"name":"ABRAHAM REY C. DONALDO","position":"LGOO VI / CLGOO CITY OF TOLEDO","scope":"City","assignment":"TOLEDO","image":"organizationalchart/images/abbeydonaldo_toledo.png","source":"organizationalcharttribu.html"},{"name":"DEVON P. PAREDES","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/devon_p_paredes_lgcds.png","source":"organizationalchartLGCDS.html"},{"name":"ROJHELOU G. PATAC","position":"LGOO VI / CLGOO TALISAY CITY","scope":"City","assignment":"TALISAY","image":"organizationalchart/images/patac_talisaycity.png","source":"organizationalchartdasig.html"},{"name":"RICHY FORTICH AMATONG","position":"LGOO III / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/amatong_lgooIII_lgcds.png","source":"organizationalchartLGCDS.html"}];
+      const personnelData = [{"name":"DR. JESUS ROBEL T. SASTRILLO JR., CESE","position":"PROVINCIAL DIRECTOR","scope":"Provincial","assignment":"","image":"organizationalchart/images/pdrobelalt2.png","source":"organizationalchartchief.html"},{"name":"DR. MICHAEL V. ETANAL","position":"CLUSTER HEAD BUGSAY","scope":"Provincial","assignment":"CLUSTER HEAD BUGSAY","image":"organizationalchart/images/MichaelVEtanal_chbugsaynew.png","source":"organizationalchartbugsay.html / organizationalchartchief.html"},{"name":"LELANIE V. LOPEZ","position":"CLUSTER HEAD TRIBU CLUSTER TRIBU; LGOO VII / CLUSTER HEAD TRIBU","scope":"Provincial","assignment":"CLUSTER HEAD TRIBU","image":"organizationalchart/images/lelanilopez_chbugsay.png","source":"organizationalchartchief.html / organizationalcharttribu.html"},{"name":"ROXINE C. COYOCA","position":"CLUSTER HEAD DASIG CLUSTER DASIG; LGOO VII / CLUSTER HEAD DASIG","scope":"Provincial","assignment":"CLUSTER HEAD DASIG","image":"organizationalchart/images/roxinecoyoca_chtiga.png","source":"organizationalchartchief.html / organizationalchartdasig.html"},{"name":"WYNDELL G. VALLE","position":"LGOO VII / CLUSTER HEAD TIG-A","scope":"Provincial","assignment":"CLUSTER HEAD TIG-A","image":"organizationalchart/images/wyndellgvalle_chtribu.png","source":"organizationalchartchief.html / organizationalcharttiga.html"},{"name":"RICHARD F. OUANO","position":"LGOO VI / PROGRAM MANAGER","scope":"Provincial","assignment":"PROGRAM MANAGER","image":"organizationalchart/images/ouano_pm.png","source":"organizationalchartchief.html"},{"name":"ANTHONY A. NIEVES","position":"LGOO III/FAS CHIEF; LGOO III / JUNIOR STAFF DANAO CITY / FAS SECTION","scope":"Provincial","assignment":"FAS CHIEF / DANAO CITY / FAS","image":"organizationalchart/images/AnthonyANIeves_Danao.png","source":"organizationalchartFAS.html / organizationalchartchief.html / organizationalcharttiga.html"},{"name":"JEAN MARVETTE DEMECILLO DIAZ","position":"LGOO V/LGCDS CHIEF LGCDS SECTION; LGOO V/LGCDS CHIEF","scope":"Provincial","assignment":"LGCDS CHIEF LGCDS SECTION / LGCDS CHIEF","image":"organizationalchart/images/JeanMarvetteDiaz_LGCDS.png","source":"organizationalchartLGCDS.html / organizationalchartchief.html"},{"name":"MICHAEL JICKERIE T. ALVAREZ","position":"LGOO V/LGMES CHIEF LGMES SECTION; LGOO V/LGMES CHIEF","scope":"Provincial","assignment":"LGMES CHIEF LGMES SECTION / LGMES CHIEF","image":"organizationalchart/images/alvarez_lgmes.png","source":"organizationalchartLGMES.html / organizationalchartchief.html"},{"name":"TEODORO M. DAMAYO JR.","position":"LGOO II / PDMU CHIEF","scope":"Provincial","assignment":"PDMU CHIEF","image":"organizationalchart/images/TeodoroMDamayoJr_PDMU.png","source":"organizationalchartPDMU.html / organizationalchartchief.html"},{"name":"GEMMA M. BERMOY","position":"LGOO VI / DILG CEBU PROVINCIAL OFFICE","scope":"Provincial","assignment":"DILG CEBU PROVINCIAL OFFICE","image":"organizationalchart/images/gemmabermoydanao.png","source":"organizationaldilgpersonnel.html"},{"name":"ABRAHAM REY C. DONALDO","position":"LGOO VI / CLGOO CITY OF TOLEDO","scope":"City","assignment":"CLGOO CITY OF TOLEDO","image":"organizationalchart/images/abbeydonaldo_toledo.png","source":"organizationalcharttribu.html"},{"name":"EMMA JOYEVLYN V. CALVO","position":"LGOO VI / CLGOO CITY OF NAGA","scope":"City","assignment":"CLGOO CITY OF NAGA","image":"organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png","source":"organizationalchartdasig.html"},{"name":"MAE B. DURA","position":"LGOO VI / CLGOO CITY OF BOGO","scope":"City","assignment":"CLGOO CITY OF BOGO","image":"organizationalchart/images/maedura_bogocity.png","source":"organizationalchartbugsay.html"},{"name":"MILDRED C. LASALA","position":"LGOO VI / CLGOO CARCAR","scope":"City","assignment":"CLGOO CARCAR","image":"organizationalchart/images/mildred_carcar.png","source":"organizationalchartdasig.html"},{"name":"ROJHELOU G. PATAC","position":"LGOO VI / CLGOO TALISAY CITY","scope":"City","assignment":"CLGOO TALISAY CITY","image":"organizationalchart/images/patac_talisaycity.png","source":"organizationalchartdasig.html"},{"name":"SHERYL A. PIDOR","position":"LGOO VI / CLGOO DANAO CITY","scope":"City","assignment":"DANAO CITY","image":"organizationalchart/images/sherylpidor_consolacion.png","source":"organizationalcharttiga.html"},{"name":"AMMIE MARIE Z. GENERALE","position":"LGOO VI / MLGOO CARMEN","scope":"Municipal","assignment":"MLGOO CARMEN","image":"organizationalchart/images/ammieMarieZGenerale_carmen.png","source":"organizationalcharttiga.html"},{"name":"ATTY. JEFFREY A. LOPEZ","position":"LGOO VI / MLGOO ARGAO","scope":"Municipal","assignment":"ARGAO","image":"organizationalchart/images/lopez_pinamungajan.png","source":"organizationalchartdasig.html"},{"name":"CECILLE C. BELCINA","position":"LGOO VI / MLGOO BORBON","scope":"Municipal","assignment":"MLGOO BORBON","image":"organizationalchart/images/cecilleCbelcina_borbon.png","source":"organizationalcharttiga.html"},{"name":"CLAIRE V. DIAZ","position":"LGOO VI / MLGOO SAN REMIGIO","scope":"Municipal","assignment":"MLGOO SAN REMIGIO","image":"organizationalchart/images/claire_sanremigio.png","source":"organizationalchartbugsay.html"},{"name":"CLIFF P. OTADOY","position":"LGOO VI / MLGOO TUDELA","scope":"Municipal","assignment":"TUDELA","image":"organizationalchart/images/cliff_poro.png","source":"organizationalcharttiga.html"},{"name":"DANN MARR P. ANDRINO","position":"LGOO VI / MLGOO BARILI","scope":"Municipal","assignment":"MLGOO BARILI","image":"organizationalchart/images/attydannmarr_barili.png","source":"organizationalcharttribu.html"},{"name":"DEANNA A. MINGUETO","position":"LGOO VI / MLGOO OSLOB","scope":"Municipal","assignment":"MLGOO OSLOB","image":"organizationalchart/images/DeannaMingueto_Oslob_SantanderRadiate.png","source":"organizationalchartdasig.html"},{"name":"DENNIS C. ITOM","position":"LGOO VI / MLGOO ALOGUINSAN","scope":"Municipal","assignment":"MLGOO ALOGUINSAN","image":"organizationalchart/images/dennisitom_aloguinsan.png","source":"organizationalcharttribu.html"},{"name":"EASTER-APRIL R. QUIROL","position":"LGOO VI / MLGOO TABUELAN","scope":"Municipal","assignment":"MLGOO TABUELAN","image":"organizationalchart/images/easterapril_tabuelan.png","source":"organizationalchartbugsay.html"},{"name":"ELVIE S. GAUDAN","position":"LGOO VI / MLGOO MALABUYOC","scope":"Municipal","assignment":"MLGOO MALABUYOC","image":"organizationalchart/images/elviegaudan_malabuyoc.png","source":"organizationalcharttribu.html"},{"name":"EVALYN R. QUIROS","position":"LGOO VI / MLGOO CATMON","scope":"Municipal","assignment":"MLGOO CATMON","image":"organizationalchart/images/evalyn_balamban.png","source":"organizationalcharttiga.html"},{"name":"Emmannuel S. Pedralba","position":"LGOO VI / MLGOO GINATILAN","scope":"Municipal","assignment":"MLGOO GINATILAN","image":"organizationalchart/images/pedralba_ginatilan.png","source":"organizationalcharttribu.html"},{"name":"GINABLE M. EJOC","position":"LGOO VI / MLGOO DALAGUETE","scope":"Municipal","assignment":"MLGOO DALAGUETE","image":"organizationalchart/images/GinableEjoc_Dalaguete.png","source":"organizationalchartdasig.html"},{"name":"GLENDA G. GABUYA","position":"LGOO VI / MLGOO DUMANJUG","scope":"Municipal","assignment":"MLGOO DUMANJUG","image":"organizationalchart/images/gabuya_dumanjug.png","source":"organizationalcharttribu.html"},{"name":"GRACE Y.CABURNAY","position":"LGOO VI / MLGOO DAANBANTAYAN","scope":"Municipal","assignment":"MLGOO DAANBANTAYAN","image":"organizationalchart/images/gracecaburnay_daanbantayan.png","source":"organizationalchartbugsay.html"},{"name":"GREGORY A. SOSMEÑA","position":"LGOO VI / MLGOO PORO","scope":"Municipal","assignment":"PORO","image":"organizationalchart/images/sosmena_sanfran.png","source":"organizationalcharttiga.html"},{"name":"IRIS V. ARIAS","position":"LGOO VI / MLGOO BADIAN","scope":"Municipal","assignment":"MLGOO BADIAN","image":"organizationalchart/images/irisarias_badian.png","source":"organizationalcharttribu.html"},{"name":"JAMES ANDREW G. ANDAYA","position":"LGOO VI / MLGOO LILOAN","scope":"Municipal","assignment":"MLGOO LILOAN","image":"organizationalchart/images/jamesandrewgandaya_liloan.png","source":"organizationalcharttiga.html"},{"name":"JERRY BIB PITOGO","position":"LGOO VI / MLGOO TABOGON","scope":"Municipal","assignment":"MLGOO TABOGON","image":"organizationalchart/images/jerry_tabogon.png","source":"organizationalchartbugsay.html"},{"name":"JOHN MICHAEL B. MONILLAS","position":"LGOO VI / MLGOO ASTURIAS","scope":"Municipal","assignment":"MLGOO ASTURIAS","image":"organizationalchart/images/mackymoe_asturias.png","source":"organizationalchartbugsay.html"},{"name":"JOHN MICHAEL M. LEGASPI","position":"LGOO VI / MLGOO SANTA FE","scope":"Municipal","assignment":"SANTA FE","image":"organizationalchart/images/JM_madridejos.png","source":"organizationalchartbugsay.html"},{"name":"JOSE MENELEO C. AQUINO","position":"LGOO VI / MLGOO RONDA","scope":"Municipal","assignment":"MLGOO RONDA","image":"organizationalchart/images/aquino_ronda.png","source":"organizationalcharttribu.html"},{"name":"JOSE REY A. PACRES","position":"LGOO VI / MLGOO PINAMUNGAJAN","scope":"Municipal","assignment":"PINAMUNGAJAN","image":"organizationalchart/images/pacres_alegria.png","source":"organizationalcharttribu.html"},{"name":"JOSEPH ELIZAR F. MERLAS","position":"LGOO VI / MLGOO SAN FERNANDO","scope":"Municipal","assignment":"MLGOO SAN FERNANDO","image":"organizationalchart/images/JosephElizarMerlas_SanFernando.png","source":"organizationalchartdasig.html"},{"name":"JUDELYN C. SALINAS","position":"LGOO VI / MLGOO ALCANTARA","scope":"Municipal","assignment":"MLGOO ALCANTARA","image":"organizationalchart/images/judesalinas_alcantara.png","source":"organizationalcharttribu.html"},{"name":"JUPITER E. DAWA","position":"LGOO VI / MLGOO BANTAYAN","scope":"Municipal","assignment":"MLGOO BANTAYAN","image":"organizationalchart/images/jupz_bantayan.png","source":"organizationalchartbugsay.html"},{"name":"KYM A. ALBRANDO","position":"LGOO VI / MLGOO SAMBOAN","scope":"Municipal","assignment":"MLGOO SAMBOAN","image":"organizationalchart/images/KymAlbrando_Samboan.png","source":"organizationalchartdasig.html"},{"name":"LEO NICHOLAS T. PATRIANA","position":"LGOO VI / MLGOO TUBURAN","scope":"Municipal","assignment":"MLGOO TUBURAN","image":"organizationalchart/images/leopatz_tuburan.png","source":"organizationalchartbugsay.html"},{"name":"LEWELYN M. ARQUILLANO","position":"LGOO VI / MLGOO CONSOLACION","scope":"Municipal","assignment":"CONSOLACION","image":"organizationalchart/images/lewelyn_argao.png","source":"organizationalcharttiga.html"},{"name":"LOPE LIM","position":"LGOO VI / MLGOO SANTANDER","scope":"Municipal","assignment":"MLGOO SANTANDER","image":"organizationalchart/images/lope_santander.png","source":"organizationalchartdasig.html"},{"name":"LOVIE B. DE LA CRUZ","position":"LGOO VI / MLGOO PILAR","scope":"Municipal","assignment":"MLGOO PILAR","image":"organizationalchart/images/lovieBdeLaCruz_pilar.png","source":"organizationalcharttiga.html"},{"name":"LYN N. AGUELO","position":"LGOO VI / MLGOO MOALBOAL","scope":"Municipal","assignment":"MLGOO MOALBOAL","image":"organizationalchart/images/lynaguelo_moalboal.png","source":"organizationalcharttribu.html"},{"name":"MARIA LOURDES D. BOONE","position":"LGOO VI / MLGOO ALCOY (RETIRED)","scope":"Municipal","assignment":"MLGOO ALCOY (RETIRED)","image":"organizationalchart/images/MariaLourdesDBoone_Alcoy.png","source":"organizationalchartdasig.html"},{"name":"MELBOURNE O. NAVALES","position":"LGOO VI / MLGOO COMPOSTELA","scope":"Municipal","assignment":"MLGOO COMPOSTELA","image":"organizationalchart/images/MelbourneONavales_Compostela.png","source":"organizationalcharttiga.html"},{"name":"NIÑO VINCENT B. FIEL","position":"LGOO VI / MLGOO ALEGRIA","scope":"Municipal","assignment":"ALEGRIA","image":"organizationalchart/images/ninosenpai_stafe.png","source":"organizationalcharttribu.html"},{"name":"PERSIUS R. BORLASA","position":"LGOO VI / MLGOO SAN FRANCISCO","scope":"Municipal","assignment":"SAN FRANCISCO","image":"organizationalchart/images/perseus_tudela.png","source":"organizationalcharttiga.html"},{"name":"SHEILA G. DENDEN","position":"LGOO VI / MLGOO SOGOD","scope":"Municipal","assignment":"MLGOO SOGOD","image":"organizationalchart/images/sheila_sogod.png","source":"organizationalcharttiga.html"},{"name":"SHEVAH TRIXY L. CAOCTOY","position":"LGOO VI / MLGOO CORDOVA","scope":"Municipal","assignment":"MLGOO CORDOVA","image":"organizationalchart/images/shevahtrixyLcaoctoy_cordova.png","source":"organizationalcharttiga.html"},{"name":"SUSAN E. TOLENTINO","position":"LGOO VI / MLGOO SIBONGA","scope":"Municipal","assignment":"MLGOO SIBONGA","image":"organizationalchart/images/susan_sibonga.png","source":"organizationalchartdasig.html"},{"name":"CRESENCIO ANTOLIN ASENIERO","position":"LGOO V / OIC-MLGOO MADRIDEJOS","scope":"Municipal","assignment":"MADRIDEJOS","image":"organizationalchart/images/cresencio_pdmu.png","source":"organizationalchartbugsay.html"},{"name":"JANIEVA A. DANDAN","position":"LGOO V / OIC-MLGOO MEDELLIN","scope":"Municipal","assignment":"OIC-MLGOO MEDELLIN","image":"organizationalchart/images/jan_medellin.png","source":"organizationalchartbugsay.html"},{"name":"JONALUKE V. TUBAL II","position":"LGOO V / OIC-MLGOO BALAMBAN","scope":"Municipal","assignment":"OIC-MLGOO BALAMBAN","image":"organizationalchart/images/tubal_lgcds.png","source":"organizationalchartbugsay.html"},{"name":"ALAN JAY V. YAP","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGCDS / LGMES","image":"organizationalchart/images/AlanJayVYap_LGMES_LGCDS.png","source":"organizationalchartLGCDS.html / organizationalchartLGMES.html"},{"name":"JUNNEL O. SARDA","position":"LGOO III / LGCDS; LGOO III / LGMES","scope":"Provincial","assignment":"LGCDS / LGMES","image":"organizationalchart/images/JunnelOSarda_LGMES.png","source":"organizationalchartLGCDS.html / organizationalchartLGMES.html"},{"name":"RANDEL CEDIE J. SAMONTE","position":"LGOO III / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/RandelCedieJSamonte_Boljoon.png","source":"organizationalchartLGMES.html"},{"name":"RICHY FORTICH AMATONG","position":"LGOO III / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/amatong_lgooIII_lgcds.png","source":"organizationalchartLGCDS.html"},{"name":"AILEEN GRACE ARGAWANON-PECA","position":"LGOO II / LGMES","scope":"Provincial","assignment":"LGMES","image":"organizationalchart/images/AileenPeca_Naga.png","source":"organizationalchartLGMES.html"},{"name":"CLARICE KITZ ANDRIN","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/ClariceKitz_LGCDS.png","source":"organizationalchartLGCDS.html"},{"name":"DEVON P. PAREDES","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/devon_p_paredes_lgcds.png","source":"organizationalchartLGCDS.html"},{"name":"MONICA ANN H. BRAGA","position":"LGOO II / LGCDS","scope":"Provincial","assignment":"LGCDS","image":"organizationalchart/images/MonikaBraga_PDMU.png","source":"organizationalchartLGCDS.html"},{"name":"POL JOSEPH LOUIE L. LACANDULA","position":"LGOO II / LGMES / PROVINCIAL ICTU","scope":"Provincial","assignment":"LGMES / PROVINCIAL ICTU","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartLGMES.html"},{"name":"ABEL JOHN C. PEGUIT","position":"LGOO II / ALCOY","scope":"Municipal","assignment":"ALCOY","image":"organizationalchart/images/avelbrother_tuburan.png","source":"organizationalchartdasig.html"},{"name":"LOUIES MARTIN P. GABUTIN","position":"LGOO II / MLGOO TUBURAN","scope":"Municipal","assignment":"MLGOO TUBURAN","image":"organizationalchart/images/LMGabutin_lgooii.png","source":"organizationalchartbugsay.html"},{"name":"JOHN PHILIP P. CORPOSALES","position":"ENGINEER III / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/johnphilipcorposales_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"JESSICA A. YRAT","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/jessica_yrat_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"SHANNON LYN B. BELTRAN","position":"ENGINEER II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/shannon_beltran_pdmu.png","source":"organizationalchartPDMU.html"},{"name":"CHRISHIA A. VILLARUBIA","position":"ADAS II / PDMU; ADAS II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/ChrishiaVillarubia_FAS.png","source":"organizationalchartFAS.html / organizationalchartLGMES.html / organizationalchartPDMU.html"},{"name":"DONDON C. REYES","position":"PEO II / PDMU; PEO II / LGMES","scope":"Provincial","assignment":"PDMU / LGMES","image":"organizationalchart/images/DondonReyes_PDMU_FAS.png","source":"organizationalchartFAS.html / organizationalchartLGMES.html / organizationalchartPDMU.html"},{"name":"JHUN ARDY CABRERA","position":"PEO II / PDMU","scope":"Provincial","assignment":"PDMU","image":"organizationalchart/images/JhunArdyCabrera_PDMU.png","source":"organizationalchartPDMU.html"},{"name":"PAUL MERLO D. PASQUIL","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/PaulMerloDPasquil_FAS.png","source":"organizationalchartFAS.html"},{"name":"POLSTER NOKSMAN","position":"ISA I / FAS / PROVINCIAL ICTU","scope":"Provincial","assignment":"FAS / PROVINCIAL ICTU","image":"organizationalchart/images/PJLLLL_RICTU.png","source":"organizationalchartFAS.html"},{"name":"RINA CONSTANCIA R. FORTICH","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/Yenyen_FAS.png","source":"organizationalchartFAS.html"},{"name":"ROMEL M. NAVARRO","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RomelMNavarro_FAS.png","source":"organizationalchartFAS.html"},{"name":"RUFIEL M. PALABAY","position":"ADA VI / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/RufielOPalabay_FAS.png","source":"organizationalchartFAS.html"},{"name":"VIOLY P. ARNEJO","position":"ADAS II / FAS","scope":"Provincial","assignment":"FAS","image":"organizationalchart/images/ViolyP.Arnejo_FAS.png","source":"organizationalchartFAS.html"}];
 
-      const focalAreasByName = {
-        "MICHAEL JICKERIE T. ALVAREZ": [
-          "LTIA Provincial Focal",
-          "MCC Provincial Focal",
-          "ADAC Provincial Focal",
-          "Anti-Illegal Drug Programs Provincial Focal",
-          "SDEC Provincial Focal",
-          "POPS/POC Provincial Focal",
-          "Confidential Funds Provincial Focal",
-          "BIDA Provincial Focal",
-          "ECLIP Provincial Focal"
-        ],
-        "JEAN MARVETTE DEMECILLO DIAZ": [
-          "LGU Profiling Provincial Focal",
-          "LCPC Provincial Focal",
-          "Bantay Korapsyon/8888 Provincial Focal",
-          "PCC/PACC Provincial Focal",
-          "RCSP Provincial Focal",
-          "CUCPD Provincial Focal",
-          "CDP/CLUP/BDP Planning Provincial Focal",
-          "DRRM Provincial Focal",
-          "Annual Report Provincial Focal",
-          "Bansiwag Provincial Focal",
-          "LGA/LGAMES Provincial Focal",
-          "BNEO Provincial Focal"
-        ],
-        "CRESENCIO ANTOLIN ASENIERO": [
-          "SLGP/CSO Programs Provincial Focal",
-          "SGLGIF Provincial Focal",
-          "LPMC Provincial Focal",
-          "SBDP Provincial Focal",
-          "LFP Provincial Focal",
-          "FALGU/LGSF Provincial Focal",
-          "SWA/SORD Provincial Focal"
-        ],
-        "ANTHONY A. NIEVES": [
-          "Activity Design Provincial Focal",
-          "DILG Cebu Province Administration Provincial Focal"
-        ],
-        "CHRISHIA A. VILLARUBIA": [
-          "African Swine Fever Provincial Focal",
-          "Anti-Rabies Provincial Focal"
-        ],
-        "DONDON C. REYES": [
-          "Community-Based Labor Programs Provincial Focal",
-          "BHERT Provincial Focal",
-          "DILG MC 2022-025 Provincial Focal",
-          "Firecracker Monitoring Provincial Focal",
-          "Amuma Sa Barangay Provincial Focal"
-        ],
-        "ALAN JAY V. YAP": [
-          "BFDP Provincial Focal",
-          "SKFDP Provincial Focal",
-          "ELOPDS/BPS/BOPS Provincial Focal",
-          "First Time Jobseekers Provincial Focal",
-          "TALIPAPA Provincial Focal",
-          "KALINISAN/BARKADA Provincial Focal",
-          "HAPAG Provincial Focal",
-          "Nutrition Provincial Focal",
-          "Habitual Absenteeism Provincial Focal"
-        ],
-        "JUNNEL O. SARDA": [
-          "FISHCA Provincial Focal",
-          "Accreditation Activities Provincial Focal",
-          "SGLGB Provincial Focal",
-          "CSO Desk/People's Council Provincial Focal",
-          "DRRM Provincial Focal",
-          "Telco Applications Provincial Focal",
-          "CSO Partnership Provincial Focal",
-          "CBMS Provincial Focal",
-          "Operations/PPA Provincial Focal"
-        ],
-        "CLARICE KITZ ANDRIN": [
-          "LTIA Provincial Focal",
-          "Safe Spaces Act Provincial Focal",
-          "BPLS Provincial Focal",
-          "BPCO Provincial Focal",
-          "ERR/EVOSS Provincial Focal",
-          "PS/MSBs Provincial Focal",
-          "DNFBPs Provincial Focal",
-          "GAD Provincial Focal"
-        ],
-        "AILEEN GRACE ARGAWANON-PECA": [
-          "POGO/IGL Certifications Provincial Focal",
-          "BBI Accreditation Provincial Focal",
-          "ADAC Provincial Focal",
-          "Anti-Illegal Drug Programs Provincial Focal",
-          "SDEC Provincial Focal",
-          "Barangay Assembly Provincial Focal",
-          "Drug Watch List/Aftercare Provincial Focal",
-          "Midwives Provincial Focal",
-          "CBDRP Provincial Focal",
-          "BADAC Provincial Focal",
-          "BIDA Provincial Focal",
-          "PDAO Provincial Focal"
-        ],
-        "RANDEL CEDIE J. SAMONTE": [
-          "GFH Provincial Focal",
-          "FDP/FDPP Provincial Focal"
-        ],
-        "POL JOSEPH LOUIE L. LACANDULA": [
-          "Lupon/KP Provincial Focal",
-          "CSIS Provincial Focal",
-          "BaRCO Provincial Focal",
-          "Malasakit Centers Provincial Focal",
-          "Cockpit Operations Provincial Focal",
-          "Fieldmen's Conference Provincial Focal",
-          "BIMS/LGUSS/CMIMS Provincial Focal"
-        ],
-        "TEODORO M. DAMAYO JR.": [
-          "Katarungang Pambarangay Provincial Focal",
-          "DILG MC 2018-30 Provincial Focal",
-          "Solo Parent Provincial Focal",
-          "Senior Citizen Provincial Focal"
-        ],
-        "JOHN PHILIP P. CORPOSALES": [
-          "Sewage Treatment Provincial Focal",
-          "Communal Forests/Tree Parks Provincial Focal",
-          "Rainwater Collectors Provincial Focal"
-        ],
-        "SHANNON LYN B. BELTRAN": [
-          "DILG MC 2026-006 Provincial Focal",
-          "Kasambahay Provincial Focal",
-          "Pass-Through Fees Provincial Focal"
-        ],
-        "JESSICA A. YRAT": [
-          "Active and Healthy Lifestyle Provincial Focal",
-          "Roads/Public Works Provincial Focal",
-          "ELCAC Provincial Focal"
-        ],
-        "JHUN ARDY CABRERA": [
-          "KADIWA Provincial Focal",
-          "PAHIBALO/News Provincial Focal",
-          "Social Media Provincial Focal",
-          "Annual Report Provincial Focal"
-        ],
-        "MONICA ANN H. BRAGA": [
-          "Colorum Operators/Vehicles Provincial Focal",
-          "Annual Report Provincial Focal",
-          "RPRH/HIV-AIDS Provincial Focal"
-        ],
-        "RICHY FORTICH AMATONG": [
-          "LCAT-VAWC Provincial Focal",
-          "CFLGA/SCFLG-KMS Provincial Focal",
-          "LCPC Provincial Focal",
-          "JJWA Provincial Focal",
-          "Anti-Trafficking Provincial Focal",
-          "VAW/VAC Provincial Focal",
-          "ISO QP 23 Provincial Focal"
-        ]
-      };
 
       const grid = document.getElementById("personnelGrid");
       const searchInput = document.getElementById("personnelSearch");
@@ -1739,18 +1502,6 @@
 
       function cardTemplate(person) {
         const assignment = person.assignment ? `<p class="personnel-assignment">${escapeHtml(person.assignment)}</p>` : "";
-        const focalAreas = focalAreasByName[person.name] || [];
-        const focalAreaList = focalAreas.length ? `
-            <details class="personnel-focal">
-              <summary class="personnel-focal-summary" aria-label="Show DILG provincial program focal areas for ${escapeHtml(person.name)}">
-                <span class="personnel-focal-title">DILG Provincial Program Focal</span>
-                <span class="personnel-focal-count">${focalAreas.length}</span>
-                <span class="personnel-focal-toggle" aria-hidden="true"></span>
-              </summary>
-              <ul class="personnel-focal-list">
-                ${focalAreas.map((area) => `<li>${escapeHtml(area)}</li>`).join("")}
-              </ul>
-            </details>` : "";
         return `
           <article class="personnel-card" data-scope="${escapeHtml(person.scope)}">
             <div class="personnel-photo">
@@ -1760,7 +1511,6 @@
             <p class="personnel-position">${escapeHtml(person.position)}</p>
             ${assignment}
             <p class="personnel-scope">${escapeHtml(person.scope)}</p>
-            ${focalAreaList}
           </article>`;
       }
 
@@ -1768,8 +1518,7 @@
         const query = normalize(searchInput.value);
         const selectedType = typeFilter.value;
         const filtered = rankedPersonnelData.filter((person) => {
-          const focalAreas = focalAreasByName[person.name] || [];
-          const haystack = normalize([person.name, person.position, person.scope, person.assignment, person.source, focalAreas.join(" ")].join(" "));
+          const haystack = normalize([person.name, person.position, person.scope, person.assignment, person.source].join(" "));
           const sectionSource = sectionSourceMap[selectedType];
           const isProvincialDirector = selectedType === "Provincial Director" && normalize(person.position).includes("provincial director");
           const isClusterHead = selectedType === "Cluster Heads" && haystack.includes("cluster head");

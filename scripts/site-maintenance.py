@@ -43,6 +43,18 @@ NAV_LAYER_FORBIDDEN_SELECTORS = [
     ".main-navigation:hover",
     ".main-navigation:focus-within",
 ]
+ORG_POSITION_FILES = {
+    "organizationaldilgpersonnel.html",
+    "organizationalchartchief.html",
+    "organizationalchartbugsay.html",
+    "organizationalchartdasig.html",
+    "organizationalcharttiga.html",
+    "organizationalcharttribu.html",
+    "organizationalchartFAS.html",
+    "organizationalchartLGCDS.html",
+    "organizationalchartLGMES.html",
+    "organizationalchartPDMU.html",
+}
 
 
 def load_script(name: str, filename: str) -> ModuleType:
@@ -368,6 +380,42 @@ def cmd_nav_layer_check(_args: argparse.Namespace) -> int:
     return 0
 
 
+def changed_git_paths() -> list[str]:
+    paths: set[str] = set()
+    for command in (
+        ["git", "diff", "--name-only"],
+        ["git", "diff", "--cached", "--name-only"],
+    ):
+        result = run_command(command)
+        if result.returncode == 0:
+            paths.update(line.strip().replace("\\", "/") for line in result.stdout.splitlines() if line.strip())
+    return sorted(paths, key=str.lower)
+
+
+def is_org_position_path(path: str) -> bool:
+    return path in ORG_POSITION_FILES
+
+
+def is_historical_news_article_path(path: str) -> bool:
+    return path.startswith("NEWS/") and path.lower().endswith(".html")
+
+
+def cmd_position_history_check(_args: argparse.Namespace) -> int:
+    paths = changed_git_paths()
+    org_paths = [path for path in paths if is_org_position_path(path)]
+    news_paths = [path for path in paths if is_historical_news_article_path(path)]
+
+    if org_paths and news_paths:
+        print("Position-history guard found issues:")
+        print("- Do not edit historical NEWS article pages for personnel position changes.")
+        print("- Keep position updates scoped to organizational chart/personnel pages and generated search files.")
+        print("- Revert NEWS article edits unless the task is explicitly historical-article correction.")
+        return 1
+
+    print("Position-history guard passed.")
+    return 0
+
+
 def cmd_hygiene(args: argparse.Namespace) -> int:
     status = 0
     print("Hygiene: fixing fancy text...")
@@ -397,6 +445,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     whitespace_status = cmd_whitespace_check(argparse.Namespace(paths=args.paths, quiet=True, limit=20))
     search_status = cmd_search_rebuild(argparse.Namespace(check=True))
     nav_layer_status = cmd_nav_layer_check(argparse.Namespace())
+    position_history_status = cmd_position_history_check(argparse.Namespace())
     git_status = cmd_git_diff_check(argparse.Namespace()) if getattr(args, "include_git", False) else 0
 
     if text_status:
@@ -410,7 +459,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         print("Doctor: whitespace check passed.")
 
     print("Doctor: search index can be rebuilt.")
-    return 1 if text_status or whitespace_status or search_status or nav_layer_status or git_status else 0
+    return 1 if text_status or whitespace_status or search_status or nav_layer_status or position_history_status or git_status else 0
 
 
 def build_parser() -> argparse.ArgumentParser:
