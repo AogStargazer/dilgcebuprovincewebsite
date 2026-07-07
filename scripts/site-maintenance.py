@@ -54,6 +54,34 @@ ORG_POSITION_FILES = {
     "organizationalchartLGCDS.html",
     "organizationalchartLGMES.html",
     "organizationalchartPDMU.html",
+    "cebuprovincemapLGU.html",
+    "dilgcebuprovinceofficesmap.html",
+    "MapTooltipinsideHTML.js",
+    "svgmaptooltipengine.js",
+}
+POSITION_CHECK_SUBJECTS = (
+    "person name",
+    "LGU/office/cluster name",
+    "old position text",
+    "new position text",
+    "image filename",
+    "primary map fields",
+    "secondary map fields",
+    "generated search text",
+)
+STALE_POSITION_ENTRIES = {
+    "AILEEN GRACE B. ARGAWANON-PECA": [
+        "LGOO II / CITY OF NAGA",
+        "Assistant CLGOO of the City of Naga",
+        "Assistant Field Officer of Naga City",
+    ],
+    "ANTHONY A. NIEVES": [
+        "Assistant CLGOO of the City of Danao",
+    ],
+    "MARIA LOURDES D. BOONE": [
+        "LGOO VI / MLGOO ALCOY (RETIRED)",
+        "MLGOO of the Municipality of Alcoy",
+    ],
 }
 
 
@@ -404,12 +432,31 @@ def cmd_position_history_check(_args: argparse.Namespace) -> int:
     paths = changed_git_paths()
     org_paths = [path for path in paths if is_org_position_path(path)]
     news_paths = [path for path in paths if is_historical_news_article_path(path)]
+    stale_hits: list[str] = []
+
+    for file_name in ORG_POSITION_FILES:
+        path = ROOT / file_name
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for name, stale_terms in STALE_POSITION_ENTRIES.items():
+            if name in text and any(term in text for term in stale_terms):
+                stale_hits.append(f"{file_name}: stale personnel assignment remains: {name}")
 
     if org_paths and news_paths:
         print("Position-history guard found issues:")
         print("- Do not edit historical NEWS article pages for personnel position changes.")
         print("- Keep position updates scoped to organizational chart/personnel pages and generated search files.")
         print("- Revert NEWS article edits unless the task is explicitly historical-article correction.")
+        return 1
+
+    if stale_hits:
+        print("Position-history guard found issues:")
+        for hit in stale_hits:
+            print(f"- {hit}")
+        print("- Never assume one corrected entry means the subject is clean.")
+        print("- Check every related subject: " + ", ".join(POSITION_CHECK_SUBJECTS) + ".")
+        print("- When removing stale personnel assignments, check organizational charts, personnel directory, both map pages, tooltip scripts, and generated search files.")
         return 1
 
     print("Position-history guard passed.")

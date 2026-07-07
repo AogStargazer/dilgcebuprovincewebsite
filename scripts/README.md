@@ -38,6 +38,7 @@ Use this map before reading large files:
 | Run NEWS guardrail regression tests | `python scripts/news-workflow.py self-test` |
 | Rebuild static search | `python scripts/site-maintenance.py search rebuild` |
 | Test search results | `python scripts/site-maintenance.py search find "<query>"` |
+| Validate personnel/map position edits | `python scripts/site-maintenance.py doctor --git` |
 | Check or fix fancy Unicode | `python scripts/site-maintenance.py text check` / `fix` |
 | Check or fix trailing whitespace | `python scripts/site-maintenance.py whitespace check` / `fix` |
 | Clean Python cache side effects | `python scripts/site-maintenance.py cache clean` |
@@ -107,6 +108,35 @@ python scripts/site-maintenance.py doctor --git
 
 If generated search files changed, that is expected after `search rebuild`.
 If `scripts/__pycache__/*.pyc` changed, run `cache clean`.
+
+### Personnel And Position Edits
+
+Read every current personnel surface before removing or moving a person:
+
+- `organizationalchart*.html`
+- `organizationaldilgpersonnel.html`
+- `cebuprovincemapLGU.html`
+- `dilgcebuprovinceofficesmap.html`
+- `MapTooltipinsideHTML.js`
+- `svgmaptooltipengine.js`
+- generated search files after rebuild
+
+Never assume one corrected entry means the subject is clean. For each personnel
+or position change, consider every related subject checkable: person name,
+LGU/office/cluster, old position text, new position text, image filename,
+primary map fields, secondary map fields, and generated search text.
+
+Do not stop after the org chart or personnel directory. Map pages can carry
+separate LGU officer fields such as `lgoo2Name`, `lgoo2Designation`, and
+`lgoo2Image`. Standalone tooltip JavaScript can carry duplicate LGU data too.
+When an old junior staff or assistant assignment is removed from an LGU, remove
+that stale secondary map entry from the HTML maps and tooltip scripts, then
+rebuild search.
+
+The site doctor includes a position-history guard for known stale assignments.
+If it fails, read the reported files and remove the stale current-position data
+from all current personnel surfaces. Historical `NEWS/` article pages remain
+history and should not be edited for current position changes.
 
 ### Search Index Maintenance
 

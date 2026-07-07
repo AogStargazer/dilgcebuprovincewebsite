@@ -87,4 +87,15 @@ The text normalizer touches only `.html` and `.json`. It intentionally does not 
 - Do not update historical `NEWS/` article pages for current personnel position
   or cluster-assignment changes. Article text is history; update current org
   chart/personnel pages and generated search only.
+- For personnel or position removals, read every current surface before
+  reporting done: `organizationalchart*.html`, `organizationaldilgpersonnel.html`,
+  `cebuprovincemapLGU.html`, `dilgcebuprovinceofficesmap.html`, then rebuild
+  generated search. Also scan standalone tooltip data in `MapTooltipinsideHTML.js`
+  and `svgmaptooltipengine.js`. Map pages can keep stale secondary entries such
+  as `lgoo2Name`, `lgoo2Designation`, and `lgoo2Image`.
+- Never assume a person, LGU, cluster, office, or position is already clean
+  because one updated entry exists. Treat every related subject as checkable:
+  search by person name, LGU/office/cluster name, old position text, new
+  position text, image filename, and secondary map fields before editing or
+  reporting complete.
 - After broad or generated changes, run the maintenance checks listed above.

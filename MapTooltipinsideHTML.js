@@ -57,10 +57,7 @@ class CebuMapTooltipSystem {
         mayorImg: "image/mayornaga.png",
         lgoo: "EMMA JOYEVLYN V. CALVO",
         lgoodesignation: "CLGOO of Naga City",
-        lgooImg: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png",
-        lgoo2: "AILEEN GRACE B. ARGAWANON-PECA",
-        lgoodesignation2: "Assistant Field Officer of Naga City",
-        lgooImg2: "organizationalchart/images/AileenPeca_Naga.png"
+        lgooImg: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png"
       }
     };
 

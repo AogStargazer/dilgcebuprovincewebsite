@@ -1376,9 +1376,9 @@ const exampleData = {
   "MADRIDEJOS": {
     NameofLGU: "Madridejos",
     descriptionLGU: "Madridejos is one of the local government units in Cebu Province.",
-    lgooName: "JOHN MICHAEL M. LEGASPI",
-    lgooDesignation: "MLGOO of the Municipality of Madridejos",
-    lgooImage: "organizationalchart/images/JM_madridejos.png"
+    lgooName: "CRESENCIO ANTOLIN ASENIERO",
+    lgooDesignation: "OIC-MLGOO of the Municipality of Madridejos",
+    lgooImage: "organizationalchart/images/cresencio_pdmu.png"
   },
   "MEDELLIN": {
     NameofLGU: "Medellin",
@@ -1397,9 +1397,9 @@ const exampleData = {
   "SANTA_FE": {
     NameofLGU: "Santa Fe",
     descriptionLGU: "Santa Fe is one of the local government units in Cebu Province.",
-    lgooName: "NIÑO VINCENT B. FIEL",
+    lgooName: "JOHN MICHAEL M. LEGASPI",
     lgooDesignation: "MLGOO of the Municipality of Santa Fe",
-    lgooImage: "organizationalchart/images/ninosenpai_stafe.png"
+    lgooImage: "organizationalchart/images/JM_madridejos.png"
   },
   "TABOGON": {
     NameofLGU: "Tabogon",
@@ -1449,9 +1449,9 @@ const exampleData = {
   "CONSOLACION": {
     NameofLGU: "Consolacion",
     descriptionLGU: "Consolacion is one of the local government units in Cebu Province.",
-    lgooName: "SHERYL A. PIDOR",
+    lgooName: "LEWELYN M. ARQUILLANO",
     lgooDesignation: "MLGOO of the Municipality of Consolacion",
-    lgooImage: "organizationalchart/images/sherylpidor_consolacion.png"
+    lgooImage: "organizationalchart/images/lewelyn_argao.png"
   },
   "CORDOVA": {
     NameofLGU: "Cordova",
@@ -1463,11 +1463,11 @@ const exampleData = {
   "DANAO_CITY": {
     NameofLGU: "Danao City",
     descriptionLGU: "Danao City is one of the local government units in Cebu Province.",
-    lgooName: "GEMMA M. BERMOY",
+    lgooName: "SHERYL A. PIDOR",
     lgooDesignation: "CLGOO of the City of Danao",
-    lgooImage: "organizationalchart/images/gemmabermoydanao.png",
+    lgooImage: "organizationalchart/images/sherylpidor_consolacion.png",
     lgoo2Name: "ANTHONY A. NIEVES",
-    lgoo2Designation: "Assistant CLGOO of the City of Danao",
+    lgoo2Designation: "Junior Staff of Danao City / FAS Section",
     lgoo2Image: "organizationalchart/images/AnthonyANIeves_Danao.png"
   },
   "LILOAN": {
@@ -1487,16 +1487,16 @@ const exampleData = {
   "PORO": {
     NameofLGU: "Poro",
     descriptionLGU: "Poro is one of the local government units in Cebu Province.",
-    lgooName: "CLIFF P. OTADOY",
+    lgooName: "GREGORY A. SOSMEÑA",
     lgooDesignation: "MLGOO of the Municipality of Poro",
-    lgooImage: "organizationalchart/images/cliff_poro.png"
+    lgooImage: "organizationalchart/images/sosmena_sanfran.png"
   },
   "SAN_FRANCISCO": {
     NameofLGU: "San Francisco",
     descriptionLGU: "San Francisco is one of the local government units in Cebu Province.",
-    lgooName: "GREGORY A. SOSMEÑA",
+    lgooName: "PERSIUS R. BORLASA",
     lgooDesignation: "MLGOO of the Municipality of San Francisco",
-    lgooImage: "organizationalchart/images/sosmena_sanfran.png"
+    lgooImage: "organizationalchart/images/perseus_tudela.png"
   },
   "SOGOD": {
     NameofLGU: "Sogod",
@@ -1508,9 +1508,9 @@ const exampleData = {
   "TUDELA": {
     NameofLGU: "Tudela",
     descriptionLGU: "Tudela is one of the local government units in Cebu Province.",
-    lgooName: "PERSIUS R. BORLASA",
+    lgooName: "CLIFF P. OTADOY",
     lgooDesignation: "MLGOO of the Municipality of Tudela",
-    lgooImage: "organizationalchart/images/perseus_tudela.png"
+    lgooImage: "organizationalchart/images/cliff_poro.png"
   },
   "ALCANTARA": {
     NameofLGU: "Alcantara",
@@ -1522,9 +1522,9 @@ const exampleData = {
   "ALEGRIA": {
     NameofLGU: "Alegria",
     descriptionLGU: "Alegria is one of the local government units in Cebu Province.",
-    lgooName: "JOSE REY A. PACRES",
+    lgooName: "NIÑO VINCENT B. FIEL",
     lgooDesignation: "MLGOO of the Municipality of Alegria",
-    lgooImage: "organizationalchart/images/pacres_alegria.png",
+    lgooImage: "organizationalchart/images/ninosenpai_stafe.png"
   },
   "ALOGUINSAN": {
     NameofLGU: "Aloguinsan",
@@ -1578,9 +1578,9 @@ const exampleData = {
   "PINAMUNGAJAN": {
     NameofLGU: "Pinamungajan",
     descriptionLGU: "Pinamungajan is one of the local government units in Cebu Province.",
-    lgooName: "JEFFREY A. LOPEZ",
+    lgooName: "JOSE REY A. PACRES",
     lgooDesignation: "MLGOO of the Municipality of Pinamungajan",
-    lgooImage: "organizationalchart/images/lopez_pinamungajan.png"
+    lgooImage: "organizationalchart/images/pacres_alegria.png"
   },
   "RONDA": {
     NameofLGU: "Ronda",
@@ -1599,16 +1599,16 @@ const exampleData = {
   "ALCOY": {
     NameofLGU: "Alcoy",
     descriptionLGU: "Alcoy is one of the local government units in Cebu Province.",
-    lgooName: "MARIA LOURDES D. BOONE",
-    lgooDesignation: "MLGOO of the Municipality of Alcoy",
-    lgooImage: "organizationalchart/images/MariaLourdesDBoone_Alcoy.png"
+    lgooName: "ABEL JOHN C. PEGUIT",
+    lgooDesignation: "LGOO II / ALCOY",
+    lgooImage: "organizationalchart/images/avelbrother_tuburan.png"
   },
   "ARGAO": {
     NameofLGU: "Argao",
     descriptionLGU: "Argao is one of the local government units in Cebu Province.",
-    lgooName: "LEWELYN M. ARQUILLANO",
+    lgooName: "ATTY. JEFFREY A. LOPEZ",
     lgooDesignation: "MLGOO of the Municipality of Argao",
-    lgooImage: "organizationalchart/images/lewelyn_argao.png"
+    lgooImage: "organizationalchart/images/lopez_pinamungajan.png"
   },
   "CARCAR_CITY": {
     NameofLGU: "Carcar City",
@@ -1671,10 +1671,7 @@ const exampleData = {
     descriptionLGU: "Naga City is one of the local government units in Cebu Province.",
     lgooName: "EMMA JOYEVLYN V. CALVO",
     lgooDesignation: "CLGOO of the City of Naga",
-    lgooImage: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png",
-    lgoo2Name: "AILEEN GRACE B. ARGAWANON-PECA",
-    lgoo2Designation: "Assistant CLGOO of the City of Naga",
-    lgoo2Image: "organizationalchart/images/AileenPeca_Naga.png"
+    lgooImage: "organizationalchart/images/emma_joyevelyn_v_calvo_city_of_naga.png"
   },
     "CATMON": {
     NameofLGU: "CATMON",
