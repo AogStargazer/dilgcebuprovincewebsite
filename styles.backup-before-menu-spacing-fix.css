@@ -1955,9 +1955,6 @@ input[type="reset"]:focus-visible,
 /* Top main menu redesign: government portal-inspired geometry in DILG colors. */
 @media (min-width: 769px) {
   .main-header {
-    --header-weather-right: clamp(12px, 1.5vw, 26px);
-    --header-weather-width: 250px;
-    --header-control-gap: 10px;
     min-height: 92px;
     background: linear-gradient(90deg, #003f87 0%, #0756a3 58%, #0b67b2 100%);
     border-bottom: 8px solid transparent;
@@ -1969,7 +1966,7 @@ input[type="reset"]:focus-visible,
     min-height: 84px;
     max-width: 1600px;
     justify-content: flex-start;
-    padding: 0 clamp(360px, 21vw, 420px) 0 clamp(18px, 3vw, 52px);
+    padding: 0 clamp(250px, 17vw, 325px) 0 clamp(18px, 3vw, 52px);
   }
 
   .main-header .nav-logo {
@@ -1992,23 +1989,16 @@ input[type="reset"]:focus-visible,
   .main-header .nav-menu {
     min-width: 0;
     flex: 1 1 auto;
-    margin-right: 28px;
   }
 
   .main-header .nav-menu .main-menu {
-    display: flex;
     width: 100%;
     justify-content: flex-end;
-    gap: 3px;
-    margin: 0;
+    gap: clamp(2px, 0.38vw, 7px);
   }
 
   .main-header .main-navigation > .nav-menu > .main-menu > li {
     margin: 0;
-  }
-
-  .main-header .main-navigation > .nav-menu > .main-menu > li:first-child {
-    transform: none;
   }
 
   .main-header .main-navigation > .nav-menu > .main-menu > li > a {
@@ -2016,11 +2006,11 @@ input[type="reset"]:focus-visible,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 clamp(6px, 0.52vw, 10px);
+    padding: 0 clamp(8px, 0.75vw, 14px);
     border: 1px solid transparent;
     border-radius: 9px;
     color: #ffffff;
-    font-size: clamp(0.68rem, 0.69vw, 0.8rem);
+    font-size: clamp(0.72rem, 0.76vw, 0.88rem);
     font-weight: 700;
     letter-spacing: 0.01em;
     text-transform: uppercase;
@@ -2038,6 +2028,7 @@ input[type="reset"]:focus-visible,
     transform: translateY(-1px);
   }
 
+  .main-header .main-navigation > .nav-menu > .main-menu > li:first-child > a,
   .main-header .main-navigation > .nav-menu > .main-menu > li.current-menu-item > a,
   .main-header .main-navigation > .nav-menu > .main-menu > li.current_page_item > a {
     background: rgba(255, 255, 255, 0.96);
@@ -2046,7 +2037,7 @@ input[type="reset"]:focus-visible,
   }
 
   .main-header .main-navigation .main-menu li.has-dropdown > .dropdown-menu {
-    top: 100%;
+    top: calc(100% + 10px);
     min-width: 270px;
     padding: 10px;
     background: #ffffff;
@@ -2077,44 +2068,22 @@ input[type="reset"]:focus-visible,
 
   .main-header .main-navigation .main-menu .dropdown-menu li.has-dropdown > .dropdown-menu {
     top: 0;
-    margin-left: 0;
+    margin-left: 10px;
   }
 
   .main-header .header-action-menu {
-    right: calc(var(--header-weather-right) + var(--header-weather-width) + var(--header-control-gap));
+    right: clamp(190px, 13vw, 245px);
     gap: 6px;
-  }
-
-  .main-header .header-action-menu .site-search-menu {
-    width: 42px;
-    margin-left: 0;
-    padding: 0;
   }
 
   .main-header .citizens-charter-button,
   .main-header .site-search-toggle {
-    flex: 0 0 42px;
     width: 42px;
     height: 42px;
-    margin: 0;
-    padding: 0;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 9px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
     box-shadow: none;
-    overflow: hidden;
-  }
-
-  .main-header .citizens-charter-button img {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-  }
-
-  .main-header .site-search-toggle img {
-    width: 19px;
-    height: 19px;
-    object-fit: contain;
   }
 
   .main-header .citizens-charter-button:hover,
@@ -2122,7 +2091,7 @@ input[type="reset"]:focus-visible,
   .main-header .site-search-toggle:hover,
   .main-header .site-search-toggle:focus-visible,
   .main-header .site-search-menu.is-open .site-search-toggle {
-    background: #eef6ff;
+    background: rgba(255, 255, 255, 0.26);
     transform: translateY(-1px);
   }
 
@@ -2134,12 +2103,10 @@ input[type="reset"]:focus-visible,
   }
 
   .main-header .overlay-widget {
-    right: var(--header-weather-right);
+    right: clamp(12px, 1.5vw, 26px);
     display: block;
-    box-sizing: border-box;
-    width: var(--header-weather-width);
-    min-width: var(--header-weather-width);
-    max-width: var(--header-weather-width);
+    min-width: 165px;
+    max-width: 205px;
     padding: 7px 10px;
     border-left: 1px solid rgba(255, 255, 255, 0.28);
     color: #ffffff;
@@ -2153,15 +2120,9 @@ input[type="reset"]:focus-visible,
 }
 
 @media (min-width: 769px) and (max-width: 1180px) {
-  .main-header {
-    --header-weather-right: 10px;
-    --header-weather-width: 150px;
-    --header-control-gap: 8px;
-  }
-
   .main-header .main-navigation {
     padding-left: 12px;
-    padding-right: 290px;
+    padding-right: 205px;
   }
 
   .main-header .nav-logo {
@@ -2171,24 +2132,19 @@ input[type="reset"]:focus-visible,
     margin-right: 10px;
   }
 
-  .main-header .nav-menu {
-    margin-right: 18px;
-  }
-
   .main-header .main-navigation > .nav-menu > .main-menu > li > a {
-    padding-inline: 4px;
-    font-size: 0.62rem;
+    padding-inline: 6px;
+    font-size: 0.68rem;
   }
 
   .main-header .header-action-menu {
-    right: calc(var(--header-weather-right) + var(--header-weather-width) + var(--header-control-gap));
+    right: 164px;
   }
 
   .main-header .overlay-widget {
     display: block;
-    width: var(--header-weather-width);
-    min-width: var(--header-weather-width);
-    max-width: var(--header-weather-width);
+    min-width: 150px;
+    max-width: 150px;
     padding-left: 8px;
     font-size: 0.72rem;
   }
