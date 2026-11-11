@@ -56,6 +56,11 @@
         height: 100%;
         object-fit: cover;
       }
+      .main-slide iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
       .slider-nav {
         position: absolute;
         top: 50%;
@@ -1202,6 +1207,9 @@
                       <!-- Main slider container - now using aspect-ratio from styles.css for responsive sizing -->
                       <div class="main-slider-container full-width">
                         <div class="main-slider" id="mainPageSlider">
+                          <div class="main-slide main-slide-video">
+                            <iframe src="https://www.youtube.com/embed/TdFzBECOJzc?rel=0&amp;autoplay=1&amp;mute=1&amp;playsinline=1" title="DILG Cebu Province video on YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                          </div>
                           <a class="main-slide">
                             <img src="images/mainpagealbum/dilglogo.jpg?v=2" alt="DILG and NAPC conduct LPRAP orientation for Cebu LGUs" loading="lazy" decoding="async">
                           </a>
@@ -3233,7 +3241,7 @@
           const slider = document.getElementById("mainPageSlider");
 
           if (slider) {
-            const slides = document.querySelectorAll(".main-slide");
+            const slides = slider.querySelectorAll(".main-slide");
             const prevBtn = document.querySelector(".prev-slide");
             const nextBtn = document.querySelector(".next-slide");
             const pagination = document.getElementById("sliderPagination");
@@ -3256,32 +3264,51 @@
             }
 
             function goToSlide(index) {
+              const previousVideo = slides[currentSlide].querySelector("iframe");
+              if (index !== currentSlide && previousVideo) {
+                // Unload the player so autoplay cannot continue offscreen.
+                previousVideo.dataset.videoSrc = previousVideo.src;
+                previousVideo.removeAttribute("src");
+              }
               currentSlide = index;
+              const currentVideo = slides[currentSlide].querySelector("iframe");
+              if (currentVideo && currentVideo.dataset.videoSrc && !currentVideo.hasAttribute("src")) {
+                currentVideo.src = currentVideo.dataset.videoSrc;
+              }
               slider.style.transform = `translateX(-${currentSlide * 100}%)`;
               updatePagination();
+              startAutoSlide();
             }
 
             function nextSlide() {
-              currentSlide = (currentSlide + 1) % slideCount;
-              goToSlide(currentSlide);
+              goToSlide((currentSlide + 1) % slideCount);
             }
 
             function prevSlide() {
-              currentSlide = (currentSlide - 1 + slideCount) % slideCount;
-              goToSlide(currentSlide);
+              goToSlide((currentSlide - 1 + slideCount) % slideCount);
             }
 
             prevBtn.addEventListener("click", prevSlide);
             nextBtn.addEventListener("click", nextSlide);
 
-            let interval = setInterval(nextSlide, 5000);
+            let interval;
+
+            function startAutoSlide() {
+              clearInterval(interval);
+              if (!slides[currentSlide].classList.contains("main-slide-video") &&
+                  !slider.parentElement.matches(":hover")) {
+                interval = setInterval(nextSlide, 5000);
+              }
+            }
+
+            startAutoSlide();
 
             slider.parentElement.addEventListener("mouseenter", () => {
               clearInterval(interval);
             });
 
             slider.parentElement.addEventListener("mouseleave", () => {
-              interval = setInterval(nextSlide, 5000);
+              startAutoSlide();
             });
 
             // Handle touch events for mobile
@@ -3296,7 +3323,7 @@
             slider.addEventListener('touchend', (e) => {
               touchEndX = e.changedTouches[0].screenX;
               handleSwipe();
-              interval = setInterval(nextSlide, 5000);
+              startAutoSlide();
             }, {passive: true});
 
             function handleSwipe() {
