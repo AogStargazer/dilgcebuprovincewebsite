@@ -250,9 +250,6 @@
     <main class="maintenance-shell" aria-labelledby="maintenance-title">
         <section class="maintenance-content">
             <div class="logo-frame">
-                <video class="logo-video" autoplay muted loop playsinline preload="metadata" aria-label="DILG Cebu Province logo animation">
-                    <source src="images/videos/logo.mp4" type="video/mp4">
-                </video>
                 <img class="logo-fallback" src="wp-content/uploads/2019/10/dilg-logo.png?v=2" alt="DILG Cebu Province logo">
             </div>
 
@@ -276,31 +273,6 @@
         </section>
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".logo-frame").forEach(function (logo) {
-                const video = logo.querySelector(".logo-video");
-                if (!video) return;
-
-                function useFallback() {
-                    logo.classList.remove("video-ready");
-                    logo.classList.add("video-failed");
-                }
-
-                video.addEventListener("canplay", function () {
-                    logo.classList.add("video-ready");
-                    logo.classList.remove("video-failed");
-                }, { once: true });
-
-                video.addEventListener("error", useFallback, { once: true });
-
-                const playAttempt = video.play();
-                if (playAttempt && typeof playAttempt.catch === "function") {
-                    playAttempt.catch(useFallback);
-                }
-            });
-        });
-    </script>
   <script src="assets/js/pdfjs-overlay-dialog.js" defer></script>
 </body>
 </html>
