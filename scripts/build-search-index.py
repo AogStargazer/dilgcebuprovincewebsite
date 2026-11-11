@@ -88,9 +88,9 @@ PAGE_SEARCH_METADATA = {
         ),
     },
     "organizationalchartchief.html": {
-        "title": "DILG Sugbo Family Organizational Chart",
+        "title": "DILG Cebu Province Family Organizational Chart",
         "text": (
-            "DILG Sugbo Family Organizational Chart organizationalchartchief "
+            "DILG Cebu Province Family Organizational Chart organizationalchartchief "
             "chief provincial director cluster heads section chiefs LGMES LGCDS "
             "FAS PDMU DILG Cebu Province personnel leadership"
         ),
